@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserUtil {
-
+/*
     private static final String ID = "id";
     private static final String PASSWORD = "password";
     private static final String EMAIL = "email";
@@ -23,6 +23,6 @@ public class UserUtil {
             usersList.add(new Users(ID + "#" + i, EMAIL, PASSWORD));
         }
         return usersList;
-    }
+    }*/
 
 }
