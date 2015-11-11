@@ -1,4 +1,4 @@
-package com.sastabackend.service.exception;
+package com.sastabackend.service.user.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
 

@@ -1,20 +1,6 @@
 package com.sastabackend.service;
 
-import com.sastabackend.service.exception.UserAlreadyExistsException;
-import com.sastabackend.domain.Users;
-import com.sastabackend.repository.UserRepository;
-import com.sastabackend.util.UserUtil;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.Collection;
-
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
 /*
 @RunWith(MockitoJUnitRunner.class)
 public class UsersServiceImplTest {

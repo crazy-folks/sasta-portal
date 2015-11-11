@@ -1,8 +1,9 @@
 package com.sastabackend.controller;
 
-import com.sastabackend.service.exception.UserAlreadyExistsException;
+import com.sastabackend.domain.Session;
+import com.sastabackend.service.user.exception.UserAlreadyExistsException;
 import com.sastabackend.domain.Users;
-import com.sastabackend.service.UserService;
+import com.sastabackend.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("user")
 public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -29,10 +31,15 @@ public class UserController {
         return userService.save(users);
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequestMapping(value = "/getlist", method = RequestMethod.GET)
     public List<Users> listUsers() {
         LOGGER.debug("Received request to list all users");
         return userService.getList();
+    }
+
+    @RequestMapping(value = "/signin", method = RequestMethod.GET)
+    public Session signIn(@RequestParam("email") String email,@RequestParam("password") String password){
+        return userService.SignIn(email,password);
     }
 
     @ExceptionHandler

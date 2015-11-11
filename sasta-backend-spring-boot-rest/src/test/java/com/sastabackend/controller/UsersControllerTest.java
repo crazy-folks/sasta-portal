@@ -1,19 +1,7 @@
 package com.sastabackend.controller;
 
-import com.sastabackend.domain.Users;
-import com.sastabackend.service.UserService;
-import com.sastabackend.util.UserUtil;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.Collection;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
 /*
 @RunWith(MockitoJUnitRunner.class)
 public class UsersControllerTest {

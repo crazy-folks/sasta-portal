@@ -39,7 +39,7 @@ public class LookupRepository {
             case AuditDistricts:
                     builder.append("audit_district");
                 break;
-            case AuditState:
+            case AuditStates:
                 builder.append("audit_state");
                 break;
             case Bank:
@@ -57,9 +57,6 @@ public class LookupRepository {
             case Departments:
                 builder.append("departments");
                 break;
-            case Districts:
-                builder.append("districts");
-                break;
             case FinancialYear:
                 builder.append("financial_year");
                 break;
@@ -75,11 +72,12 @@ public class LookupRepository {
             case Rounds:
                 builder.append("rounds");
                 break;
-            case States:
-                builder.append("states");
-                break;
             case VillagePanchayats:
                 builder.append("village_panchayats");
+                break;
+            case Users:
+                builder = new StringBuilder();
+                builder.append("select id as 'value',CONCAT(CONCAT(first_name, ' '),last_name) as 'text' from users");
                 break;
             default:
                 throw new RuntimeException("Invalid Look up request");

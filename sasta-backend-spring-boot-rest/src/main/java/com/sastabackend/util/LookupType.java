@@ -6,21 +6,20 @@ package com.sastabackend.util;
 public enum LookupType {
     AuditBlocks(1),
     AuditDistricts(2),
-    AuditState(3),
+    AuditStates(3),
     Bank(4),
     BloodGroups(5),
     Communities(6),
     Countries(7),
     Departments(8),
-    Districts(9),
-    FinancialYear(10),
-    Grades(11),
-    ImageTypes(12),
-    Qualifications(13),
-    Rounds(14),
-    States(15),
-    VillagePanchayats(16),
-    None(17);
+    FinancialYear(9),
+    Grades(10),
+    ImageTypes(11),
+    Qualifications(12),
+    Rounds(13),
+    VillagePanchayats(14),
+    Users(15),
+    None(16);
     int id;
 
     /**

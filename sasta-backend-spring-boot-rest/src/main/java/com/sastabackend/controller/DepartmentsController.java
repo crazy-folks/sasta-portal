@@ -1,0 +1,51 @@
+package com.sastabackend.controller;
+
+import com.sastabackend.domain.BloodGroups;
+import com.sastabackend.domain.Departments;
+import com.sastabackend.domain.ResponseModel;
+import com.sastabackend.service.bloodgroups.BloodGroupService;
+import com.sastabackend.service.departments.DepartmentsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.inject.Inject;
+import javax.validation.Valid;
+
+/**
+ * Created by SARVA on 08/Nov/2015.
+ */
+@RestController
+@RequestMapping("departments")
+public class DepartmentsController {
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DepartmentsController.class);
+    private final DepartmentsService departmentsService;
+
+    @Inject
+    public DepartmentsController(final DepartmentsService departmentsService) {
+        this.departmentsService = departmentsService;
+    }
+
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public ResponseModel Create(@RequestBody @Valid final Departments departments){
+        return departmentsService.Add(departments.getName(),departments.getDescription(),departments.getCreatedBy());
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public ResponseModel Update(@RequestBody @Valid final Departments departments){
+        return departmentsService.Update(departments.getId(), departments.getName(), departments.getDescription(),
+                departments.getModifiedBy(),departments.getStatus());
+    }
+
+    @RequestMapping(value = "/getlist", method = RequestMethod.GET)
+    public ResponseModel getList(){
+        return departmentsService.getList();
+    }
+
+}
