@@ -1,5 +1,6 @@
 package com.sastabackend.service.user;
 
+import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.Session;
 import com.sastabackend.domain.Users;
 
@@ -11,5 +12,7 @@ public interface UserService {
 
     List<Users> getList();
 
-    Session SignIn(String email,String password);
+    ResponseModel SignIn(String email,String password);
+
+    ResponseModel Add(Users users);
 }

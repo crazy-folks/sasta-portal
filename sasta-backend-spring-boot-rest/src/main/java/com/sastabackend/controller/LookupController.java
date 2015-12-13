@@ -1,7 +1,9 @@
 package com.sastabackend.controller;
 
 import com.sastabackend.domain.Lookup;
+import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.repository.LookupRepository;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,12 +16,13 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("lookup")
+@RequestMapping("/api/lookup")
 public class LookupController {
 
     @Autowired
     private LookupRepository lookup;
 
+    @ApiOperation(value = "Read Lookup Data values", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping("getlookup")
     public List<Lookup> getUser(@RequestParam("id") int id) {
         return lookup.findLookupData(id);

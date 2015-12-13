@@ -4,19 +4,19 @@ package com.sastabackend.domain;
  * Created by SARVA on 04/Nov/2015.
  */
 public class Lookup {
-    private String value;
+    private Integer value;
     private String text;
 
-    public Lookup(String value,String text){
+    public Lookup(Integer value,String text){
         this.value = value;
         this.text = text;
     }
 
-    public String getValue(){
+    public Integer getValue(){
         return this.value;
     }
 
-    public void setValue(String value){
+    public void setValue(Integer value){
         this.value = value;
     }
 

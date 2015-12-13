@@ -93,7 +93,7 @@ public class DistrictsServiceImpl implements  DistrictsService {
 
 
     private boolean Create(String name, Integer stateid, String description, Integer districtCode, String shortName, Long createby) {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("signin")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_districts")
                 .declareParameters(
                         new SqlParameter("districtName", Types.VARCHAR),
                         new SqlParameter("audit_state_id", Types.INTEGER),
@@ -121,7 +121,7 @@ public class DistrictsServiceImpl implements  DistrictsService {
 
 
     private boolean Modify(Integer districtId,String name,int stateid,String description,Integer districtCode,String shortName,Long modify_by){
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("signin")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_districts")
                 .declareParameters(
                         new SqlParameter("d_id", Types.INTEGER),
                         new SqlParameter("d_name", Types.VARCHAR),

@@ -1,0 +1,48 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
+</div>
+<form class="form-horizontal" name="departmentsForm" id="departmentsForm" novalidate>
+    <div class="dialog-message dialog-body">
+         <div class="form-group">
+            <div>
+                <label for="txtDepartmentsName"  class="label-adjust">State</label>
+                <select class="form-control" ng-model="editdefaultOptions" ng-options="obj.text for obj in states track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>
+        </div> 
+        <div class="form-group">
+            <div>
+                <label for="txtDistrictName" class="label-adjust">District Name</label>
+                <input type="text" class="form-control" id="txtDistrictName" name="txtDistrictName"
+                       data-ng-model="editdistricts.name" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="txtshortName" class="label-adjust">Short Name</label>
+                <input type="text" class="form-control" id="txtshortName" name="txtshortName"
+                       data-ng-model="editdistricts.shortName" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>        
+        <div class="form-group">
+            <div>
+                <label for="txtdistrictCode" class="label-adjust">District Code</label>
+                <input type="text" class="form-control" id="txtdistrictCode" name="txtdistrictCode"
+                       data-ng-model="editdistricts.districtCode" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>          
+        <div class="form-group">
+            <label for="txtCategory" class="label-adjust">Description</label> 
+            <textarea class="form-control" id="txtCategory" name="txtCategory"
+                   data-ng-model="editdistricts.description" required 
+                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
+        </div>      
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+    </div>
+</form>

@@ -93,11 +93,11 @@ public class StatesServiceImpl implements StatesService {
 
 
     private boolean Create(String name, String description, Integer country_id, Integer state_code, String short_name, Long created_by) {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("signin")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_state")
                 .declareParameters(
                         new SqlParameter("name", Types.VARCHAR),
-                        new SqlParameter("description", Types.INTEGER),
-                        new SqlParameter("country_id", Types.VARCHAR),
+                        new SqlParameter("description", Types.VARCHAR),
+                        new SqlParameter("country_id", Types.INTEGER),
                         new SqlParameter("state_code", Types.INTEGER),
                         new SqlParameter("short_name", Types.VARCHAR),
                         new SqlParameter("created_by", Types.BIGINT),
@@ -109,7 +109,7 @@ public class StatesServiceImpl implements StatesService {
         inParamMap.put("country_id", country_id);
         inParamMap.put("state_code", state_code);
         inParamMap.put("short_name", short_name);
-        inParamMap.put("short_name", created_by);
+        inParamMap.put("created_by", created_by);
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
         Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
@@ -121,7 +121,7 @@ public class StatesServiceImpl implements StatesService {
 
     private boolean Modify(Integer state_id, String state_name, String state_description, Integer state_country_id, Integer statecode,
                            String state_short_name, Long state_modified_by, Boolean is_active) {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("signin")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_state")
                 .declareParameters(
                         new SqlParameter("state_id", Types.INTEGER),
                         new SqlParameter("state_name", Types.VARCHAR),

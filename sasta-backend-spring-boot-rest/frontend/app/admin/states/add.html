@@ -1,0 +1,48 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.add }}</div>
+</div>
+<form class="form-horizontal" name="productForm" id="frmProduct" novalidate>
+    <div class="dialog-message dialog-body">
+         <div class="form-group">
+            <div>
+                <label for="selCountries"  class="label-adjust">Country</label>
+                <select name="selCountries" id="selCountries" class="form-control" ng-model="defaultCountries" ng-options="obj.text for obj in countries track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>
+        </div> 
+        <div class="form-group">
+            <div>
+                <label for="txtstatesname" class="label-adjust">State Name</label>
+                <input type="text" class="form-control" id="txtstatesname" name="txtstatesname"
+                       data-ng-model="states.name" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="txtshortName" class="label-adjust">Short Name</label>
+                <input type="text" class="form-control" id="txtshortName" name="txtshortName"
+                       data-ng-model="states.shortName" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>        
+        <div class="form-group">
+            <div>
+                <label for="txtstateCode" class="label-adjust">District Code</label>
+                <input type="text" class="form-control" id="txtstateCode" name="txtstateCode"
+                       data-ng-model="states.stateCode" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>          
+        <div class="form-group">
+            <label for="txtdescription" class="label-adjust">Description</label> 
+            <textarea class="form-control" id="txtdescription" name="txtdescription"
+                   data-ng-model="states.description" required 
+                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
+        </div>      
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+    </div>
+</form>

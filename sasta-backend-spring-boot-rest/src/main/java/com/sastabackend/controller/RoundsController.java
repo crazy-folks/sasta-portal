@@ -3,6 +3,7 @@ package com.sastabackend.controller;
 import com.sastabackend.domain.Bank;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.service.rounds.RoundsService;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import javax.validation.Valid;
  */
 
 @RestController
-@RequestMapping("rounds")
+@RequestMapping("/api/rounds")
 public class RoundsController {
 
 
@@ -27,6 +28,7 @@ public class RoundsController {
         this.roundsService = roundsService;
     }
 
+    @ApiOperation(value = "Create Rounds", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ResponseModel Create(@RequestParam("name") String name,@RequestParam("referenceid")  Integer reference_id,
                                 @RequestParam("startdate")  java.sql.Date start_date,@RequestParam("enddate")  java.sql.Date end_date,
@@ -35,6 +37,7 @@ public class RoundsController {
                 description, created_by);
     }
 
+    @ApiOperation(value = "Update Rounds", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public ResponseModel Update(@RequestParam("id") Long id,@RequestParam("name") String name,@RequestParam("referenceid")  Integer reference_id,
                                 @RequestParam("startdate") java.sql.Date start_date,@RequestParam("enddate")  java.sql.Date end_date,
@@ -44,11 +47,13 @@ public class RoundsController {
                 description, modified_by, is_active);
     }
 
+    @ApiOperation(value = "Read Rounds List", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/getlist", method = RequestMethod.GET)
     public ResponseModel getList(){
         return roundsService.findAll();
     }
 
+    @ApiOperation(value = "Read Rounds By ID", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/getround", method = RequestMethod.GET)
     public ResponseModel getList(@RequestParam("id") Long id){
         return roundsService.findOne(id);

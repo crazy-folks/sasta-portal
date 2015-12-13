@@ -1,15 +1,19 @@
 package com.sastabackend;
 
-import org.springframework.boot.SpringApplication;
+import com.mangofactory.swagger.plugin.EnableSwagger;
+import com.sastabackend.controller.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.SpringApplication;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan
+@EnableSwagger
+@ComponentScan(basePackages="com.sastabackend")
 public class Application extends SpringBootServletInitializer {
 
     public static void main(final String[] args) {

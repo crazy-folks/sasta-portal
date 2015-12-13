@@ -1,0 +1,54 @@
+    <!-- Bootstrap -->
+    <link href="assets/admin/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Sliders-->
+    <link rel="stylesheet" href="assets/admin/js/plugins/bootstrap-slider/css/slider.css">
+    <!-- Fonts  -->
+    <link rel="stylesheet" href="assets/admin/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/admin/css/simple-line-icons.css">
+    <!--  CSS Animations -->
+    <link href="assets/admin/css/animate.css" rel="stylesheet">
+    <!--  Wizard -->
+    <link href="assets/admin/css/jquery.steps.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link rel="stylesheet" href="assets/admin/js/plugins/switchery/switchery.min.css">
+    <!-- C3 Chart -->
+    <link rel="stylesheet" href="assets/admin/js/plugins/c3Chart/css/c3.min.css">
+    <!-- Calendar demo -->
+    <link rel="stylesheet" href="assets/admin/css/clndr.css">
+    <!-- jvectormap-->
+    <link rel="stylesheet" href="assets/admin/js/plugins/jvectormap/css/jquery-jvectormap-2.0.1.css">
+    <!-- datatables-->
+    <link rel="stylesheet" href="assets/admin/js/plugins/dataTables/css/dataTables.css">
+    <!-- iCheck-->
+    <link rel="stylesheet" href="assets/admin/js/plugins/icheck/css/all.css">
+    <!-- Drop Zone-->
+    <link rel="stylesheet" href="assets/admin/js/plugins/dropzone/css/dropzone.css">
+    <link rel="stylesheet" href="assets/admin/js/plugins/dropzone/css/basic.css">
+    <!--  CSS Main -->
+    <link href="assets/admin/css/main.css" rel="stylesheet">
+    <!-- Feature detection -->
+    <script src="assets/admin/js/vendor/modernizr-2.6.2.min.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/vendor/html5shiv.js"></script>
+    <script src="js/vendor/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Page Wrapper-->
+    <section id="main-wrapper" class="theme-default">
+        <!-- Page wrapper -->
+        <header id="header" ng-include="'admin/views/header.html'"></header>
+        <!-- Left Sidebar Navigation -->
+        <aside class="sidebar sidebar-left" ng-include="'admin/views/left-sidebar.html'"></aside>
+        <!-- Content wraper -->
+        <section class="main-content-wrapper">
+            <!-- Main content view  -->
+            <div ui-view></div>
+            <!-- Footer -->
+            <div ng-include="'admin/views/footer.html'"></div>
+        </section>
+        <!-- /Content wraper-->
+    </section>
+    <!-- /Page wrapper-->
+    <!-- Right Sidebar Navigation -->
+    <aside ng-include="'admin/views/right-sidebar.html'" id="sidebar-right"></aside>

@@ -1,109 +1,473 @@
+// Generated on 2015-11-15 using generator-angular 0.9.2
+'use strict';
+
+// # Globbing
+// for performance reasons we're only matching one level down:
+// 'test/spec/{,*/}*.js'
+// use this if you want to recursively match all subfolders:
+// 'test/spec/**/*.js'
+
 module.exports = function (grunt) {
-    var webappDir = 'src/main/webapp/';
-    var cssDir = webappDir + 'WEB-INF/css/';
-    var jsDir = webappDir + 'WEB-INF/js/';
-    var imgDir = webappDir + 'WEB-INF/images/';
 
-    var dstDir = webappDir + 'public/';
-    var bowerDir = dstDir + 'lib/';
-    var dstCssDir = dstDir + 'css/';
-    var dstJsDir = dstDir + 'js/';
-    var dstImgDir = dstDir + 'images/';
+    // Load grunt tasks automatically
+    require('load-grunt-tasks')(grunt);
 
+    // Time how long tasks take. Can help when optimizing build times
+    require('time-grunt')(grunt);
+
+    // Configurable paths for the application
+    var appConfig = {
+        app: require('./bower.json').appPath || 'app',
+        dist: 'dist'
+    };
+
+    var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+    // Define the configuration for all the tasks
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        clean: [ dstDir ],
-        bower: {
-            install: {
-                options: {
-                    targetDir: bowerDir,
-                    install: true,
-                    cleanTargetDir: false,
-                    cleanBowerDir: false,
-                    bowerOptions: {}
-                }
-            }
+
+        // Project settings
+        yeoman: appConfig,
+        // grunt-bower-install
+        'bower-install': {
+         target: {
+            html: '<%= yeoman.app %>/index.html',
+            ignorePath: '<%= yeoman.app %>/'
+         }
         },
-        copy: {
-            images_css: {
-                expand: true,
-                cwd: cssDir,
-                src: [
-                    'images/*'
-                ],
-                dest: dstCssDir
+        // Watches files for changes and runs tasks based on the changed files
+        watch: {
+            bower: {
+                files: ['bower.json'],
+                tasks: ['wiredep']
             },
-            images: {
-                expand: true,
-                cwd: imgDir,
-                src: [ '**/*' ],
-                dest: dstImgDir
-            }
-        },
-        uglify: {
-            dist: {
+            js: {
+                files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+                tasks: ['newer:jshint:all'],
                 options: {
-                    compress: true,
-                    report: 'min'
-                },
-                src: [
-                    jsDir + '*.js'
-                ],
-                dest: dstJsDir + 'all.js'
-            }
-        },
-        less: {
-            dist: {
-                options: {
-                    compress: true,
-                    yuicompress: true,
-                    report: 'min'
-                },
-                src: [
-                    cssDir + '*.less',
-                    cssDir + '*.css'
-                ],
-                dest: dstCssDir + 'all.css'
-            }
-        },
-        connect: {
-            options: {
-                port: 8080,
-                livereload: 35729,
-                hostname: 'localhost'
+                    livereload: '<%= connect.options.livereload %>'
+                }
+            },
+            jsTest: {
+                files: ['test/spec/{,*/}*.js'],
+                tasks: ['newer:jshint:test', 'karma']
+            },
+            styles: {
+                files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
+                tasks: ['newer:copy:styles', 'autoprefixer']
+            },
+            gruntfile: {
+                files: ['Gruntfile.js']
             },
             livereload: {
                 options: {
-                    open: {
-                        target: 'http://localhost:8080/'
-                    },
-                    base : [
-                        'frontend'
-                    ]
+                    livereload: '<%= connect.options.livereload %>'
+                },
+                files: [
+                    '<%= yeoman.app %>/{,*/}*.html',
+                    '.tmp/styles/{,*/}*.css',
+                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                ]
+            }
+        },
+
+        // The actual grunt server settings
+        connect: {
+            options: {
+                port: 9000,
+                // Change this to '0.0.0.0' to access the server from outside.
+                hostname: 'localhost',
+                livereload: 35729
+            },
+            proxies: [
+                {
+                    context: '/sastabackend',
+                    host: 'localhost',
+                    port: 8080,
+                    changeOrigin: true
                 }
+            ],
+            livereload: {
+                options: {
+                    open: true,
+                    middleware: function (connect, options) {
+                    
+                    /*
+                        if (!Array.isArray(options.base)) {
+                            options.base = [options.base];
+                        }
+
+                        // Setup the proxy
+                        var middlewares = [
+                         function(req, res, next) {
+                              res.setHeader('Access-Control-Allow-Origin', '*');
+                              res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+                              res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+                              // don't just call next() return it
+                              return next();
+                        },     
+                        require('grunt-connect-proxy/lib/utils').proxyRequest];
+
+                        // Serve static files.
+                        options.base.forEach(function(base) {
+                            middlewares.push(connect.static(base));
+                        });
+                       
+                        // Make directory browse-able.
+                        var directory = options.directory || options.base[options.base.length - 1];
+                        middlewares.push(connect.directory(directory));
+
+                        options.base.forEach(function(base) {
+                            // Serve static files.
+                            middlewares.push(connect.static(base));
+                        });
+
+                        middlewares.push(connect.static('.tmp'));
+                        middlewares.push(connect().use(
+                                        '/bower_components',
+                                        connect.static('./bower_components')
+                                    ));
+                       // middlewares.push(connect.static(require('path').resolve(appConfig.app)));
+                        middlewares.push(connect.static(appConfig.app));
+
+                        return middlewares;
+                         */
+                        return [
+                            proxySnippet,                
+                            connect.static('.tmp'),
+                            connect().use(
+                                '/bower_components',
+                                connect.static('./bower_components')
+                            ),
+                            connect.static(appConfig.app)
+                        ];
+                    }
+                }
+            },
+            test: {
+                options: {
+                    port: 9001,
+                    middleware: function (connect) {
+                        return [
+                            proxySnippet,
+                            connect.static('.tmp'),
+                            connect.static('test'),
+                            connect().use(
+                                '/bower_components',
+                                connect.static('./bower_components')
+                            ),
+                            connect.static(appConfig.app)
+                        ];
+                    }
+                }
+            },
+            dist: {
+                options: {
+                    open: true,
+                    base: '<%= yeoman.dist %>'
+                }
+            }
+        },
+
+        // Make sure code styles are up to par and there are no obvious mistakes
+        jshint: {
+            options: {
+                jshintrc: '.jshintrc',
+                reporter: require('jshint-stylish')
+            },
+            all: {
+                src: [
+                    'Gruntfile.js',
+                    '<%= yeoman.app %>/scripts/{,*/}*.js'
+                ]
+            },
+            test: {
+                options: {
+                    jshintrc: 'test/.jshintrc'
+                },
+                src: ['test/spec/{,*/}*.js']
+            }
+        },
+
+        // Empties folders to start fresh
+        clean: {
+            dist: {
+                files: [{
+                    dot: true,
+                    src: [
+                        '.tmp',
+                        '<%= yeoman.dist %>/{,*/}*',
+                        '!<%= yeoman.dist %>/.git*'
+                    ]
+                }]
+            },
+            server: '.tmp'
+        },
+
+        // Add vendor prefixed styles
+        autoprefixer: {
+            options: {
+                browsers: ['last 1 version']
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '.tmp/styles/',
+                    src: '{,*/}*.css',
+                    dest: '.tmp/styles/'
+                }]
+            }
+        },
+
+        // Automatically inject Bower components into the app
+        /*    wiredep: {
+         options: {
+         cwd: '<%= yeoman.app %>'
+         },
+         app: {
+         src: ['<%= yeoman.app %>/index.html'],
+         ignorePath:  /\.\.\//
+         }
+         },
+         */
+        // Renames files for browser caching purposes
+        filerev: {
+            dist: {
+                src: [
+                    '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                    '<%= yeoman.dist %>/styles/{,*/}*.css',
+                    '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+                    '<%= yeoman.dist %>/styles/fonts/*'
+                ]
+            }
+        },
+
+        // Reads HTML for usemin blocks to enable smart builds that automatically
+        // concat, minify and revision files. Creates configurations in memory so
+        // additional tasks can operate on them
+        useminPrepare: {
+            html: '<%= yeoman.app %>/index.html',
+            options: {
+                dest: '<%= yeoman.dist %>',
+                flow: {
+                    html: {
+                        steps: {
+                            js: ['concat', 'uglifyjs'],
+                            css: ['cssmin']
+                        },
+                        post: {}
+                    }
+                }
+            }
+        },
+
+        // Performs rewrites based on filerev and the useminPrepare configuration
+        usemin: {
+            html: ['<%= yeoman.dist %>/{,*/}*.html'],
+            css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+            options: {
+                assetsDirs: ['<%= yeoman.dist %>','<%= yeoman.dist %>/images']
+            }
+        },
+
+        // The following *-min tasks will produce minified files in the dist folder
+        // By default, your `index.html`'s <!-- Usemin block --> will take care of
+        // minification. These next options are pre-configured if you do not wish
+        // to use the Usemin blocks.
+        cssmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.dist %>',
+                    src: 'styles/*.css',
+                    dest: '<%= yeoman.dist %>'
+                }]
+            }
+        },
+        uglify: {
+            build: {
+                files: [{
+                    expand: true,
+                    src: '**/*.js',
+                    dest: '<%= yeoman.dist %>/scripts',
+                    cwd: '<%= yeoman.app %>/scripts'
+                }]
+            },
+            options: {
+                mangle:false
+            },
+        },
+        // concat: {
+        //   dist: {}
+        // },
+
+        imagemin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/images',
+                    src: '{,*/}*.{png,jpg,jpeg,gif}',
+                    dest: '<%= yeoman.dist %>/images'
+                }]
+            }
+        },
+
+        svgmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/images',
+                    src: '{,*/}*.svg',
+                    dest: '<%= yeoman.dist %>/images'
+                }]
+            }
+        },
+
+        htmlmin: {
+            dist: {
+                options: {
+                    collapseWhitespace: true,
+                    conservativeCollapse: true,
+                    collapseBooleanAttributes: true,
+                    removeCommentsFromCDATA: true,
+                    removeOptionalTags: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.dist %>',
+                    src: '**/*.html',
+                    dest: '<%= yeoman.dist %>'
+                }]
+            }
+        },
+
+        // ngAnnotate tries to make the code safe for minification automatically by
+        // using the Angular long form for dependency injection. It doesn't work on
+        // things like resolve or inject so those have to be done manually.
+        ngAnnotate: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/scripts',
+                    src: '**/*.js',
+                    dest: '<%= yeoman.dist %>/scripts',
+                }]
+            }
+        },
+
+        // Replace Google CDN references
+        cdnify: {
+            dist: {
+                html: ['<%= yeoman.dist %>/*.html']
+            }
+        },
+
+        // Copies remaining files to places other tasks can use
+        copy: {
+            dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '<%= yeoman.dist %>',
+                    src: [ '**']
+                },{
+
+                    expand:true,
+                    cwd:'bower_components',
+                    dest:'<%= yeoman.dist %>/bower_components',
+                    src:['**']
+                } ,
+
+                    {
+                        expand: true,
+                        cwd: '.tmp/images',
+                        dest: '<%= yeoman.dist %>/images',
+                        src: ['generated/*']
+                    }, {
+                        expand: true,
+                        cwd: 'bower_components/bootstrap/dist',
+                        src: 'fonts/*',
+                        dest: '<%= yeoman.dist %>'
+                    }]
+            },
+            styles: {
+                expand: true,
+                cwd: '<%= yeoman.app %>/styles',
+                dest: '.tmp/styles/',
+                src: '{,*/}*.css'
+            }
+        },
+
+        // Run some tasks in parallel to speed up the build process
+        concurrent: {
+            server: [
+                'copy:styles'
+            ],
+            test: [
+                'copy:styles'
+            ],
+            dist: [
+                'copy:styles',
+                'imagemin',
+                'svgmin'
+            ]
+        },
+
+        // Test settings
+        karma: {
+            unit: {
+                configFile: 'test/karma.conf.js',
+                singleRun: true
             }
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-bower-task');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-connect');
+   //grunt.loadNpmTasks('grunt-bower-install');
+   grunt.loadNpmTasks('grunt-connect-proxy');
 
-    grunt.registerTask('default', ['bower', 'uglify', 'less', 'copy']);
+    grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
+        if (target === 'dist') {
+            return grunt.task.run(['build', 'connect:dist:keepalive']);
+        }
 
- /*   // After running "npm install connect serve-static --save-dev" to add connect as a dev
-// dependency of your project, you can require it in your gruntfile with:
-    var connect = require('connect');
-    var serveStatic = require('serve-static');
-    connect(serveStatic('www-root')).listen(8080);
+        grunt.task.run([
+          'clean:server',
+  //        'bower-install',
+          'concurrent:server',
+          'autoprefixer',
+          'configureProxies',
+          'connect:livereload',
+          'watch'
+        ]);        
+    });
 
-// Now you can define a "connect" task that starts a webserver, using the
-// connect lib, with whatever options and configuration you need:
-    grunt.registerTask('connect', 'Start a custom static web server.', function() {
-        grunt.log.writeln('Starting static web server in "www-root" on port 9001.');
-        connect(serveStatic('www-root')).listen(8080);
-    });*/
+    grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
+        grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
+        grunt.task.run([target ? ('serve:' + target) : 'serve']);
+    });
+
+    grunt.registerTask('test', [
+        'clean:server',
+        'concurrent:test',
+        'autoprefixer',
+        'connect:test',
+        'karma'
+    ]);
+
+    grunt.registerTask('build', [
+        'clean:dist',
+        'concurrent:dist',
+        'copy:dist',
+        'cssmin',
+        'ngAnnotate',
+        'uglify',
+        'htmlmin'
+    ]);
+
+    grunt.registerTask('default', [
+        'newer:jshint',
+        'test',
+        'build'
+    ]);
 };

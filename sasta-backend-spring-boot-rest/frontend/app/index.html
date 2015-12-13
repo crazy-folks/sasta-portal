@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]>
+<!-->
+<html lang="en" ng-app="sastaboard" ng-controller="BaseController as baseCtl"> 
+<!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!--<title>Sasta-The Social Audit Society of Tamil Nadu</title> -->
+   <!-- Page title - directive.js -->
+    <title page-title></title>
+    <base href="/" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/admin/styles/kendo.common.core.min.css"> 
+    <link rel="stylesheet" href="assets/admin/styles/kendo.common.min.css"> 
+    <link rel="stylesheet" href="assets/admin/styles/kendo.metro.min.css"> 
+    <link rel="stylesheet" href="assets/admin/js/ngExDialog/ngExDialog.css">
+</head>  
+<body  class="{{$state.current.name}}">
+
+    <div class="table y100 spin-theme" ng-show="loading">
+        <div class="table-cell py4 center">
+          <img src="assets/images/loading-bubbles.svg" width="64" height="64">
+          <h1 class="h1 mt2 mb0">Please Wait... Loading...</h1>
+        </div>
+    </div>
+
+    <!-- Main content view  -->
+    <div ui-view></div>
+
+    <script type="text/javascript" src="assets/libs/jquery.js"></script>
+    <script type="text/javascript" src="assets/libs/jquery.navgoco.min.js"></script>
+    <!-- Angular Script -->
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="assets/admin/libs/kendo.all.min.js"></script>
+    <script type="text/javascript" src="assets/admin/libs/kendo.angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/angular-notification/angular-notification.min.js"></script> 
+    <script type="text/javascript" src="assets/admin/js/plugins/fullscreen/jquery.fullscreen-min.js"></script>
+    
+    <script type="text/javascript"  src="js/app.js"></script>
+    <script type="text/javascript" src="assets/admin/js/ngExDialog/ngExDialog.js"></script>
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/directives.js"></script>
+    <script type="text/javascript" src="js/controllers.js"></script>    
+    <script type="text/javascript" src="js/controller/LoginController.js"></script>
+    <script type="text/javascript" src="admin/banks/BankController.js"></script>
+    <script type="text/javascript" src="admin/bloodgroups/BloodGroupsController.js"></script>
+    <script type="text/javascript" src="admin/communities/CommunitiesController.js"></script>
+    <script type="text/javascript" src="admin/configsystem/ConfigSystemController.js"></script>
+    <script type="text/javascript" src="admin/countries/CountriesController.js"></script>
+    <script type="text/javascript" src="admin/departments/DepartmentsController.js"></script>
+    <script type="text/javascript" src="admin/districts/DistrictsController.js"></script>
+    <script type="text/javascript" src="admin/financialyear/FinancialYearController.js"></script>
+    <script type="text/javascript" src="admin/qualifications/QualificationsController.js"></script>
+    <script type="text/javascript" src="admin/states/StatesController.js"></script>
+</body>
+</html>

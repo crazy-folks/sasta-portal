@@ -92,7 +92,7 @@ public class DepartmentsServiceImpl implements DepartmentsService {
 
 
     private boolean Create(String department_name, String department_description, Long created_by) {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_blood_group")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_departments")
                 .declareParameters(
                         new SqlParameter("department_name", Types.VARCHAR),
                         new SqlParameter("department_description", Types.VARCHAR),
@@ -114,7 +114,7 @@ public class DepartmentsServiceImpl implements DepartmentsService {
 
     private boolean Modify(Integer id, String department_name, String department_description, Long modified_by,
                            Boolean is_active) {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_blood_group")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_departments")
                 .declareParameters(
                         new SqlParameter("department_id", Types.INTEGER),
                         new SqlParameter("department_name", Types.VARCHAR),
@@ -140,7 +140,7 @@ public class DepartmentsServiceImpl implements DepartmentsService {
 
 
     private List<Departments> readList(){
-        List<Departments> list = jdbcTemplate.query("call select_blood_group", new DepartmentsMapper());
+        List<Departments> list = jdbcTemplate.query("call select_departments", new DepartmentsMapper());
         return list;
     }
 

@@ -1,0 +1,25 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
+</div>
+<form class="form-horizontal" name="frmCommunities" id="frmCommunities" novalidate>
+    <div class="dialog-message dialog-body">
+        <div class="form-group">
+            <div>
+                <label for="txtBankName" class="label-adjust">Communities Name</label>
+                <input type="text" class="form-control" id="txtBankName" name="txtBankName"
+                       data-ng-model="editcommunities.name" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtCategory" class="label-adjust">Description</label> 
+            <textarea class="form-control" id="txtCategory" name="txtCategory"
+                   data-ng-model="editcommunities.description" required 
+                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
+        </div>      
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+    </div>
+</form>

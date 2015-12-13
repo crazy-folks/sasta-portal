@@ -45,16 +45,16 @@ public class CountriesServiceImpl implements  CountriesService{
         this.repository = repository;
     }
     @Override
-    public ResponseModel Add(String country_name, String country_description, Integer country_code,
+    public ResponseModel Add(String country_name, String country_description, String country_code,
                              String country_short_name, Long country_create_by) {
-        LOGGER.debug("Creating Blocks : {}", country_name,country_description,country_code,country_short_name,
+        LOGGER.debug("Creating Country : {}", country_name,country_description,country_code,country_short_name,
                 country_create_by);
         ResponseModel response = new ResponseModel<Boolean>();
         try{
             boolean flag =  Create(country_name, country_description, country_code,
                     country_short_name, country_create_by);
             response.setStatus(flag);
-            response.setData(flag == true ? "State Added Successfully!!" : "Unable to add State!!");
+            response.setData(flag == true ? "Country Added Successfully!!" : "Unable to add Country!!");
         }catch(Exception err){
             response.setData(err.getMessage());
         }
@@ -62,7 +62,7 @@ public class CountriesServiceImpl implements  CountriesService{
     }
 
     @Override
-    public ResponseModel Update(Integer country_id,String country_name,String country_description,Integer country_code,
+    public ResponseModel Update(Integer country_id,String country_name,String country_description,String country_code,
                                 String country_short_name,Long country_modified_by,Boolean is_active) {
 
         LOGGER.debug("Updating Country : {}", country_id,country_name,country_description,country_code,
@@ -94,14 +94,14 @@ public class CountriesServiceImpl implements  CountriesService{
         return response;
     }
 
-    private boolean Create(String country_name, String country_description, Integer country_code,
+    private boolean Create(String country_name, String country_description, String country_code,
                             String country_short_name, Long country_create_by) {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("signin")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_country")
                 .declareParameters(
                         new SqlParameter("country_name", Types.VARCHAR),
-                        new SqlParameter("country_description", Types.INTEGER),
+                        new SqlParameter("country_description", Types.VARCHAR),
                         new SqlParameter("country_code", Types.VARCHAR),
-                        new SqlParameter("country_short_name", Types.INTEGER),
+                        new SqlParameter("country_short_name", Types.VARCHAR),
                         new SqlParameter("country_create_by", Types.BIGINT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
@@ -121,14 +121,14 @@ public class CountriesServiceImpl implements  CountriesService{
     }
 
 
-    private boolean Modify(Integer country_id,String country_name,String country_description,Integer country_code,
+    private boolean Modify(Integer country_id,String country_name,String country_description,String country_code,
                            String country_short_name,Long country_modified_by,Boolean is_active) {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("signin")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_country")
                 .declareParameters(
                         new SqlParameter("country_id", Types.INTEGER),
                         new SqlParameter("country_name", Types.VARCHAR),
                         new SqlParameter("country_description", Types.VARCHAR),
-                        new SqlParameter("country_code", Types.INTEGER),
+                        new SqlParameter("country_code", Types.VARCHAR),
                         new SqlParameter("country_short_name", Types.VARCHAR),
                         new SqlParameter("country_modified_by", Types.BIGINT),
                         new SqlParameter("is_active", Types.BIT),
@@ -165,7 +165,7 @@ public class CountriesServiceImpl implements  CountriesService{
             o.setCountryId(set.getInt("id"));
             o.setName(StringUtils.trimToNull(set.getString("name")));
             o.setDescription(StringUtils.trimToNull(set.getString("description")));
-            o.setCountryCode(set.getInt("country_code"));
+            o.setCountryCode(StringUtils.trimToNull(set.getString("country_code")));
             o.setShortName(StringUtils.trimToNull(set.getString("short_name")));
             o.setCreatedDate(set.getTimestamp("created_date"));
             o.setModifiedDate(set.getTimestamp("modified_date"));

@@ -2,11 +2,12 @@ package com.sastabackend.domain;
 
 
 import com.google.common.base.Objects;
-
+import com.sastabackend.util.TextUtil;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.lang.String;
+import java.sql.Timestamp;
 
 @Entity
 public class  Users  implements java.io.Serializable {
@@ -17,171 +18,67 @@ public class  Users  implements java.io.Serializable {
     @Column(name = "id", nullable = false, updatable = false)
     private java.lang.Long id;
 
-    @NotNull
-    @Size(max=150)
-    @Column(name = "email", nullable = false)
     private String email;
-
-    @NotNull
-    @Size(max = 32)
-    @Column(name = "password", nullable = false)
     private String password;
-
-    @Size(max = 100)
-    @Column(name = "screen_name")
     private String screen_name;
-
-    @Size(max = 100)
-    @Column(name = "first_name")
     private String first_name;
-
-    @Size(max = 100)
-    @Column(name = "last_name")
     private String last_name;
-
-    @Column(name = "gender_id")
     private java.lang.Integer  gender_id;
-
-    @Size(max = 100)
-    @Column(name = "job_title")
     private String job_title;
-
-    @Column(name = "description")
     private String description;
-
-    @Size(max = 100)
-    @Column(name = "experience")
     private String experience;
-
-    @Column(name = "has_read_tc")
     private java.lang.Boolean has_read_tc;
-
-    @Column(name = "state_id")
     private java.lang.Integer state_id;
-
-    @Column(name = "country_id")
     private java.lang.Integer country_id;
-
-    @Column(name = "image_id")
     private java.lang.Integer image_id;
-
-    @Column(name = "user_group_id")
     private java.lang.Integer user_group_id;
-
-    @Column(name = "communication_address")
     private String communication_address;
-
-    @Column(name = "permanent_address")
     private String permanent_address;
-
-    @Column(name = "is_address_same")
     private java.lang.Boolean is_address_same;
-
-    @Column(name = "date_of_joining")
     private java.sql.Date date_of_joining;
-
-    @Column(name = "date_of_birth")
     private java.sql.Date date_of_birth;
-
-    @Column(name = "previous_work_exp")
     private java.lang.Float previous_work_exp;
-
-    @Size(max = 50)
-    @Column(name = "team_name")
     private String team_name;
-
-    @Size(max = 20)
-    @Column(name = "employee_id")
     private String employee_id;
-
-    @Column(name = "department_id")
     private java.lang.Integer department_id;
-
-    @Size(max = 100)
-    @Column(name = "gmail_id")
     private String gmail_id;
-
-    @Size(max = 100)
-    @Column(name = "skype_name")
     private String skype_name;
-
-    @Size(max = 100)
-    @Column(name = "business_email")
     private String business_email;
-
-    @Size(max = 100)
-    @Column(name = "personal_email")
     private String personal_email;
-
-    @Size(max = 100)
-    @Column(name = "father_name")
     private String father_name;
-
-    @Column(name = "blood_group_id")
     private java.lang.Integer blood_group_id;
-
-    @Column(name = "reporting_id")
     private java.lang.Long reporting_id;
-
-    @Column(name = "allotted_district")
     private java.lang.Integer allotted_district;
-
-    @Column(name = "allotted_block")
     private java.lang.Integer allotted_block;
-
-    @Column(name = "recruitment_id")
     private java.lang.Integer recruitment_id;
-
-    @Column(name = "birth_proof_id")
     private java.lang.Integer birth_proof_id;
-
-    @Size(max = 36)
-    @Column(name = "validation_code")
     private String validation_code;
-
-    @Column(name = "visible_fields")
     private String visible_fields;
-
-    @Size(max = 20)
-    @Column(name = "mobile_no")
     private String mobile_no;
-
-    @Size(max = 20)
-    @Column(name = "land_line_no")
     private String land_line_no;
-
-    @Column(name = "personal_url")
     private String personal_url;
-
-    @Column(name = "failed_login_attempts")
     private java.lang.Integer failed_login_attempts;
-
-    @Column(name = "is_locked")
     private java.lang.Boolean is_locked;
 
-    @Column(name = "is_active")
     private java.lang.Boolean is_active;
-
-    @Column(name = "create_date")
     private java.sql.Timestamp create_date;
-
-    @Column(name = "modified_date")
     private java.sql.Timestamp modified_date;
-
-    @Column(name = "last_login_date")
     private java.sql.Timestamp last_login_date;
+    private Long created_by;
+    private Long modified_by;
+
+    private String created_by_Name;
+    private String modified_by_Name;
 
     public Users() {
     }
 
-    public Users(final java.lang.Long id,final String email,final String password) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-    }
-
     public java.lang.Long getId() {
         return id;
+    }
+
+    public void setId(java.lang.Long id){
+        this.id = id;
     }
 
     public String getEmail() {
@@ -189,7 +86,7 @@ public class  Users  implements java.io.Serializable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = TextUtil.makeOneWayPasswordWithMD5(email);
     }
 
     public String getPassword() {
@@ -215,9 +112,11 @@ public class  Users  implements java.io.Serializable {
     public String getLastName(){
         return this.last_name;
     }
+
     public void setLastName(String last_name){
         this.last_name = last_name;
     }
+
     public java.lang.Integer getGenderId(){
         return this.gender_id;
     }
@@ -254,6 +153,10 @@ public class  Users  implements java.io.Serializable {
         this.has_read_tc = has_read_tc;
     }
 
+    public java.lang.Boolean getHasReadTermsAndCondtion(){
+        return this.has_read_tc;
+    }
+
     public void setStateId(java.lang.Integer  state_id){
         this.state_id = state_id;
     }
@@ -261,7 +164,6 @@ public class  Users  implements java.io.Serializable {
     public java.lang.Integer getStateId(){
         return this.state_id ;
     }
-
 
     public void setCountryId(java.lang.Integer   country_id){
         this. country_id =  country_id;
@@ -271,7 +173,6 @@ public class  Users  implements java.io.Serializable {
         return this. country_id ;
     }
 
-
     public void setImageId(java.lang.Integer  image_id){
         this.image_id = image_id;
     }
@@ -279,7 +180,6 @@ public class  Users  implements java.io.Serializable {
     public java.lang.Integer getImageId(){
         return this.image_id ;
     }
-
 
     public void setUserGroupId(java.lang.Integer  user_group_id){
         this.state_id = user_group_id;
@@ -481,10 +381,146 @@ public class  Users  implements java.io.Serializable {
         this.land_line_no = land_line_no;
     }
 
+    public String getPersonalUrl() {
+        return personal_url;
+    }
+
+    public void setPersonalUrl(String personal_url) {
+        this.personal_url = personal_url;
+    }
+
+    public Integer getFailedLoginAttempts() {
+        return failed_login_attempts;
+    }
+
+    public void setFailedLoginAttempts(Integer failed_login_attempts) {
+        this.failed_login_attempts = failed_login_attempts;
+    }
+
+    public Boolean getIsLocked() {
+        return is_locked;
+    }
+
+    public void setIsLocked(Boolean is_locked) {
+        this.is_locked = is_locked;
+    }
+
+    public Boolean getIsActive() {
+        return is_active;
+    }
+
+    public void setIsActive(Boolean is_active) {
+        this.is_active = is_active;
+    }
+
+    public Timestamp getCreateDate() {
+        return create_date;
+    }
+
+    public void setCreateDate(Timestamp create_date) {
+        this.create_date = create_date;
+    }
+
+    public Timestamp getModifiedDate() {
+        return modified_date;
+    }
+
+    public void setModifiedDate(Timestamp modified_date) {
+        this.modified_date = modified_date;
+    }
+
+    public Timestamp getLastLoginDate() {
+        return last_login_date;
+    }
+
+    public void setLastLoginDate(Timestamp last_login_date) {
+        this.last_login_date = last_login_date;
+    }
+
+
+    public Long getCreatedBy() {
+        return created_by;
+    }
+
+    public void setCreatedBy(Long created_by) {
+        this.created_by = created_by;
+    }
+
+    public Long getModifiedBy() {
+        return modified_by;
+    }
+
+    public void setModifiedBy(Long modified_by) {
+        this.modified_by = modified_by;
+    }
+
+    public String getCreatedByName() {
+        return created_by_Name;
+    }
+
+    public void setCreatedByName(String created_by_Name) {
+        this.created_by_Name = created_by_Name;
+    }
+
+    public String getModifiedByName() {
+        return modified_by_Name;
+    }
+
+    public void setModifiedByName(String modified_by_Name) {
+        this.modified_by_Name = modified_by_Name;
+    }
+
+    @Override
     public String toString() {
-        return Objects.toStringHelper(this)
-                .add("id", id)
-                .add("email",email)
-                .toString();
+        return "Users{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", screen_name='" + screen_name + '\'' +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", gender_id=" + gender_id +
+                ", job_title='" + job_title + '\'' +
+                ", description='" + description + '\'' +
+                ", experience='" + experience + '\'' +
+                ", has_read_tc=" + has_read_tc +
+                ", state_id=" + state_id +
+                ", country_id=" + country_id +
+                ", image_id=" + image_id +
+                ", user_group_id=" + user_group_id +
+                ", communication_address='" + communication_address + '\'' +
+                ", permanent_address='" + permanent_address + '\'' +
+                ", is_address_same=" + is_address_same +
+                ", date_of_joining=" + date_of_joining +
+                ", date_of_birth=" + date_of_birth +
+                ", previous_work_exp=" + previous_work_exp +
+                ", team_name='" + team_name + '\'' +
+                ", employee_id='" + employee_id + '\'' +
+                ", department_id=" + department_id +
+                ", gmail_id='" + gmail_id + '\'' +
+                ", skype_name='" + skype_name + '\'' +
+                ", business_email='" + business_email + '\'' +
+                ", personal_email='" + personal_email + '\'' +
+                ", father_name='" + father_name + '\'' +
+                ", blood_group_id=" + blood_group_id +
+                ", reporting_id=" + reporting_id +
+                ", allotted_district=" + allotted_district +
+                ", allotted_block=" + allotted_block +
+                ", recruitment_id=" + recruitment_id +
+                ", birth_proof_id=" + birth_proof_id +
+                ", validation_code='" + validation_code + '\'' +
+                ", visible_fields='" + visible_fields + '\'' +
+                ", mobile_no='" + mobile_no + '\'' +
+                ", land_line_no='" + land_line_no + '\'' +
+                ", personal_url='" + personal_url + '\'' +
+                ", failed_login_attempts=" + failed_login_attempts +
+                ", is_locked=" + is_locked +
+                ", is_active=" + is_active +
+                ", create_date=" + create_date +
+                ", modified_date=" + modified_date +
+                ", last_login_date=" + last_login_date +
+                ", created_by_Name='" + created_by_Name + '\'' +
+                ", modified_by_Name='" + modified_by_Name + '\'' +
+                '}';
     }
 }

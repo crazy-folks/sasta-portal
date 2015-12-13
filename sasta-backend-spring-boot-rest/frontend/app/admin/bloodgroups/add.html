@@ -1,0 +1,25 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.add }}</div>
+</div>
+<form class="form-horizontal" name="frmBloodGroup" id="frmBloodGroup" novalidate>
+    <div class="dialog-message dialog-body">
+        <div class="form-group">
+            <div>
+                <label for="txtBankName" class="label-adjust">Blood Group Name</label>
+                <input type="text" class="form-control" id="txtBloodGroupName" name="txtBloodGroupName"
+                       data-ng-model="bloodgroups.name" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtCategory" class="label-adjust">Description</label> 
+            <textarea class="form-control" id="txtDescritpion" name="txtDescritpion"
+                   data-ng-model="bloodgroups.description" required 
+                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
+        </div>      
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+    </div>
+</form>

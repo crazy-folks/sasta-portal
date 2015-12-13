@@ -3,12 +3,10 @@ package com.sastabackend.controller;
 import com.sastabackend.domain.GradeLookups;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.service.gradelookups.GradeLookupsService;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -17,7 +15,7 @@ import javax.validation.Valid;
  * Created by SARVA on 09/Nov/2015.
  */
 @RestController
-@RequestMapping("gradelookups")
+@RequestMapping("/api/gradelookups")
 public class GradeLookupsController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GradeLookupsController.class);
@@ -28,18 +26,20 @@ public class GradeLookupsController {
         this.gradelookupsService = gradelookupsService;
     }
 
-
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ResponseModel Create(@RequestBody @Valid final GradeLookups gradelookups){
+    @ApiOperation(value = "Create Grade Lookups", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseModel Create(@ModelAttribute final GradeLookups gradelookups){
         return gradelookupsService.Add(gradelookups.getName(),gradelookups.getDescription(),gradelookups.getCreatedBy());
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public ResponseModel Update(@RequestBody @Valid final GradeLookups gradelookups){
+    @ApiOperation(value = "Update Grade Lookups", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseModel Update(@ModelAttribute final GradeLookups gradelookups){
         return gradelookupsService.Update(gradelookups.getId(), gradelookups.getName(), gradelookups.getDescription(),
                 gradelookups.getModifiedBy(),gradelookups.getStatus());
     }
 
+    @ApiOperation(value = "Read Grade Lookups", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/getlist", method = RequestMethod.GET)
     public ResponseModel getList(){
         return gradelookupsService.getList();

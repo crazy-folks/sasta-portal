@@ -1,0 +1,41 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.add }}</div>
+</div>
+<form class="form-horizontal" name="frmCommunities" id="frmCommunities" novalidate>
+    <div class="dialog-message dialog-body">
+        <div class="form-group">
+            <div>
+                <label for="txtname" class="label-adjust">Country Name</label>
+                <input type="text" class="form-control" id="txtname" name="txtname"
+                       data-ng-model="countries.name" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="txtshortName" class="label-adjust">Short Name</label>
+                <input type="text" class="form-control" id="txtshortName" name="txtshortName"
+                       data-ng-model="countries.shortName" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div> 
+        <div class="form-group">
+            <div>
+                <label for="txtcountryCode" class="label-adjust">Country Code</label>
+                <input type="text" class="form-control" id="txtcountryCode" name="txtcountryCode"
+                       data-ng-model="countries.countryCode" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>  
+        <div class="form-group">
+            <label for="txtdescription" class="label-adjust">Description</label> 
+            <textarea class="form-control" id="txtdescription" name="txtdescription"
+                   data-ng-model="countries.description" required 
+                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
+        </div>      
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+    </div>
+</form>

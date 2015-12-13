@@ -5,12 +5,10 @@ import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.States;
 import com.sastabackend.service.countries.CountriesService;
 import com.sastabackend.service.state.StatesService;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -20,7 +18,7 @@ import javax.validation.Valid;
  */
 
 @RestController
-@RequestMapping("countries")
+@RequestMapping("/api/countries")
 public class CountriesController {
 
 
@@ -33,19 +31,22 @@ public class CountriesController {
     }
 
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ResponseModel Create(@RequestBody @Valid final Countries countries){
+    @ApiOperation(value = "Create Countries", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseModel Create(@ModelAttribute final Countries countries){
         return countriesService.Add(countries.getName(),countries.getDescription(),countries.getCountryCode(),
                 countries.getShortName(),countries.getCreatedBy());
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public ResponseModel Update(@RequestBody @Valid final Countries countries){
+    @ApiOperation(value = "Update Countries", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseModel Update(@ModelAttribute final Countries countries){
         return countriesService.Update(countries.getCountryId(), countries.getName(), countries.getDescription(),
                 countries.getCountryCode(), countries.getShortName(), countries.getModifiedBy(),
                 countries.getStatus());
     }
 
+    @ApiOperation(value = "Read Countries List", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/getlist", method = RequestMethod.GET)
     public ResponseModel getList(){
         return countriesService.getList();

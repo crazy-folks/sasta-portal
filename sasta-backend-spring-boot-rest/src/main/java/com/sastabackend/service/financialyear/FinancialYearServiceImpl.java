@@ -112,15 +112,15 @@ public class FinancialYearServiceImpl implements FinancialYearService {
                          Long modified_by,Boolean is_active) {
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_financial_year")
                 .declareParameters(
-                        new SqlParameter("community_id", Types.INTEGER),
+                        new SqlParameter("financial_year_id", Types.INTEGER),
                         new SqlParameter("financial_year_name", Types.VARCHAR),
-                        new SqlParameter("department_description", Types.VARCHAR),
+                        new SqlParameter("financial_year_description", Types.VARCHAR),
                         new SqlParameter("modified_by", Types.BIGINT),
                         new SqlParameter("is_active", Types.BIT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
-        inParamMap.put("community_id", id);
+        inParamMap.put("financial_year_id", id);
         inParamMap.put("financial_year_name", financial_year_name);
         inParamMap.put("financial_year_description", financial_year_description);
         inParamMap.put("modified_by", modified_by);

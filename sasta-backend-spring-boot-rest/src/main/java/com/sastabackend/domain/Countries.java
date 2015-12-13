@@ -19,7 +19,7 @@ public class Countries implements java.io.Serializable, CommonProperties {
     private Integer country_id;
     private String name;
     private String description;
-    private Integer country_code;
+    private String country_code;
     private String short_name;
 
     private java.sql.Timestamp created_date;
@@ -61,11 +61,11 @@ public class Countries implements java.io.Serializable, CommonProperties {
         this.description = description;
     }
 
-    public Integer getCountryCode() {
+    public String getCountryCode() {
         return country_code;
     }
 
-    public void setCountryCode(Integer country_code) {
+    public void setCountryCode(String country_code) {
         this.country_code = country_code;
     }
 

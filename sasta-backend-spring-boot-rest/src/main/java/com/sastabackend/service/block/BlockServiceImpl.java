@@ -98,7 +98,7 @@ public class BlockServiceImpl  implements BlockService {
     }
 
     private boolean Create(String name,Integer district_id,Long created_by){
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("signin")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_blocks")
                 .declareParameters(
                         new SqlParameter("blockName", Types.VARCHAR),
                         new SqlParameter("distric_id", Types.INTEGER),
@@ -119,7 +119,7 @@ public class BlockServiceImpl  implements BlockService {
     }
 
     private boolean Modify(int block_id, String name, int district_id, Long modify_by){
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("signin")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_blocks")
                 .declareParameters(
                         new SqlParameter("block_id", Types.VARCHAR),
                         new SqlParameter("blockName", Types.INTEGER),

@@ -89,7 +89,7 @@ public class LookupRepository {
 
     private static final RowMapper<Lookup> userMapper = new RowMapper<Lookup>() {
         public Lookup mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Lookup l = new Lookup(Integer.toString(rs.getInt("value")), rs.getString("text"));
+            Lookup l = new Lookup(rs.getInt("value"), rs.getString("text"));
             return l;
         }
     };

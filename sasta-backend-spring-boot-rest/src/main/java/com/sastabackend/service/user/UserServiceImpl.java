@@ -1,9 +1,11 @@
 package com.sastabackend.service.user;
 
+import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.Session;
 import com.sastabackend.domain.Users;
 import com.sastabackend.repository.UserRepository;
 import com.sastabackend.service.user.exception.UserAlreadyExistsException;
+import com.sastabackend.util.TextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -64,8 +66,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Session SignIn(String email,String password){
-        return doSignIn(email, password);
+    public ResponseModel SignIn(String email,String password){
+        ResponseModel response = null;
+        try {
+            response = new ResponseModel<Session>();
+            password = TextUtil.makeOneWayPasswordWithMD5(password);
+            LOGGER.debug("Received request to Sign in " + email,password);
+            response.setData(doSignIn(email, password));
+            response.setStatus(true);
+            return response;
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
     }
 
     /**
@@ -97,6 +111,70 @@ public class UserServiceImpl implements UserService {
             return null;
     }
 
+    @Override
+    public ResponseModel Add(Users users){
+
+        ResponseModel response = null;
+        try {
+            response = new ResponseModel<Long>();
+            SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_users")
+                    .declareParameters(
+                            new SqlParameter("email", Types.VARCHAR),
+                            new SqlParameter("pwd", Types.VARCHAR),
+                            new SqlParameter("screenname", Types.VARCHAR),
+                            new SqlParameter("firstname", Types.VARCHAR),
+                            new SqlParameter("lastname", Types.VARCHAR),
+                            new SqlParameter("genderid", Types.INTEGER),
+                            new SqlParameter("jobtitle", Types.INTEGER),
+                            new SqlParameter("hasreadtc", Types.BIT),
+                            new SqlParameter("stateid", Types.INTEGER),
+                            new SqlParameter("countryid", Types.INTEGER),
+                            new SqlParameter("usergroupid", Types.INTEGER),
+                            new SqlParameter("dateofjoining", Types.DATE),
+                            new SqlParameter("teamname", Types.VARCHAR),
+                            new SqlParameter("employeeid", Types.VARCHAR),
+                            new SqlParameter("departmentid", Types.INTEGER),
+                            new SqlParameter("reportingid", Types.INTEGER),
+                            new SqlParameter("allotteddistrict", Types.INTEGER),
+                            new SqlParameter("allottedblock", Types.INTEGER),
+                            new SqlParameter("recruitmentid", Types.INTEGER),
+                            new SqlParameter("createdby", Types.BIGINT),
+                            new SqlOutParameter("userid", Types.BIGINT)
+                    );
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("email", users.getEmail());
+            inParamMap.put("pwd", users.getPassword());
+            inParamMap.put("screenname", users.getScreenName());
+            inParamMap.put("firstname", users.getFirstName());
+            inParamMap.put("lastname", users.getLastName());
+            inParamMap.put("genderid", users.getGenderId());
+            inParamMap.put("jobtitle", users.getJobTitle());
+            inParamMap.put("hasreadtc", users.getHasReadTermsAndCondtion());
+            inParamMap.put("stateid", users.getStateId());
+            inParamMap.put("countryid", users.getCountryId());
+            inParamMap.put("usergroupid", users.getUserGroupId());
+            inParamMap.put("dateofjoining", users.getDateOfJoining());
+            inParamMap.put("teamname", users.getTeamName());
+            inParamMap.put("employeeid", users.getEmployeeId());
+            inParamMap.put("departmentid", users.getDepartmentId());
+            inParamMap.put("reportingid", users.getReportingId());
+            inParamMap.put("allotteddistrict", users.getAllottedDistrict());
+            inParamMap.put("allottedblock", users.getAllottedBlock());
+            inParamMap.put("recruitmentid", users.getRecruitmentId());
+            inParamMap.put("createdby", users.getCreatedBy());
+            SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+            simplejdbcCall.compile();
+            Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+            if (!simpleJdbcCallResult.isEmpty())
+                response.setData((Long) (simpleJdbcCallResult.get("userid")));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setStatus(false);
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
     /**
      * Read session details current user login
      * @param session

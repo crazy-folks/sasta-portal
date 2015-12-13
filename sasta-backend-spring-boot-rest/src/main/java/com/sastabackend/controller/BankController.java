@@ -5,12 +5,10 @@ import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.States;
 import com.sastabackend.service.bank.BankService;
 import com.sastabackend.service.state.StatesService;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -20,7 +18,7 @@ import javax.validation.Valid;
  */
 
 @RestController
-@RequestMapping("bank")
+@RequestMapping("/api/bank")
 public class BankController {
 
 
@@ -32,18 +30,20 @@ public class BankController {
         this.bankService = bankService;
     }
 
-
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ResponseModel Create(@RequestBody @Valid final Bank bank){
+    @ApiOperation(value = "Create Bank", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseModel Create(@ModelAttribute final Bank bank){
         return bankService.Add(bank.getName(),bank.getDescription(),bank.getCreatedBy());
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public ResponseModel Update(@RequestBody @Valid final Bank bank){
+    @ApiOperation(value = "Update Bank", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseModel Update(@ModelAttribute final Bank bank){
         return bankService.Update(bank.getBankId(), bank.getName(), bank.getDescription(),
                 bank.getModifiedBy(),bank.getStatus());
     }
 
+    @ApiOperation(value = "Read Bank List", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/getlist", method = RequestMethod.GET)
     public ResponseModel getList(){
         return bankService.getList();
