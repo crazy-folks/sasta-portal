@@ -1,0 +1,48 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.add }}</div>
+</div>
+<form class="form-horizontal" name="frmRounds" id="frmRounds" novalidate>
+    <div class="dialog-message dialog-body">
+        <div class="form-group">
+            <div>
+                <label for="selYears"  class="label-adjust">Financial Years</label>
+                <select name="selYears" class="form-control" ng-model="defaultyears" ng-options="obj.text for obj in years track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="txtname" class="label-adjust">Round Name</label>
+                <input type="text" class="form-control" id="txtname" name="txtname"
+                       data-ng-model="rounds.name" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="txtstartDate" class="label-adjust">Start Date</label>
+                <input type="text" class="form-control" id="txtstartDate" name="txtstartDate"
+                       data-ng-model="districts.startDate" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="txtendDate" class="label-adjust">End Date</label>
+                <input type="text" class="form-control" id="txtendDate" name="txtendDate"
+                       data-ng-model="rounds.endDate" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>        
+        <div class="form-group">
+            <label for="txtdescription" class="label-adjust">Description</label> 
+            <textarea class="form-control" id="txtdescription" name="txtdescription"
+                   data-ng-model="rounds.description" required 
+                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
+        </div>      
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+    </div>
+</form>

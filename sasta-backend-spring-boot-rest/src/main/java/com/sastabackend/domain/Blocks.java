@@ -26,6 +26,7 @@ public class Blocks implements java.io.Serializable{
     private Long modifed_dy;
     private String created_by_Name;
     private String modified_by_Name;
+    private String description;
 
     public Blocks(){}
 
@@ -43,6 +44,14 @@ public class Blocks implements java.io.Serializable{
 
     public void setBlockName(String name){
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getDistrictID(){

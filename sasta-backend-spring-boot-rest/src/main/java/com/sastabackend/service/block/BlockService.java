@@ -8,8 +8,8 @@ import com.sastabackend.domain.ResponseModel;
  */
 public interface BlockService {
     ResponseModel Add(Blocks block);
-    ResponseModel Add(String name,Integer district_id,Long created_by);
+    ResponseModel Add(String name,String description,Integer district_id,Long created_by);
     ResponseModel Update(Blocks block);
-    ResponseModel Update(int block_id,String name,int district_id,Long modify_by);
+    ResponseModel Update(int block_id,String name,String description,int district_id,Long modify_by);
     ResponseModel getList();
 }

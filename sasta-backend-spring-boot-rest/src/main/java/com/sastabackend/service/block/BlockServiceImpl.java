@@ -46,11 +46,11 @@ public class BlockServiceImpl  implements BlockService {
     }
 
     @Override
-    public ResponseModel Add(String name,Integer district_id,Long created_by) {
+    public ResponseModel Add(String name,String description,Integer district_id,Long created_by) {
         LOGGER.debug("Creating Blocks : {}", name,district_id,created_by);
         ResponseModel response = new ResponseModel<Boolean>();
         try{
-            boolean flag=  Create(name,district_id,created_by);
+            boolean flag=  Create(name,description,district_id,created_by);
             response.setStatus(flag);
             response.setData(flag == true ? "Block Added Successfully!!" : "Unable to add Block!!");
         }catch(Exception err){
@@ -62,15 +62,15 @@ public class BlockServiceImpl  implements BlockService {
     @Override
     public ResponseModel Add(Blocks block){
         LOGGER.debug("Creating Blocks : {}", block);
-        return Add(block.getBlockName(), block.getBlockID(), block.getCreatedBy());
+        return Add(block.getBlockName(),block.getDescription(), block.getDistrictID(), block.getCreatedBy());
     }
 
     @Override
-    public ResponseModel Update(int block_id, String name, int district_id, Long modify_by) {
-        LOGGER.debug("Updating Blocks : {}", name,district_id,modify_by);
+    public ResponseModel Update(int block_id, String name,String description, int district_id, Long modify_by) {
+        LOGGER.debug("Updating Blocks : {}", name,description,district_id,modify_by);
         ResponseModel response = new ResponseModel<Boolean>();
         try{
-            boolean flag = Modify(block_id, name, district_id, modify_by);
+            boolean flag = Modify(block_id, name,description, district_id, modify_by);
             response.setStatus(flag);
             response.setData(flag == true ? "Block Updated Successfully!!" : "Unable to update blocks!!");
         }catch(Exception err){
@@ -81,7 +81,7 @@ public class BlockServiceImpl  implements BlockService {
 
     @Override
     public ResponseModel Update(Blocks block) {
-        return Update(block.getBlockID(), block.getBlockName(), block.getDistrictID(), block.getModifiedBy());
+        return Update(block.getBlockID(), block.getBlockName(),block.getDescription(), block.getDistrictID(), block.getModifiedBy());
     }
 
     @Override
@@ -97,17 +97,19 @@ public class BlockServiceImpl  implements BlockService {
         return response;
     }
 
-    private boolean Create(String name,Integer district_id,Long created_by){
+    private boolean Create(String name,String description,Integer district_id,Long created_by){
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_blocks")
                 .declareParameters(
                         new SqlParameter("blockName", Types.VARCHAR),
-                        new SqlParameter("distric_id", Types.INTEGER),
+                        new SqlParameter("description", Types.VARCHAR),
+                        new SqlParameter("district_id", Types.INTEGER),
                         new SqlParameter("create_by", Types.BIGINT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
         inParamMap.put("blockName", name);
-        inParamMap.put("distric_id", district_id);
+        inParamMap.put("description", description);
+        inParamMap.put("district_id", district_id);
         inParamMap.put("create_by", created_by);
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
@@ -118,19 +120,21 @@ public class BlockServiceImpl  implements BlockService {
             return false;
     }
 
-    private boolean Modify(int block_id, String name, int district_id, Long modify_by){
+    private boolean Modify(int block_id, String name,String description, int district_id, Long modify_by){
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_blocks")
                 .declareParameters(
-                        new SqlParameter("block_id", Types.VARCHAR),
-                        new SqlParameter("blockName", Types.INTEGER),
-                        new SqlParameter("distric_id", Types.BIGINT),
+                        new SqlParameter("block_id", Types.INTEGER),
+                        new SqlParameter("blockName", Types.VARCHAR),
+                        new SqlParameter("description", Types.VARCHAR),
+                        new SqlParameter("district_id", Types.INTEGER),
                         new SqlParameter("modify_by", Types.BIGINT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
         inParamMap.put("block_id", block_id);
         inParamMap.put("blockName", name);
-        inParamMap.put("distric_id", district_id);
+        inParamMap.put("description", description);
+        inParamMap.put("district_id", district_id);
         inParamMap.put("modify_by", modify_by);
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
@@ -153,9 +157,10 @@ public class BlockServiceImpl  implements BlockService {
             Blocks o = new Blocks();
             o.setBlockID(set.getInt("id"));
             o.setBlockName(StringUtils.trimToNull(set.getString("name")));
+            o.setDescription(StringUtils.trimToNull(set.getString("description")));
             o.setCreatedDate(set.getTimestamp("created_date"));
             o.setModifiedDate(set.getTimestamp("modified_date"));
-            o.setDistrictID(set.getInt("audit_district_id"));
+            o.setDistrictID(set.getInt("district_id"));
             o.setModifiedBy(set.getLong("modified_by"));
             o.setCreatedBy(set.getLong("created_by"));
             o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));

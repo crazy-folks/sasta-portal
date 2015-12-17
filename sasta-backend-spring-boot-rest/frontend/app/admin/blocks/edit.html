@@ -1,0 +1,32 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
+</div>
+<form class="form-horizontal" name="departmentsForm" id="departmentsForm" novalidate>
+     <div class="dialog-message dialog-body">
+         <div class="form-group">
+            <div>
+                <label for="selDistricts"  class="label-adjust">Districts</label>
+                <select name="selDistricts" id="selDistricts" class="form-control" ng-model="editdefaultOptions" ng-options="obj.text for obj in Districts track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>
+        </div> 
+        <div class="form-group">
+            <div>
+                <label for="txtblockName" class="label-adjust">Block Name</label>
+                <input type="text" class="form-control" id="txtblockName" name="txtblockName"
+                       data-ng-model="editblocks.blockName" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>                
+        <div class="form-group">
+            <label for="txtdescription" class="label-adjust">Description</label> 
+            <textarea class="form-control" id="txtdescription" name="txtdescription"
+                   data-ng-model="editblocks.description" required 
+                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
+        </div>      
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+    </div>
+</form>

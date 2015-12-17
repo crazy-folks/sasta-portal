@@ -1,105 +1,106 @@
-app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','blocksfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,blocksfactory,exDialog){
+app.controller('RoundsController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','roundsfactory','exDialog',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,roundsfactory,exDialog){
 
-
-		$scope.blocksfactory = blocksfactory;
-		$scope.blocks = [];
+		$scope.roundsfactory = roundsfactory;
+		$scope.rounds = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-
+		
 	    //Action of clicking product name link.
 	    $scope.callType = {};
 	    $scope.modelDialogTitle = {
-	    	add : "Add Blocks",
-	    	edit : "Edit Blocks"
+	    	add : "Add Rounds",
+	    	edit : "Edit Rounds"
 	    };
-
-	    $scope.Districts = [];
-	    $scope.defaultDistricts = {
-				    "value": 0,
-				    "text": "Select"
-		};
 
 	    $scope.AddDialog = function (id) {
 	        $scope.callType.id = id;
 	        exDialog.openPrime({
 	            scope: $scope,
-	            template: 'admin/blocks/add.html',
-	            controller: 'AuditBlocksController',
+	            template: 'admin/rounds/add.html',
+	            controller: 'RoundsController',
 	            width: '600px',
 	            animation: true,
 	            grayBackground: true            
 	        });
 	    };
 
-	    $scope.block = {
-	      "modifiedBy": $rootScope.sessionConfig.userId,
-	      "createdBy": $rootScope.sessionConfig.userId,
-	      "description" : "",
-	      "blockName": "",
-	      "districtID": null,
-	      "blockID": null,
+		$scope.years = [];
+		// default selected years
+		$scope.defaultyears = {
+		    "value": 0,
+		    "text": "Select"
+		};
+
+	    $scope.round = 	{
+	      "id": null,
+	      "name": '',
+	      "description": '',
+	      "status": true,
+	      "referenceId": null,
+	      "financialYear": '',
 	      "createdDate": null,
 	      "modifiedDate": null,
 	      "createdByName": "",
-	      "modifiedByName": ""
+	      "modifiedByName": null,
+	      "modifiedBy": $rootScope.sessionConfig.userId,
+	      "createdBy": $rootScope.sessionConfig.userId,
+	      "startDate": "",
+	      "endDate": ""
 	    };
 
+		$scope.datepickerOptions = {
+            format: 'yyyy-mm-dd',
+            language: 'fr',
+            startDate: "2012-10-01",
+            endDate: "2012-10-31",
+            autoclose: true,
+            weekStart: 0
+        };
+
 	    $scope.Submit = function(){
-	    	$scope.block.districtID = $scope.defaultDistricts.value;
-	    	var responseText = blocksfactory.doSubmitData($scope.block);
+	    	var responseText = roundsfactory.doSubmitData($scope.round);
 			responseText.success(function(result){
 				if(result.status){
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
 					$scope.$emit("ShowSuccess",result.data);
 		  		}else{
-		  			$scope.$emit("ShowError","Unable to add blocks!");
+		  			$scope.$emit("ShowError","Unable to add round!");
 		  		}
 			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add blocks!");
+				$scope.$emit("ShowError","Unable to add round!");
 			});	    	
 	    }
 
 	    $scope.Update = function(){
-	    	$scope.editblocks.districtID = $scope.editdefaultOptions.value;
-	    	var responseText = blocksfactory.doUpdateData($scope.editblocks);
+	    	var responseText = roundsfactory.doUpdateData($scope.editround);
 			responseText.success(function(result){
 				if(result.status){
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
 					$scope.$emit("ShowSuccess",result.data);
 		  		}else{
-		  			$scope.$emit("ShowError","Unable to update blocks!");
+		  			$scope.$emit("ShowError","Unable to update round!");
 		  		}
 			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update blocks!");
+				$scope.$emit("ShowError","Unable to update round!");
 			});	    	
 	    }
 
 	    $scope.EditData = function(data){
-	    	var s = jQuery.map( $scope.Districts, function( n, i ) {
-				if(data.districtID === n.value)
-			  		return n;
-			});	  
-			if(s instanceof Array){
-				$scope.editdefaultOptions =  s[0];
-			}else{
-				$scope.editdefaultOptions = $scope.defaultDistricts;
-			}
-	    	$scope.editblocks = {
-	    		districtID : $scope.editdefaultOptions.value,
+	    	$scope.editround = {
+	    		roundsId : data.roundsId,
 				createdBy : $rootScope.sessionConfig.userId,
 				description: data.description || '',
 				modifiedBy : $rootScope.sessionConfig.userId,
-				blockName : data.blockName,
-				blockID : data.blockID,
+				name : data.name,
 				status: true
 	    	};
 	    	$scope.callType.id = 1;
 	        exDialog.openPrime({
 	            scope: $scope,
-	            template: 'admin/blocks/edit.html',
-	            controller: 'AuditBlocksController',
+	            template: 'admin/rounds/edit.html',
+	            controller: 'RoundsController',
 	            width: '600px',
 	            animation: true,
 	            grayBackground: true            
@@ -112,13 +113,12 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 
 	    $scope.gridOptions = {
 	        columns: [ 
-		        		{ field: "blockID", title:'ID', hidden: true, editable : false },
-		        		{ field: "blockName", title:'Name'  },
+		        		{ field: "id", title:'Rounds ID', hidden: true, editable : false },
+		        		{ field: "name", title:'Name'  },
 		        		{ field: "description", title:'Description'  },
-		        		{ field: "createdByName", title:'Created By'  },
-		        		{ field: "modifiedByName", title:'Modified By'  },
-		        		{ field: "createdBy", title : "Created By", hidden : true },
-		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
+		        		{ field: "financialYear", title:'Financial Year'  },
+		        		{ field: "startDate", title : "Start Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(startDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
+		        		{ field: "endDate", title : "End Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(endDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
@@ -132,7 +132,7 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/block/blocklist'
+				         url: $scope.crudServiceBaseUrl + '/rounds/getlist'
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)
@@ -145,21 +145,16 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 	        }
 	    }
 
-	    $scope.GetDistricts = function(){
-	    	var obj = $scope.selectedDistricts;
-	    	GetLookupValues(2);
-	    }
-
 	    function GetLookupValues(type){
-	    	blocksfactory.getLookupValues(type).success(function(result){
+	    	roundsfactory.getLookupValues(type).success(function(result){
 	    		var defaultOptions = {
 				    "value": 0,
 				    "text": "Select"
 				};
 				if(result instanceof Array){
-					$scope.Districts.push(defaultOptions);
+					$scope.years.push(defaultOptions);
 					for (var i=0; i<result.length; i++){
-					    $scope.Districts.push(result[i]);
+					    $scope.years.push(result[i]);
 					}						
 		  		}else{
 		  			notify({
@@ -177,15 +172,15 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 			})
 		}
 
-		GetLookupValues(2);
+		GetLookupValues(13); // Look up for financial years
 
 }]);
 
-app.factory('blocksfactory',function($http,$q,$rootScope){
+app.factory('roundsfactory',function($http,$q,$rootScope){
 
 	var service = {};
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-	var createblocksUrl = '/block/addblock';
+	var createroundsUrl = '/rounds/create';
 
 	service.getLookupValues = function(id){
 		return $http({
@@ -197,7 +192,7 @@ app.factory('blocksfactory',function($http,$q,$rootScope){
 	service.doSubmitData = function(model){
 		return $http({
             method : 'POST',
-            url : crudServiceBaseUrl + createblocksUrl,
+            url : crudServiceBaseUrl + createroundsUrl,
             params : model,
 		    headers: {
 		        "Content-Type": "application/json"
@@ -208,7 +203,7 @@ app.factory('blocksfactory',function($http,$q,$rootScope){
 	service.doUpdateData = function(model){
 		return $http({
             method : 'POST',
-            url : crudServiceBaseUrl + '/block/updateblock',
+            url : crudServiceBaseUrl + '/rounds/update',
             params : model,
 		    headers: {
 		        "Content-Type": "application/json"

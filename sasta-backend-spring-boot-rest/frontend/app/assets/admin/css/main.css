@@ -4463,3 +4463,11 @@ div.config h4 a:hover {
     color:#fff !important;
 }
 /* Spinner Theme End */
+
+.k-grid-header {font-size: 12px !important;}
+.k-grid {
+    font-size: 12px;
+}
+.k-grid td {
+    line-height: 2em;
+}

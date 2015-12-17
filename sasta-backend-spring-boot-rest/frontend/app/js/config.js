@@ -89,6 +89,14 @@
             },
             controller : 'BankController as bankCtl'
         })
+        .state('admin.blocks', {
+            url: "/blocks",
+            templateUrl: "admin/blocks/templates.html",
+            data: {
+                pageTitle: 'Blocks'
+            },
+            controller : 'AuditBlocksController as blockCtl'
+        })        
         .state('admin.bloodgroups', {
             url: "/bloodgroups",
             templateUrl: "admin/bloodgroups/templates.html",
@@ -160,7 +168,15 @@
                 pageTitle: 'States'
             },
             controller : 'StatesController as stCtl'
-        })         
+        })
+        .state('admin.rounds', {
+            url: "/rounds",
+            templateUrl: "admin/rounds/templates.html",
+            data: {
+                pageTitle: 'Rounds'
+            },
+            controller : 'RoundsController as stCtl'
+        })
     /*$locationProvider.html5Mode({
       enabled: true
     });*/
