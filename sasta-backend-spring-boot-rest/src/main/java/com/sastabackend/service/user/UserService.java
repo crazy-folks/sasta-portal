@@ -10,7 +10,7 @@ public interface UserService {
 
     Users save(Users users);
 
-    List<Users> getList();
+    List<Users> getList(String id);
 
     ResponseModel SignIn(String email,String password);
 

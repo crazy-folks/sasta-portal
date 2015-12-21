@@ -4,6 +4,7 @@ import com.sastabackend.domain.Bank;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.Rounds;
 import com.sastabackend.service.rounds.RoundsService;
+import com.sastabackend.util.TestClass;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ public class RoundsController {
     @ApiOperation(value = "Create Rounds", response = ResponseModel.class, httpMethod = "POST")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseModel Create(@ModelAttribute final Rounds model){
+        LOGGER.debug("Reading Rounds  : {}",model.toString());
         return roundsService.Add(model.getName(), model.getReferenceId(), model.getStartDate(), model.getEndDate(),
                 model.getDescription(), model.getCreatedBy());
     }
@@ -39,7 +41,7 @@ public class RoundsController {
     @ApiOperation(value = "Update Rounds", response = ResponseModel.class, httpMethod = "POST")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseModel Update(@ModelAttribute final Rounds model){
-        return roundsService.Update(model.getId(),model.getName(),  model.getReferenceId(), model.getStartDate(), model.getEndDate(),
+        return roundsService.Update(model.getId(), model.getName(), model.getReferenceId(), model.getStartDate(), model.getEndDate(),
                 model.getDescription(), model.getModifiedBy(), model.getStatus());
     }
 
@@ -55,4 +57,12 @@ public class RoundsController {
         return roundsService.findOne(id);
     }
 
+    @ApiOperation(value = "Test API", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public ResponseModel Test(@ModelAttribute final TestClass model){
+        ResponseModel<TestClass> t = new ResponseModel<TestClass>();
+        t.setStatus(true);
+        t.setData(model);
+        return t;
+    }
 }

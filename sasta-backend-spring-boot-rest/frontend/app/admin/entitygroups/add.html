@@ -1,0 +1,25 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.add }}</div>
+</div>
+<form class="form-horizontal" name="frmUserGroup" id="frmUserGroup" novalidate>
+    <div class="dialog-message dialog-body">
+        <div class="form-group">
+            <div>
+                <label for="txtname" class="label-adjust">User Group Name</label>
+                <input type="text" class="form-control" id="txtname" name="txtname"
+                       data-ng-model="entitygroups.name" required ng-maxlength="50" 
+                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="txtDescritpion" class="label-adjust">Description</label> 
+            <textarea class="form-control" id="txtDescritpion" name="txtDescritpion"
+                   data-ng-model="entitygroups.description" required 
+                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
+        </div>      
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+    </div>
+</form>

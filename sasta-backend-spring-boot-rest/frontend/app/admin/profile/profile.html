@@ -1,0 +1,197 @@
+<div class="pageheader">
+    <h1>My Profile</h1>
+    <div class="breadcrumb-wrapper hidden-xs">
+        <span class="label">You are here:</span>
+        <ol class="breadcrumb">
+            <li><a href="#/index">Dashboard</a>
+            </li>
+            <li>Users</li>
+            <li class="active">My Profile</li>
+        </ol>
+    </div>
+</div>
+<section id="main-content" class="animated fadeInRight">
+	<div class="row">
+		<div class="col-md-12  col-lg-12">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+		                <div class="panel-heading">
+		                    <h3 class="panel-title">About Me</h3>
+		                    <div class="actions pull-right">
+		                    <i data-fullscreen-widget class="fa fa-expand"></i>
+		                        <i data-widget-toggle class="fa fa-chevron-down"></i>
+		                        <i data-widget-close class="fa fa-times"></i>
+		                    </div>
+		                </div>
+		                <div class="panel-body">
+		                	<div class="col-sm-12 text-right">
+					        	<input type="button" class="btn btn-success btn-sm" value="Edit" ng-click="EditProfileAboutMeSection();">
+								<input type="button" class="btn btn-danger btn-sm" ng-click="Reset();" value="Cancel"> 
+				        	</div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12  col-lg-12">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-default">
+		                <div class="panel-heading">
+		                    <h3 class="panel-title">Basic Details</h3>
+		                    <div class="actions pull-right">
+		                    <i data-fullscreen-widget class="fa fa-expand"></i>
+		                        <i data-widget-toggle class="fa fa-chevron-down"></i>
+		                        <i data-widget-close class="fa fa-times"></i>
+		                    </div>
+		                </div>
+		                <div class="panel-body">
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">First Name</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.firstName||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Last Name</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.lastName||'-'"></label>
+		                	</div>	
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Screen Name</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.screenName||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Father Name</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.fatherName||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">State</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.stateName||'-'"></label>
+		                	</div>	
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Country</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.countryName||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Job Title</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.jobTitle||'-'"></label>
+		                	</div>	
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Team Name</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.teamName||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Employee Id</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.employeeId||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Department</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.deptName||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Date Of Joining</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.dateOfJoining||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Email</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.email||'-'"></label>
+		                	</div>	
+		                </div>					
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="panel panel-default">
+		                <div class="panel-heading">
+		                    <h3 class="panel-title">Personnal Information</h3>
+		                    <div class="actions pull-right">
+		                    	<i data-fullscreen-widget class="fa fa-expand"></i>
+		                        <i data-widget-toggle class="fa fa-chevron-down"></i>
+		                        <i data-widget-close class="fa fa-times"></i>
+		                    </div>
+		                </div>
+		                <div class="panel-body">
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Business Email</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.businessEmail||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Personal Email</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.personalEmail||'-'"></label>
+		                	</div>	
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Gmail Id</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.gmailId||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Skype Name</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.skypeName||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Date of birth</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.dateOfBirth||'-'"></label>
+		                	</div>	
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Experience</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.experience||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Previous Experience</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.previousExperience||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Mobile Number</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.mobileNumber||'-'"></label>
+		                	</div>	
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Land Line Number</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.landLineNumber||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Blood Group</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.bloodGroupName||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Com-Address</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.communicationAddress||'-'"></label>
+		                	</div>
+		                	<div class="form-group">
+		                		<label class="col-sm-4 control-label">Per-Address</label>
+		                		<label class="col-sm-1 control-label">:</label>
+		                		<label class="col-sm-6 control-label" ng-bind="user.permanentAddress||'-'"></label>
+		                	</div>
+		                	<div class="text-right">
+					        	<input type="button" class="btn btn-success btn-sm" value="Edit" ng-click="EditProfileAboutMeSection();">
+								<input type="button" class="btn btn-danger btn-sm" ng-click="Reset();" value="Cancel"> 
+				        	</div>		                	
+		                </div>				
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

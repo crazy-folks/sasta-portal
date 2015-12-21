@@ -25,13 +25,8 @@
             </li>
             <li>
                 <a href="javascript:void(0);">
-                    <span class="icon"><i class="fa fa-envelope"></i>
-                                </span>Messages</a>
-            </li>
-            <li>
-                <a href="javascript:void(0);">
                     <span class="icon"><i class="fa fa-cog"></i>
-                                </span>Settings</a>
+                                </span>Change Password</a>
             </li>
             <li class="divider"></li>
             <li>
@@ -87,6 +82,9 @@
                     <a href="javascript:;" ui-sref="admin.districts" title="Districts">Districts</a>
                 </li>
                 <li ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="admin.entitygroups" title="User Groups">User Groups</a>
+                </li>
+                <li ui-sref-active="active">
                     <a href="javascript:;" ui-sref="admin.financialyears" title="Financial Years">Financial Years</a>
                 </li>  
                 <li ui-sref-active="active">
@@ -99,11 +97,11 @@
                     <a href="javascript:;" ui-sref="admin.states" title="States">States</a>
                 </li>
                 <li ui-sref-active="active">
-                    <a href="javascript:;" ui-sref="ui.typography" title="Typography">Village Panchayats</a>
+                    <a href="javascript:;" ui-sref="admin.villagepanchayats" title="Village Panchayats">Village Panchayats</a>
                 </li>
             </ul>
         </li>
-        <li class="nav-dropdown" ng-class="{active: $state.includes('forms')}">
+        <li class="nav-dropdown" ng-class="{active: $state.includes('admin')}">
             <a href="" title="Forms">
                 <i class="fa  fa-fw fa-edit"></i> Entries
             </a>
@@ -140,21 +138,17 @@
                 </li>                
             </ul>            
         </li>
-        <li class="nav-dropdown" ng-class="{active: $state.includes('charts')}">
+        <li class="nav-dropdown" ng-class="{active: $state.includes('admin')}">
             <a href="" title="Charts">
                 <i class="fa fa-fw fa-th-list"></i> User Management
             </a>
-            <ul class="nav-sub" ng-class="{in: $state.includes('ui')}">
+            <ul class="nav-sub" ng-class="{in: $state.includes('admin')}">
                 <li ui-sref-active="active">
-                    <a href="" title="Tables">
-                        Add User
-                    </a>
+                    <a href="javascript:;" ui-sref="admin.addusers" title="Add User"> Add User </a>
                 </li>
-                <li>
-                    <a href="" title="Tables">
-                        Search User
-                    </a>                    
-                </li>                
+                <li ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="admin.addusers" title="Search User"> Search User </a>
+                </li>                                
             </ul>            
         </li>
             <li class="nav-dropdown" ng-class="{active: $state.includes('mail')}">

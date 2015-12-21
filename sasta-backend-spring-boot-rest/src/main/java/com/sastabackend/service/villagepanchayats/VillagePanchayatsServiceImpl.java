@@ -106,13 +106,13 @@ public class VillagePanchayatsServiceImpl implements VillagePanchayatsService {
 
     private boolean Create(String name, Integer audit_block_id, Integer vp_code, String description,
                            Long created_by){
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("signin")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_village_panchayat")
                 .declareParameters(
                         new SqlParameter("vp_name", Types.VARCHAR),
                         new SqlParameter("auditblockid", Types.INTEGER),
                         new SqlParameter("vpcode", Types.INTEGER),
                         new SqlParameter("vp_description", Types.VARCHAR),
-                        new SqlParameter("create_by", Types.BIGINT),
+                        new SqlParameter("createdby", Types.BIGINT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
@@ -120,7 +120,7 @@ public class VillagePanchayatsServiceImpl implements VillagePanchayatsService {
         inParamMap.put("auditblockid", audit_block_id);
         inParamMap.put("vpcode", vp_code);
         inParamMap.put("vp_description", description);
-        inParamMap.put("create_by", created_by);
+        inParamMap.put("createdby", created_by);
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
         Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
@@ -139,7 +139,7 @@ public class VillagePanchayatsServiceImpl implements VillagePanchayatsService {
                         new SqlParameter("auditblockid", Types.INTEGER),
                         new SqlParameter("vpcode", Types.INTEGER),
                         new SqlParameter("vp_description", Types.VARCHAR),
-                        new SqlParameter("modify_by", Types.BIGINT),
+                        new SqlParameter("modifiedby", Types.BIGINT),
                         new SqlParameter("isactive", Types.BIT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
@@ -149,7 +149,7 @@ public class VillagePanchayatsServiceImpl implements VillagePanchayatsService {
         inParamMap.put("auditblockid", audit_block_id);
         inParamMap.put("vpcode", vp_code);
         inParamMap.put("vp_description", description);
-        inParamMap.put("modify_by", modified_by);
+        inParamMap.put("modifiedby", modified_by);
         inParamMap.put("isactive", is_active);
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();

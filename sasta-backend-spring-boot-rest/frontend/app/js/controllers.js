@@ -249,3 +249,22 @@ app.factory('storage', ['$window', function($window){
       }
     }
   }]);
+
+
+// Validator - jQuery Validation Engine
+var Validator = function (NameOfForm) {
+    
+    this.Name = NameOfForm;
+    this.doValidate = function () {
+        var self = this;
+        var valid = $(self.Name).validationEngine('validate');
+        if (valid) {
+            $(self.Name).validationEngine('validate');
+        }
+        return valid;
+    };
+
+    this.doReset = function(){
+        $(NameOfForm).validationEngine('hideAll');
+    };
+};

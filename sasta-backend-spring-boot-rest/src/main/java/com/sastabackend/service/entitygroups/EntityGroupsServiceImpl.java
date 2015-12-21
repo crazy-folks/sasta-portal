@@ -1,7 +1,9 @@
-package com.sastabackend.service.Communities;
+package com.sastabackend.service.entitygroups;
 
-import com.sastabackend.domain.*;
-import com.sastabackend.repository.CommunitiesRepository;
+
+import com.sastabackend.domain.EntityGroups;
+import com.sastabackend.domain.ResponseModel;
+import com.sastabackend.repository.EntityGroupsRepository;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,33 +27,31 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by SARVA on 08/Nov/2015.
+ * Created by SARVA on 20/Dec/2015.
  */
-
 @Service
 @Validated
-public class CommunitiesServiceImpl implements CommunitiesService {
+public class EntityGroupsServiceImpl implements EntityGroupsService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommunitiesServiceImpl.class);
-    private final CommunitiesRepository repository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntityGroupsService.class);
+    private final EntityGroupsRepository repository;
 
     @Inject
-    public CommunitiesServiceImpl(CommunitiesRepository repository){
+    public EntityGroupsServiceImpl(EntityGroupsRepository repository){
         this.repository = repository;
     }
 
-
     @Override
-    public ResponseModel Add(String community_name,String community_description,Long created_by) {
-        LOGGER.debug("Creating  community : {}", community_name,community_description,created_by);
+    public ResponseModel Add(String name, String description, Long created_by) {
+        LOGGER.debug("Creating  Entity Groups : {}", name,description,created_by);
         ResponseModel response = new ResponseModel<Boolean>();
         try{
-            boolean flag=  Create(community_name, community_description, created_by);
+            boolean flag=  Create(name, description, created_by);
             response.setStatus(flag);
-            response.setData(flag == true ? " community Added Successfully!!" : "Unable to add  community!!");
+            response.setData(flag == true ? " Entity Groups Added Successfully!!" : "Unable to add  Entity Groups!!");
         }catch(Exception err){
             response.setData(err.getMessage());
         }
@@ -59,14 +59,13 @@ public class CommunitiesServiceImpl implements CommunitiesService {
     }
 
     @Override
-    public ResponseModel Update(Integer id,String community_name,String community_description,
-                         Long modified_by,Boolean is_active) {
-        LOGGER.debug("Updating community  : {}", id,community_name,community_description,modified_by,is_active);
+    public ResponseModel Update(Integer id, String name, String description, Long modified_by, Boolean is_active) {
+        LOGGER.debug("Updating Entity Groups  : {}", id,name,description,modified_by,is_active);
         ResponseModel response = new ResponseModel<Boolean>();
         try{
-            boolean flag = Modify(id, community_name, community_description, modified_by, is_active);
+            boolean flag = Modify(id, name, description, modified_by, is_active);
             response.setStatus(flag);
-            response.setData(flag == true ? "community  Updated Successfully!!" : "Unable to update  community !!");
+            response.setData(flag == true ? "Entity Groups  Updated Successfully!!" : "Unable to update  Entity Groups !!");
         }catch(Exception err){
             response.setData(err.getMessage());
         }
@@ -75,8 +74,8 @@ public class CommunitiesServiceImpl implements CommunitiesService {
 
     @Override
     public ResponseModel getList() {
-        LOGGER.debug("Reading Communities Data : {}");
-        ResponseModel response = new ResponseModel<List<Communities>>();
+        LOGGER.debug("Reading Entity Groups Data : {}");
+        ResponseModel response = new ResponseModel<List<EntityGroups>>();
         try{
             response.setData(readList());
             response.setStatus(true);
@@ -87,18 +86,18 @@ public class CommunitiesServiceImpl implements CommunitiesService {
     }
 
 
-    private boolean Create(String community_name,String community_description,Long created_by)  {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_community")
+    private boolean Create(String name,String description,Long created_by)  {
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_entity_groups")
                 .declareParameters(
-                        new SqlParameter("community_name", Types.VARCHAR),
-                        new SqlParameter("community_description", Types.VARCHAR),
-                        new SqlParameter("created_by", Types.BIGINT),
+                        new SqlParameter("entity_group_name", Types.VARCHAR),
+                        new SqlParameter("entity_group_description", Types.VARCHAR),
+                        new SqlParameter("createdby", Types.BIGINT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
-        inParamMap.put("community_name", community_name);
-        inParamMap.put("community_description", community_description);
-        inParamMap.put("created_by", created_by);
+        inParamMap.put("entity_group_name", name);
+        inParamMap.put("entity_group_description", description);
+        inParamMap.put("createdby", created_by);
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
         Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
@@ -108,21 +107,21 @@ public class CommunitiesServiceImpl implements CommunitiesService {
             return false;
     }
 
-    private boolean Modify(Integer id,String community_name,String community_description,
-                         Long modified_by,Boolean is_active) {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_community")
+    private boolean Modify(Integer id,String name,String description,
+                           Long modified_by,Boolean is_active) {
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_entity_groups")
                 .declareParameters(
-                        new SqlParameter("community_id", Types.INTEGER),
-                        new SqlParameter("community_name", Types.VARCHAR),
-                        new SqlParameter("department_description", Types.VARCHAR),
+                        new SqlParameter("entity_groups_id", Types.INTEGER),
+                        new SqlParameter("entity_groups_name", Types.VARCHAR),
+                        new SqlParameter("entity_groups_description", Types.VARCHAR),
                         new SqlParameter("modified_by", Types.BIGINT),
                         new SqlParameter("is_active", Types.BIT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
-        inParamMap.put("community_id", id);
-        inParamMap.put("community_name", community_name);
-        inParamMap.put("community_description", community_description);
+        inParamMap.put("entity_groups_id", id);
+        inParamMap.put("entity_groups_name", name);
+        inParamMap.put("entity_groups_description", description);
         inParamMap.put("modified_by", modified_by);
         inParamMap.put("is_active", is_active);
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
@@ -135,16 +134,16 @@ public class CommunitiesServiceImpl implements CommunitiesService {
     }
 
 
-    private List<Communities> readList(){
-        List<Communities> list = jdbcTemplate.query("call select_communities", new CommunitiesMapper());
+    private List<EntityGroups> readList(){
+        List<EntityGroups> list = jdbcTemplate.query("call select_entity_gourps", new EntityGroupsMapper());
         return list;
     }
 
-    protected static final class CommunitiesMapper implements RowMapper {
+    protected static final class EntityGroupsMapper implements RowMapper {
 
         public Object mapRow(ResultSet set, int rowNo)throws SQLException {
             System.out.println("Read Row :" + rowNo);
-            Communities o = new Communities();
+            EntityGroups o = new EntityGroups();
             o.setId(set.getInt("id"));
             o.setName(StringUtils.trimToNull(set.getString("name")));
             o.setDescription(StringUtils.trimToNull(set.getString("description")));
@@ -159,6 +158,5 @@ public class CommunitiesServiceImpl implements CommunitiesService {
             return o;
         }
     }
-
 
 }

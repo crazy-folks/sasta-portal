@@ -1,34 +1,25 @@
 package com.sastabackend.domain;
 
-// import com.sastabackend.util.DateSerializer;
-// import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
- * Created by SARVA on 09/Nov/2015.
+ * Created by SARVA on 20/Dec/2015.
  */
-@Entity( name = "rounds" )
-public class Rounds implements java.io.Serializable,CommonProperties {
+@Entity(name ="entity_groups")
+public class EntityGroups  implements java.io.Serializable,CommonProperties {
 
     @Id
     @NotNull
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "id", nullable = false, updatable = false)
-    private Long id;
+    private int id;
+
 
     private String name;
-    private Integer reference_id;
-    @JsonFormat(pattern="yyyy/MM/dd")
-    private java.sql.Date start_date;
-    @JsonFormat(pattern="yyyy/MM/dd")
-    private java.sql.Date end_date;
     private String description;
+    private Boolean is_active;
 
     private java.sql.Timestamp created_date;
     private java.sql.Timestamp modified_date;
@@ -37,16 +28,13 @@ public class Rounds implements java.io.Serializable,CommonProperties {
     private String created_by_Name;
     private String modified_by_Name;
 
-    private Boolean is_active;
-    private String financial_year;
+    public EntityGroups(){}
 
-    public Rounds(){}
-
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,44 +46,12 @@ public class Rounds implements java.io.Serializable,CommonProperties {
         this.name = name;
     }
 
-    public Integer getReferenceId() {
-        return reference_id;
-    }
-
-    public void setReferenceId(Integer reference_id) {
-        this.reference_id = reference_id;
-    }
-
-    public Date getStartDate() {
-        return start_date;
-    }
-
-    public void setStartDate(Date start_date) {
-        this.start_date = start_date;
-    }
-
-    public Date getEndDate() {
-        return this.end_date;
-    }
-
-    public void setEndDate(Date end_date) {
-        this.end_date = end_date;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getFinancialYear() {
-        return this.financial_year;
-    }
-
-    public void setFinancialYear(String financial_year) {
-        this.financial_year = financial_year;
     }
 
     @Override
@@ -170,20 +126,17 @@ public class Rounds implements java.io.Serializable,CommonProperties {
 
     @Override
     public String toString() {
-        return "Rounds{" +
+        return "Groups {" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", reference_id=" + reference_id +
-                ", start_date=" + start_date +
-                ", end_date=" + end_date +
                 ", description='" + description + '\'' +
+                ", is_active=" + is_active +
                 ", created_date=" + created_date +
                 ", modified_date=" + modified_date +
                 ", created_by=" + created_by +
                 ", modifed_dy=" + modifed_dy +
                 ", created_by_Name='" + created_by_Name + '\'' +
                 ", modified_by_Name='" + modified_by_Name + '\'' +
-                ", is_active=" + is_active +
                 '}';
     }
 }

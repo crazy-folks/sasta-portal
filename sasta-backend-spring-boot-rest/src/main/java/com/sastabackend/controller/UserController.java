@@ -29,34 +29,31 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "Create User", response = ResponseModel.class, httpMethod = "GET")
+    @ApiOperation(value = "Create User", response = ResponseModel.class, httpMethod = "POST")
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public Users createUser(@RequestBody @Valid final Users users) {
+    public Users createUser(@ModelAttribute final  Users users) {
         LOGGER.debug("Received request to create the {}", users);
         return userService.save(users);
     }
 
-    @ApiOperation(value = "Create User", response = ResponseModel.class, httpMethod = "GET")
+    @ApiOperation(value = "Create User", response = ResponseModel.class, httpMethod = "POST")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseModel Add(@RequestBody @Valid final Users users) {
+    public ResponseModel Add(@ModelAttribute final Users users) {
         LOGGER.debug("Received request to create the {}", users);
         return userService.Add(users);
     }
 
     @ApiOperation(value = "Read Users List", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/getlist", method = RequestMethod.GET)
-    public List<Users> listUsers() {
+    public List<Users> listUsers(@RequestParam("id") String  id) {
         LOGGER.debug("Received request to list all users" + System.currentTimeMillis());
-        return userService.getList();
+        return userService.getList(id);
     }
 
     @ApiOperation(value = "Sign in", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
     @ResponseBody
     public ResponseModel signIn(@RequestParam("email") String email,@RequestParam("password") String password){
-        LOGGER.debug("Received request to Sign in : " + email);
-        LOGGER.debug("Received request to Sign in : " + password);
-        LOGGER.debug("Received request to Sign in : " + password.length());
         return userService.SignIn(email,password);
     }
 

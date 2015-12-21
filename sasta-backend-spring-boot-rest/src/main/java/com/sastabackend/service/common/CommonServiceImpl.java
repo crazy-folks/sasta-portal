@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -42,7 +43,7 @@ public class CommonServiceImpl implements CommonService {
         ResponseModel response = null;
         String query ="select name, value, label, allow_edit, created_date, modified_date, created_by, modified_by from config_system";
         try {
-            response = new ResponseModel< List<ConfigSystem>>();
+            response = new ResponseModel<List<ConfigSystem>>();
             List<ConfigSystem> list = jdbcTemplate.query(query, new ConfigSystemMapper());
             response.setStatus(true);
             response.setData(list);

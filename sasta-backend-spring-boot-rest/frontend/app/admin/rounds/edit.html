@@ -5,16 +5,39 @@
     <div class="dialog-message dialog-body">
         <div class="form-group">
             <div>
-                <label for="txtBankName" class="label-adjust">Bank Name</label>
-                <input type="text" class="form-control" id="txtBankName" name="txtBankName"
-                       data-ng-model="editbank.name" required ng-maxlength="50" 
+                <label for="selYears"  class="label-adjust">Financial Years</label>
+                <select name="selYears" class="form-control" ng-model="editdefaultOptions" ng-options="obj.text for obj in years track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="txtname" class="label-adjust">Round Name</label>
+                <input type="text" class="form-control" id="txtname" name="txtname"
+                       data-ng-model="editround.name" required ng-maxlength="50" 
                        ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
             </div>
         </div>
         <div class="form-group">
-            <label for="txtCategory" class="label-adjust">Description</label> 
-            <textarea class="form-control" id="txtCategory" name="txtCategory"
-                   data-ng-model="editbank.description" required 
+            <div>
+                <label for="txtstartDate" class="label-adjust">Start Date</label>
+                <input type="text" class="form-control" id="txtstartDate" name="txtstartDate"
+                       kendo-date-picker="startDateObject" data-ng-model="editround.startDate" 
+                       k-options="dateOptions" k-on-change="startChange()" ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="txtendDate" class="label-adjust">End Date</label>
+                <input type="text" class="form-control" id="txtendDate" name="txtendDate"
+                       kendo-date-picker="endDateObject" data-ng-model="editround.endDate" 
+                       k-options="dateOptions" k-on-change="endChange()" ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+            </div>
+        </div>        
+        <div class="form-group">
+            <label for="txtdescription" class="label-adjust">Description</label> 
+            <textarea class="form-control" id="txtdescription" name="txtdescription"
+                   data-ng-model="editround.description" required 
                    ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
         </div>      
     </div>

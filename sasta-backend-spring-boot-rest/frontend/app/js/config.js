@@ -113,6 +113,14 @@
             },
             controller : 'CommunitiesController as cmCtl'
         }) 
+        .state('admin.entitygroups', {
+            url: "/usergroups",
+            templateUrl: "admin/entitygroups/templates.html",
+            data: {
+                pageTitle: 'User Groups'
+            },
+            controller : 'EntityGroupsController as egCtl'
+        })         
         .state('admin.configsystem', {
             url: "/configsystem",
             templateUrl: "admin/configsystem/templates.html",
@@ -177,6 +185,30 @@
             },
             controller : 'RoundsController as stCtl'
         })
+        .state('admin.villagepanchayats', {
+            url: "/panchayats",
+            templateUrl: "admin/village/templates.html",
+            data: {
+                pageTitle: 'Village Panchayats'
+            },
+            controller : 'VillagePanchayatController as vpCtl'
+        })
+       .state('admin.addusers', {
+            url: "/addusers",
+            templateUrl: "admin/users/add.html",
+            data: {
+                pageTitle: 'Add User'
+            },
+            controller : 'UsersController as userCtl'
+        })
+       .state('admin.profile', {
+            url: "/profile",
+            templateUrl: "admin/profile/profile.html",
+            data: {
+                pageTitle: 'Profile Information'
+            },
+            controller : 'ProfileController as ProfileCtl'
+        })       
     /*$locationProvider.html5Mode({
       enabled: true
     });*/

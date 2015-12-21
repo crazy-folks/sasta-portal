@@ -29,8 +29,11 @@ public class  Users  implements java.io.Serializable {
     private String experience;
     private java.lang.Boolean has_read_tc;
     private java.lang.Integer state_id;
+    private String state_name;
     private java.lang.Integer country_id;
-    private java.lang.Integer image_id;
+    private String country_name;
+    private java.lang.Long image_id;
+    private String image_name;
     private java.lang.Integer user_group_id;
     private String communication_address;
     private String permanent_address;
@@ -41,17 +44,22 @@ public class  Users  implements java.io.Serializable {
     private String team_name;
     private String employee_id;
     private java.lang.Integer department_id;
+    private String dept_name;
     private String gmail_id;
     private String skype_name;
     private String business_email;
     private String personal_email;
     private String father_name;
     private java.lang.Integer blood_group_id;
+    private String blood_group_name;
     private java.lang.Long reporting_id;
+    private String reporting_to;
     private java.lang.Integer allotted_district;
     private java.lang.Integer allotted_block;
     private java.lang.Integer recruitment_id;
-    private java.lang.Integer birth_proof_id;
+    private String recruitement_name;
+    private java.lang.Long birth_proof_id;
+    private String birth_proof_name;
     private String validation_code;
     private String visible_fields;
     private String mobile_no;
@@ -82,11 +90,15 @@ public class  Users  implements java.io.Serializable {
     }
 
     public String getEmail() {
-        return password;
+        return email;
     }
 
     public void setEmail(String email) {
-        this.email = TextUtil.makeOneWayPasswordWithMD5(email);
+        this.email = email;
+    }
+
+    public void setPassword(String password){
+        this.password = TextUtil.makeOneWayPasswordWithMD5(password);
     }
 
     public String getPassword() {
@@ -138,7 +150,7 @@ public class  Users  implements java.io.Serializable {
     }
 
     public void setDescription(String description){
-        this.job_title = description;
+        this.description = description;
     }
 
     public String getExperience(){
@@ -173,16 +185,16 @@ public class  Users  implements java.io.Serializable {
         return this. country_id ;
     }
 
-    public void setImageId(java.lang.Integer  image_id){
+    public void setImageId(java.lang.Long  image_id){
         this.image_id = image_id;
     }
 
-    public java.lang.Integer getImageId(){
+    public java.lang.Long getImageId(){
         return this.image_id ;
     }
 
     public void setUserGroupId(java.lang.Integer  user_group_id){
-        this.state_id = user_group_id;
+        this.user_group_id = user_group_id;
     }
 
     public java.lang.Integer getUserGroupId(){
@@ -341,11 +353,11 @@ public class  Users  implements java.io.Serializable {
         return this.recruitment_id ;
     }
 
-    public void setBirthProofId(java.lang.Integer birth_proof_id){
+    public void setBirthProofId(java.lang.Long birth_proof_id){
         this.birth_proof_id = birth_proof_id;
     }
 
-    public java.lang.Integer getBirthProofId(){
+    public java.lang.Long getBirthProofId(){
         return this.birth_proof_id ;
     }
 
@@ -468,6 +480,70 @@ public class  Users  implements java.io.Serializable {
 
     public void setModifiedByName(String modified_by_Name) {
         this.modified_by_Name = modified_by_Name;
+    }
+
+    public String getStateName() {
+        return state_name;
+    }
+
+    public void setStateName(String state_name) {
+        this.state_name = state_name;
+    }
+
+    public String getCountryName() {
+        return country_name;
+    }
+
+    public void setCountryName(String country_name) {
+        this.country_name = country_name;
+    }
+
+    public String getImageName() {
+        return image_name;
+    }
+
+    public void setImageName(String image_name) {
+        this.image_name = image_name;
+    }
+
+    public String getDeptName() {
+        return dept_name;
+    }
+
+    public void setDeptName(String dept_name) {
+        this.dept_name = dept_name;
+    }
+
+    public String getReportingTo() {
+        return reporting_to;
+    }
+
+    public void setReportingTo(String reporting_to) {
+        this.reporting_to = reporting_to;
+    }
+
+    public String getBloodGroupName() {
+        return blood_group_name;
+    }
+
+    public void setBloodGroupName(String blood_group_name) {
+        this.blood_group_name = blood_group_name;
+    }
+
+    public String getRecruitementName() {
+        return recruitement_name;
+    }
+
+    public void setRecruitementName(String recruitement_name) {
+        this.recruitement_name = recruitement_name;
+    }
+
+    public String getBirthProofName() {
+        return birth_proof_name;
+    }
+
+    public void setBirthProofName(String birth_proof_name) {
+        this.birth_proof_name = birth_proof_name;
     }
 
     @Override

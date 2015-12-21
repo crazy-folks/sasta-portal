@@ -1,10 +1,12 @@
 package com.sastabackend.service.user;
 
-import com.sastabackend.domain.ResponseModel;
-import com.sastabackend.domain.Session;
-import com.sastabackend.domain.Users;
+import com.sastabackend.domain.*;
+import com.sastabackend.repository.CommonConfigRepository;
 import com.sastabackend.repository.UserRepository;
+import com.sastabackend.service.common.CommonService;
+import com.sastabackend.service.common.CommonServiceImpl;
 import com.sastabackend.service.user.exception.UserAlreadyExistsException;
+import com.sastabackend.util.Constants;
 import com.sastabackend.util.TextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,7 @@ import javax.validation.constraints.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,12 +41,42 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private List<ConfigSystem> config = new ArrayList<ConfigSystem>();
+
+    private final CommonServiceImpl configsystemService;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository repository;
 
+
+    private String imageUrl = Constants.Empty;
+    private String imagePath = Constants.Empty;
+    private String hostPath = Constants.Empty;
+
+
     @Inject
-    public UserServiceImpl(final UserRepository repository) {
+    public UserServiceImpl(final UserRepository repository,final CommonServiceImpl configsystemService) {
         this.repository = repository;
+        this.configsystemService = configsystemService;
+
+        config = (List<ConfigSystem>) configsystemService.Select().getData();
+        for(int index = 0; index < config.size(); index++){
+            ConfigSystem cf = config.get(index);
+
+            if(Constants.HOST_PATH.equals(cf.getName())){
+                hostPath = cf.getValue();
+            }
+
+            if(Constants.IMAGE_PATH.equals(cf.getName())){
+                imagePath = cf.getValue();
+            }
+
+            if(Constants.IMAGE_URL.equals(cf.getName())){
+                imageUrl = cf.getValue();
+            }
+            LOGGER.debug("Image Url  : {}", imageUrl);
+            LOGGER.debug("Image Path  : {}", imagePath);
+            LOGGER.debug("Host Path  : {}", hostPath);
+        }
     }
 
     @Override
@@ -60,9 +93,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Users> getList() {
+    public List<Users> getList(String id) {
         LOGGER.debug("Retrieving the list of all users");
-        return repository.findAll();
+        return readUsersList(id);
+    }
+
+    private List<Users> readUsersList(String id){
+
+        List<Users> o = new ArrayList<Users>();
+        o = jdbcTemplate.query("call select_users(?)", new Object[]{id}, new UserMapper());
+        if(o.size()==0)
+            return null;
+        else {
+            for(int index = 0; index < o.size() ; index++){
+                Users u = new Users();
+                if(u.getImageId() == null){
+                    u.setImageName(this.imageUrl+"default.jpg");
+                    o.set(index,u);
+                }
+                LOGGER.debug("User  : {}", o.get(index));
+            }
+            return o;
+        }
     }
 
     @Override
@@ -119,13 +171,13 @@ public class UserServiceImpl implements UserService {
             response = new ResponseModel<Long>();
             SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_users")
                     .declareParameters(
-                            new SqlParameter("email", Types.VARCHAR),
+                            new SqlParameter("emailid", Types.VARCHAR),
                             new SqlParameter("pwd", Types.VARCHAR),
                             new SqlParameter("screenname", Types.VARCHAR),
                             new SqlParameter("firstname", Types.VARCHAR),
                             new SqlParameter("lastname", Types.VARCHAR),
                             new SqlParameter("genderid", Types.INTEGER),
-                            new SqlParameter("jobtitle", Types.INTEGER),
+                            new SqlParameter("jobtitle", Types.VARCHAR),
                             new SqlParameter("hasreadtc", Types.BIT),
                             new SqlParameter("stateid", Types.INTEGER),
                             new SqlParameter("countryid", Types.INTEGER),
@@ -134,7 +186,7 @@ public class UserServiceImpl implements UserService {
                             new SqlParameter("teamname", Types.VARCHAR),
                             new SqlParameter("employeeid", Types.VARCHAR),
                             new SqlParameter("departmentid", Types.INTEGER),
-                            new SqlParameter("reportingid", Types.INTEGER),
+                            new SqlParameter("reportingid", Types.BIGINT),
                             new SqlParameter("allotteddistrict", Types.INTEGER),
                             new SqlParameter("allottedblock", Types.INTEGER),
                             new SqlParameter("recruitmentid", Types.INTEGER),
@@ -142,7 +194,7 @@ public class UserServiceImpl implements UserService {
                             new SqlOutParameter("userid", Types.BIGINT)
                     );
             Map<String, Object> inParamMap = new HashMap<String, Object>();
-            inParamMap.put("email", users.getEmail());
+            inParamMap.put("emailid", users.getEmail());
             inParamMap.put("pwd", users.getPassword());
             inParamMap.put("screenname", users.getScreenName());
             inParamMap.put("firstname", users.getFirstName());
@@ -189,7 +241,10 @@ public class UserServiceImpl implements UserService {
             useSimpleJdbcCall(session);
             List list = jdbcTemplate.query("call select_session(?)", new Object[]{session}, new SessionMapper());
             if (!CollectionUtils.isEmpty(list)) {
-                Session o=(Session) list.get(0);
+                Session o = (Session) list.get(0);
+                if(o.getImageName() == null){
+                    o.setImageName(this.imageUrl+"default.jpg");
+                }
                 return o;
             }
             else
@@ -235,6 +290,66 @@ public class UserServiceImpl implements UserService {
             o.setEmployeeID(StringUtils.trimToNull(set.getString("employee_id")));
             o.setCountryId(set.getInt("country_id"));
             o.setReportingId(set.getLong("reporting_id"));
+            System.out.println(o.toString());
+            return o;
+        }
+    }
+
+
+    protected static final class UserMapper implements RowMapper{
+        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            Users o = new Users();
+            o.setId(set.getLong("id"));
+            o.setEmail(StringUtils.trimToNull(set.getString("email")));
+            o.setScreenName(StringUtils.trimToNull(set.getString("screen_name")));
+            o.setLastName(StringUtils.trimToNull(set.getString("first_name")));
+            o.setFirstName(StringUtils.trimToNull(set.getString("last_name")));
+            o.setCountryId(set.getInt("gender_id"));
+            o.setJobTitle(StringUtils.trimToNull(set.getString("job_title")));
+            o.setDescription(StringUtils.trimToNull(set.getString("description")));
+            o.setExperience(StringUtils.trimToNull(set.getString("experience")));
+            o.setCountryId(set.getInt("state_id"));
+            o.setStateName(StringUtils.trimToNull(set.getString("stateName")));
+            o.setCountryId(set.getInt("country_id"));
+            o.setCountryName(StringUtils.trimToNull(set.getString("countryName")));
+            o.setImageId(set.getLong("image_id"));
+            o.setImageName(StringUtils.trimToNull(set.getString("image_name")));
+            o.setUserGroupId(set.getInt("user_group_id"));
+            o.setCommunicationAddress(StringUtils.trimToNull(set.getString("communication_address")));
+            o.setPermanentAddress(StringUtils.trimToNull(set.getString("permanent_address")));
+            o.setSameAddress(set.getBoolean("is_address_same"));
+            o.setDateOfJoining(set.getDate("date_of_joining"));
+            o.setDateOfBirth(set.getDate("date_of_birth"));
+            o.setPreviousExperience(set.getFloat("previous_work_exp"));
+            o.setTeamName(StringUtils.trimToNull(set.getString("team_name")));
+            o.setEmployeeId(StringUtils.trimToNull(set.getString("employee_id")));
+            o.setDepartmentId(set.getInt("department_id"));
+            o.setDeptName(StringUtils.trimToNull(set.getString("deptName")));
+            o.setGmailId(StringUtils.trimToNull(set.getString("gmail_id")));
+            o.setSkypeName(StringUtils.trimToNull(set.getString("skype_name")));
+            o.setBusinessEmail(StringUtils.trimToNull(set.getString("business_email")));
+            o.setPersonalEmail(StringUtils.trimToNull(set.getString("personal_email")));
+            o.setFatherName(StringUtils.trimToNull(set.getString("father_name")));
+            o.setBloodGroupId(set.getInt("blood_group_id"));
+            o.setBloodGroupName(StringUtils.trimToNull(set.getString("bloodGorupName")));
+            o.setReportingId(set.getLong("reporting_id"));
+            o.setReportingTo(StringUtils.trimToNull(set.getString("reporting_to")));
+            o.setAllottedBlock(set.getInt("allotted_block"));
+            o.setAllottedDistrict(set.getInt("allotted_district"));
+            o.setRecruitmentId(set.getInt("recruitment_id"));
+            o.setBirthProofId(set.getLong("birth_proof_id"));
+            o.setValidationCode(StringUtils.trimToNull(set.getString("validation_code")));
+            o.setVisibleFields(StringUtils.trimToNull(set.getString("visible_fields")));
+            o.setMobileNumber(StringUtils.trimToNull(set.getString("mobile_no")));
+            o.setLandLineNumber(StringUtils.trimToNull(set.getString("land_line_no")));
+            o.setPersonalUrl(StringUtils.trimToNull(set.getString("personal_url")));
+            o.setDateOfJoining(set.getDate("last_login_date"));
+            o.setCreateDate(set.getTimestamp("create_date"));
+            o.setModifiedDate(set.getTimestamp("modified_date"));
+            o.setCreatedBy(set.getLong("created_by"));
+            o.setModifiedBy(set.getLong("modified_by"));
+            o.setIsActive(set.getBoolean("is_active"));
             System.out.println(o.toString());
             return o;
         }

@@ -47,6 +47,7 @@ app.controller('LoginController',['$window','signinFactory','$scope','$rootScope
 			var responseText = $scope.signinFactory.doSignIn($scope.vm.userName,$scope.vm.password);
 			responseText.success(function(result){
 				if(result.status){
+					storage.memorize(null);
 					storage.memorize(result.data);
 					console.log($window.location.host);
 					$rootScope.sessionConfig = result.data;
