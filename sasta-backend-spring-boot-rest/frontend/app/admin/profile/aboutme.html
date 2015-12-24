@@ -1,0 +1,56 @@
+<div id="main-content" class="animated fadeInRight">
+	<div class="row no-padding auto-margin">
+		<div class="col-md-12  col-lg-12 no-padding auto-margin">
+			<div class="row no-padding auto-margin">
+                    <div class="col-md-2 no-padding auto-margin">
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+                          		<img ng-src="{{user.imageName}}">
+                          </div>
+                        </div>
+                    </div>	
+                    <div class="col-md-8 no-padding auto-margin">
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+				 				<div ng-show="imageCropStep == 1">		
+										<br/>
+										<input type="file" name="fileInput" id="fileInput" onchange="angular.element(this).scope().fileChanged(event)" />
+								</div>
+								<div ng-show="imageCropStep == 2">				   
+									   <image-crop			 
+										 data-height="200"
+										 data-width="200"
+										 data-shape="square"
+										 data-step="imageCropStep"
+										 src="imgSrc"
+										 data-result="user.imageName"
+										 data-result-blob="resultBlob"
+										 crop="initCrop"
+									   ></image-crop>		   
+								</div>
+								<div ng-show="imageCropStep == 2">
+									   <br/>
+									   <button ng-click="clear()">Cancel</button>
+									   <button ng-click="initCrop = true">Crop</button>		
+								</div> 
+                          </div>
+                        </div>
+                    </div>	
+			</div>
+			<div class="row no-padding auto-margin">
+                    <div class="col-md-12 no-padding auto-margin">
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+                          	<label for="description">Description</label>
+	                		<textarea class="form-control width-95" id="description" rows="6" data-ng-model="user.description"></textarea>
+                          </div>
+                        </div>
+                    </div>
+                	<div class="col-sm-12 text-right no-padding auto-margin">
+				        <button type="button" class="btn btn-danger btn-sm" ng-click="Close()">Cancel</button>
+				        <button type="button" class="btn btn-success btn-sm" data-ng-click="sendProfileDescription()">&#160;Save&#160;</button>	                		
+                	</div>
+			</div>
+		</div>
+	</div>
+</div>
