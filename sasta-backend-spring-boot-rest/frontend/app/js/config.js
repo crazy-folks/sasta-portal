@@ -203,7 +203,7 @@ angular.module('sastaboard')
     .constant("appConfig", {
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
-        baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
+        baseUrl: "http://localhost:8080/sastabackend/api",
         debug : true,
         environment : 'development',
         notifyConfig : {
