@@ -1,5 +1,6 @@
 package com.sastabackend.service.user;
 
+import com.sastabackend.domain.Images;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.Session;
 import com.sastabackend.domain.Users;
@@ -15,4 +16,8 @@ public interface UserService {
     ResponseModel SignIn(String email,String password);
 
     ResponseModel Add(Users users);
+
+    ResponseModel UpdateAvatarWithDescription(String base64,String description, Long id);
+
+    ResponseModel UploadImage(Images image);
 }

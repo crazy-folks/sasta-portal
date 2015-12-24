@@ -1,5 +1,5 @@
-app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','blocksfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,blocksfactory,exDialog){
+app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','blocksfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,blocksfactory){
 
 
 		$scope.blocksfactory = blocksfactory;
@@ -7,29 +7,100 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 
 	    //Action of clicking product name link.
-	    $scope.callType = {};
 	    $scope.modelDialogTitle = {
-	    	add : "Add Blocks",
-	    	edit : "Edit Blocks"
+	    	addblockTitle : "Add Blocks",
+	    	editblockTitle : "Edit Blocks"
 	    };
 
 	    $scope.Districts = [];
 	    $scope.defaultDistricts = {
-				    "value": 0,
-				    "text": "Select"
+		    "value": 0,
+		    "text": "Select"
 		};
 
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/blocks/add.html',
-	            controller: 'AuditBlocksController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+        $scope.kaddWindowOptions = {
+            content: 'admin/blocks/add.html',
+            title: $scope.modelDialogTitle.addblockTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.addblockformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.addblockformName); 
+            }
+        };
+
+        $scope.addblockformName = '#frmaddBlocks';
+        $scope.editblockformName = '#frmeditBlocks';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/blocks/edit.html',
+            title: $scope.modelDialogTitle.editblockTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.editblockformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.editblockformName);            	
+            },
+            controller : 'AuditBlocksController'
+        };
+
+        $scope.addBlockWindow = function($event){
+        	$scope.addblockMeWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addblockMeWindow.center().open();
+        }
+
+        $scope.CloseaddBlockWindow = function(){
+            $scope.addblockMeWindow.close();
+        }
+
+        $scope.editBlockWindow = function(){
+            $scope.editblockMeWindow.center().open();
+        }
+
+        $scope.CloseEditBlockWindow = function(){
+            $scope.editblockMeWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.block = $scope.defaultOptions;
+        	$scope.editblocks =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
+	      "modifiedBy": $rootScope.sessionConfig.userId,
+	      "createdBy": $rootScope.sessionConfig.userId,
+	      "description" : "",
+	      "blockName": "",
+	      "districtID": null,
+	      "blockID": null,
+	      "createdDate": null,
+	      "modifiedDate": null,
+	      "createdByName": "",
+	      "modifiedByName": ""
 	    };
+
 
 	    $scope.block = {
 	      "modifiedBy": $rootScope.sessionConfig.userId,
@@ -45,37 +116,72 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 	    };
 
 	    $scope.Submit = function(){
-	    	$scope.block.districtID = $scope.defaultDistricts.value;
-	    	var responseText = blocksfactory.doSubmitData($scope.block);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add blocks!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add blocks!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	$scope.block.districtID = $scope.defaultDistricts.value;
+		    	var responseText = blocksfactory.doSubmitData($scope.block);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+	  					$scope.CloseaddBlockWindow();
+	  					$scope.doReset(); 
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add blocks!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });				  			
+			  		}
+				}).error(function(error,status){
+				  		notify({
+				            messageTemplate: '<span>Unable to add blocks!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });	
+				});  		
+	    	}
+    	
 	    }
 
 	    $scope.Update = function(){
-	    	$scope.editblocks.districtID = $scope.editdefaultOptions.value;
-	    	var responseText = blocksfactory.doUpdateData($scope.editblocks);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update blocks!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update blocks!");
-			});	    	
+			if($scope.editjQueryValidator.doValidate()){
+				$scope.editblocks.districtID = $scope.editdefaultOptions.value;
+				var responseText = blocksfactory.doUpdateData($scope.editblocks);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+						$scope.grid.dataSource.read();
+						$scope.CloseEditBlockWindow();
+						$scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update blocks!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update blocks!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});
+			}	    	
 	    }
-
+	    $scope.OnSelectedValue = function(defaultDistricts){
+	    	$scope.defaultDistricts = defaultDistricts;
+	    }
 	    $scope.EditData = function(data){
 	    	var s = jQuery.map( $scope.Districts, function( n, i ) {
 				if(data.districtID === n.value)
@@ -95,20 +201,9 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 				blockID : data.blockID,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/blocks/edit.html',
-	            controller: 'AuditBlocksController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+	    	$scope.editBlockWindow();
 	    }
 
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
-	    }
 
 	    $scope.gridOptions = {
 	        columns: [ 

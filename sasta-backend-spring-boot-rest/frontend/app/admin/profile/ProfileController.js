@@ -90,6 +90,74 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             "text": "Select"
         };
 
+        //Action of clicking product name link.
+        $scope.modelDialogTitle = {
+            aboumeTitle : "About Me"
+        };
+
+        $scope.kWindowOptions = {
+            content: 'admin/profile/aboutme.html',
+            title: $scope.modelDialogTitle.aboumeTitle,
+            width : '90%',
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            }
+        };
+
+        $scope.OpenAboutMe = function($event){
+            $scope.aboutMeWindow.center().open();
+        }
+        $scope.Close = function(){
+            $scope.aboutMeWindow.close();
+        }
+
+        $scope.sendProfileDescription = function(){
+            var model = {
+                image : $scope.user.imageName,
+                description : $scope.user.description,
+                userId : $rootScope.sessionConfig.userId
+            };
+            var resp = profilefactory.UploadProfileDescription(model);
+            resp.success(function(result){
+                GetProfileInformation();
+            }).error(function(error,status){
+                notify({
+                    messageTemplate: error,
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });
+            }); 
+        }
+
+        $scope.fileChanged = function(e) {          
+        
+            var files = e.target.files;
+        
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(files[0]);     
+            
+            fileReader.onload = function(e) {
+                $scope.imgSrc = this.result;
+                $scope.$apply();
+            };
+            
+        }       
+       
+        $scope.clear = function() {
+             $scope.imageCropStep = 1;
+             delete $scope.imgSrc;
+             delete $scope.result;
+             delete $scope.resultBlob;
+        };
+
+
         // user info
         $scope.user = {
         "id": null,
@@ -250,6 +318,17 @@ app.factory('profilefactory',function($http,$q,$rootScope){
             url : crudServiceBaseUrl + '/lookup/getlookup?id='+id
         });
     }
+
+    service.UploadProfileDescription = function(model){      
+        return $http({
+            method : 'POST',
+            url : crudServiceBaseUrl + '/user/uploadavatarimages',
+            data : JSON.stringify(model),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    } 
 
     service.GetUsers = function(id){
         return $http({

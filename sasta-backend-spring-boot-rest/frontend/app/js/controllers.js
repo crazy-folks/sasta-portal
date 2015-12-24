@@ -1,4 +1,4 @@
-app.controller('BaseController', ['$scope','$rootScope','storage','exDialog',function($scope,$rootScope,storage,exDialog) {
+app.controller('BaseController', ['$scope','$rootScope','storage',function($scope,$rootScope,storage) {
 
     $scope.sessionConfig = {};
     var s = storage.recall();
@@ -16,19 +16,6 @@ app.controller('BaseController', ['$scope','$rootScope','storage','exDialog',fun
     $scope.$on('UNLOAD',function(){
         $scope.loading = false;
     });
-
-    $scope.$on("ShowSuccess",function(event,msg){
-        exDialog.openMessage($scope, msg);
-    });
-
-    $scope.$on("ShowWarning",function(event,msg){
-        exDialog.openMessage($scope, msg, "Warning", "warning");
-    });
-
-    $scope.$on("ShowError",function(event,msg){
-        exDialog.openMessage($scope, msg, "Error", "error");
-    });
-
 
     $scope.redirectToHome = function(event){
         setActiveLink(event.target);

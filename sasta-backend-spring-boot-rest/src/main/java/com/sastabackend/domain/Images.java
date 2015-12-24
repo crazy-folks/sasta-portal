@@ -29,11 +29,7 @@ public class Images {
     private Boolean is_deleted;
     private Boolean deleted_date;
     private Integer type_id;
-    private Boolean is_approved;
-    private java.sql.Timestamp approved_date;
-    private Long approved_by;
-
-    private String approved_by_name;
+    private Long user_id;
 
     public Images(){}
 
@@ -149,36 +145,12 @@ public class Images {
         this.type_id = type_id;
     }
 
-    public Boolean getIsApproved() {
-        return is_approved;
+    public Long getUserId() {
+        return user_id;
     }
 
-    public void setIsApproved(Boolean is_approved) {
-        this.is_approved = is_approved;
-    }
-
-    public Timestamp getApprovedDate() {
-        return approved_date;
-    }
-
-    public void setApprovedDate(Timestamp approved_date) {
-        this.approved_date = approved_date;
-    }
-
-    public Long getApprovedBy() {
-        return approved_by;
-    }
-
-    public void setApprovedBy(Long approved_by) {
-        this.approved_by = approved_by;
-    }
-
-    public String getApprovedByName() {
-        return approved_by_name;
-    }
-
-    public void setApprovedByName(String approved_by_name) {
-        this.approved_by_name = approved_by_name;
+    public void setUserId(Long user_id) {
+        this.user_id = user_id;
     }
 
     @Override
@@ -198,10 +170,6 @@ public class Images {
                 ", is_deleted=" + is_deleted +
                 ", deleted_date=" + deleted_date +
                 ", type_id=" + type_id +
-                ", is_approved=" + is_approved +
-                ", approved_date=" + approved_date +
-                ", approved_by=" + approved_by +
-                ", approved_by_name='" + approved_by_name + '\'' +
                 '}';
     }
 }

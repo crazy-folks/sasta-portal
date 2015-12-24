@@ -1,28 +1,98 @@
-app.controller('BankController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','bankfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,bankfactory,exDialog){
+app.controller('BankController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','bankfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,bankfactory){
 
 		$scope.bkfactory = bankfactory;
 		$scope.banks = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Action of clicking product name link.
-	    $scope.callType = {};
-	    $scope.modelDialogTitle = {
-	    	add : "Add Bank",
-	    	edit : "Edit Bank"
-	    };
+        $scope.modelDialogTitle = {
+            addbankTitle : "Add Bank",
+            editbankTitle : "Edit Bank"
+        };
 
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/banks/add.html',
-	            controller: 'BankController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    };
+        $scope.kaddWindowOptions = {
+            content: 'admin/banks/add.html',
+            title: $scope.modelDialogTitle.addbankTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.addbankformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.addbankformName); 
+            }
+        };
+
+        $scope.addbankformName = '#frmaddbanks';
+        $scope.editbankformName = '#frmeditBank';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/banks/edit.html',
+            title: $scope.modelDialogTitle.addbankTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.editbankformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.editbankformName);            	
+            }
+        };
+
+        $scope.addBankWindow = function($event){
+        	$scope.addbankMeWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addbankMeWindow.center().open();
+        }
+
+        $scope.CloseaddBankWindow = function(){
+            $scope.addbankMeWindow.close();
+        }
+
+        $scope.editBankWindow = function(){
+            $scope.editbankMeWindow.center().open();
+        }
+
+        $scope.CloseEditBankWindow = function(){
+            $scope.editbankMeWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.bank = $scope.defaultOptions;
+        	$scope.editbank =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = bank = {
+		  "id": null,
+		  "name": "",
+		  "description": "",
+		  "status": true,
+		  "createdDate": null,
+		  "createdByName": null,
+		  "modifiedByName": null,
+		  "bankId": 0,
+		  "modifiedBy": $rootScope.sessionConfig.userId,
+		  "createdBy": $rootScope.sessionConfig.userId,
+		  "modifiedDate": null
+		};
 
 	    $scope.bank = {
 		  "id": null,
@@ -39,33 +109,65 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 		};
 
 	    $scope.Submit = function(){
-	    	var responseText = bankfactory.doSubmitData($scope.bank);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add bank!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add bank!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	var responseText = bankfactory.doSubmitData($scope.bank);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseaddBankWindow();
+				        $scope.doReset();						
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add bank!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+				  		notify({
+				            messageTemplate: '<span>Unable to add bank!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+				});
+			}    	
 	    }
 
 	    $scope.Update = function(){
-	    	var responseText = bankfactory.doUpdateData($scope.editbank);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update bank!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update bank!");
-			});	    	
+			if($scope.editjQueryValidator.doValidate()){	    	
+		    	var responseText = bankfactory.doUpdateData($scope.editbank);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });						
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditBankWindow();
+				        $scope.doReset();	  					
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update bank!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });			  			
+			  		}
+				}).error(function(error,status){
+				  		notify({
+				            messageTemplate: '<span>Unable to update bank!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+				});	    	
+			}
 	    }
 
 	    $scope.EditData = function(data){
@@ -77,21 +179,9 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 				name : data.name,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/banks/edit.html',
-	            controller: 'BankController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+	    	$scope.editBankWindow();
 	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
-	    }
-
+	    
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "bankId", title:'Bank ID', hidden: true, editable : false },

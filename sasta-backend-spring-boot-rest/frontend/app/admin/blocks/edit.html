@@ -1,32 +1,47 @@
-<div class="dialog-header">
-    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
-</div>
-<form class="form-horizontal" name="departmentsForm" id="departmentsForm" novalidate>
-     <div class="dialog-message dialog-body">
-         <div class="form-group">
-            <div>
-                <label for="selDistricts"  class="label-adjust">Districts</label>
-                <select name="selDistricts" id="selDistricts" class="form-control" ng-model="editdefaultOptions" ng-options="obj.text for obj in Districts track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
-                </select>
+<section id="main-content" class="animated fadeInRight ng-scope">
+    <div class="row no-padding auto-margin">
+        <div class="col-md-12 col-lg-12 no-padding auto-margin">
+            <div class="row  no-padding auto-margin">
+                <div class="col-md-12  no-padding auto-margin">
+                    <div class="panel panel-default no-margin">
+                        <div class="panel-body no-padding auto-margin">
+                            <div class="row no-padding auto-margin">
+                                 <form class="form-horizontal" name="frmeditBlocks" id="frmeditBlocks">
+                                     <div class="form-group  no-margin">
+                                        <div>
+                                            <label for="selDistricts"  class="label-adjust">Districts</label>
+                                            <select name="selDistricts" id="selDistricts" class="form-control no-padding width-95 validate[required]" ng-model="editdefaultOptions" ng-options="obj.text for obj in Districts track by obj.value">
+                                            </select>
+                                        </div>
+                                    </div> 
+                                    <div class="form-group  no-margin">
+                                        <div>
+                                            <label for="txtblockName" class="label-adjust">Block Name</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtblockName" name="txtblockName"
+                                                   data-ng-model="editblocks.blockName" ng-maxlength="100"/>
+                                        </div>
+                                    </div>                
+                                    <div class="form-group  no-margin">
+                                        <label for="txtdescription" class="label-adjust">Description</label> 
+                                        <textarea rows="6" class="form-control no-padding width-95 validate[required]" id="txtdescription" name="txtdescription"
+                                               data-ng-model="editblocks.description"></textarea>                       
+                                    </div>
+                                </form>                           
+                            </div>                           
+                        </div>
+                        <div class="panel-body">
+                            <div class="row no-padding auto-margin">
+                                <div class="row no-padding auto-margin">
+                                    <div class="dialog-buttons dialog-footer text-right">        
+                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseEditBlockWindow()">Cancel</button>
+                                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Update&#160;</button>
+                                    </div>            
+                                </div>                             
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
             </div>
-        </div> 
-        <div class="form-group">
-            <div>
-                <label for="txtblockName" class="label-adjust">Block Name</label>
-                <input type="text" class="form-control" id="txtblockName" name="txtblockName"
-                       data-ng-model="editblocks.blockName" required ng-maxlength="50" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
-            </div>
-        </div>                
-        <div class="form-group">
-            <label for="txtdescription" class="label-adjust">Description</label> 
-            <textarea class="form-control" id="txtdescription" name="txtdescription"
-                   data-ng-model="editblocks.description" required 
-                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
-        </div>      
+        </div>
     </div>
-    <div class="dialog-buttons dialog-footer">        
-        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
-        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
-    </div>
-</form>
+</section>

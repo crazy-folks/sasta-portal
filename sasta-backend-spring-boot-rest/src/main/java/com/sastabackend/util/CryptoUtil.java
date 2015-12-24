@@ -91,7 +91,7 @@ public class CryptoUtil{
                 return plainStr;
         }
 
-        public static void main(String[] args) throws Exception {
+    /*    public static void main(String[] args) throws Exception {
                 CryptoUtil cryptoUtil=new CryptoUtil();
                 String key=Constants.SALT_KEY;
                 String plain="This is an important message";
@@ -100,5 +100,5 @@ public class CryptoUtil{
                 System.out.println("Encrypted text: "+Constants.removeSpecialCharacters(enc));
                 String plainAfter=cryptoUtil.decrypt(key, enc);
                 System.out.println("Original text after decryption: "+plainAfter);
-        }
+        }*/
 }

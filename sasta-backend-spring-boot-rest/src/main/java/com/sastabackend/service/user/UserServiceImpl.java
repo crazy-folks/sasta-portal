@@ -7,6 +7,7 @@ import com.sastabackend.service.common.CommonService;
 import com.sastabackend.service.common.CommonServiceImpl;
 import com.sastabackend.service.user.exception.UserAlreadyExistsException;
 import com.sastabackend.util.Constants;
+import com.sastabackend.util.CryptoUtil;
 import com.sastabackend.util.TextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +24,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.apache.commons.lang.StringUtils;
+import sun.misc.BASE64Decoder;
+
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -73,9 +80,6 @@ public class UserServiceImpl implements UserService {
             if(Constants.IMAGE_URL.equals(cf.getName())){
                 imageUrl = cf.getValue();
             }
-            LOGGER.debug("Image Url  : {}", imageUrl);
-            LOGGER.debug("Image Path  : {}", imagePath);
-            LOGGER.debug("Host Path  : {}", hostPath);
         }
     }
 
@@ -106,12 +110,14 @@ public class UserServiceImpl implements UserService {
             return null;
         else {
             for(int index = 0; index < o.size() ; index++){
-                Users u = new Users();
-                if(u.getImageId() == null){
+                Users u = o.get(index);
+                if(u.getImageId() == null || u.getImageId() == 0){
                     u.setImageName(this.imageUrl+"default.jpg");
                     o.set(index,u);
+                } else if(u.getImageId() != null){
+                    u.setImageName(this.imageUrl + u.getImageName());
+                    o.set(index,u);
                 }
-                LOGGER.debug("User  : {}", o.get(index));
             }
             return o;
         }
@@ -227,6 +233,142 @@ public class UserServiceImpl implements UserService {
         }
         return response;
     }
+
+    @Override
+    public ResponseModel UpdateAvatarWithDescription(String base64, String description, Long id) {
+        ResponseModel img_response = null;
+        try{
+            Images img = writeImageOnDisk(base64,id);
+            if(img != null){
+                img_response = UploadImage(img);
+                img_response =  AddAboutMeWithDescription(description,id,(Long)img_response.getData());
+            }else{
+                img_response = new ResponseModel<String>();
+                img_response.setStatus(false);
+                img_response.setData("Unable to update user avatar details!");
+            }
+        }catch(Exception err){
+            img_response = new ResponseModel<String>();
+            img_response.setStatus(false);
+            img_response.setData(err.getMessage());
+        }
+        return img_response;
+    }
+
+    private ResponseModel AddAboutMeWithDescription(String description, Long id, Long img_id){
+        ResponseModel response = new ResponseModel<String>();
+        try {
+            jdbcTemplate.update("call update_avatar_with_description(?,?,?)", new Object[]{id, img_id,description});
+            response.setStatus(true);
+            response.setData("Update Avatar Image with Description!");
+        }catch(Exception err){
+            response.setStatus(false);
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * Write Image into the disk
+     * @param base64 - base 64 image string
+     * @param id - name of the file
+     * @return true
+     */
+    private Images writeImageOnDisk(String base64,Long id){
+        String returnVal = Constants.Empty;
+        // tokenize the data
+        String[] parts = base64.split(",");
+        String imageString = parts[1];
+        CryptoUtil crypt =new CryptoUtil();
+        String filename = Constants.Empty;
+        Images avatar = null;
+        try{
+            avatar = new Images();
+            filename = Constants.removeSpecialCharacters(crypt.encrypt(Constants.SALT_KEY,Long.toString(id)));
+            filename =filename.concat(".png");
+            // create a buffered image
+            BufferedImage image = null;
+            byte[] imageByte;
+            LOGGER.debug("Error  " + this.imagePath + filename);
+            BASE64Decoder decoder = new BASE64Decoder();
+            imageByte = decoder.decodeBuffer(imageString);
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+            image = ImageIO.read(bis);
+            bis.close();
+            LOGGER.debug("Error  " + this.imagePath  + filename);
+            // write the image to a file
+            File outputfile = new File( this.imagePath  + filename);
+            ImageIO.write(image, "png", outputfile);
+            BufferedImage bimg = ImageIO.read(outputfile);
+            int width          = bimg.getWidth();
+            int height         = bimg.getHeight();
+            avatar.setImageName(filename);
+            avatar.setImageSize(imageByte.length);
+            avatar.setImageHeight(height);
+            avatar.setImageWidth(width);
+            avatar.setUserId(id);
+            avatar.setImageNiceName(filename);
+            avatar.setDescription(Constants.Empty);
+            avatar.setThumbnailImageName(filename);
+            avatar.setThumbnailHeight(height);
+            avatar.setThumbnailWidth(width);
+            avatar.setTypeId(Constants.AVATAR_IMAGE_TYPE);
+        }catch (Exception err){
+            LOGGER.debug("Error  " + err.getMessage());
+            avatar = null;
+        }
+        return  avatar;
+    }
+
+    @Override
+    public ResponseModel UploadImage(Images image) {
+
+        ResponseModel response = null;
+        try {
+            response = new ResponseModel<Long>();
+            SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_iamge")
+                    .declareParameters(
+                            new SqlParameter("user_id", Types.BIGINT),
+                            new SqlParameter("imageName", Types.VARCHAR),
+                            new SqlParameter("image_description", Types.VARCHAR),
+                            new SqlParameter("nice_name", Types.VARCHAR),
+                            new SqlParameter("height", Types.INTEGER),
+                            new SqlParameter("width", Types.INTEGER),
+                            new SqlParameter("image_size", Types.INTEGER),
+                            new SqlParameter("thumb_image_name", Types.VARCHAR),
+                            new SqlParameter("thumb_height", Types.INTEGER),
+                            new SqlParameter("thumb_width", Types.INTEGER),
+                            new SqlParameter("typeid", Types.INTEGER),
+                            new SqlOutParameter("imageid", Types.BIGINT)
+                    );
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("user_id", image.getUserId());
+            inParamMap.put("imageName", image.getImageName());
+            inParamMap.put("image_description", image.getDescription());
+            inParamMap.put("nice_name", image.getImageNiceName());
+            inParamMap.put("height", image.getImageHeight());
+            inParamMap.put("width", image.getImageWidth());
+            inParamMap.put("image_size", image.getImageSize());
+            inParamMap.put("thumb_image_name", image.getThumbnailImageName());
+            inParamMap.put("thumb_height", image.getThumbnailHeight());
+            inParamMap.put("thumb_width", image.getThumbnailWidth());
+            inParamMap.put("typeid", image.getTypeId());
+            SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+            simplejdbcCall.compile();
+            Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+            if (!simpleJdbcCallResult.isEmpty()) {
+                response.setData(Long.valueOf(simpleJdbcCallResult.get("imageid").toString()).longValue());
+            }
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setStatus(false);
+            LOGGER.debug("Error  " + err.getMessage());
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
     /**
      * Read session details current user login
      * @param session
@@ -244,6 +386,8 @@ public class UserServiceImpl implements UserService {
                 Session o = (Session) list.get(0);
                 if(o.getImageName() == null){
                     o.setImageName(this.imageUrl+"default.jpg");
+                }else if(o.getImageName() != null){
+                    o.setImageName(this.imageUrl+o.getImageName());
                 }
                 return o;
             }
@@ -283,6 +427,7 @@ public class UserServiceImpl implements UserService {
             Session o = new Session();
             o.setSessionId(StringUtils.trimToNull(set.getString("session_id")));
             o.setUserId(set.getLong("user_id"));
+            o.setImageName(StringUtils.trimToNull(set.getString("avatar")));
             o.setCreatedDate(StringUtils.trimToNull(set.getString("create_date")));
             o.setExpiredDate(StringUtils.trimToNull(set.getString("expire_date")));
             o.setUserFullName(StringUtils.trimToNull(set.getString("user_full_name")));

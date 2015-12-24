@@ -1,27 +1,4 @@
- function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider,exDialogProvider) {
-
-    exDialogProvider.setDefaults({        
-        template: 'ngExDialog/commonDialog.html', //from cache
-        //template: 'ngExDialog/commonDialog_0.html', //from file
-        width: '330px',
-        //Below items are set within the provider. Any value set here will overwrite that in the provider.
-        //closeByXButton: true,
-        //closeByClickOutside: true,
-        //closeByEscKey: true,
-        //appendToElement: '',
-        //beforeCloseCallback: '',
-        //grayBackground: true,
-        //cacheTemplate: true,
-        //draggable: true,
-        //animation: true,
-        //messageTitle: 'Information',
-        //messageIcon: 'info',
-        //messageCloseButtonLabel: 'OK',
-        //confirmTitle: 'Confirmation',
-        //confirmIcon: 'question',
-        //confirmActionButtonLabel: 'Yes',
-        //confirmCloseButtonLabel: 'No'
-    });
+ function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider) {
 
     $urlRouterProvider.otherwise("/ui/index");
 
@@ -214,7 +191,7 @@
     });*/
 }
 angular.module('sastaboard')
-    .config(['$locationProvider','$stateProvider', '$urlRouterProvider','$httpProvider','exDialogProvider',config])
+    .config(['$locationProvider','$stateProvider', '$urlRouterProvider','$httpProvider',config])
     .constant("appConfig", {
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",

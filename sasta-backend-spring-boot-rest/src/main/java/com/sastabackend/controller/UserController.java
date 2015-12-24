@@ -1,5 +1,6 @@
 package com.sastabackend.controller;
 
+import com.sastabackend.domain.AboutMe;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.Session;
 import com.sastabackend.service.user.exception.UserAlreadyExistsException;
@@ -54,8 +55,24 @@ public class UserController {
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
     @ResponseBody
     public ResponseModel signIn(@RequestParam("email") String email,@RequestParam("password") String password){
-        return userService.SignIn(email,password);
+        return userService.SignIn(email, password);
     }
+
+    @ApiOperation(value = "Upload Avatar Image With Description", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/uploadavatarimages", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseModel AddAvatarWithDescription(@RequestBody AboutMe about){
+        LOGGER.debug("Received Profile data " + about.toString());
+        return userService.UpdateAvatarWithDescription(about.getImage(), about.getDescription(), about.getUserId());
+    }
+
+    @ApiOperation(value = "test upload", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/testupload", method = RequestMethod.POST)
+    @ResponseBody
+    public String testImage(@RequestBody AboutMe about){
+        return about.toString();
+    }
+
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)

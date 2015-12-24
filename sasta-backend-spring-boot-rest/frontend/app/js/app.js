@@ -4,5 +4,5 @@
         'ui.bootstrap',
         'ngAnimate',
         'kendo.directives',
-        'ngExDialog'
+        'ImageCropper'
     ]);
