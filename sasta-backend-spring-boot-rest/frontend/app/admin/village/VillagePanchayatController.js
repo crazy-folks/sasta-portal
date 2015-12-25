@@ -40,8 +40,8 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
             }
         };
 
-        $scope.AddVillageFormName = '#frmAddVillageBank';
-        $scope.EditVillageFormName = '#frmEditVillageBank';    
+        $scope.AddVillageFormName = '#frmAddVillage';
+        $scope.EditVillageFormName = '#frmEditVillage';    
 
         $scope.keditWindowOptions = {
             content: 'admin/village/edit.html',

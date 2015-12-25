@@ -28,7 +28,7 @@
                           </div>
                           <div class="panel-body">
                           		<div>
-                          			<button type="button" class="btn btn-success btn-sm" ng-click="AddDialog(0);">Add</button>
+                          			<button type="button" class="btn btn-success btn-sm" ng-click="OpenAuditWindow();">Add</button>
                           		</div>
               		 						<div kendo-grid="grid" k-options="gridOptions">
               								</div>
@@ -41,4 +41,10 @@
     </div>
 </section>
 
+<div kendo-window="addAuditWindow" k-options="kaddWindowOptions">
+  
+</div>
 
+<div kendo-window="editAuditWindow" k-options="keditWindowOptions">
+  
+</div>

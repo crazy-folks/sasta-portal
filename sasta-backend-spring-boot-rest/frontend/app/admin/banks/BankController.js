@@ -38,7 +38,7 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 
         $scope.keditWindowOptions = {
             content: 'admin/banks/edit.html',
-            title: $scope.modelDialogTitle.addbankTitle,
+            title: $scope.modelDialogTitle.editbankTitle,
             iframe: false,
             draggable: true,
             modal: true,

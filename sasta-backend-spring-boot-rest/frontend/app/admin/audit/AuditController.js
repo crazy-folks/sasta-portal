@@ -1,27 +1,13 @@
-app.controller('AuditController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','auditfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,auditfactory,exDialog){
+app.controller('AuditController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','auditfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,auditfactory){
 
 		$scope.aufactory = auditfactory;
-		$scope.audits = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
-	    //Action of clicking product name link.
-	    $scope.callType = {};
+	    //Popup Titles
 	    $scope.modelDialogTitle = {
-	    	add : "Add Audit",
-	    	edit : "Edit Audit"
-	    };
-
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/audit/add.html',
-	            controller: 'AuditController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+	    	AddAuditTitle : "Add Audit",
+	    	EditAuditTitle : "Edit Audit"
 	    };
 
 		$scope.rounds = [];
@@ -52,64 +38,198 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		    "value": 0,
 		    "text": "Select"
 		};
+
+
+        $scope.kaddWindowOptions = {
+            content: 'admin/audit/add.html',
+            title: $scope.modelDialogTitle.AddAuditTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.AddAuditFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.AddAuditFormName); 
+            }
+        };
+
+        $scope.AddAuditFormName = '#frmAddAudit';
+        $scope.EditAuditFormName = '#frmEditAudit';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/audit/edit.html',
+            title: $scope.modelDialogTitle.EditAuditTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.EditAuditFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.EditAuditFormName);            	
+            }
+        };
+
+        $scope.OpenAuditWindow = function($event){
+        	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addAuditWindow.center().open();
+        }
+
+        $scope.CloseAuditWindow  = function(){
+            $scope.addAuditWindow.close();
+        }
+
+        $scope.OpenEditAuditWindow = function(){
+			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editAuditWindow.center().open();
+        }
+
+        $scope.CloseEditAuditWindow = function(){
+            $scope.editAuditWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.audit = $scope.defaultOptions;
+        	$scope.editaudit =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
+	      "status": true,
+	      "createdDate": null,
+	      "modifiedDate": null,
+	      "createdByName": null,
+	      "modifiedByName": null,
+	      "gramaSabhaDate": null,
+	      "auditDistrictId": null,
+	      "auditBlockId": null,
+	      "villagePanchayatId": null,
+	      "financialDescription": null,
+	      "financialYear": null,
+	      "roundDescription": null,
+	      "districtName": null,
+	      "modifiedBy": null,
+	      "createdBy": null,
+	      "blockName": null,
+	      "auditId": null,
+	      "startDate": null,
+	      "roundId": null,
+	      "roundName": null,
+	      "endDtate": null,
+	      "vpName": null
+	    };
+
 	    $scope.audit = {
-		  "id": null,
-		  "name": "",
-		  "description": "",
-		  "status": true,
-		  "createdDate": null,
-		  "createdByName": null,
-		  "modifiedByName": null,
-		  "modifiedBy": 0,
-		  "createdBy": $rootScope.sessionConfig.userId,
-		  "modifiedDate": null,
-		  "auditid":null,
-		  "roundid":null,
-		  "districtid":null,
-		  "blockid":null,
-		  "panchayatid":null
-
-
-		};
+	      "status": true,
+	      "createdDate": null,
+	      "modifiedDate": null,
+	      "createdByName": null,
+	      "modifiedByName": null,
+	      "gramaSabhaDate": null,
+	      "auditDistrictId": null,
+	      "auditBlockId": null,
+	      "villagePanchayatId": null,
+	      "financialDescription": null,
+	      "financialYear": null,
+	      "roundDescription": null,
+	      "districtName": null,
+	      "modifiedBy": null,
+	      "createdBy": null,
+	      "blockName": null,
+	      "auditId": null,
+	      "startDate": null,
+	      "roundId": null,
+	      "roundName": null,
+	      "endDtate": null,
+	      "vpName": null
+	    };
 
 	    $scope.Submit = function(){
-	    	$scope.audit.roundid = $scope.defaultrounds.value;
-	    	$scope.audit.districtid = $scope.defaultdistricts.value;
-	    	$scope.audit.blockid = $scope.defaultblocks.value;
-	    	$scope.audit.panchayatid = $scope.defaultvillages.value;
-	    	
-	    	var responseText = auditfactory.doSubmitData($scope.audit);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add audit!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add audit!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	$scope.audit.roundid = $scope.defaultrounds.value;
+		    	$scope.audit.districtid = $scope.defaultdistricts.value;
+		    	$scope.audit.blockid = $scope.defaultblocks.value;
+		    	$scope.audit.panchayatid = $scope.defaultvillages.value;
+		    	
+		    	var responseText = auditfactory.doSubmitData($scope.audit);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAuditWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add audit!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to add audit!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});
+	    	}
 	    }
 
 	    $scope.Update = function(){
-	    	$scope.editaudit.roundid = $scope.editdefaultrounds.value;
-	    	$scope.editaudit.districtid = $scope.editdefaultdistricts.value;
-	    	$scope.editaudit.blockid = $scope.editdefaultblocks.value;
-	    	$scope.editaudit.panchayatid = $scope.editdefaultvillages.value;
+			if($scope.editjQueryValidator.doValidate()){
+		    	$scope.editaudit.roundid = $scope.editdefaultrounds.value;
+		    	$scope.editaudit.districtid = $scope.editdefaultdistricts.value;
+		    	$scope.editaudit.blockid = $scope.editdefaultblocks.value;
+		    	$scope.editaudit.panchayatid = $scope.editdefaultvillages.value;
 
-	    	var responseText = auditfactory.doUpdateData($scope.editaudit);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update audit!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update audit!.");
-			});	    	
+		    	var responseText = auditfactory.doUpdateData($scope.editaudit);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditAuditWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update audit!.</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });	
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update audit!.</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });	
+				});	 
+			}
 	    }
 
 	    $scope.EditData = function(data){
@@ -160,25 +280,14 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 				modifiedBy : $rootScope.sessionConfig.userId,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/audit/edit.html',
-	            controller: 'AuditController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+	    	$scope.OpenEditAuditWindow();
 	    }
 
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "auditId", title:'Audit ID', hidden: true, editable : false },
 		        		{ field: "roundId", title:'Round', editable : false  },
+		        		{ field: "roundName", title:'Round Name'},
 		        		{ field: "startDate", title:'Start Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(startDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
 		        		{ field: "endDtate", title:'End Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(endDtate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
 		        		{ field: "districtName", title : "District", editable : false},
@@ -280,7 +389,7 @@ app.factory('auditfactory',function($http,$q,$rootScope){
 
 	service.doSubmitData = function(model){
 		return $http({
-            method : 'POST',
+            method : 'GET',
             url : crudServiceBaseUrl + createbankUrl,
             params : model,
 		    headers: {

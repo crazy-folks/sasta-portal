@@ -38,6 +38,7 @@ public class Audit implements java.io.Serializable , CommonProperties{
     private String district_name;
     private String block_name;
     private String vp_name;
+    private String round_name;
 
     public Audit(){}
 
@@ -87,6 +88,14 @@ public class Audit implements java.io.Serializable , CommonProperties{
 
     public void setVillagePanchayatId(Integer village_panchayat_id) {
         this.village_panchayat_id = village_panchayat_id;
+    }
+
+    public String getRoundName() {
+        return round_name;
+    }
+
+    public void setRoundName(String round_name) {
+        this.round_name = round_name;
     }
 
     @Override

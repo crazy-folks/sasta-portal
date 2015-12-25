@@ -199,7 +199,6 @@ public class AuditServiceImpl implements AuditService {
             return o.get(0);
     }
 
-
     protected static final class AuditMapper implements RowMapper {
 
         public Object mapRow(ResultSet set, int rowNo)throws SQLException {
@@ -207,6 +206,7 @@ public class AuditServiceImpl implements AuditService {
             Audit o = new Audit();
             o.setAuditId(set.getLong("audit_id"));
             o.setRoundId(set.getLong("round_id"));
+            o.setRoundName(StringUtils.trimToNull(set.getString("round_name")));
             o.setStartDate(set.getDate("start_date"));
             o.setEndDate(set.getDate("end_date"));
             o.setRoundDescription(StringUtils.trimToNull(set.getString("round_description")));
