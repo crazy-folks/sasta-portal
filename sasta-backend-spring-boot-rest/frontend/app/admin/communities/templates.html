@@ -28,7 +28,7 @@
                           </div>
                           <div class="panel-body">
                           		<div>
-                          			<button type="button" class="btn btn-success btn-sm" ng-click="AddDialog(0);">Add</button>
+                          			<button type="button" class="btn btn-success btn-sm" ng-click="OpenAddCommunitiesWindow();">Add</button>
                           		</div>
               		 						<div kendo-grid="grid" k-options="gridOptions">
               								</div>
@@ -42,3 +42,10 @@
 </section>
 
 
+<div kendo-window="addCommunitesWindow" k-options="kaddWindowOptions">
+  
+</div>
+
+<div kendo-window="editCommunitesWindow" k-options="keditWindowOptions">
+  
+</div>

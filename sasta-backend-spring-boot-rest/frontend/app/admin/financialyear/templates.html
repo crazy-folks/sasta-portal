@@ -28,7 +28,7 @@
                           </div>
                           <div class="panel-body">
                           		<div>
-                          			<button type="button" class="btn btn-success btn-sm" ng-click="AddDialog(0);">Add</button>
+                          			<button type="button" class="btn btn-success btn-sm" ng-click="OpenFinancialYearWindow();">Add</button>
                           		</div>
               		 						<div kendo-grid="grid" k-options="gridOptions">
               								</div>
@@ -40,5 +40,13 @@
         </div>
     </div>
 </section>
+
+<div kendo-window="addFinancialYearWindow" k-options="kaddWindowOptions">
+  
+</div>
+
+<div kendo-window="editFinancialYearWindow" k-options="keditWindowOptions">
+  
+</div>
 
 

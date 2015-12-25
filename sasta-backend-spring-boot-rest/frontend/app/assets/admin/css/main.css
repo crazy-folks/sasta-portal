@@ -4486,6 +4486,9 @@ div.config h4 a:hover {
 .width-95{
   width : 95% !important;
 }
+.width-100{
+  width : 100% !important;
+}
 
 div.k-window{
   width: 700px;

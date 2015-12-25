@@ -1,25 +1,38 @@
-<div class="dialog-header">
-    <div class="dialog-title">{{ modelDialogTitle.add }}</div>
-</div>
-<form class="form-horizontal" name="frmQualification" id="frmQualification" novalidate>
-    <div class="dialog-message dialog-body">
-        <div class="form-group">
-            <div>
-                <label for="txtqualifications" class="label-adjust">Qualification</label>
-                <input type="text" class="form-control" id="txtqualifications" name="txtqualifications"
-                       data-ng-model="qualifications.name" required ng-maxlength="50" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+<section id="main-content" class="animated fadeInRight ng-scope">
+    <div class="row no-padding auto-margin">
+        <div class="col-md-12 col-lg-12 no-padding auto-margin">
+            <div class="row  no-padding auto-margin">
+                <div class="col-md-12  no-padding auto-margin">
+                    <div class="panel panel-default no-margin">
+                        <div class="panel-body no-padding auto-margin">
+                            <div class="row no-padding auto-margin">
+                                 <form class="form-horizontal" name="frmAddQualification" id="frmAddQualification">
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtqualifications" class="label-adjust">Qualification</label>
+                                            <input type="text" class="form-control no-padding width-95  validate[required]" id="txtqualifications" name="txtqualifications" data-ng-model="qualifications.name" ng-maxlength="100"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <label for="txtdescription" class="label-adjust">Description</label> 
+                                        <textarea rows="6" class="form-control no-padding width-95  validate[required]" id="txtdescription" name="txtdescription" data-ng-model="qualifications.description"></textarea>                       
+                                    </div>
+                                </form>                           
+                            </div>                           
+                        </div>
+                        <div class="panel-body">
+                            <div class="row no-padding auto-margin">
+                                <div class="row no-padding auto-margin">
+                                    <div class="dialog-buttons dialog-footer text-right">        
+                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseAddQualificationWindow()">Cancel</button>
+                                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+                                    </div>            
+                                </div>                             
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="txtdescription" class="label-adjust">Description</label> 
-            <textarea class="form-control" id="txtdescription" name="txtdescription"
-                   data-ng-model="qualifications.description" required 
-                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
-        </div>      
     </div>
-    <div class="dialog-buttons dialog-footer">        
-        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
-        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
-    </div>
-</form>
+</section>

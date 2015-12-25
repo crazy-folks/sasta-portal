@@ -1,37 +1,94 @@
-app.controller('VillagePanchayatController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','villagefactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,villagefactory,exDialog){
+app.controller('VillagePanchayatController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','villagefactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,villagefactory){
 
 
 		$scope.villagefactory = villagefactory;
-		$scope.panchayats = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 
-	    //Action of clicking product name link.
-	    $scope.callType = {};
+	    //Pop up Page Titles
 	    $scope.modelDialogTitle = {
-	    	add : "Add Village Panchayat",
-	    	edit : "Edit Village Panchayat"
+	    	AddVPTitle : "Add Village Panchayat",
+	    	EditVPTitle : "Edit Village Panchayat"
 	    };
 
 	    $scope.blocks = [];
-	    $scope.defaultOptions = {
-				    "value": 0,
-				    "text": "Select"
+	    $scope.defaultStateOptions = {
+		    "value": 0,
+		    "text": "Select"
 		};
 
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/village/add.html',
-	            controller: 'VillagePanchayatController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    };
 
-	    $scope.panchayat =     {
+        $scope.kaddWindowOptions = {
+            content: 'admin/village/add.html',
+            title: $scope.modelDialogTitle.AddVPTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.AddVillageFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.AddVillageFormName); 
+            }
+        };
+
+        $scope.AddVillageFormName = '#frmAddVillageBank';
+        $scope.EditVillageFormName = '#frmEditVillageBank';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/village/edit.html',
+            title: $scope.modelDialogTitle.EditVPTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.EditVillageFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.EditVillageFormName);            	
+            }
+        };
+
+        $scope.OpenAddVpWindow = function($event){
+        	$scope.addVpWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addVpWindow.center().open();
+        }
+
+        $scope.CloseAddVpWindow  = function(){
+            $scope.addVpWindow.close();
+        }
+
+        $scope.OpenEditVpWindow = function(){
+			$scope.editVpWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editVpWindow.center().open();
+        }
+
+        $scope.CloseEditVpWindow = function(){
+            $scope.editVpWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.panchayat = $scope.defaultOptions;
+        	$scope.editvillage =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
 	      "id": null,
 	      "name": "",
 	      "description": null,
@@ -46,36 +103,92 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 	      "createdBy":  $rootScope.sessionConfig.userId
 	    };
 
+
+	    $scope.panchayat = {
+	      "id": null,
+	      "name": "",
+	      "description": null,
+	      "createdDate": null,
+	      "modifiedDate": null,
+	      "createdByName": "",
+	      "modifiedByName": null,
+	      "auditBlockId": null,
+	      "status": true,
+	      "vpCode": null,
+	      "modifiedBy":  $rootScope.sessionConfig.userId,
+	      "createdBy":  $rootScope.sessionConfig.userId
+	    };
+
+	    $scope.OnSelectedValue = function(defaultStateOptions){
+	    	$scope.defaultStateOptions = defaultStateOptions;
+	    }
+
+	    $scope.OnEditSelectedValue = function(defaultStateOptions){
+	    	$scope.defaultStateOptions = defaultStateOptions;
+	    }	    
+
 	    $scope.Submit = function(){
-	    	$scope.panchayat.auditBlockId = $scope.defaultOptions.value;
-	    	var responseText = villagefactory.doSubmitData($scope.panchayat);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add village panchayat!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add village panchayat!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	$scope.panchayat.auditBlockId = $scope.defaultStateOptions.value;
+		    	var responseText = villagefactory.doSubmitData($scope.panchayat);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAddVpWindow();
+				        $scope.doReset();		  					
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add village panchayat!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to add village panchayat!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	 
+	    	}
 	    }
 
 	    $scope.Update = function(){
-	    	$scope.editvillage.auditBlockId = $scope.editdefaultOptions.value;
-	    	var responseText = villagefactory.doUpdateData($scope.editvillage);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update village panchayat!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update village panchayat!");
-			});	    	
+			if($scope.editjQueryValidator.doValidate()){
+		    	$scope.editvillage.auditBlockId = $scope.editdefaultStatesOptions.value;
+		    	var responseText = villagefactory.doUpdateData($scope.editvillage);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });								
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditVpWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update village panchayat!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update village panchayat!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});
+			}
 	    }
 
 	    $scope.EditData = function(data){
@@ -84,12 +197,12 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 			  		return n;
 			});	  
 			if(s instanceof Array){
-				$scope.editdefaultOptions =  s[0];
+				$scope.editdefaultStatesOptions =  s[0];
 			}else{
-				$scope.editdefaultOptions = $scope.defaultOptions;
+				$scope.editdefaultStatesOptions = $scope.defaultStateOptions;
 			}
 	    	$scope.editvillage = {
-	    		auditBlockId : $scope.editdefaultOptions.value,
+	    		auditBlockId : $scope.editdefaultStatesOptions.value,
 				createdBy : $rootScope.sessionConfig.userId,
 				description: data.description || '',
 				modifiedBy : $rootScope.sessionConfig.userId,
@@ -98,19 +211,7 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 				id : data.id,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/village/edit.html',
-	            controller: 'VillagePanchayatController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+	    	$scope.OpenEditVpWindow();
 	    }
 
 	    $scope.gridOptions = {
@@ -151,12 +252,12 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 
 	    function GetLookupValues(type){
 	    	villagefactory.getLookupValues(type).success(function(result){
-	    		var defaultOptions = {
+	    		var defOptions = {
 				    "value": 0,
 				    "text": "Select"
 				};
 				if(result instanceof Array){
-					$scope.blocks.push(defaultOptions);
+					$scope.blocks.push(defOptions);
 					for (var i=0; i<result.length; i++){
 					    $scope.blocks.push(result[i]);
 					}						

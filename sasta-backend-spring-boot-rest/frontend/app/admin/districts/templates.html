@@ -28,7 +28,7 @@
                           </div>
                           <div class="panel-body">
                           		<div>
-                          			<button type="button" class="btn btn-success btn-sm" ng-click="AddDialog(0);">Add</button>
+                          			<button type="button" class="btn btn-success btn-sm" ng-click="OpenAddDistrictsWindow();">Add</button>
                           		</div>
               		 						<div kendo-grid="grid" k-options="gridOptions">
               								</div>
@@ -40,5 +40,11 @@
         </div>
     </div>
 </section>
+<div kendo-window="addDistrictsWindow" k-options="kaddWindowOptions">
+  
+</div>
 
+<div kendo-window="editDistrictsWindow" k-options="keditWindowOptions">
+  
+</div>
 

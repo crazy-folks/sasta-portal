@@ -1,28 +1,98 @@
-app.controller('BloodGroupsController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','bloodgroupfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,bloodgroupfactory,exDialog){
+app.controller('BloodGroupsController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','bloodgroupfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,bloodgroupfactory){
 
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+        $scope.addbloodgroupformName = '#frmaddBloodGroup';
+        $scope.editbloodgroupformName = '#frmeditBank'; 
+
 	    //Action of clicking product name link.
 	    $scope.callType = {};
-	    $scope.modelDialogTitle = {
-	    	add : "Add Blood Group",
-	    	edit : "Edit Blood Group"
-	    };
+        $scope.modelDialogTitle = {
+            addbloodgroupTitle : "Add Blood Group",
+            editbloodgroupTitle : "Edit Blood Group"
+        };
 
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/bloodgroups/add.html',
-	            controller: 'BloodGroupsController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    };
+        $scope.kaddWindowOptions = {
+            content: 'admin/bloodgroups/add.html',
+            title: $scope.modelDialogTitle.addbloodgroupTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.addbloodgroupformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.addbloodgroupformName); 
+            }
+        };        
 
-	    $scope.bloodgroups = 	{
+        $scope.keditWindowOptions = {
+            content: 'admin/bloodgroups/edit.html',
+            title: $scope.modelDialogTitle.editbloodgroupTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.editbloodgroupformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.editbloodgroupformName);            	
+            }
+        };
+
+        $scope.OpenAddBloodGroupWindow = function($event){
+        	$scope.addBloodGroupWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addBloodGroupWindow.center().open();
+        }
+
+        $scope.CloseAddBloodGroupWindow = function(){
+            $scope.addBloodGroupWindow.close();
+        }
+
+        $scope.OpenEditBloodGroupWindow = function(){
+            $scope.editBloodGroupWindow.center().open();
+        }
+
+        $scope.CloseEditBloodGroupWindow  = function(){
+			$scope.editBloodGroupWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editBloodGroupWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.bloodgroups = $scope.defaultOptions;
+        	$scope.editbloodgroups =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions =  {
+	      "id": 0,
+	      "name": "",
+	      "description": "",
+	      "status": true,
+	      "modifiedBy": $rootScope.sessionConfig.userId,
+	      "createdBy": $rootScope.sessionConfig.userId,
+	      "modifiedDate": null,
+	      "createdDate": null,
+	      "createdByName": null,
+	      "modifiedByName": null,
+	      "bloodGroupId": null
+	    };
+	    $scope.bloodgroups = {
 	      "id": 0,
 	      "name": "",
 	      "description": "",
@@ -37,33 +107,67 @@ app.controller('BloodGroupsController',['$http','$window','$scope','$rootScope',
 	    };
 
 	    $scope.Submit = function(){
-	    	var responseText = bloodgroupfactory.doSubmitData($scope.bloodgroups);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add bank!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add bank!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	var responseText = bloodgroupfactory.doSubmitData($scope.bloodgroups);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });								
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAddBloodGroupWindow();
+				        $scope.doReset();	  					
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add bank!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to add bank!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	    		
+	    	}	    	
+	    	
 	    }
 
 	    $scope.Update = function(){
-	    	var responseText = bloodgroupfactory.doUpdateData($scope.editbloodgroups);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update bank!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update bank!");
-			});	    	
+	    	if($scope.editjQueryValidator.doValidate()){
+		    	var responseText = bloodgroupfactory.doUpdateData($scope.editbloodgroups);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditBloodGroupWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update Blood Group!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update Blood Group!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	    		
+	    	}	    	
+	    	
 	    }
 
 	    $scope.EditData = function(data){
@@ -75,19 +179,7 @@ app.controller('BloodGroupsController',['$http','$window','$scope','$rootScope',
 				name : data.name,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/bloodgroups/edit.html',
-	            controller: 'BloodGroupsController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+			$scope.OpenEditBloodGroupWindow();
 	    }
 
 	    $scope.gridOptions = {

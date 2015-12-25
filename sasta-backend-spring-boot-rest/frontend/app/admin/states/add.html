@@ -1,48 +1,61 @@
-<div class="dialog-header">
-    <div class="dialog-title">{{ modelDialogTitle.add }}</div>
-</div>
-<form class="form-horizontal" name="productForm" id="frmProduct" novalidate>
-    <div class="dialog-message dialog-body">
-         <div class="form-group">
-            <div>
-                <label for="selCountries"  class="label-adjust">Country</label>
-                <select name="selCountries" id="selCountries" class="form-control" ng-model="defaultCountries" ng-options="obj.text for obj in countries track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
-                </select>
-            </div>
-        </div> 
-        <div class="form-group">
-            <div>
-                <label for="txtstatesname" class="label-adjust">State Name</label>
-                <input type="text" class="form-control" id="txtstatesname" name="txtstatesname"
-                       data-ng-model="states.name" required ng-maxlength="50" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+<section id="main-content" class="animated fadeInRight ng-scope">
+    <div class="row no-padding auto-margin">
+        <div class="col-md-12 col-lg-12 no-padding auto-margin">
+            <div class="row  no-padding auto-margin">
+                <div class="col-md-12  no-padding auto-margin">
+                    <div class="panel panel-default no-margin">
+                        <div class="panel-body no-padding auto-margin">
+                            <div class="row no-padding auto-margin">
+                                 <form class="form-horizontal" name="frmAddStates" id="frmAddStates">
+                                     <div class="form-group  no-margin">
+                                        <div>
+                                            <label for="selCountries"  class="label-adjust">Country</label>
+                                            <select name="selCountries" id="selCountries" class="k-input width-95" ng-model="defaultCountries" ng-options="obj.text for obj in countries track by obj.value" ng-change="OnSelectedValue(defaultCountries)" >
+                                            </select>
+                                        </div>
+                                    </div> 
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtstatesname" class="label-adjust">State Name</label>
+                                            <input type="text" class="k-input width-95 validate[required]" id="txtstatesname" name="txtstatesname"
+                                                   data-ng-model="states.name" ng-maxlength="100" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtshortName" class="label-adjust">Short Name</label>
+                                            <input type="text" class="k-input width-95 validate[required]" id="txtshortName" name="txtshortName"
+                                                   data-ng-model="states.shortName" ng-maxlength="50" />
+                                        </div>
+                                    </div>        
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtstateCode" class="label-adjust">District Code</label>
+                                            <input type="text" class="k-input width-95  validate[required]" id="txtstateCode" name="txtstateCode"
+                                                   data-ng-model="states.stateCode" ng-maxlength="20" />
+                                        </div>
+                                    </div>          
+                                    <div class="form-group no-margin">
+                                        <label for="txtdescription" class="label-adjust">Description</label> 
+                                        <textarea rows="5" class="k-input width-95  validate[required]" id="txtdescription" name="txtdescription"
+                                               data-ng-model="states.description"></textarea>                       
+                                    </div> 
+                                </form>                           
+                            </div>                           
+                        </div>
+                        <div class="panel-body">
+                            <div class="row no-padding auto-margin">
+                                <div class="row no-padding auto-margin">
+                                    <div class="dialog-buttons dialog-footer text-right">        
+                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseAddStatesWindow()">Cancel</button>
+                                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+                                    </div>            
+                                </div>                             
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div>
-                <label for="txtshortName" class="label-adjust">Short Name</label>
-                <input type="text" class="form-control" id="txtshortName" name="txtshortName"
-                       data-ng-model="states.shortName" required ng-maxlength="50" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
-            </div>
-        </div>        
-        <div class="form-group">
-            <div>
-                <label for="txtstateCode" class="label-adjust">District Code</label>
-                <input type="text" class="form-control" id="txtstateCode" name="txtstateCode"
-                       data-ng-model="states.stateCode" required ng-maxlength="50" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
-            </div>
-        </div>          
-        <div class="form-group">
-            <label for="txtdescription" class="label-adjust">Description</label> 
-            <textarea class="form-control" id="txtdescription" name="txtdescription"
-                   data-ng-model="states.description" required 
-                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
-        </div>      
     </div>
-    <div class="dialog-buttons dialog-footer">        
-        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
-        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
-    </div>
-</form>
+</section>

@@ -1,32 +1,110 @@
-app.controller('StatesController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','statesfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,statesfactory,exDialog){
+app.controller('StatesController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','statesfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,statesfactory){
 
 		$scope.statesfactory = statesfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
-	    //Action of clicking product name link.
-	    $scope.callType = {};
+	    //Popup Titles
 	    $scope.modelDialogTitle = {
-	    	add : "Add States",
-	    	edit : "Edit States"
+	    	AddStateTitle : "Add States",
+	    	EditStateTitle : "Edit States"
 	    };
 
 	    $scope.countries = [];
 	    $scope.defaultCountries = {
-				    "value": 0,
-				    "text": "Select"
+		    "value": 0,
+		    "text": "Select"
 		};
 
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/states/add.html',
-	            controller: 'StatesController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+
+        $scope.kaddWindowOptions = {
+            content: 'admin/states/add.html',
+            title: $scope.modelDialogTitle.AddStateTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.AddStatesFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.AddStatesFormName); 
+            }
+        };
+
+        $scope.AddStatesFormName = '#frmAddStates';
+        $scope.EditStatesFormName = '#frmEditStates';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/states/edit.html',
+            title: $scope.modelDialogTitle.EditStateTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.EditStatesFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.EditStatesFormName);            	
+            }
+        };
+
+        $scope.OpenAddStatesWindow = function($event){
+        	$scope.addSatesWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addSatesWindow.center().open();
+        }
+
+        $scope.CloseAddStatesWindow  = function(){
+        	$scope.doReset();
+            $scope.addSatesWindow.close();
+        }
+
+        $scope.OpenEditStatesWindow = function(){
+			$scope.editSatesWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editSatesWindow.center().open();
+        }
+
+        $scope.CloseEditStatesWindow = function(){
+        	$scope.doReset();
+            $scope.editSatesWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.states = $scope.defaultOptions;
+        	$scope.editstates =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
+	      "id": null,
+	      "name": "",
+	      "description": "",
+	      "countryId": null,
+	      "status": true,
+		  "modifiedBy": $rootScope.sessionConfig.userId,
+		  "createdBy": $rootScope.sessionConfig.userId,
+	      "stateCode": null,
+	      "stateId": null,
+	      "createdDate": null,
+	      "modifiedDate": null,
+	      "createdByName": "",
+	      "modifiedByName": "",
+	      "shortName": "",
+	      "coutryName": ""
 	    };
 
 	    $scope.states = {
@@ -47,36 +125,76 @@ app.controller('StatesController',['$http','$window','$scope','$rootScope','noti
 	      "coutryName": ""
 	    };
 
+	    $scope.OnSelectedValue = function(defaultCountries){
+	    	$scope.defaultCountries = defaultCountries;
+	    }
+
+	    $scope.OnEditSelectedValue = function(defaultDistricts){
+	    	$scope.defaultDistricts = defaultDistricts;
+	    }
+
 	    $scope.Submit = function(){
-	    	$scope.states.countryId = $scope.defaultCountries.value;
-	    	var responseText = statesfactory.doSubmitData($scope.states);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add states!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add states!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	$scope.states.countryId = $scope.defaultCountries.value;
+		    	var responseText = statesfactory.doSubmitData($scope.states);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });						
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAddStatesWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add states!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to add states!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	 	    		
+	    	}
 	    }
 
 	    $scope.Update = function(){
-	    	$scope.editstates.countryId = $scope.editdefaultOptions.value;
-	    	var responseText = statesfactory.doUpdateData($scope.editstates);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update states!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update states!");
-			});	    	
+			if($scope.editjQueryValidator.doValidate()){
+		    	$scope.editstates.countryId = $scope.editdefaultOptions.value;
+		    	var responseText = statesfactory.doUpdateData($scope.editstates);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });								
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditStatesWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update states!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update states!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});					
+			}
 	    }
 
 	    $scope.EditData = function(data){
@@ -100,19 +218,7 @@ app.controller('StatesController',['$http','$window','$scope','$rootScope','noti
 				shortName : data.shortName,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/states/edit.html',
-	            controller: 'StatesController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+	    	$scope.OpenEditStatesWindow();
 	    }
 
 	    $scope.gridOptions = {

@@ -68,6 +68,7 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
         }
 
         $scope.editBankWindow = function(){
+			$scope.editbankMeWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
             $scope.editbankMeWindow.center().open();
         }
 
@@ -80,7 +81,7 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
         	$scope.editbank =  $scope.defaultOptions;
         }
 
-        $scope.defaultOptions = bank = {
+        $scope.defaultOptions = {
 		  "id": null,
 		  "name": "",
 		  "description": "",
@@ -130,11 +131,11 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 				        });
 			  		}
 				}).error(function(error,status){
-				  		notify({
-				            messageTemplate: '<span>Unable to add bank!</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });
+			  		notify({
+			            messageTemplate: '<span>Unable to add bank!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
 				});
 			}    	
 	    }

@@ -1,28 +1,102 @@
-app.controller('FinancialYearController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','financialyearfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,financialyearfactory,exDialog){
+app.controller('FinancialYearController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','financialyearfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,financialyearfactory){
 
 		$scope.financialyear = financialyearfactory;
-		$scope.financialyears = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Action of clicking product name link.
-	    $scope.callType = {};
 	    $scope.modelDialogTitle = {
-	    	add : "Add Financial Year",
-	    	edit : "Edit Financial Year"
+	    	AddFinancialYearTitle : "Add Financial Year",
+	    	EditFinancialYearTitle : "Edit Financial Year"
 	    };
 
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/financialyear/add.html',
-	            controller: 'FinancialYearController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    };
+
+        $scope.kaddWindowOptions = {
+            content: 'admin/financialyear/add.html',
+            title: $scope.modelDialogTitle.AddFinancialYearTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.AddFinancialYearFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.AddFinancialYearFormName); 
+            }
+        };
+
+        $scope.AddFinancialYearFormName = '#frmAddFinancialYear';
+        $scope.EditFinancialYearFormName = '#frmEditFinancialYear';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/financialyear/edit.html',
+            title: $scope.modelDialogTitle.EditFinancialYearTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.EditFinancialYearFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.EditFinancialYearFormName);            	
+            }
+        };
+
+        $scope.OpenFinancialYearWindow = function($event){
+        	$scope.addFinancialYearWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addFinancialYearWindow.center().open();
+        }
+
+        $scope.CloseFinancialYearWindow = function(){
+        	$scope.doReset();
+            $scope.addFinancialYearWindow.close();
+        }
+
+        $scope.OpenEditFinancialYearWindow = function(){
+			$scope.editFinancialYearWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editFinancialYearWindow.center().open();
+        }
+
+        $scope.CloseEditFinancialYearWindow  = function(){
+        	$scope.doReset();
+            $scope.editFinancialYearWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.financialyear = $scope.defaultOptions;
+        	$scope.editfinancialyear =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
+		  "id": null,
+		  "name": "",
+		  "description": "",
+		  "status": true,
+		  "createdDate": null,
+		  "createdByName": null,
+		  "modifiedByName": null,
+		  "financialyearId": 0,
+		  "modifiedBy": $rootScope.sessionConfig.userId,
+		  "createdBy": $rootScope.sessionConfig.userId,
+		  "modifiedDate": null
+		};
+
 
 	    $scope.financialyear = {
 		  "id": null,
@@ -39,33 +113,65 @@ app.controller('FinancialYearController',['$http','$window','$scope','$rootScope
 		};
 
 	    $scope.Submit = function(){
-	    	var responseText = financialyearfactory.doSubmitData($scope.financialyear);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add financial year!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add financial year!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	var responseText = financialyearfactory.doSubmitData($scope.financialyear);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseFinancialYearWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add financial year!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to add financial year!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	  
+	    	}
 	    }
 
 	    $scope.Update = function(){
-	    	var responseText = financialyearfactory.doUpdateData($scope.editfinancialyear);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update financial year!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update financial year!");
-			});	    	
+			if($scope.editjQueryValidator.doValidate()){
+		    	var responseText = financialyearfactory.doUpdateData($scope.editfinancialyear);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });						
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditFinancialYearWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update financial year!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update financial year!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	
+			}
 	    }
 
 	    $scope.EditData = function(data){
@@ -77,15 +183,7 @@ app.controller('FinancialYearController',['$http','$window','$scope','$rootScope
 				name : data.name,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/financialyear/edit.html',
-	            controller: 'FinancialYearController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+	    	$scope.OpenEditFinancialYearWindow();
 	    }
 
 	    $scope.Cancel = function() {

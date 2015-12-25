@@ -62,8 +62,7 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 		            scroll: true
 		        });		        
 		        $scope.editjQueryValidator = new Validator($scope.editblockformName);            	
-            },
-            controller : 'AuditBlocksController'
+            }
         };
 
         $scope.addBlockWindow = function($event){

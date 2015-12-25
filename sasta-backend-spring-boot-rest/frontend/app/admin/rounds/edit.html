@@ -1,48 +1,57 @@
-<div class="dialog-header">
-    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
-</div>
-<form class="form-horizontal" name="bankForm" id="frmProduct" novalidate>
-    <div class="dialog-message dialog-body">
-        <div class="form-group">
-            <div>
-                <label for="selYears"  class="label-adjust">Financial Years</label>
-                <select name="selYears" class="form-control" ng-model="editdefaultOptions" ng-options="obj.text for obj in years track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
-                </select>
+<section id="main-content" class="animated fadeInRight ng-scope">
+    <div class="row no-padding auto-margin">
+        <div class="col-md-12 col-lg-12 no-padding auto-margin">
+            <div class="row  no-padding auto-margin">
+                <div class="col-md-12  no-padding auto-margin">
+                    <div class="panel panel-default no-margin">
+                        <div class="panel-body no-padding auto-margin">
+                            <div class="row no-padding auto-margin">
+                                 <form class="form-horizontal" name="frmAddRound" id="frmAddRound">
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selYears"  class="label-adjust">Financial Years</label>
+                                            <select name="selYears" class=" k-input width-100   validate[required]" ng-model="editdefaultOptions" ng-options="obj.text for obj in years track by obj.value"  ng-change="OnEditSelectedValue(editdefaultOptions)" >
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtname" class="label-adjust">Round Name</label>
+                                            <input type="text"  class="k-input width-100 validate[required]" id="txtname" name="txtname" data-ng-model="editround.name" ng-maxlength="100"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtstartDate" class="label-adjust">Start Date</label>
+                                            <input type="text"  class="k-input width-100" id="txtstartDate" name="txtstartDate" kendo-date-picker="startDateObject" data-ng-model="editround.startDate" k-options="dateOptions" k-on-change="startChange()"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtendDate" class="label-adjust">End Date</label>
+                                            <input type="text" class="k-input width-100" id="txtendDate" name="txtendDate" kendo-date-picker="endDateObject" data-ng-model="editround.endDate" k-options="dateOptions" k-on-change="endChange()"/>
+                                        </div>
+                                    </div>        
+                                    <div class="form-group no-margin">
+                                        <label for="txtdescription" class="label-adjust">Description</label> 
+                                        <textarea rows="4" class="k-input width-100 validate[required]" id="txtdescription" name="txtdescription" data-ng-model="editround.description"></textarea>
+                                    </div>  
+                                </form>                           
+                            </div>                           
+                        </div>
+                        <div class="panel-body">
+                            <div class="row no-padding auto-margin">
+                                <div class="row no-padding auto-margin">
+                                    <div class="dialog-buttons dialog-footer text-right">        
+                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseEditRoundWindow()">Cancel</button>
+                                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Update&#160;</button>
+                                    </div>            
+                                </div>                             
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div>
-                <label for="txtname" class="label-adjust">Round Name</label>
-                <input type="text" class="form-control" id="txtname" name="txtname"
-                       data-ng-model="editround.name" required ng-maxlength="50" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div>
-                <label for="txtstartDate" class="label-adjust">Start Date</label>
-                <input type="text" class="form-control" id="txtstartDate" name="txtstartDate"
-                       kendo-date-picker="startDateObject" data-ng-model="editround.startDate" 
-                       k-options="dateOptions" k-on-change="startChange()" ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div>
-                <label for="txtendDate" class="label-adjust">End Date</label>
-                <input type="text" class="form-control" id="txtendDate" name="txtendDate"
-                       kendo-date-picker="endDateObject" data-ng-model="editround.endDate" 
-                       k-options="dateOptions" k-on-change="endChange()" ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
-            </div>
-        </div>        
-        <div class="form-group">
-            <label for="txtdescription" class="label-adjust">Description</label> 
-            <textarea class="form-control" id="txtdescription" name="txtdescription"
-                   data-ng-model="editround.description" required 
-                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
-        </div>      
     </div>
-    <div class="dialog-buttons dialog-footer">        
-        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
-        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
-    </div>
-</form>
+</section>

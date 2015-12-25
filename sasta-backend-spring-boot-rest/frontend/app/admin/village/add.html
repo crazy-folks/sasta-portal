@@ -1,40 +1,51 @@
-<div class="dialog-header">
-    <div class="dialog-title">{{ modelDialogTitle.add }}</div>
-</div>
-<form class="form-horizontal" name="productForm" id="frmProduct" novalidate>
-    <div class="dialog-message dialog-body">
-        <div class="form-group">
-            <div>
-                <label for="selblocks"  class="label-adjust">Block Name</label>
-                <select name="selblocks" class="form-control" ng-model="defaultOptions" ng-options="obj.text for obj in blocks track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
-                </select>
+<section id="main-content" class="animated fadeInRight ng-scope">
+    <div class="row no-padding auto-margin">
+        <div class="col-md-12 col-lg-12 no-padding auto-margin">
+            <div class="row  no-padding auto-margin">
+                <div class="col-md-12  no-padding auto-margin">
+                    <div class="panel panel-default no-margin">
+                        <div class="panel-body no-padding auto-margin">
+                            <div class="row no-padding auto-margin">
+                                 <form class="form-horizontal" name="frmAddVillage" id="frmAddVillage">
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selblocks"  class="label-adjust">Block Name</label>
+                                            <select name="selblocks" class="k-input width-95 validate[required]" ng-model="defaultStateOptions" ng-options="obj.text for obj in blocks track by obj.value" ng-change="OnSelectedValue(defaultStateOptions);">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtname" class="label-adjust">Village Panchayat Name</label>
+                                            <input type="text" class="k-input width-95 validate[required]" id="txtname" name="txtname" data-ng-model="panchayat.name" ng-maxlength="100"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtvpCode" class="label-adjust">Village Panchayat Code</label>
+                                            <input type="text" class="k-input width-95 validate[required]" id="txtvpCode" name="txtvpCode" data-ng-model="panchayat.vpCode"/>
+                                        </div>
+                                    </div>       
+                                    <div class="form-group no-margin">
+                                        <label for="txtdescription" class="label-adjust">Description</label> 
+                                        <textarea class="k-input width-95 validate[required]" id="txtdescription" name="txtdescription" data-ng-model="panchayat.description"></textarea>                       
+                                    </div>      
+                                </form>                           
+                            </div>                           
+                        </div>
+                        <div class="panel-body">
+                            <div class="row no-padding auto-margin">
+                                <div class="row no-padding auto-margin">
+                                    <div class="dialog-buttons dialog-footer text-right">        
+                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseAddVpWindow()">Cancel</button>
+                                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+                                    </div>            
+                                </div>                             
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div>
-                <label for="txtname" class="label-adjust">Village Panchayat Name</label>
-                <input type="text" class="form-control" id="txtname" name="txtname"
-                       data-ng-model="panchayat.name" required ng-maxlength="50" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div>
-                <label for="txtvpCode" class="label-adjust">Village Panchayat Code</label>
-                <input type="text" class="form-control" id="txtvpCode" name="txtvpCode"
-                       data-ng-model="panchayat.vpCode" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
-            </div>
-        </div>       
-        <div class="form-group">
-            <label for="txtdescription" class="label-adjust">Description</label> 
-            <textarea class="form-control" id="txtdescription" name="txtdescription"
-                   data-ng-model="panchayat.description" required 
-                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
-        </div>      
     </div>
-    <div class="dialog-buttons dialog-footer">        
-        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
-        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
-    </div>
-</form>
+</section>

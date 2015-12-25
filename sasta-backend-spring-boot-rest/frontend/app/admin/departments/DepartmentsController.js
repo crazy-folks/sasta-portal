@@ -1,30 +1,102 @@
-app.controller('DepartmentsController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','departmentsfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,departmentsfactory,exDialog){
+app.controller('DepartmentsController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','departmentsfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,departmentsfactory){
 
 		$scope.departmentsfactory = departmentsfactory;
-		$scope.departments = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Action of clicking product name link.
-	    $scope.callType = {};
 	    $scope.modelDialogTitle = {
-	    	add : "Add Departments",
-	    	edit : "Edit departments"
+	    	AddDeptTitle : "Add Departments",
+	    	EditDeptTitle : "Edit departments"
 	    };
 
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/departments/add.html',
-	            controller: 'DepartmentsController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+
+        $scope.kaddWindowOptions = {
+            content: 'admin/departments/add.html',
+            title: $scope.modelDialogTitle.AddDeptTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.AddDepartmentsFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.AddDepartmentsFormName); 
+            }
+        };
+
+        $scope.AddDepartmentsFormName = '#frmAddDepartments';
+        $scope.EditDepartmentsFormName = '#frmEditDepartments';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/departments/edit.html',
+            title: $scope.modelDialogTitle.EditDeptTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.EditDepartmentsFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.EditDepartmentsFormName);            	
+            }
+        };
+
+        $scope.OpenAddDepartmentsWindow = function(){
+        	$scope.addDepartmentsWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addDepartmentsWindow.center().open();
+        }
+
+        $scope.CloseAddDepartmentsWindow = function(){
+        	$scope.doReset();
+            $scope.addDepartmentsWindow.close();
+        }
+
+        $scope.OpenEditDepartmentsWindow= function(){
+			$scope.editDepartmentsWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editDepartmentsWindow.center().open();
+        }
+
+        $scope.CloseEditDepartmentsWindow = function(){
+        	$scope.doReset();
+            $scope.editDepartmentsWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.departments = $scope.defaultOptions;
+        	$scope.editdepartments =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
+	      "id": 1,
+	      "name": "",
+	      "description": "",
+	      "status": true,
+		  "modifiedBy": $rootScope.sessionConfig.userId,
+		  "createdBy": $rootScope.sessionConfig.userId,
+	      "createdDate": null,
+	      "modifiedDate": null,
+		  "createdByName": null,
+		  "modifiedByName": null
 	    };
 
-	    $scope.departments =     {
+	    $scope.departments = {
 	      "id": 1,
 	      "name": "",
 	      "description": "",
@@ -38,33 +110,65 @@ app.controller('DepartmentsController',['$http','$window','$scope','$rootScope',
 	    };
 
 	    $scope.Submit = function(){
-	    	var responseText = departmentsfactory.doSubmitData($scope.departments);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add departments!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add departments!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	var responseText = departmentsfactory.doSubmitData($scope.departments);
+				responseText.success(function(result){
+					if(result.status){
+			  			notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAddDepartmentsWindow();
+				        $scope.doReset();
+			  		}else{
+			  			notify({
+				            messageTemplate: '<span>Unable to add departments!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });	
+			  		}
+				}).error(function(error,status){
+		  			notify({
+			            messageTemplate: '<span>Unable to add departments!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });	
+				});
+	    	}
 	    }
 
 	    $scope.Update = function(){
-	    	var responseText = departmentsfactory.doUpdateData($scope.editdepartments);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update departments!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update departments!");
-			});	    	
+	    	if($scope.editjQueryValidator.doValidate()){
+		    	var responseText = departmentsfactory.doUpdateData($scope.editdepartments);
+				responseText.success(function(result){
+					if(result.status){
+			  			notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditDepartmentsWindow();
+				        $scope.doReset();
+			  		}else{
+			  			notify({
+				            messageTemplate: '<span>Unable to update departments!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+		  			notify({
+			            messageTemplate: '<span>Unable to update departments!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });	
+				});
+	    	}
 	    }
 
 	    $scope.EditData = function(data){
@@ -76,19 +180,7 @@ app.controller('DepartmentsController',['$http','$window','$scope','$rootScope',
 				name : data.name,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/departments/edit.html',
-	            controller: 'DepartmentsController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+	    	$scope.OpenEditDepartmentsWindow();
 	    }
 
 	    $scope.gridOptions = {

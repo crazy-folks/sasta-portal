@@ -1,27 +1,102 @@
-app.controller('CountriesController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','countriesfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,countriesfactory,exDialog){
+app.controller('CountriesController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','countriesfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,countriesfactory){
 
 		$scope.countriesfactory = countriesfactory;
-		$scope.banks = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Action of clicking product name link.
-	    $scope.callType = {};
 	    $scope.modelDialogTitle = {
-	    	add : "Add Countries",
-	    	edit : "Edit Countries"
+	    	AddCountriesTitle : "Add Countries",
+	    	EditCountriesTitle : "Edit Countries"
 	    };
 
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/countries/add.html',
-	            controller: 'CountriesController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+
+        $scope.kaddWindowOptions = {
+            content: 'admin/countries/add.html',
+            title: $scope.modelDialogTitle.AddCountriesTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.AddCountriesFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.AddCountriesFormName); 
+            }
+        };
+
+        $scope.AddCountriesFormName = '#frmAddCountries';
+        $scope.EditCountriesFormName = '#frmEditCountries';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/countries/edit.html',
+            title: $scope.modelDialogTitle.EditCountriesTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.EditCountriesFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.EditCountriesFormName);            	
+            }
+        };
+
+        $scope.OpenAddCountriesWindow = function(){
+        	$scope.addCountriesWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addCountriesWindow.center().open();
+        }
+
+        $scope.CloseAddCountriesWindow = function(){
+        	$scope.doReset();
+            $scope.addCountriesWindow.close();
+        }
+
+        $scope.OpenEditCountriesWindow= function(){
+			$scope.editCountriesWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editCountriesWindow.center().open();
+        }
+
+        $scope.CloseEditCountriesWindow = function(){
+        	$scope.doReset();
+            $scope.editCountriesWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.countries = $scope.defaultOptions;
+        	$scope.editcountries =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
+	      "id": null,
+	      "name": "",
+	      "description": "",
+	      "status": true,
+	      "createdDate": null,
+	      "modifiedDate": null,
+	      "createdByName": null,
+	      "modifiedByName": null,
+	      "countryCode": null,
+	      "modifiedBy": $rootScope.sessionConfig.userId,
+	      "createdBy": $rootScope.sessionConfig.userId,
+	      "countryId": "",
+	      "shortName": ""
 	    };
 
 	    $scope.countries = {
@@ -41,36 +116,68 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 	    };
 
 	    $scope.Submit = function(){
-	    	var responseText = countriesfactory.doSubmitData($scope.countries);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add Countries!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add Countries!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	var responseText = countriesfactory.doSubmitData($scope.countries);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAddCountriesWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add Countries!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to add Countries!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	
+	    	}
 	    }
 
 	    $scope.Update = function(){
-	    	var responseText = countriesfactory.doUpdateData($scope.editcountries);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update Countries!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update Countries!");
-			});	    	
+	    	if($scope.editjQueryValidator.doValidate()){
+		    	var responseText = countriesfactory.doUpdateData($scope.editcountries);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditCountriesWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update Countries!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update Countries!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});
+	    	}
 	    }
 
-	    $scope.EditData = function(data){debugger;
+	    $scope.EditData = function(data){
 	    	$scope.editcountries = {
 			    name: data.name,
 			    description: data.description,
@@ -81,19 +188,7 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 			    countryId: data.countryId,
 			    shortName: data.shortName
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/countries/edit.html',
-	            controller: 'CountriesController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+	    	$scope.OpenEditCountriesWindow();
 	    }
 
 	    $scope.gridOptions = {

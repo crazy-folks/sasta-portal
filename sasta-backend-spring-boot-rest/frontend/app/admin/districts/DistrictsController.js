@@ -1,38 +1,111 @@
-app.controller('DistrictsController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','districtsfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,districtsfactory,exDialog){
+app.controller('DistrictsController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','districtsfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,districtsfactory){
 
 		$scope.districtsfactory = districtsfactory;
-		$scope.districts = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Action of clicking product name link.
-	    $scope.callType = {};
 	    $scope.modelDialogTitle = {
-	    	add : "Add Districts",
-	    	edit : "Edit Districts"
+	    	AddDistrictsTitle : "Add Districts",
+	    	EditDistrictsTitle : "Edit Districts"
 	    };
 
-	    /*$scope.countries = [];
-	    $scope.selectedCountry = {
-				    "value": 0,
-				    "text": "Select"
-		};*/
 		$scope.states = [];
 		// default selected states
 		$scope.defaultStates = {
-				    "value": 0,
-				    "text": "Select"
+		    "value": 0,
+		    "text": "Select"
 		};
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/districts/add.html',
-	            controller: 'DistrictsController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+
+        $scope.kaddWindowOptions = {
+            content: 'admin/districts/add.html',
+            title: $scope.modelDialogTitle.AddDistrictsTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.AddDistrictsFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.AddDistrictsFormName); 
+            }
+        };
+
+        $scope.AddDistrictsFormName = '#frmAddDistricts';
+        $scope.EditDistrictsFormName = '#frmEditDistricts';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/districts/edit.html',
+            title: $scope.modelDialogTitle.EditDistrictsTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.EditDistrictsFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.EditDistrictsFormName);            	
+            }
+        };
+
+        $scope.OpenAddDistrictsWindow = function(){
+        	$scope.addDistrictsWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addDistrictsWindow.center().open();
+        }
+
+        $scope.CloseAddDistrictsWindow = function(){
+        	$scope.doReset();
+            $scope.addDistrictsWindow.close();
+        }
+
+        $scope.OpenEditDistrictsWindow= function(){
+			$scope.editDistrictsWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editDistrictsWindow.center().open();
+        }
+
+        $scope.CloseEditDistrictsWindow = function(){
+        	$scope.doReset();
+            $scope.editDistrictsWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.districts = $scope.defaultOptions;
+        	$scope.editdistricts =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
+	      "id": null,
+	      "name": "",
+	      "stateName": "",
+	      "description": "",
+	      "createByName": null,
+	      "status": null,
+	      "shortName": "",
+	      "districtID": null,
+	      "statusName": "",
+	      "createdDate": null,
+	      "modifiedDate": null,
+	      "auditStateId": $scope.defaultStates.value,
+	      "districtCode": null,
+		  "modifiedBy": $rootScope.sessionConfig.userId,
+		  "createdBy": $rootScope.sessionConfig.userId,
+	      "modifyByName": null
 	    };
 
 	    $scope.districts = {
@@ -55,35 +128,76 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 	    };
 
 	    $scope.Submit = function(){
-	    	$scope.districts.auditStateId = $scope.defaultStates.value;
-	    	var responseText = districtsfactory.doSubmitData($scope.districts);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add districts!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add districts!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	$scope.districts.auditStateId = $scope.defaultStates.value;
+		    	var responseText = districtsfactory.doSubmitData($scope.districts);
+				responseText.success(function(result){
+					if(result.status){
+			  			notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAddDistrictsWindow();
+				        $scope.doReset();
+			  		}else{
+			  			notify({
+				            messageTemplate: '<span>Unable to add districts!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+		  			notify({
+			            messageTemplate: '<span>Unable to add districts!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	
+	    	}
 	    }
 
 	    $scope.Update = function(){
-	    	$scope.editdistricts.auditStateId = $scope.editdefaultOptions.value;
-	    	var responseText = districtsfactory.doUpdateData($scope.editdistricts);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update districts!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update districts!");
-			});	    	
+	    	if($scope.editjQueryValidator.doValidate()){
+		    	$scope.editdistricts.auditStateId = $scope.editdefaultOptions.value;
+		    	var responseText = districtsfactory.doUpdateData($scope.editdistricts);
+				responseText.success(function(result){
+					if(result.status){
+			  			notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });								
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditDistrictsWindow();
+				        $scope.doReset();
+			  		}else{
+			  			notify({
+				            messageTemplate: '<span>Unable to update districts!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+		  			notify({
+			            messageTemplate: '<span>Unable to update districts!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	
+	    	}
+	    }
+
+	    $scope.OnSelectedValue = function(defaultStates){
+	    	$scope.defaultStates = defaultStates;
+	    }
+
+	    $scope.OnEditSelectedValue = function(defaultStates){
+	    	$scope.editdefaultOptions = defaultStates;
 	    }
 
 	    $scope.EditData = function(data){
@@ -107,19 +221,7 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 				shortName : data.shortName,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/districts/edit.html',
-	            controller: 'DistrictsController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+	    	$scope.OpenEditDistrictsWindow();
 	    }
 
 	    $scope.gridOptions = {

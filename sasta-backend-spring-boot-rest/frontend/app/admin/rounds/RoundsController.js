@@ -1,31 +1,19 @@
-app.controller('RoundsController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','roundsfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,roundsfactory,exDialog){
+app.controller('RoundsController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','roundsfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,roundsfactory){
 
 		$scope.roundsfactory = roundsfactory;
 		$scope.rounds = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
-	    //Action of clicking product name link.
-	    $scope.callType = {};
+	    //Popup Titles
 	    $scope.modelDialogTitle = {
-	    	add : "Add Rounds",
-	    	edit : "Edit Rounds"
+	    	AddRoundsTitle : "Add Rounds",
+	    	EditRoundsTitle : "Edit Rounds"
 	    };
 
 	    $scope.dateOptions = {
 		    format: 'yyyy-MM-dd'
 		};
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/rounds/add.html',
-	            controller: 'RoundsController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    };
 
 		$scope.years = [];
 		// default selected years
@@ -33,6 +21,100 @@ app.controller('RoundsController',['$http','$window','$scope','$rootScope','noti
 		    "value": 0,
 		    "text": "Select"
 		};
+
+        $scope.kaddWindowOptions = {
+            content: 'admin/rounds/add.html',
+            title: $scope.modelDialogTitle.AddRoundsTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.addRoundsFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.addRoundsFormName); 
+            },
+            close : function(){
+            	
+            }
+        };
+
+        $scope.addRoundsFormName = '#frmAddRound';
+        $scope.editRoundsFormName = '#frmEditRound';    
+        $scope.keditWindowOptionsOpened = false;
+        $scope.keditWindowOptions = {
+            content: 'admin/rounds/edit.html',
+            title: $scope.modelDialogTitle.EditRoundsTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.editRoundsFormName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.editRoundsFormName);            	
+            },
+            close : function(){
+            }
+        };
+
+        $scope.OpenAddRoundWindow = function($event){
+        	$scope.addRoundsWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addRoundsWindow.center().open();
+        }
+
+        $scope.CloseAddRoundWindow = function(){
+        	$scope.doReset();
+            $scope.addRoundsWindow.close();
+        }
+
+        $scope.OpenEditRoundWindow = function(){
+			$scope.editRoundsWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editRoundsWindow.center().open();
+        }
+
+        $scope.CloseEditRoundWindow = function(){
+        	$scope.doReset();
+            $scope.editRoundsWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.round = $scope.defaultOptions;
+        	$scope.editround =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions =	{
+	      "id": null,
+	      "name": '',
+	      "description": '',
+	      "status": true,
+	      "referenceId": null,
+	      "financialYear": '',
+	      "createdDate": null,
+	      "modifiedDate": null,
+	      "createdByName": "",
+	      "modifiedByName": null,
+	      "modifiedBy": $rootScope.sessionConfig.userId,
+	      "createdBy": $rootScope.sessionConfig.userId,
+	      "startDate": null,
+	      "endDate": null
+	    };
 
 	    $scope.round = 	{
 	      "id": null,
@@ -83,39 +165,78 @@ app.controller('RoundsController',['$http','$window','$scope','$rootScope','noti
                 $scope.startDateObject.max(endDate);
                 $scope.endDateObject.min(endDate);
             }
-        }       
+        } 
+
+	    $scope.OnSelectedValue = function(defaultyears){
+	    	$scope.defaultyears = defaultyears;
+	    }
+	    $scope.OnEditSelectedValue = function(editdefaultOptions){
+	    	$scope.editdefaultOptions = editdefaultOptions;
+	    }	    
 
 	    $scope.Submit = function(){
-	    	$scope.round.referenceId = $scope.defaultyears.value;
-	    	$scope.round.financialYear = $scope.defaultyears.text;
-	    	var responseText = roundsfactory.doSubmitData($scope.round);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add round!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add round!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	$scope.round.referenceId = $scope.defaultyears.value;
+		    	$scope.round.financialYear = $scope.defaultyears.text;
+		    	var responseText = roundsfactory.doSubmitData($scope.round);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAddRoundWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add round!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to add round!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	 
+	    	}
 	    }
 
-	    $scope.Update = function(){
-	    	$scope.editround.referenceId = $scope.editdefaultOptions.value;
-	    	var responseText = roundsfactory.doUpdateData($scope.editround);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update round!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update round!");
-			});	    	
+	    $scope.Update = function(){debugger;
+			if($scope.editjQueryValidator.doValidate()){	
+		    	$scope.editround.referenceId = $scope.editdefaultOptions.value;
+		    	var responseText = roundsfactory.doUpdateData($scope.editround);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditRoundWindow();
+				        $scope.doReset();	
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update round!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update round!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	
+			}
 	    }
 
 	    $scope.EditData = function(data){
@@ -139,19 +260,7 @@ app.controller('RoundsController',['$http','$window','$scope','$rootScope','noti
 			    endDate: data.endDate,				
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/rounds/edit.html',
-	            controller: 'RoundsController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+	    	$scope.OpenEditRoundWindow();
 	    }
 
 	    $scope.gridOptions = {

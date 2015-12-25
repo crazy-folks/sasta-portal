@@ -1,27 +1,98 @@
-app.controller('CommunitiesController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','communitiesfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,communitiesfactory,exDialog){
+app.controller('CommunitiesController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','communitiesfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,communitiesfactory){
 
 		$scope.communitiesfactory = communitiesfactory;
-		$scope.banks = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Action of clicking product name link.
-	    $scope.callType = {};
-	    $scope.modelDialogTitle = {
-	    	add : "Add Communities",
-	    	edit : "Edit Communities"
-	    };
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/communities/add.html',
-	            controller: 'CommunitiesController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    };
+        $scope.modelDialogTitle = {
+            addCommunitiesTitle : "Add Communities",
+            editCommunitiesTitle : "Edit Communities"
+        };
+
+        $scope.kaddWindowOptions = {
+            content: 'admin/communities/add.html',
+            title: $scope.modelDialogTitle.addCommunitiesTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.addCommunitiesformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.addCommunitiesformName); 
+            }
+        };
+
+        $scope.addCommunitiesformName = '#frmAddCommunities';
+        $scope.editCommunitiesformName = '#frmEditCommunities';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/communities/edit.html',
+            title: $scope.modelDialogTitle.editCommunitiesTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.editCommunitiesformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.editCommunitiesformName);            	
+            }
+        };
+
+        $scope.OpenAddCommunitiesWindow = function($event){
+        	$scope.addCommunitesWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addCommunitesWindow.center().open();
+        }
+
+        $scope.CloseAddCommunitiesWindow = function(){
+            $scope.addCommunitesWindow.close();
+        }
+
+        $scope.OpenEditCommunitiesWindow = function(){
+			$scope.editCommunitesWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editCommunitesWindow.center().open();
+        }
+
+        $scope.CloseEditCommunitiesWindow = function(){
+            $scope.editCommunitesWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.communities = $scope.defaultOptions;
+        	$scope.editcommunities =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
+		  "id": null,
+		  "name": "",
+		  "description": "",
+		  "status": true,
+		  "createdDate": null,
+		  "createdByName": null,
+		  "modifiedByName": null,
+		  "modifiedBy": $rootScope.sessionConfig.userId,
+		  "createdBy": $rootScope.sessionConfig.userId,
+		  "modifiedDate": null
+		};
+
 
 	    $scope.communities = {
 		  "id": null,
@@ -37,33 +108,67 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 		};
 
 	    $scope.Submit = function(){
-	    	var responseText = communitiesfactory.doSubmitData($scope.communities);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add bank!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add bank!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	var responseText = communitiesfactory.doSubmitData($scope.communities);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAddCommunitiesWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add comminities!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to add comminities!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	    		
+	    	}	    	
+	    	
 	    }
 
 	    $scope.Update = function(){
-	    	var responseText = communitiesfactory.doUpdateData($scope.editcommunities);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update bank!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update bank!");
-			});	    	
+			if($scope.editjQueryValidator.doValidate()){
+		    	var responseText = communitiesfactory.doUpdateData($scope.editcommunities);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditCommunitiesWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update communities!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });	
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update communities!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });	
+				});
+			}	    	
+	    	
 	    }
 
 	    $scope.EditData = function(data){
@@ -75,19 +180,7 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 				name : data.name,
 				status: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/communities/edit.html',
-	            controller: 'CommunitiesController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+	    	$scope.OpenEditCommunitiesWindow();
 	    }
 
 	    $scope.gridOptions = {

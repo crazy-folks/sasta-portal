@@ -104,6 +104,10 @@
                     "regex": /^[\-\+]?((([0-9]{1,3})([,][0-9]{3})*)|([0-9]+))?([\.]([0-9]+))?$/,
                     "alertText": "* Invalid floating decimal number"
                 },
+                "onlyNumber": {
+                    "regex": /^[0-9]+$/,
+                    "alertText": "* Numbers only"
+                 },
                 "date": {                    
                     //	Check if date is valid by leap year
 			"func": function (field) {

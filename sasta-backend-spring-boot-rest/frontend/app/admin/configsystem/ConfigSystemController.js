@@ -1,27 +1,95 @@
-app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','configsystemfactory','exDialog',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,configsystemfactory,exDialog){
+app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','configsystemfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,configsystemfactory){
 
 		$scope.configsystemfactory = configsystemfactory;
-		$scope.banks = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Action of clicking product name link.
-	    $scope.callType = {};
 	    $scope.modelDialogTitle = {
-	    	add : "Add Config System",
-	    	edit : "Edit Config System"
+	    	AddConfigTitle : "Add Config System",
+	    	EditConfigTitle : "Edit Config System"
 	    };
 
-	    $scope.AddDialog = function (id) {
-	        $scope.callType.id = id;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/configsystem/add.html',
-	            controller: 'ConfigSystemController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
+
+        $scope.kaddWindowOptions = {
+            content: 'admin/configsystem/add.html',
+            title: $scope.modelDialogTitle.AddConfigTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+		        $($scope.addCommunitiesformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });         
+		        $scope.addjQueryValidator = new Validator($scope.addCommunitiesformName); 
+            }
+        };
+
+        $scope.addCommunitiesformName = '#frmAddCommunities';
+        $scope.editCommunitiesformName = '#frmEditCommunities';    
+
+        $scope.keditWindowOptions = {
+            content: 'admin/configsystem/edit.html',
+            title: $scope.modelDialogTitle.EditConfigTitle,
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: false,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function(){
+		        $($scope.editCommunitiesformName).validationEngine('attach', {
+		            promptPosition: "topLeft",
+		            scroll: true
+		        });		        
+		        $scope.editjQueryValidator = new Validator($scope.editCommunitiesformName);            	
+            }
+        };
+
+        $scope.OpenAddConfigSystemWindow = function(){
+        	$scope.addConfigSystemWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            $scope.addConfigSystemWindow.center().open();
+        }
+
+        $scope.CloseAddConfigSystemWindow = function(){
+            $scope.addConfigSystemWindow.close();
+        }
+
+        $scope.OpenEditConfigSystemWindow = function(){
+			$scope.editConfigSystemWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editConfigSystemWindow.center().open();
+        }
+
+        $scope.CloseEditConfigSystemWindow = function(){
+            $scope.editConfigSystemWindow.close();
+        }
+
+        $scope.doReset = function(){
+        	$scope.configsystem = $scope.defaultOptions;
+        	$scope.editconfigsystem =  $scope.defaultOptions;
+        }
+
+        $scope.defaultOptions = {
+	      "name": "",
+	      "value": "",
+	      "label": "",
+	      "createdDate": null,
+	      "allowEdit": true,
+	      "createBy": $rootScope.sessionConfig.userId,
+	      "modifyBy": $rootScope.sessionConfig.userId,
+	      "modifiedDate": null
 	    };
 
 	    $scope.configsystem = {
@@ -36,33 +104,65 @@ app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope'
 	    };
 
 	    $scope.Submit = function(){
-	    	var responseText = configsystemfactory.doSubmitData($scope.configsystem);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to add  Config System!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to add  Config System!");
-			});	    	
+	    	if($scope.addjQueryValidator.doValidate()){
+		    	var responseText = configsystemfactory.doSubmitData($scope.configsystem);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseAddConfigSystemWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to add  Config System!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to add  Config System!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				});	 
+	    	}
 	    }
 
 	    $scope.Update = function(){
-	    	var responseText = configsystemfactory.doUpdateData($scope.editconfigsystem);
-			responseText.success(function(result){
-				if(result.status){
-					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
-					$scope.$emit("ShowSuccess",result.data);
-		  		}else{
-		  			$scope.$emit("ShowError","Unable to update Config System!");
-		  		}
-			}).error(function(error,status){
-				$scope.$emit("ShowError","Unable to update  Config System!");
-			});	    	
+			if($scope.editjQueryValidator.doValidate()){
+		    	var responseText = configsystemfactory.doUpdateData($scope.editconfigsystem);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });								
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditConfigSystemWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to update Config System!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to update Config System!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });		
+				});	 				
+			}
 	    }
 
 	    $scope.EditData = function(data){
@@ -75,19 +175,7 @@ app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope'
 				value : data.value || '',
 				allowEdit: true
 	    	};
-	    	$scope.callType.id = 1;
-	        exDialog.openPrime({
-	            scope: $scope,
-	            template: 'admin/configsystem/edit.html',
-	            controller: 'ConfigSystemController',
-	            width: '600px',
-	            animation: true,
-	            grayBackground: true            
-	        });
-	    }
-
-	    $scope.Cancel = function() {
-	      $scope.closeThisDialog("close");
+	    	$scope.OpenEditConfigSystemWindow();
 	    }
 
 	    $scope.gridOptions = {

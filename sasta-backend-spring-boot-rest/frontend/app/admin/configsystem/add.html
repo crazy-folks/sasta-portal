@@ -1,33 +1,45 @@
-<div class="dialog-header">
-    <div class="dialog-title">{{ modelDialogTitle.add }}</div>
-</div>
-<form class="form-horizontal" name="frmCommunities" id="frmCommunities" novalidate>
-    <div class="dialog-message dialog-body">
-        <div class="form-group">
-            <div>
-                <label for="txtname" class="label-adjust">Name</label>
-                <input type="text" class="form-control" id="txtname" name="txtname"
-                       data-ng-model="configsystem.name" required ng-maxlength="50" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
+<section id="main-content" class="animated fadeInRight ng-scope">
+    <div class="row no-padding auto-margin">
+        <div class="col-md-12 col-lg-12 no-padding auto-margin">
+            <div class="row  no-padding auto-margin">
+                <div class="col-md-12  no-padding auto-margin">
+                    <div class="panel panel-default no-margin">
+                        <div class="panel-body no-padding auto-margin">
+                            <div class="row no-padding auto-margin">
+                                 <form class="form-horizontal" name="frmAddCommunities" id="frmAddCommunities">
+                                    <div class="form-group  no-margin">
+                                        <div>
+                                            <label for="txtname" class="label-adjust">Name</label>
+                                            <input type="text" class="form-control  no-padding width-95  validate[required]" id="txtname" name="txtname" data-ng-model="configsystem.name"ng-maxlength="100"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group  no-margin">
+                                        <div>
+                                            <label for="txtlabelName" class="label-adjust">Label</label>
+                                            <input type="text" class="form-control no-padding width-95  validate[required]" id="txtlabelName" name="txtlabelName"
+                                                   data-ng-model="configsystem.label" ng-maxlength="100"/>
+                                        </div>
+                                    </div>        
+                                    <div class="form-group  no-margin">
+                                        <label for="txtvalue" class="label-adjust">Value</label> 
+                                        <textarea rows="5" class="form-control no-padding width-95  validate[required]" id="txtvalue" name="txtvalue" data-ng-model="configsystem.value"></textarea>                       
+                                    </div>    
+                                </form>                           
+                            </div>                           
+                        </div>
+                        <div class="panel-body">
+                            <div class="row no-padding auto-margin">
+                                <div class="row no-padding auto-margin">
+                                    <div class="dialog-buttons dialog-footer text-right">        
+                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseAddConfigSystemWindow()">Cancel</button>
+                                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+                                    </div>            
+                                </div>                             
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div>
-                <label for="txtlabelName" class="label-adjust">Label</label>
-                <input type="text" class="form-control" id="txtlabelName" name="txtlabelName"
-                       data-ng-model="configsystem.label" required ng-maxlength="50" 
-                       ng-focus="setDrag(true)" ng-blur="setDrag(false)" />
-            </div>
-        </div>        
-        <div class="form-group">
-            <label for="txtvalue" class="label-adjust">Value</label> 
-            <textarea class="form-control" id="txtvalue" name="txtvalue"
-                   data-ng-model="configsystem.value" required 
-                   ng-focus="setDrag(true)" ng-blur="setDrag(false)"></textarea>                       
-        </div>      
     </div>
-    <div class="dialog-buttons dialog-footer">        
-        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
-        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
-    </div>
-</form>
+</section>
