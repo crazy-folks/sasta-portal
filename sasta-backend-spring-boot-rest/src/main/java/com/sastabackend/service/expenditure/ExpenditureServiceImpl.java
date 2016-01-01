@@ -1,10 +1,7 @@
 package com.sastabackend.service.expenditure;
 
-import com.sastabackend.domain.Audit;
 import com.sastabackend.domain.Expenditure;
 import com.sastabackend.domain.ResponseModel;
-import com.sastabackend.domain.Rounds;
-import com.sastabackend.repository.AuditRepository;
 import com.sastabackend.repository.ExpenditureRepository;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -22,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;

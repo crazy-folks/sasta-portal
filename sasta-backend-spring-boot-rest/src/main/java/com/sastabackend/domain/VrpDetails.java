@@ -137,7 +137,7 @@ package com.sastabackend.domain;
         }
 
         public void setCommunityId(java.lang.Integer community_id){
-            this.qualification_id = community_id;
+            this.community_id = community_id;
         }
 
         public String getContactNumber(){
@@ -145,7 +145,7 @@ package com.sastabackend.domain;
         }
 
         public void setContactNumber(String contact_no){
-            this.guardian_name = contact_no;
+            this.contact_no = contact_no;
         }
 
         public java.lang.Integer getTotalDays(){
@@ -201,7 +201,7 @@ package com.sastabackend.domain;
         }
 
         public void setGradeId(java.lang.Integer grade_id){
-            this.bank_id = grade_id;
+            this.grade_id = grade_id;
         }
 
         public java.lang.Boolean getActive(){
@@ -426,4 +426,51 @@ package com.sastabackend.domain;
             this.vrp_grade_name = vrp_grade_name;
         }
 
+    @Override
+    public String toString() {
+        return "VrpDetails{" +
+                "id=" + id +
+                ", audit_id=" + audit_id +
+                ", name='" + name + '\'' +
+                ", gender_id=" + gender_id +
+                ", village_panchayat_id=" + village_panchayat_id +
+                ", jc_no='" + jc_no + '\'' +
+                ", guardian_name='" + guardian_name + '\'' +
+                ", qualification_id=" + qualification_id +
+                ", community_id=" + community_id +
+                ", contact_no='" + contact_no + '\'' +
+                ", total_days=" + total_days +
+                ", paid_amount=" + paid_amount +
+                ", pay_mode=" + pay_mode +
+                ", bank_id=" + bank_id +
+                ", acc_no='" + acc_no + '\'' +
+                ", ifsc_code='" + ifsc_code + '\'' +
+                ", grade_id=" + grade_id +
+                ", created_date=" + created_date +
+                ", modified_date=" + modified_date +
+                ", created_by=" + created_by +
+                ", modified_by=" + modified_by +
+                ", is_active=" + is_active +
+                ", created_by_Name='" + created_by_Name + '\'' +
+                ", modified_by_Name='" + modified_by_Name + '\'' +
+                ", round_id=" + round_id +
+                ", round_name='" + round_name + '\'' +
+                ", round_start_date=" + round_start_date +
+                ", round_end_date=" + round_end_date +
+                ", round_description='" + round_description + '\'' +
+                ", audit_district_id=" + audit_district_id +
+                ", district_name='" + district_name + '\'' +
+                ", financial_year='" + financial_year + '\'' +
+                ", financial_description='" + financial_description + '\'' +
+                ", block_id=" + block_id +
+                ", block_name='" + block_name + '\'' +
+                ", vp_id=" + vp_id +
+                ", vp_name='" + vp_name + '\'' +
+                ", vrp_panchayat_name='" + vrp_panchayat_name + '\'' +
+                ", vrp_qualification_name='" + vrp_qualification_name + '\'' +
+                ", vrp_community_name='" + vrp_community_name + '\'' +
+                ", vrp_bank_name='" + vrp_bank_name + '\'' +
+                ", vrp_grade_name='" + vrp_grade_name + '\'' +
+                '}';
+    }
 }

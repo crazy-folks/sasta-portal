@@ -1,11 +1,16 @@
-app.controller('BaseController', ['$scope','$rootScope','storage',function($scope,$rootScope,storage) {
+app.controller('BaseController', ['$window','$scope','$rootScope','storage','notify','authfactory',
+    function($window,$scope,$rootScope,storage,notify,authfactory) {
+    
 
+    $scope.authenticated = false;
     $scope.sessionConfig = {};
+    $scope.baseUrl = $rootScope.appConfig.baseUrl;
     var s = storage.recall();
     if( s != false ){
       if( s != null ){
         $rootScope.sessionConfig = s;
         $scope.sessionConfig = s;
+        $scope.authenticated = true;
       }
     }
 
@@ -47,8 +52,199 @@ app.controller('BaseController', ['$scope','$rootScope','storage',function($scop
         $rootScope.$state.go('ui.contact-us');
     }
 
+    /* Sign in code start */
+
+    $scope.vm = {
+        userName : '',
+        password : ''
+    };
+
+    function ValidateForm(){
+        
+        var EMAIL_REGEXP = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+
+        if(!$scope.vm.userName){
+                notify({
+                    messageTemplate: '<span>Email id should not be empty!!!</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });         
+            return false;
+        }
+
+        if(!EMAIL_REGEXP.test($scope.vm.userName)){
+            notify({
+                messageTemplate: '<span>Invalid Email!!!</span>',
+                position: $rootScope.appConfig.notifyConfig.position,
+                scope:$scope
+            }); 
+            return false;           
+        }
+
+        if(!$scope.vm.password){
+                notify({
+                    messageTemplate: '<span>Password should not be empty!!!</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });             
+            return false;
+        }
+        return true;    
+    }
+
+    $scope.logout = function(){
+        var session = storage.recall();
+        $rootScope.$emit("LOAD");
+        authfactory.doSignOut(session.sessionId).done(function(result){
+            if(result.status){
+                storage.memorize([]);
+                $scope.authenticated = false;            
+            }
+            notify({
+                messageTemplate: '<span>'+result.data+'</span>',
+                position: $rootScope.appConfig.notifyConfig.position,
+                scope:$scope
+            });
+            setTimeout(function(){
+                $rootScope.$state.go('ui.index');
+            },500);
+        }).always(function(){
+            $scope.$emit("UNLOAD");
+        })
+    };
+
+    $scope.login = function(){
+        if(ValidateForm()){
+            $scope.$emit("LOAD");
+            authfactory.doSignIn($scope.vm.userName,$scope.vm.password)
+            .done(function(result){
+                 if(result.status){
+                    storage.memorize(null);
+                    storage.memorize(result.data);
+                    $scope.authenticated = true;
+                    console.log($window.location.host);
+                    $rootScope.sessionConfig = result.data;
+                    $scope.sessionConfig = result.data;
+                    $rootScope.$state.go('admin.home'); 
+                }else{
+                    var messageTemplate = '<span>'+result.data+'</span>';
+                    notify({
+                        messageTemplate: messageTemplate,
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope
+                    });
+                }               
+            }).fail(function(error,status){
+                // do your failiure stuff here
+            }).always(function(){
+                $scope.$emit("UNLOAD");
+            });
+        }
+    };
+
+    $scope.OpenChangePasswordWindow = function($event){
+        $scope.changePasswordWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+        $scope.changePasswordWindow.center().open();
+    }
+
+    $scope.checkChangePwdjQueryValidator = null;
+    $scope.ChangePasswordFormName = "#frmChangePassword"
+
+    $scope.CloseChangePasswordWindow = function(){
+        $scope.changePasswordWindow.close();
+    }
+
+    $scope.changePwdReq = {
+        OldPassword : '',
+        NewPassword : '',
+        ConfirmPassword : '',
+        UserId : $rootScope.sessionConfig.userId,
+        ChangeReqBy : false
+    }
+
+    $scope.DoResetPassword = function(){
+        if($scope.checkChangePwdjQueryValidator.doValidate()){
+            $scope.$emit("LOAD");
+            authfactory.doChangePassword($scope.changePwdReq)
+            .done(function(result){
+                var messageTemplate = '<span>'+result.data+'</span>';
+                notify({
+                    messageTemplate: messageTemplate,
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });
+                $scope.CloseChangePasswordWindow();          
+            }).fail(function(error,status){
+                // do your failiure stuff here
+            }).always(function(){
+                $scope.$emit("UNLOAD");
+            });
+        }
+    };
+
+    $scope.kchangePasswordWindowOptions = {
+            content: 'admin/profile/changepassword.html',
+            title: "Change Password",
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,      
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+                $($scope.ChangePasswordFormName).validationEngine('attach', {
+                    promptPosition: "topLeft",
+                    scroll: true
+                });         
+                $scope.checkChangePwdjQueryValidator = new Validator($scope.ChangePasswordFormName); 
+            }
+        };
+
 }]);
 
+
+app.factory('authfactory',function($http,$q,$rootScope){
+
+    var service = {};
+
+    service.doSignIn = function(userName,password){
+         return $.ajax({
+            method: 'GET',
+            url: $rootScope.appConfig.baseUrl+'/user/signin',
+            data : { email: userName, password : password }
+         });
+    }
+
+    service.doSignOut = function(sessionid){
+        return $.ajax({
+            url : $rootScope.appConfig.baseUrl + '/user/signout?sessionid=' + sessionid
+        });
+    }
+
+    service.doUpdateSession = function(sessionid){
+        return $.ajax({
+            method: 'POST',
+            url : $rootScope.appConfig.baseUrl + '/user/updatesession',
+            data : { "sessionid" : sessionid }
+        });
+    }
+
+    service.doChangePassword = function(model){
+        return $.ajax({
+            method: 'GET',
+            url : $rootScope.appConfig.baseUrl + '/user/resetpassword',
+            data : {UserId : model.UserId,OldPassword: model.OldPassword,NewPassword:model.NewPassword,
+                ChangeReqBy:model.ChangeReqBy}
+        });
+    }    
+
+    return service;
+
+});
 
 app.factory('notify',['$timeout','$http','$compile','$templateCache','$rootScope',
     function($timeout,$http,$compile,$templateCache,$rootScope){

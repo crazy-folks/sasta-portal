@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="assets/admin/styles/kendo.metro.min.css"> 
     <link rel="stylesheet" href="assets/admin/css/validation-engine-2.6.2/validationEngine.jquery.css">
     <link rel="stylesheet" href="assets/admin/js/crop/image-crop-styles.css">
+    <link rel="stylesheet" href="assets/css/common.css">
 </head>  
 <body  class="{{$state.current.name}}">
 
@@ -55,7 +56,6 @@
     <script type="text/javascript" src="js/config.js"></script>
     <script type="text/javascript" src="js/directives.js"></script>
     <script type="text/javascript" src="js/controllers.js"></script>    
-    <script type="text/javascript" src="js/controller/LoginController.js"></script>
     <script type="text/javascript" src="admin/banks/BankController.js"></script>
     <script type="text/javascript" src="admin/blocks/AuditBlocksController.js"></script>
     <script type="text/javascript" src="admin/bloodgroups/BloodGroupsController.js"></script>
@@ -73,5 +73,10 @@
     <script type="text/javascript" src="admin/users/UsersController.js"></script>
     <script type="text/javascript" src="admin/profile/ProfileController.js"></script>
     <script type="text/javascript" src="admin/audit/AuditController.js"></script>
+
+    <div kendo-window="changePasswordWindow" k-options="kchangePasswordWindowOptions">
+
+    </div>
+    
 </body>
 </html>

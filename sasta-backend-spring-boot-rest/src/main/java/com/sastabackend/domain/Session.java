@@ -18,6 +18,8 @@ public class Session {
     private String employee_id;
     private Integer country_id;
     private Long reporting_id;
+    private Integer allotted_district;
+    private Integer allotted_block;
 
     public Session(){}
 
@@ -107,6 +109,22 @@ public class Session {
 
     public void setReportingId(Long reporting_id){
         this.reporting_id = reporting_id;
+    }
+
+    public Integer getAllottedDistrict() {
+        return allotted_district;
+    }
+
+    public void setAllottedDistrict(Integer allotted_district) {
+        this.allotted_district = allotted_district;
+    }
+
+    public Integer getAllottedBlock() {
+        return allotted_block;
+    }
+
+    public void setAllottedBlock(Integer allotted_block) {
+        this.allotted_block = allotted_block;
     }
 
     @Override

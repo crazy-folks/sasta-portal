@@ -27,19 +27,19 @@ public class BlockController {
     }
 
     @ApiOperation(value = "Create Block", response = ResponseModel.class, httpMethod = "POST")
-    @RequestMapping(value = "/addblock", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseModel AddBlock(@ModelAttribute final Blocks block){
        return  blockService.Add(block.getBlockName(),block.getDescription(),block.getDistrictID(),block.getCreatedBy());
     }
 
     @ApiOperation(value = "Update Block", response = ResponseModel.class, httpMethod = "POST")
-    @RequestMapping(value = "/updateblock", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseModel UpdateBlock(@ModelAttribute final Blocks block){
         return  blockService.Update(block.getBlockID(), block.getBlockName(),block.getDescription(), block.getDistrictID(), block.getModifiedBy());
     }
 
     @ApiOperation(value = "Read Block List", response = ResponseModel.class, httpMethod = "GET")
-    @RequestMapping(value = "/blocklist", method = RequestMethod.GET)
+    @RequestMapping(value = "/getlist", method = RequestMethod.GET)
     public ResponseModel getBlockList(){
         return  blockService.getList();
     }

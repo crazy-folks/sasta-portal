@@ -333,4 +333,43 @@ public class Expenditure implements java.io.Serializable,CommonProperties {
     public void setVpName(String vp_name) {
         this.vp_name = vp_name;
     }
+
+    @Override
+    public String toString() {
+        return "Expenditure{" +
+                "id=" + id +
+                ", audit_id=" + audit_id +
+                ", visited_village_count=" + visited_village_count +
+                ", app_received_count=" + app_received_count +
+                ", attended_app_count=" + attended_app_count +
+                ", refreshment_charges=" + refreshment_charges +
+                ", selected_vrp_count=" + selected_vrp_count +
+                ", paided_amount=" + paided_amount +
+                ", photography_charges=" + photography_charges +
+                ", videos_charges=" + videos_charges +
+                ", ppleaflets=" + ppleaflets +
+                ", stationary=" + stationary +
+                ", others=" + others +
+                ", created_date=" + created_date +
+                ", modified_date=" + modified_date +
+                ", created_by=" + created_by +
+                ", modified_by=" + modified_by +
+                ", is_active=" + is_active +
+                ", created_by_Name='" + created_by_Name + '\'' +
+                ", modified_by_Name='" + modified_by_Name + '\'' +
+                ", round_id=" + round_id +
+                ", round_name='" + round_name + '\'' +
+                ", round_start_date=" + round_start_date +
+                ", round_end_date=" + round_end_date +
+                ", round_description='" + round_description + '\'' +
+                ", audit_district_id=" + audit_district_id +
+                ", district_name='" + district_name + '\'' +
+                ", financial_year='" + financial_year + '\'' +
+                ", financial_description='" + financial_description + '\'' +
+                ", block_id=" + block_id +
+                ", block_name='" + block_name + '\'' +
+                ", vp_id=" + vp_id +
+                ", vp_name='" + vp_name + '\'' +
+                '}';
+    }
 }

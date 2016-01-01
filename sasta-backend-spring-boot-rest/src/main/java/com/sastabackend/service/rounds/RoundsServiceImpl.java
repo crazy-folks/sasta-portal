@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -176,31 +177,13 @@ public class RoundsServiceImpl implements RoundsService {
     }
 
     private Rounds selectRoundId(Long id){
-
-        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("select_roundby_id");
-
-        Map<String, Object> inParamMap = new HashMap<String, Object>();
-        inParamMap.put("round_id", id);
-        SqlParameterSource in = new MapSqlParameterSource(inParamMap);
-
-        Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute(in);
-        Rounds o = new Rounds();
-        o.setId((Long) simpleJdbcCallResult.get("id"));
-        o.setName(StringUtils.trimToNull((String) simpleJdbcCallResult.get("name")));
-        o.setReferenceId((Integer) simpleJdbcCallResult.get("reference_id"));
-        o.setFinancialYear(StringUtils.trimToNull((String) simpleJdbcCallResult.get("financial_year")));
-        o.setStartDate((java.sql.Date) simpleJdbcCallResult.get("start_date"));
-        o.setEndDate((java.sql.Date) simpleJdbcCallResult.get("end_date"));
-        o.setDescription(StringUtils.trimToNull((String) simpleJdbcCallResult.get("description")));
-        o.setCreatedDate((java.sql.Timestamp) simpleJdbcCallResult.get("created_date"));
-        o.setModifiedDate((java.sql.Timestamp) simpleJdbcCallResult.get("modified_date"));
-        o.setModifiedBy((Long) simpleJdbcCallResult.get("modified_by"));
-        o.setCreatedBy((Long) simpleJdbcCallResult.get("created_by"));
-        o.setCreatedByName(StringUtils.trimToNull((String) simpleJdbcCallResult.get("created_by_name")));
-        o.setModifiedByName(StringUtils.trimToNull((String) simpleJdbcCallResult.get("modifed_by_name")));
-        o.setStatus((Boolean) simpleJdbcCallResult.get("is_active"));
-        System.out.println(o.toString());
-        return o;
+        List<Rounds> o = new ArrayList<Rounds>();
+        o = jdbcTemplate.query("call select_roundby_id(?)", new Object[]{id}, new RoundsMapper());
+        LOGGER.debug("Reading  Rounds : {}",o.toString());
+        if(o.size()==0)
+            return null;
+        else
+            return o.get(0);
     }
 
 

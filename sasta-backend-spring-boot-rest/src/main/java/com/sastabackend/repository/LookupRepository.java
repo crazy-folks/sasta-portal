@@ -22,25 +22,36 @@ public class LookupRepository {
     @Autowired
     protected JdbcTemplate jdbc;
 
-    public List<Lookup> findLookupData(int value){
+    public List<Lookup> findLookupData(int value,String where){
         List<Lookup> _list = new java.util.ArrayList();
-        _list = jdbc.query(buildQuery(value), userMapper);
+        _list = jdbc.query(buildQuery(value,where), userMapper);
         return _list;
     }
 
-    public String buildQuery(int value){
+    public String buildQuery(int value,String clause){
         LookupType type = LookupType.GetValue(value);
         StringBuilder builder = new StringBuilder();
+        StringBuilder where = new StringBuilder();
+        where.append(" where is_active=1 ");
         builder.append("select id as 'value',name as 'text' from ");
         switch(type){
             case AuditBlocks:
-                    builder.append("audit_blocks");
+                builder.append("audit_blocks");
+                if(!clause.isEmpty() && clause != null) {
+                    where.append(" and district_id = ".concat(clause));
+                }
                 break;
             case AuditDistricts:
                     builder.append("audit_district");
+                    if(!clause.isEmpty() && clause != null) {
+                        where.append(" and audit_state_id =".concat(clause));
+                    }
                 break;
             case AuditStates:
                 builder.append("audit_state");
+                if(!clause.isEmpty() && clause != null) {
+                    where.append(" and country_id =".concat(clause));
+                }
                 break;
             case Bank:
                 builder.append("bank_details");
@@ -74,6 +85,9 @@ public class LookupRepository {
                 break;
             case VillagePanchayats:
                 builder.append("village_panchayats");
+                if(!clause.isEmpty()&& clause != null) {
+                    where.append(" and audit_block_id =".concat(clause));
+                }
                 break;
             case Users:
                 builder = new StringBuilder();
@@ -83,7 +97,7 @@ public class LookupRepository {
                 throw new RuntimeException("Invalid Look up request");
         }
         builder.append(" ");
-        builder.append("where is_active=1");
+        builder.append(where.toString());
         return builder.toString();
     }
 

@@ -24,7 +24,7 @@ public class LookupController {
 
     @ApiOperation(value = "Read Lookup Data values", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping("getlookup")
-    public List<Lookup> getUser(@RequestParam("id") int id) {
-        return lookup.findLookupData(id);
+    public List<Lookup> getUser(@RequestParam("id") int id,@RequestParam(value = "where", required = false, defaultValue = "") String where) {
+        return lookup.findLookupData(id,where);
     }
 }

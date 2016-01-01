@@ -1,10 +1,7 @@
 package com.sastabackend.controller;
 
-import com.sastabackend.domain.AboutMe;
-import com.sastabackend.domain.ResponseModel;
-import com.sastabackend.domain.Session;
+import com.sastabackend.domain.*;
 import com.sastabackend.service.user.exception.UserAlreadyExistsException;
-import com.sastabackend.domain.Users;
 import com.sastabackend.service.user.UserService;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -29,17 +26,9 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @ApiOperation(value = "Create User", response = ResponseModel.class, httpMethod = "POST")
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public Users createUser(@ModelAttribute final  Users users) {
-        LOGGER.debug("Received request to create the {}", users);
-        return userService.save(users);
-    }
-
-    @ApiOperation(value = "Create User", response = ResponseModel.class, httpMethod = "POST")
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseModel Add(@ModelAttribute final Users users) {
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseModel Add(@RequestBody final Users users) {
         LOGGER.debug("Received request to create the {}", users);
         return userService.Add(users);
     }
@@ -73,6 +62,26 @@ public class UserController {
         return about.toString();
     }
 
+    @ApiOperation(value = "update basic user details", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/updatebasicprofile", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseModel UpdateBasicProfile(@RequestBody BasicUserDetails profile){
+        return userService.UpdateBasicUserDetails(profile);
+    }
+
+    @ApiOperation(value = "remove user current session", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/signout", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseModel signout(@RequestParam("sessionid") String sessionid){
+        return userService.SignOut(sessionid);
+    }
+
+    @ApiOperation(value = "update current session", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/updatesession", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseModel updatesession(@RequestParam("sessionid") String sessionid){
+        return userService.UpdateSession(sessionid);
+    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
@@ -80,4 +89,11 @@ public class UserController {
         return e.getMessage();
     }
 
+    @ApiOperation(value = "Reset password old one instead of new one", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/resetpassword", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseModel resetPassword(@RequestParam("UserId") Long userid,@RequestParam("OldPassword") String oldPassword,
+                                       @RequestParam("NewPassword") String NewPassword,@RequestParam("ChangeReqBy") Boolean changedby){
+        return userService.ChangePassword(userid, oldPassword, NewPassword, changedby);
+    }
 }

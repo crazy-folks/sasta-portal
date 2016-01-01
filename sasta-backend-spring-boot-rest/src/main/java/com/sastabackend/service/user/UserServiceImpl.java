@@ -369,6 +369,159 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
+    @Override
+    public ResponseModel UpdateBasicUserDetails(BasicUserDetails personal) {
+
+        ResponseModel response = null;
+        try {
+            response = new ResponseModel<Boolean>();
+            SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_basic_profile_information")
+                    .declareParameters(
+                            new SqlParameter("userid", Types.BIGINT),
+                            new SqlParameter("exp", Types.VARCHAR),
+                            new SqlParameter("communicationaddress", Types.VARCHAR),
+                            new SqlParameter("permanentaddress", Types.VARCHAR),
+                            new SqlParameter("isaddresssame", Types.BIT),
+                            new SqlParameter("dateofbirth", Types.DATE),
+                            new SqlParameter("previousworkexp", Types.FLOAT),
+                            new SqlParameter("gmailid", Types.VARCHAR),
+                            new SqlParameter("skypename", Types.VARCHAR),
+                            new SqlParameter("businessemail", Types.VARCHAR),
+                            new SqlParameter("personalemail", Types.VARCHAR),
+                            new SqlParameter("bloodgroupid", Types.SMALLINT),
+                            new SqlParameter("mobileno", Types.VARCHAR),
+                            new SqlParameter("landlineno", Types.VARCHAR),
+                            new SqlParameter("personalurl", Types.VARCHAR),
+                            new SqlOutParameter("flag", Types.BIT)
+                    );
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("userid", personal.getUserId());
+            inParamMap.put("exp", personal.getExperience());
+            inParamMap.put("communicationaddress", personal.getCommunicationAddress());
+            inParamMap.put("permanentaddress", personal.getPresentAddress());
+            inParamMap.put("isaddresssame", personal.getIsAddressSame());
+            inParamMap.put("dateofbirth", personal.getDateOfBirth());
+            inParamMap.put("previousworkexp", personal.getPreviousExperience());
+            inParamMap.put("gmailid", personal.getGmailId());
+            inParamMap.put("skypename", personal.getSkypeName());
+            inParamMap.put("businessemail", personal.getBusinessEmail());
+            inParamMap.put("personalemail", personal.getPersonalEmail());
+            inParamMap.put("bloodgroupid", personal.getBloodGroupId());
+            inParamMap.put("mobileno", personal.getMobileNumber());
+            inParamMap.put("landlineno", personal.getLandLineNumber());
+            inParamMap.put("personalurl", personal.getPersonalUrl());
+            SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+            simplejdbcCall.compile();
+            Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+            if (!simpleJdbcCallResult.isEmpty()) {
+                if(Boolean.valueOf(simpleJdbcCallResult.get("flag").toString()).booleanValue()) {
+                    response.setData("Successfully updated basic profile!.");
+                }
+            }
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setStatus(false);
+            LOGGER.debug("Error  " + err.getMessage());
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseModel SignOut(String sessionid) {
+        ResponseModel response = null;
+        try {
+            response = new ResponseModel<Object>();
+            if(doSignOut(sessionid)){
+                response.setData("Successfully logged out user current session!");
+                response.setStatus(true);
+            }else{
+                response.setData("unalbe to logout!");
+                response.setStatus(false);
+            }
+            return response;
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+
+    @Override
+    public ResponseModel UpdateSession(String sessionid) {
+        ResponseModel response = null;
+        try {
+            response = new ResponseModel<Session>();
+            if(DoUpdateSession(sessionid)){
+                response.setData(getUserSession(sessionid));
+                response.setStatus(true);
+            }else{
+                response.setData(null);
+                response.setStatus(false);
+            }
+            return response;
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseModel ChangePassword(Long userid, String oldPassword, String NewPassword, Boolean changedby) {
+        if(!oldPassword .isEmpty())
+            oldPassword = TextUtil.makeOneWayPasswordWithMD5(oldPassword);
+        if(!NewPassword .isEmpty())
+            NewPassword = TextUtil.makeOneWayPasswordWithMD5(NewPassword);
+        return ResetPassword(userid, oldPassword, NewPassword, changedby);
+    }
+
+    /**
+     * Sign out user current session
+     * @param sessionid - session id
+     * @return
+     */
+    private boolean doSignOut(String sessionid){
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("sign_out")
+                .declareParameters(
+                        new SqlParameter("sessionid", Types.VARCHAR),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("sessionid", sessionid);
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
+    /**
+     * update session
+     * @param sessionid
+     * @return
+     */
+    public boolean DoUpdateSession(String sessionid){
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_session")
+                .declareParameters(
+                        new SqlParameter("sessionid", Types.VARCHAR),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("sessionid", sessionid);
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
     /**
      * Read session details current user login
      * @param session
@@ -420,6 +573,37 @@ public class UserServiceImpl implements UserService {
         System.out.println(o.toString());
         return o;
     }
+
+    private ResponseModel ResetPassword(Long userid, String oldPassword, String NewPassword, Boolean changedby){
+        ResponseModel<String> response = new ResponseModel<String>();
+        response.setStatus(false);
+        try{
+            SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("reset_password")
+                    .declareParameters(
+                            new SqlParameter("userid", Types.BIGINT),
+                            new SqlParameter("oldpassword", Types.VARCHAR),
+                            new SqlParameter("newpassword", Types.VARCHAR),
+                            new SqlParameter("changebyadmin", Types.BIT),
+                            new SqlOutParameter("flag", Types.BIT)
+                    );
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("userid", userid);
+            inParamMap.put("oldpassword", oldPassword);
+            inParamMap.put("newpassword", NewPassword);
+            inParamMap.put("changebyadmin", changedby);
+            SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+            simplejdbcCall.compile();
+            Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+            if(!simpleJdbcCallResult.isEmpty()) {
+                response.setStatus((boolean) simpleJdbcCallResult.get("flag"));
+                response.setData("Reset password successfully!.");
+            }
+        }catch(Exception err){
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
     protected static final class SessionMapper implements RowMapper{
 
         public Object mapRow(ResultSet set, int rowNo)throws SQLException {
@@ -435,6 +619,8 @@ public class UserServiceImpl implements UserService {
             o.setEmployeeID(StringUtils.trimToNull(set.getString("employee_id")));
             o.setCountryId(set.getInt("country_id"));
             o.setReportingId(set.getLong("reporting_id"));
+            o.setAllottedBlock(set.getInt("allotted_block"));
+            o.setAllottedDistrict(set.getInt("allotted_district"));
             System.out.println(o.toString());
             return o;
         }

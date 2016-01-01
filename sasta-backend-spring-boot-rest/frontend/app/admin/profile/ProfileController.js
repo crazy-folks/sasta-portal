@@ -4,7 +4,10 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
         // Users list
         $scope.user = [];
         $scope.formName = '#userForm';
-
+        $scope.basicProfielForm = '#basicProfielForm';
+        $scope.dateOptions = {
+            format: 'yyyy-MM-dd'
+        };
         $($scope.formName).validationEngine('attach', {
             promptPosition: "topLeft",
             scroll: true
@@ -19,6 +22,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
         $scope.reportingto = [];
         $scope.allotteddistricts = [];
         $scope.allottedblocks = [];
+        $scope.bloodGroups = [];
         $scope.entityGroups = [{
             "value": 0,
             "text": "Select"
@@ -89,10 +93,38 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             "value": 0,
             "text": "Select"
         };
+       $scope.defaultBloodGroups = {
+            "value": 0,
+            "text": "Select"
+        };        
 
         //Action of clicking product name link.
         $scope.modelDialogTitle = {
-            aboumeTitle : "About Me"
+            aboumeTitle : "About Me",
+            basicProfileTitle : 'Basic Profile'
+        };
+
+        $scope.KbasicProfileWindowWindowOptions = {
+            content: 'admin/profile/basicprofile.html',
+            title: $scope.modelDialogTitle.basicProfileTitle,
+            width : '90%',
+            iframe: false,
+            draggable: true,
+            modal: true,
+            resizable: true,
+            visible: false,     
+            animation: {
+                close: {
+                    effects: "fade:out"
+                }
+            },
+            open : function() {
+                $($scope.basicProfielForm).validationEngine('attach', {
+                    promptPosition: "topLeft",
+                    scroll: true
+                });         
+                $scope.basicProfieValidator = new Validator($scope.basicProfielForm);
+            }
         };
 
         $scope.kWindowOptions = {
@@ -136,6 +168,15 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             }); 
         }
 
+        $scope.EditBasicProfile = function(){
+            $scope.defaultBloodGroups.value = $scope.user.bloodGroupId || 0;
+            $scope.basicProfileWindow.center().open();
+        }
+
+        $scope.CloseEditBasicProfile = function(){
+            $scope.basicProfileWindow.close();
+        }
+
         $scope.fileChanged = function(e) {          
         
             var files = e.target.files;
@@ -157,6 +198,47 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
              delete $scope.resultBlob;
         };
 
+        $scope.OnSelectedBloodGroupValue = function(defaultBloodGroups){
+            $scope.defaultBloodGroups = defaultBloodGroups;
+        }
+
+        $scope.SubmitBasicProfile = function(){
+            if($scope.basicProfieValidator.doValidate()){
+                var model = {
+                  "experience": $scope.user.experience,
+                  "gmailId": $scope.user.gmailId,
+                  "skypeName": $scope.user.skypeName,
+                  "communicationAddress": $scope.user.communicationAddress,
+                  "dateOfBirth": $scope.user.dateOfBirth,
+                  "previousExperience": $scope.user.previousExperience,
+                  "businessEmail": $scope.user.businessEmail,
+                  "personalEmail": $scope.user.personalEmail,
+                  "bloodGroupId": $scope.defaultBloodGroups.value,
+                  "mobileNumber": $scope.user.mobileNumber,
+                  "landLineNumber": $scope.user.landLineNumber,
+                  "personalUrl": null,
+                  "isAddressSame": true,
+                  "presentAddress": $scope.user.permanentAddress,
+                  "userId": $rootScope.sessionConfig.userId
+                };
+                var resp = profilefactory.UpdateBasicProfile(model);
+                resp.success(function(result){
+                    notify({
+                        messageTemplate: '<span>'+result.data+'</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope
+                    });                     
+                    GetProfileInformation();
+                    $scope.CloseEditBasicProfile();
+                }).error(function(error,status){
+                    notify({
+                        messageTemplate: error,
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope
+                    });
+                });                
+            }    
+        }
 
         // user info
         $scope.user = {
@@ -279,6 +361,11 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
                     for (var i=0; i<result.length; i++){
                         $scope.allotteddistricts.push(result[i]);
                     }                    
+                }else if(type === 5){//blood groups
+                     $scope.bloodGroups.push(defaultOptions);
+                    for (var i=0; i<result.length; i++){
+                        $scope.bloodGroups.push(result[i]);
+                    }                    
                 }
             }else{
                 notify({
@@ -302,6 +389,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
     GetLookupValues(3);
     GetLookupValues(1);
     GetLookupValues(7);
+    GetLookupValues(5);
 
     // Get Profile Information
     GetProfileInformation();
@@ -323,6 +411,17 @@ app.factory('profilefactory',function($http,$q,$rootScope){
         return $http({
             method : 'POST',
             url : crudServiceBaseUrl + '/user/uploadavatarimages',
+            data : JSON.stringify(model),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    } 
+
+    service.UpdateBasicProfile = function(model){      
+        return $http({
+            method : 'POST',
+            url : crudServiceBaseUrl + '/user/updatebasicprofile',
             data : JSON.stringify(model),
             headers: {
                 "Content-Type": "application/json"

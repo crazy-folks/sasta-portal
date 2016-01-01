@@ -246,8 +246,10 @@ public class VrpDetailsServiceImpl implements  VrpDetailsService {
         o = jdbcTemplate.query("call select_vrp_details_by_id(?)", new Object[]{id}, new VrpDetailsMapper());
         if(o.size()==0)
             return null;
-        else
+        else {
+            LOGGER.debug("{0}",o.get(0).toString());
             return o.get(0);
+        }
     }
 
 

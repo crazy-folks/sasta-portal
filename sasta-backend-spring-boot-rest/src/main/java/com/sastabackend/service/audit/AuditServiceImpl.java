@@ -114,6 +114,38 @@ public class AuditServiceImpl implements AuditService {
         return response;
     }
 
+    @Override
+    public ResponseModel DoesExistAuditEntry(Long roundid, Integer districtid, Integer blockid, Integer panchayatid) {
+        Boolean flag = false;
+        ResponseModel<String> response = new ResponseModel<String>();
+        response.setStatus(false);
+        try{
+            response.setData("");
+            SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("does_exist_audit")
+                    .declareParameters(
+                            new SqlParameter("roundid", Types.BIGINT),
+                            new SqlParameter("auditdistrictid", Types.INTEGER),
+                            new SqlParameter("auditblockid", Types.INTEGER),
+                            new SqlParameter("villagepanchayatid", Types.INTEGER),
+                            new SqlOutParameter("flag", Types.BIT)
+                    );
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("roundid", roundid);
+            inParamMap.put("auditdistrictid", districtid);
+            inParamMap.put("auditblockid", blockid);
+            inParamMap.put("villagepanchayatid", panchayatid);
+            SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+            simplejdbcCall.compile();
+            Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+            if(!simpleJdbcCallResult.isEmpty()) {
+                response.setStatus((boolean) simpleJdbcCallResult.get("flag"));
+                response.setData("Already a record found in database for selected round!.");
+            }
+        }catch(Exception err){
+            response.setData(err.getMessage());
+        }
+        return  response;
+    }
 
 
     private boolean Create(Long roundid, Date startdate, Date enddate, Date gramasabhadate, Integer district_id,
@@ -193,6 +225,7 @@ public class AuditServiceImpl implements AuditService {
     private Audit selectAuditData(Long id){
         List<Audit> o = new ArrayList<Audit>();
         o = jdbcTemplate.query("call select_audit_entry(?)", new Object[]{id}, new AuditMapper());
+        LOGGER.debug("Creating  Audit : {}",o.toString());
         if(o.size()==0)
             return null;
         else

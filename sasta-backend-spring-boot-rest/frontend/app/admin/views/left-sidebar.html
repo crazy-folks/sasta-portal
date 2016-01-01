@@ -1,6 +1,6 @@
 <div class="sidebar-profile">
     <div class="avatar">
-        <img class="img-circle profile-image" ng-src="{{sessionConfig.imageName}}">
+        <img class="img-circle profile-image" no-cache-src="{{sessionConfig.imageName}}">
         <i class="on border-dark animated bounceIn"></i>
     </div>
     <div class="profile-body dropdown">
@@ -19,7 +19,7 @@
             </li>
             <li class="divider"></li>
             <li>
-                <a href="javascript:void(0);">
+                <a href="javascript:void(0);" ui-sref="admin.profile" >
                     <span class="icon"><i class="fa fa-user"></i>
                                 </span>My Account</a>
             </li>
@@ -30,7 +30,7 @@
             </li>
             <li class="divider"></li>
             <li>
-                <a href="javascript:void(0);">
+                <a href="javascript:;" ng-click="logout()">
                     <span class="icon"><i class="fa fa-sign-out"></i>
                     </span>Logout</a>
             </li>

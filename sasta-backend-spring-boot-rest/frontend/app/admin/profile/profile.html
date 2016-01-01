@@ -20,23 +20,20 @@
 		                <div class="panel-heading">
 		                    <h3 class="panel-title">About Me</h3>
 		                    <div class="actions pull-right">
-		                    <i data-fullscreen-widget class="fa fa-expand"></i>
+		                    	<i ng-click="OpenAboutMe($event);" class="fa icon-pencil"></i>
+		                    	<i data-fullscreen-widget class="fa fa-expand"></i>
 		                        <i data-widget-toggle class="fa fa-chevron-down"></i>
 		                        <i data-widget-close class="fa fa-times"></i>
 		                    </div>
 		                </div>
 		                <div class="panel-body">
 		                	<div class="col-sm-2">
-		                		 <img ng-src="{{user.imageName}}">
+		                		 <img no-cache-src="{{user.imageName}}">
 		                	</div>
 		                	<div class="col-sm-10">
 		                		<div class="col-sm-12">
 		                			<div class="col-sm-12 control-label" ng-bind="user.description||'You can update your status with clicking edit button!'"></div>
 		                		</div>
-		                		<div class="text-right col-sm-12">
-		                		<input type="button" class="btn btn-success btn-sm" value="Edit" ng-click="OpenAboutMe($event);">
-		                		</div>
-
 				        	</div>
 		                </div>
 		            </div>
@@ -127,6 +124,7 @@
 		                <div class="panel-heading">
 		                    <h3 class="panel-title">Personnal Information</h3>
 		                    <div class="actions pull-right">
+		                    	<i ng-click="EditBasicProfile();" class="fa icon-pencil"></i>
 		                    	<i data-fullscreen-widget class="fa fa-expand"></i>
 		                        <i data-widget-toggle class="fa fa-chevron-down"></i>
 		                        <i data-widget-close class="fa fa-times"></i>
@@ -192,11 +190,7 @@
 		                		<label class="col-sm-4 control-label">Per-Address</label>
 		                		<label class="col-sm-1 control-label">:</label>
 		                		<label class="col-sm-6 control-label" ng-bind="user.permanentAddress||'-'"></label>
-		                	</div>
-		                	<div class="text-right">
-					        	<input type="button" class="btn btn-success btn-sm" value="Edit" ng-click="EditProfileAboutMeSection();">
-								<input type="button" class="btn btn-danger btn-sm" ng-click="Reset();" value="Cancel"> 
-				        	</div>		                	
+		                	</div>	                	
 		                </div>				
 					</div>
 				</div>
@@ -204,6 +198,12 @@
 		</div>
 	</div>
 </section>
+
 <div  kendo-window="aboutMeWindow" k-options="kWindowOptions">
 	
 </div>
+
+<div  kendo-window="basicProfileWindow" k-options="KbasicProfileWindowWindowOptions">
+	
+</div>
+

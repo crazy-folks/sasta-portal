@@ -1,0 +1,122 @@
+ <section id="main-content" class="animated fadeInRight ng-scope">
+    <div class="row no-padding auto-margin">
+        <div class="col-md-12 col-lg-12 no-padding auto-margin">
+            <div class="row  no-padding auto-margin no-padding">
+            	<form class="form-horizontal" name="basicProfielForm" id="basicProfielForm">
+
+	                <div class="col-md-6 auto-margin no-padding">
+	                    <div class="panel panel-default no-margin">
+	                        <div class="panel-body no-padding auto-margin">
+	                            <div class="row no-padding auto-margin">                                 
+		                            <div class="form-group no-margin">
+		                                <div>
+		                                    <label for="businessEmail" class="label-adjust">Business Email</label>
+		                                    <input type="text" class="k-input width-95 validate[required,custom[email]]" id="businessEmail" name="businessEmail"
+		                                           data-ng-model="user.businessEmail" ng-maxlength="100" 
+		                                          />
+		                                </div>
+		                            </div>
+	                                <div class="form-group no-margin">
+	                                    <label for="personalEmail" class="label-adjust">Personal Email</label>
+	                                        <input type="text" class="k-input width-95 validate[required,custom[email]]" id="personalEmail" name="personalEmail"
+	                                               data-ng-model="user.personalEmail" ng-maxlength="50" 
+	                                              />
+	                                </div>                                        
+	                                <div class="form-group no-margin">
+	                                    <label for="gmailId" class="label-adjust">Gmail Id</label>
+	                                        <input type="text" class="k-input width-95 validate[required,custom[email]]" id="gmailId" name="gmailId"
+	                                               data-ng-model="user.gmailId" ng-maxlength="50" 
+	                                              />
+	                                </div>
+	                                <div class="form-group no-margin">
+	                                    <div>
+	                                        <label for="skypeName" class="label-adjust">Skype Name</label>
+	                                        <input type="text" class="k-input width-95 validate[required]" id="skypeName" name="skypeName"
+	                                               data-ng-model="user.skypeName" ng-maxlength="100" 
+	                                              />
+	                                    </div>
+	                                </div>
+	                                <div class="form-group no-margin">
+	                                    <label for="dateOfBirth" class="label-adjust">Date Of Birth</label>
+	                                        <input type="text" class="width-95" id="dateOfBirth" name="dateOfBirth" kendo-date-picker="dateOfBirthObject" 
+	                                               data-ng-model="user.dateOfBirth" 
+	                                              />
+	                                </div>
+	                                <div class="form-group no-margin">
+	                                    <div>
+	                                        <label for="experience" class="label-adjust">Experience</label>
+	                                        <input type="text" class="k-input width-95 validate[required]" id="experience" name="experience"
+	                                               data-ng-model="user.experience" ng-maxlength="100" 
+	                                              />
+	                                    </div>
+	                                </div>
+	                            </div>                           
+	                        </div>                       
+	                    </div>
+	                </div>
+
+	                <div class="col-md-6  auto-margin no-padding">
+	                    <div class="panel panel-default no-margin">
+	                        <div class="panel-body no-padding auto-margin">
+	                            <div class="row no-padding auto-margin">                                 
+		                            <div class="form-group no-margin">
+		                                <div>
+		                                    <label for="previousExperience" class="label-adjust">Previous Experience</label>
+		                                    <input type="text" class="k-input width-95 validate[required]" id="previousExperience" name="previousExperience"
+		                                           data-ng-model="user.previousExperience" ng-maxlength="100" 
+		                                          />
+		                                </div>
+		                            </div>
+	                                <div class="form-group no-margin">
+	                                    <label for="mobileNumber" class="label-adjust">Mobile Number</label>
+	                                        <input type="text" class="k-input width-95 validate[required]" id="mobileNumber" name="mobileNumber"
+	                                               data-ng-model="user.mobileNumber" ng-maxlength="50" 
+	                                              />
+	                                </div>                                        
+	                                <div class="form-group no-margin">
+	                                    <label for="landLineNumber" class="label-adjust">Land Line Number</label>
+	                                        <input type="text" class="k-input width-95 validate[required]" id="landLineNumber" name="landLineNumber"
+	                                               data-ng-model="user.landLineNumber" ng-maxlength="50" 
+	                                              />
+	                                </div>
+	                                <div class="form-group no-margin">
+	                                    <div>
+	                                        <label for="bloodGroupName" class="label-adjust">Blood Group</label>
+                                            <select name="selYears" class=" k-input width-95  validate[required]" ng-model="defaultBloodGroups" ng-options="obj.text for obj in bloodGroups track by obj.value"  ng-change="OnSelectedBloodGroupValue(defaultBloodGroups)" >
+                                            </select> 
+	                                    </div>
+	                                </div>
+	                                <div class="form-group no-margin">
+	                                    <label for="communicationAddress" class="label-adjust">Communication Address</label>
+	                                        <input type="text" class="k-input width-95 validate[required]" id="communicationAddress" name="communicationAddress"
+	                                               data-ng-model="user.communicationAddress" ng-maxlength="50" 
+	                                              />
+	                                </div>
+	                                <div class="form-group no-margin">
+	                                    <div>
+	                                        <label for="permanentAddress" class="label-adjust">Permanent Address</label>
+	                                        <input type="text" class="k-input width-95 validate[required]" id="permanentAddress" name="permanentAddress"
+	                                               data-ng-model="user.permanentAddress" ng-maxlength="100" 
+	                                              />
+	                                    </div>
+	                                </div>
+	                            </div>                           
+	                        </div>                       
+	                    </div>
+	                </div>            	
+            	</form> 
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="panel-body">
+    <div class="row no-padding auto-margin">
+        <div class="row no-padding auto-margin">
+            <div class="dialog-buttons dialog-footer text-right">        
+                <button type="button" class="btn btn-danger btn-sm" ng-click="CloseEditBasicProfile()">Cancel</button>
+                <button type="button" class="btn btn-success btn-sm" data-ng-click="SubmitBasicProfile()">&#160;Save&#160;</button>
+            </div>            
+        </div>                             
+    </div>
+</div> 

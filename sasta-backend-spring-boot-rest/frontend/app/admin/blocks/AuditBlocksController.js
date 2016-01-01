@@ -226,7 +226,7 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/block/blocklist'
+				         url: $scope.crudServiceBaseUrl + '/block/getlist'
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)
@@ -279,7 +279,7 @@ app.factory('blocksfactory',function($http,$q,$rootScope){
 
 	var service = {};
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-	var createblocksUrl = '/block/addblock';
+	var createblocksUrl = '/block/create';
 
 	service.getLookupValues = function(id){
 		return $http({

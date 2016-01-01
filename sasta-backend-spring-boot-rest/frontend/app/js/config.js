@@ -1,5 +1,7 @@
  function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider) {
 
+    //$httpProvider.interceptors.push('noCacheInterceptor');
+
     $urlRouterProvider.otherwise("/ui/index");
 
     $stateProvider
@@ -203,17 +205,21 @@ angular.module('sastaboard')
     .constant("appConfig", {
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
-        baseUrl: "http://localhost:8080/sastabackend/api",
+        // Local Environment
+        baseUrl: "http://localhost:8080/sasta-backend/api",
+        // Live Environment
+        //baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
         debug : true,
         environment : 'development',
         notifyConfig : {
             duration : 10000, // references : http://cgross.github.io/angular-notify/demo/
             position : "right" // ['center', 'left', 'right']
-        }
+        },
+        adminPrefixUrl : 'admin.'
     })
     .value("sessionConfig", {})
-    .run(['$rootScope', '$state','$templateCache','appConfig','sessionConfig',
-        function($rootScope, $state,$templateCache,appConfig,sessionConfig) {
+    .run(['$rootScope', '$state','$templateCache','appConfig','sessionConfig','authfactory','storage','notify',
+        function($rootScope, $state,$templateCache,appConfig,sessionConfig,authfactory,storage,notify) {
 
         'use strict';
 
@@ -244,4 +250,45 @@ angular.module('sastaboard')
         "</div>"
       );
 
+      $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
+        var session  = storage.recall();
+        if($state.includes('admin') || (next.name.indexOf($rootScope.appConfig.adminPrefixUrl)>-1)){
+            var expire = new Date(session.expiredDate);
+            var now = new Date();
+            if( expire > now){
+                authfactory.doUpdateSession(session.sessionId).
+                done(function(result){
+                    if(result.status){
+                        storage.memorize(result.data)
+                    }
+                });
+            }else{
+                notify({
+                    messageTemplate: '<span>session timed out!.</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$rootScope
+                });
+                event.preventDefault();
+                // $rootScope.$state.go('ui.index'); Which is not working well so we have to go with 
+                // Below method
+                $rootScope.$state.transitionTo('ui.index');
+            }
+        }
+      });
     }]);
+
+app.factory('noCacheInterceptor', function () {
+    return {
+        request: function (config) {
+            console.log(config.method);
+            console.log(config.url);
+            if(config.method=='GET'){
+                var separator = config.url.indexOf('?') === -1 ? '?' : '&';
+                config.url = config.url+separator+'noCache=' + new Date().getTime();
+            }
+            console.log(config.method);
+            console.log(config.url);
+            return config;
+       }
+   };
+});

@@ -560,12 +560,29 @@ function switchTheme() {
     }
 };
 
+function noCache($window){
+  return {
+    priority: 99,
+    link: function(scope, element, attrs) {
+      attrs.$observe('noCacheSrc', function(noCacheSrc) {
+        noCacheSrc = noCacheSrc || '';
+        if(noCacheSrc!=''){
+            if(!(noCacheSrc.indexOf('data:image/png;base64')>-1)){
+                noCacheSrc += '?' + (new Date()).getTime();
+            }
+            attrs.$set('src', noCacheSrc); 
+        }
+      });
+    }
+  }    
+}
 
 /*
  * Pass functions to module
  */
 angular
     .module('sastaboard')
+    .directive('noCacheSrc', noCache)
     .directive('pageTitle', pageTitle)
     .directive('topNavigation',topNavigation)
     .directive('sastaAutoSlider',sastaAutoSlider)

@@ -29,45 +29,26 @@ public class ExpenditureController {
         this.expenditureService = expenditureService;
     }
 
-    @ApiOperation(value = "Create Expenditure", response = ResponseModel.class, httpMethod = "GET")
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ResponseModel Create(@RequestParam("auditid") Long auditid,@RequestParam("visitedvillagecount")  Integer visitedvillagecount,@RequestParam("appreceivedcount")  Integer appreceivedcount,
-                                @RequestParam("attendedappcount") Integer attendedappcount,@RequestParam("refreshmentcharges")  BigDecimal refreshmentcharges,@RequestParam("selectedvrpcount")  Integer selectedvrpcount,
-                                @RequestParam("paidedamount") BigDecimal paidedamount,@RequestParam("photographycharges")  BigDecimal photographycharges,@RequestParam("videoscharges")  BigDecimal videoscharges,
-                                @RequestParam("ppleaf_lets") BigDecimal ppleaf_lets,@RequestParam("stationaries")  BigDecimal stationaries,@RequestParam("othersvalue")  BigDecimal othersvalue,
-                                @RequestParam("createdby") Long createdby) {
-        return expenditureService.Add(auditid, visitedvillagecount, appreceivedcount,
-                attendedappcount, refreshmentcharges, selectedvrpcount,
-                paidedamount, photographycharges, videoscharges,
-                ppleaf_lets, stationaries, othersvalue,
-                createdby);
-    }
-
-    @ApiOperation(value = "Add Expenditure", response = ResponseModel.class, httpMethod = "POST")
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseModel Add(@ModelAttribute Expenditure ex){
+    @ApiOperation(value = "Create Expenditure", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseModel Add(@RequestBody Expenditure ex){
         return expenditureService.Add(ex.getAuditId(),ex.getVisitedVillageCount(),ex.getAppReceivedCount(),
                 ex.getAttendedAppCount(),ex.getRefreshmentCharges(),ex.getSelectedVrpCount(),ex.getPaidedAmount(),
                 ex.getPhotographyCharges(),ex.getVideosCharges(),ex.getPpleafLets(),ex.getStationary(),
                 ex.getOthers(),ex.getCreatedBy());
     }
 
-    @ApiOperation(value = "Update Expenditure", response = ResponseModel.class, httpMethod = "GET")
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public ResponseModel Update(@RequestParam("expenditureid") Long expenditureid,@RequestParam("auditid")  Long auditid,@RequestParam("visitedvillagecount")  Integer visitedvillagecount,@RequestParam("appreceivedcount")  Integer appreceivedcount,
-                                @RequestParam("attendedappcount") Integer attendedappcount,@RequestParam("refreshmentcharges")  BigDecimal refreshmentcharges,@RequestParam("selectedvrpcount")  Integer selectedvrpcount,
-                                @RequestParam("paidedamount") BigDecimal paidedamount,@RequestParam("photographycharges")  BigDecimal photographycharges,@RequestParam("videoscharges")  BigDecimal videoscharges,
-                                @RequestParam("ppleaf_lets") BigDecimal ppleaf_lets,@RequestParam("stationaries")  BigDecimal stationaries,@RequestParam("othersvalue")  BigDecimal othersvalue,@RequestParam("modifyby")  Long modifyby,
-                                @RequestParam("isactive") Boolean isactive) {
-        return expenditureService.Update(expenditureid, auditid, visitedvillagecount, appreceivedcount,
-                attendedappcount, refreshmentcharges, selectedvrpcount,
-                paidedamount, photographycharges, videoscharges,
-                ppleaf_lets, stationaries, othersvalue, modifyby,
-                isactive);
+    @ApiOperation(value = "Update Expenditure", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseModel Update(@RequestBody Expenditure ex) {
+        return expenditureService.Update(ex.getId(),ex.getAuditId(),ex.getVisitedVillageCount(),ex.getAppReceivedCount(),
+                ex.getAttendedAppCount(),ex.getRefreshmentCharges(),ex.getSelectedVrpCount(),ex.getPaidedAmount(),
+                ex.getPhotographyCharges(),ex.getVideosCharges(),ex.getPpleafLets(),ex.getStationary(),
+                ex.getOthers(),ex.getModifiedBy(),ex.getStatus());
     }
 
     @ApiOperation(value = "Read Expenditure List", response = ResponseModel.class, httpMethod = "GET")
-    @RequestMapping(value = "/getexpenditurelist", method = RequestMethod.GET)
+    @RequestMapping(value = "/getlist", method = RequestMethod.GET)
     public ResponseModel getList() {
         return expenditureService.findAll();
     }

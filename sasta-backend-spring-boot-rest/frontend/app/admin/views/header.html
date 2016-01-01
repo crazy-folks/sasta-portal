@@ -19,7 +19,7 @@
                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="meta">
                             <span class="avatar">
-                                <img  ng-src="{{sessionConfig.imageName}}" class="img-circle" alt="">
+                                <img  no-cache-src="{{sessionConfig.imageName}}" class="img-circle" alt="">
                             </span>
                             <span class="text">{{sessionConfig.screenName}}</span>
                             <span class="caret"></span>
@@ -44,13 +44,13 @@
                                 </span>My Account</a>
                         </li>
                         <li>
-                            <a href="javascript:void(0);">
+                            <a href="javascript:void(0);" ng-click="OpenChangePasswordWindow($event)">
                                 <span class="icon"><i class="fa fa-cog"></i>
                                 </span>Change Password</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="javascript:void(0);">
+                            <a href="javascript:;" ng-click="logout()">
                                 <span class="icon"><i class="fa fa-sign-out"></i>
                                 </span>Logout</a>
                         </li>

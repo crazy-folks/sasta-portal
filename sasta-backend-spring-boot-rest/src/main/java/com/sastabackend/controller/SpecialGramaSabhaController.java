@@ -29,11 +29,7 @@ public class SpecialGramaSabhaController {
 
     @ApiOperation(value = "Create Special Grama Sabha", response = ResponseModel.class, httpMethod = "POST")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseModel Add(@ModelAttribute final SpecialGramaSabha sp){
-        LOGGER.debug("Creating  Special Grama Sabha : {}", sp.getAuditId(),sp.getTotalPopulation(),sp.getTotalFamiliesInVpts(),
-                sp.getNoOfFamiliesRegistered(),sp.getTotalJcsInVpts(),sp.getNoOfPplAttentedSgs(),sp.getNameOfPersonHeadSgs(),
-                sp.getNameOfPersonRecordedMinutes(),sp.getTotalParasPlacedInSgs(),sp.getParasSetteled(),sp.getAmountRecoveredDuringSgs(),
-                sp.getSaReportsUploaded(),sp.getAtrsUploaded(),sp.getCreatedBy());
+    public ResponseModel Add(@RequestBody final SpecialGramaSabha sp){
         return specialgramasabhaService.Add(sp.getAuditId(),sp.getTotalPopulation(),sp.getTotalFamiliesInVpts(),
                 sp.getNoOfFamiliesRegistered(),sp.getTotalJcsInVpts(),sp.getNoOfPplAttentedSgs(),sp.getNameOfPersonHeadSgs(),
                 sp.getNameOfPersonRecordedMinutes(),sp.getTotalParasPlacedInSgs(),sp.getParasSetteled(),sp.getAmountRecoveredDuringSgs(),
@@ -42,11 +38,7 @@ public class SpecialGramaSabhaController {
 
     @ApiOperation(value = "Update Special Grama Sabha", response = ResponseModel.class, httpMethod = "POST")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseModel Update(@ModelAttribute final SpecialGramaSabha sp){
-        LOGGER.debug("Updating  Special Grama Sabha : {}", sp.getId(), sp.getAuditId(), sp.getTotalPopulation(), sp.getTotalFamiliesInVpts(),
-                sp.getNoOfFamiliesRegistered(), sp.getTotalJcsInVpts(), sp.getNoOfPplAttentedSgs(), sp.getNameOfPersonHeadSgs(),
-                sp.getNameOfPersonRecordedMinutes(), sp.getTotalParasPlacedInSgs(), sp.getParasSetteled(), sp.getAmountRecoveredDuringSgs(),
-                sp.getSaReportsUploaded(),sp.getAtrsUploaded(),sp.getModifiedBy(),sp.getStatus());
+    public ResponseModel Update(@RequestBody final SpecialGramaSabha sp){
         return specialgramasabhaService.Update(sp.getId(), sp.getAuditId(), sp.getTotalPopulation(), sp.getTotalFamiliesInVpts(),
                 sp.getNoOfFamiliesRegistered(), sp.getTotalJcsInVpts(), sp.getNoOfPplAttentedSgs(), sp.getNameOfPersonHeadSgs(),
                 sp.getNameOfPersonRecordedMinutes(), sp.getTotalParasPlacedInSgs(), sp.getParasSetteled(), sp.getAmountRecoveredDuringSgs(),
@@ -55,7 +47,7 @@ public class SpecialGramaSabhaController {
 
 
     @ApiOperation(value = "Read Special Grama List", response = ResponseModel.class, httpMethod = "GET")
-    @RequestMapping(value = "/getspecialgramasabhalist", method = RequestMethod.GET)
+    @RequestMapping(value = "/getlist", method = RequestMethod.GET)
     public ResponseModel getList() {
         return specialgramasabhaService.findAll();
     }

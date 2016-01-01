@@ -1,14 +1,12 @@
 package com.sastabackend.controller;
 
+import com.sastabackend.domain.Audit;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.service.audit.AuditService;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.sql.Date;
@@ -29,23 +27,20 @@ public class AuditController {
         this.auditService = auditService;
     }
 
-    @ApiOperation(value = "Create Audit", response = ResponseModel.class, httpMethod = "GET")
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public ResponseModel Create(@RequestParam("roundid") Long roundid, @RequestParam("startdate") Date startdate, @RequestParam("enddate") Date enddate,
-                                @RequestParam("gramasabhadate") Date gramasabhadate, @RequestParam("districtid") Integer district_id,
-                                @RequestParam("blockid") Integer block_id, @RequestParam("panchayatid") Integer panchayat_id,
-                                @RequestParam("createdby") Long createdby) {
-        return auditService.Add(roundid, startdate, enddate, gramasabhadate, district_id, block_id, panchayat_id, createdby);
+    @ApiOperation(value = "Create Audit", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseModel Create(@RequestBody Audit ac) {
+        return auditService.Add(ac.getRoundId(), ac.getStartDate(), ac.getEndDtate(),
+                ac.getGramaSabhaDate(), ac.getAuditDistrictId(),
+                ac.getAuditBlockId(), ac.getVillagePanchayatId(), ac.getCreatedBy());
     }
 
-    @ApiOperation(value = "Update Audit", response = ResponseModel.class, httpMethod = "GET")
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public ResponseModel Update(@RequestParam("auditid") Long auditid, @RequestParam("roundid") Long roundid, @RequestParam("startdate") Date startdate,
-                                @RequestParam("enddate") Date enddate, @RequestParam("gramasabhadate") Date gramasabhadate, @RequestParam("districtid") Integer district_id,
-                                @RequestParam("blockid") Integer block_id, @RequestParam("panchayatid") Integer panchayat_id, @RequestParam("modifyby") Long modifyby,
-                                @RequestParam("isactive") Boolean isactive) {
-        return auditService.Update(auditid, roundid, startdate, enddate, gramasabhadate, district_id, block_id, panchayat_id,
-                modifyby, isactive);
+    @ApiOperation(value = "Update Audit", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseModel Update(@RequestBody Audit ac) {
+        return auditService.Update(ac.getAuditId(), ac.getRoundId(), ac.getStartDate(), ac.getEndDtate(),
+                ac.getGramaSabhaDate(), ac.getAuditDistrictId(),
+                ac.getAuditBlockId(), ac.getVillagePanchayatId(), ac.getModifiedBy(), ac.getStatus());
     }
 
     @ApiOperation(value = "Read Audit List", response = ResponseModel.class, httpMethod = "GET")
@@ -59,5 +54,12 @@ public class AuditController {
     public ResponseModel getList(@RequestParam("id") Long id) {
         LOGGER.debug("Reading  : {}", id);
         return auditService.findOne(id);
+    }
+
+    @ApiOperation(value = "Find the audit entry already exist or not", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/doesexistaudit", method = RequestMethod.GET)
+    public ResponseModel doesExistAudit(@RequestParam("rounid") Long rounid,@RequestParam("districtid") Integer districtid,
+                                        @RequestParam("blockid") Integer blockid,@RequestParam("panchayatid") Integer panchayatid) {
+        return auditService.DoesExistAuditEntry(rounid,districtid,blockid,panchayatid);
     }
 }

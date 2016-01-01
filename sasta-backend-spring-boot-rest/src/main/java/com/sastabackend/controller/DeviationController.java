@@ -1,0 +1,55 @@
+package com.sastabackend.controller;
+
+import com.sastabackend.domain.Deviation;
+import com.sastabackend.domain.MisAppropriation;
+import com.sastabackend.domain.ResponseModel;
+import com.sastabackend.service.deviation.DeviationService;
+import com.sastabackend.service.misappropriation.MisAppropriationService;
+import com.wordnik.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
+
+import javax.inject.Inject;
+
+/**
+ * Created by SARVA on 26/Dec/2015.
+ */
+@RestController
+@RequestMapping("/api/deviation")
+public class DeviationController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeviationController.class);
+    private final DeviationService deviationService;
+
+    @Inject
+    public DeviationController(final DeviationService deviationService) {
+        this.deviationService = deviationService;
+    }
+
+    @ApiOperation(value = "Create Deviation", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResponseModel Create(@RequestBody Deviation dv) {
+        return deviationService.Add(dv);
+    }
+
+    @ApiOperation(value = "Update Deviation", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseModel Update(@RequestBody Deviation dv) {
+        return deviationService.Update(dv);
+    }
+
+    @ApiOperation(value = "Read Deviation List", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/getlist", method = RequestMethod.GET)
+    public ResponseModel getList() {
+        return deviationService.findAll();
+    }
+
+    @ApiOperation(value = "Read Deviation By Id", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/getdeviation", method = RequestMethod.GET)
+    public ResponseModel getList(@RequestParam("id") Long id) {
+        LOGGER.debug("Reading  : {}", id);
+        return deviationService.findOne(id);
+    }
+
+}
