@@ -1,39 +1,45 @@
 <div class="dialog-header">
     <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
 </div>
-<form class="form-horizontal" name="bankForm" id="frmProduct" novalidate>
+<form class="form-horizontal" name="frmEditAudit" id="frmEditAudit" novalidate>
     <div class="dialog-message dialog-body">
-        <div class="form-group">
+        <div class="form-group no-margin">
             <div>
                 <label for="selRounds"  class="label-adjust">Round</label>
-                <select name="selRounds" class="form-control" ng-model="editdefaultrounds" ng-options="obj.text for obj in rounds track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                <select name="selRounds" class="k-input width-95 validate[required]" ng-model="editdefaultrounds" ng-options="obj.text for obj in rounds track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" ng-change="OnEditRoundSelectedValue(editdefaultrounds)">
                 </select>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group no-margin">
             <div>
                 <label for="selDistrict"  class="label-adjust">District</label>
-                <select name="selDistrict" class="form-control" ng-model="editdefaultdistricts" ng-options="obj.text for obj in districts track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="editdefaultdistricts" ng-options="obj.text for obj in districts track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" ng-change="OnEditDistrictsSelectedValue(editdefaultdistricts)">
                 </select>
             </div>                     
         </div>     
-        <div class="form-group">
+        <div class="form-group no-margin">
             <div>
                 <label for="selBlock"  class="label-adjust">Block</label>
-                <select name="selBlock" class="form-control" ng-model="editdefaultblocks" ng-options="obj.text for obj in blocks track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                <select name="selBlock" class="k-input width-95 validate[required]" ng-model="editdefaultblocks" ng-options="obj.text for obj in blocks track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)"ng-change="OnEditBlocksSelectedValue(editdefaultblocks)">
                 </select>
             </div>                     
         </div>     
-        <div class="form-group">
+        <div class="form-group no-margin">
             <div>
                 <label for="selVillage"  class="label-adjust">Village</label>
-                <select name="selVillage" class="form-control" ng-model="editdefaultvillages" ng-options="obj.text for obj in villages track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                <select name="selVillage" class="k-input width-95 validate[required]" ng-model="editdefaultvillages" ng-options="obj.text for obj in villages track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" ng-change="OnEditVillagesSelectedValue(editdefaultvillages)">
                 </select>
             </div>                     
         </div>         
     </div>
-    <div class="dialog-buttons dialog-footer">        
-        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
-        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
-    </div>
+   <div class="panel-body">
+        <div class="row no-padding auto-margin">
+            <div class="row no-padding auto-margin">
+                <div class="dialog-buttons dialog-footer text-right">        
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+                    <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+                </div>            
+            </div>                             
+        </div>
+    </div>     
 </form>

@@ -1,0 +1,127 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
+</div>
+<form class="form-horizontal" name="bankForm" id="frmProduct" novalidate>
+    <div class="dialog-message dialog-body">
+        <div class="form-group">
+            <div>
+                <label for="selRounds"  class="label-adjust">Round</label>
+                <select name="selRounds" class="form-control" ng-model="editdefaultrounds" ng-options="obj.text for obj in rounds track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="selDistrict"  class="label-adjust">District</label>
+                <select name="selDistrict" class="form-control" ng-model="editdefaultdistricts" ng-options="obj.text for obj in districts track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>                     
+        </div>     
+        <div class="form-group">
+            <div>
+                <label for="selBlock"  class="label-adjust">Block</label>
+                <select name="selBlock" class="form-control" ng-model="editdefaultblocks" ng-options="obj.text for obj in blocks track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>                     
+        </div>     
+        <div class="form-group">
+            <div>
+                <label for="selVillage"  class="label-adjust">Village</label>
+                <select name="selVillage" class="form-control" ng-model="editdefaultvillages" ng-options="obj.text for obj in villages track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>                     
+        </div> 
+        <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtStationary" class="label-adjust">Stationary</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtStationary" name="txtStationary"
+                                                   data-ng-model="editexpenditure.stationary" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtOthers" class="label-adjust">Others</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtOthers" name="txtOthers"
+                                                   data-ng-model="editexpenditure.others" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtVisitedillageCount" class="label-adjust">Visitied Village Count</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtVisitedillageCount" name="txtVisitedillageCount"
+                                                   data-ng-model="editexpenditure.visitedVillageCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtPhotographyCharge" class="label-adjust">Photography Charges</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtPhotographyCharge" name="txtPhotographyCharge"
+                                                   data-ng-model="editexpenditure.photographyCharges" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtSelectedVrpCount" class="label-adjust">Selected VRP Count</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtSelectedVrpCount" name="txtSelectedVrpCount"
+                                                   data-ng-model="editexpenditure.selectedVrpCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtVideoCharges" class="label-adjust">Video Charges</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtVideoCharges" name="txtVideoCharges"
+                                                   data-ng-model="editexpenditure.videosCharges" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtAttnedAppCount" class="label-adjust">Attened App Count</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtAttenedAppCount" name="txtAttenedAppCount"
+                                                   data-ng-model="editexpenditure.attendedAppCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtPaidAmount" class="label-adjust">Paid Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtPaidAmount" name="txtPaidAmount"
+                                                   data-ng-model="editexpenditure.paidedAmount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtRefreshmentCharges" class="label-adjust">Refreshment Charges </label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtRefreshmentCharges" name="txtRefreshmentCharges"
+                                                   data-ng-model="editexpenditure.refreshmentCharges" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtappReceivedCount" class="label-adjust">App Received Count</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtappReceivedCount" name="txtappReceivedCount"
+                                                   data-ng-model="editexpenditure.appReceivedCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtppleafLets" class="label-adjust">PP LeafLets</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtppleafLets" name="txtppleafLets"
+                                                   data-ng-model="editexpenditure.ppleafLets" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>        
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+    </div>
+</form>

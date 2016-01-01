@@ -193,6 +193,46 @@
                 pageTitle: 'Audit Entries'
             },
             controller : 'AuditController as AuditCtl'
+        })   
+        .state('admin.expenditure', {
+            url: "/expenditure",
+            templateUrl: "admin/expenditure/templates.html",
+            data: {
+                pageTitle: 'Audit expenditure'
+            },
+            controller : 'ExpenditureController as ExpenCtl'
+        })  
+        .state('admin.misappropriation', {
+            url: "/misappropriation",
+            templateUrl: "admin/misappropriation/templates.html",
+            data: {
+                pageTitle: 'Audit Misappropriation'
+            },
+            controller : 'MisappropriationController as MisCtl'
+        })  
+        .state('admin.vrp', {
+            url: "/vrp",
+            templateUrl: "admin/vrp/templates.html",
+            data: {
+                pageTitle: 'Audit VRP'
+            },
+            controller : 'VrpController as VrpCtl'
+        })  
+        .state('admin.deviation', {
+            url: "/deviation",
+            templateUrl: "admin/deviation/templates.html",
+            data: {
+                pageTitle: 'Audit Deviation'
+            },
+            controller : 'DeviationController as DevCtl'
+        })  
+        .state('admin.grievance', {
+            url: "/grievance",
+            templateUrl: "admin/grievance/templates.html",
+            data: {
+                pageTitle: 'Audit Grievance'
+            },
+            controller : 'GrievanceController as GriCtl'
         })       
     /*$locationProvider.html5Mode({
       enabled: true
@@ -203,7 +243,7 @@ angular.module('sastaboard')
     .constant("appConfig", {
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
-        baseUrl: "http://localhost:8080/sastabackend/api",
+        baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
         debug : true,
         environment : 'development',
         notifyConfig : {
