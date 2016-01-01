@@ -1,0 +1,254 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
+</div>
+                  <form class="form-horizontal" name="frmaddbanks" id="frmaddbanks">
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selRounds"  class="label-adjust">Round</label>
+                                            <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selDistrict"  class="label-adjust">District</label>
+                                            <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>     
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selBlock"  class="label-adjust">Block</label>
+                                            <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>     
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selVillage"  class="label-adjust">Village</label>
+                                            <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txttotalReceivedGrievancesHF" class="label-adjust">Total No of Grievances received during Household Verification</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txttotalReceivedGrievancesHF" name="txttotalReceivedGrievancesHF"
+                                                   data-ng-model="editgrievance.totalReceivedGrievancesHF" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txttotalReceivedGrievancesMeeting" class="label-adjust">Job Total No of grievances received during GS meeting</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txttotalReceivedGrievancesMeeting" name="txttotalReceivedGrievancesMeeting"
+                                                   data-ng-model="editgrievance.totalReceivedGrievancesMeeting" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txttotal" class="label-adjust">Total </label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txttotal" name="txttotal"
+                                                    ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtreqForNewJc" class="label-adjust">Request for New Job Card</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtreqForNewJc" name="txtreqForNewJc"
+                                                   data-ng-model="editgrievance.reqForNewJc" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtreqForMoreThan100Days" class="label-adjust">Request for work for more than 100 days</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtreqForMoreThan100Days" name="txtreqForMoreThan100Days"
+                                                   data-ng-model="editgrievance.reqForMoreThan100Days" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtreqForConstructionIHHL" class="label-adjust">Request for Constructions of IHHL</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtreqForConstructionIHHL" name="txtreqForConstructionIHHL"
+                                                   data-ng-model="editgrievance.reqForConstructionIHHL" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtreqForConstructionIAYHouse" class="label-adjust">Request for Construction of IAY house</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtreqForConstructionIAYHouse" name="txtreqForConstructionIAYHouse"
+                                                   data-ng-model="editgrievance.reqForConstructionIAYHouse" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtreqForConstructionCattleShelter" class="label-adjust">Request for the Construction of Cattle shelter</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtreqForConstructionCattleShelter" name="txtreqForConstructionCattleShelter"
+                                                   data-ng-model="editgrievance.reqForConstructionCattleShelter" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdemandForWork" class="label-adjust">Demand for work</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtdemandForWork" name="txtdemandForWork"
+                                                   data-ng-model="editgrievance.demandForWork" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdemandForRenewelJc" class="label-adjust">Demand for Renewal of Job card</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtdemandForRenewelJc" name="txtdemandForRenewelJc"
+                                                   data-ng-model="editgrievance.demandForRenewelJc" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdemandForIndividualBenefitScheme" class="label-adjust">Demand for individual benefit schemes</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtdemandForIndividualBenefitScheme" name="txtdemandForIndividualBenefitScheme"
+                                                   data-ng-model="editgrievance.demandForIndividualBenefitScheme" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdemandForWagesIncrease" class="label-adjust">Demand for Wage increase</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtdemandForWagesIncrease" name="txtdemandForWagesIncrease"
+                                                   data-ng-model="editgrievance.demandForWagesIncrease" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdemandForPds" class="label-adjust">Demand for PDS</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtdemandForPds" name="txtdemandForPds"
+                                                   data-ng-model="editgrievance.demandForPds" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdemandForLibraryBuilding" class="label-adjust">Demand for Library Building</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtdemandForLibraryBuilding" name="txtdemandForLibraryBuilding"
+                                                   data-ng-model="editgrievance.demandForLibraryBuilding" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtnonProvisionOfWorkSiteFacilities" class="label-adjust">Non provision of work site facilities</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtnonProvisionOfWorkSiteFacilities" name="txtnonProvisionOfWorkSiteFacilities"
+                                                   data-ng-model="editgrievance.nonProvisionOfWorkSiteFacilities" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtcomplaintAgainstBankingCorrespondent" class="label-adjust">Complaint against Banking correspondent</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtcomplaintAgainstBankingCorrespondent" name="txtcomplaintAgainstBankingCorrespondent"
+                                                   data-ng-model="editgrievance.complaintAgainstBankingCorrespondent" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtoapnotProvidedJc" class="label-adjust">OAP not provided job card</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtoapnotProvidedJc" name="txtoapnotProvidedJc"
+                                                   data-ng-model="editgrievance.oapnotProvidedJc" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtoapnotProvidedWork" class="label-adjust">OAP not provided work</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtoapnotProvidedWork" name="txtoapnotProvidedWork"
+                                                   data-ng-model="editgrievance.oapnotProvidedWork" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtcomplaintsAgainstWorksiteFacilidator" class="label-adjust">Complaints against worksite facilitator</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtcomplaintsAgainstWorksiteFacilidator" name="txtcomplaintsAgainstWorksiteFacilidator"
+                                                   data-ng-model="editgrievance.complaintsAgainstWorksiteFacilidator" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtcomplaintsAgainstVPPresident" class="label-adjust">Complaints against VP president</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtcomplaintsAgainstVPPresident" name="txtcomplaintsAgainstVPPresident"
+                                                   data-ng-model="editgrievance.complaintsAgainstVPPresident" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtcomplaintsAgainstUnionOverseer" class="label-adjust">Complaints against Union overseer</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtcomplaintsAgainstUnionOverseer" name="txtcomplaintsAgainstUnionOverseer"
+                                                   data-ng-model="editgrievance.complaintsAgainstUnionOverseer" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtcomplaintsAgainstBDOVP" class="label-adjust">Complaint against BDO VP</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtcomplaintsAgainstBDOVP" name="txtcomplaintsAgainstBDOVP"
+                                                   data-ng-model="editgrievance.complaintsAgainstBDOVP" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtcomplaintsAgainstVPSecretory" class="label-adjust">Complaint against VP Secretary</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtcomplaintsAgainstVPSecretory" name="txtcomplaintsAgainstVPSecretory"
+                                                   data-ng-model="editgrievance.complaintsAgainstVPSecretory" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtothers" class="label-adjust">Others</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtothers" name="txtothers"
+                                                   data-ng-model="editgrievance.others" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                
+                                
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+    </div>
+                                 
+</form>

@@ -1,0 +1,121 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
+</div>
+<form class="form-horizontal" name="bankForm" id="frmProduct" novalidate>
+    <div class="dialog-message dialog-body">
+        <div class="form-group">
+            <div>
+                <label for="selRounds"  class="label-adjust">Round</label>
+                <select name="selRounds" class="form-control" ng-model="editdefaultrounds" ng-options="obj.text for obj in rounds track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label for="selDistrict"  class="label-adjust">District</label>
+                <select name="selDistrict" class="form-control" ng-model="editdefaultdistricts" ng-options="obj.text for obj in districts track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>                     
+        </div>     
+        <div class="form-group">
+            <div>
+                <label for="selBlock"  class="label-adjust">Block</label>
+                <select name="selBlock" class="form-control" ng-model="editdefaultblocks" ng-options="obj.text for obj in blocks track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>                     
+        </div>     
+        <div class="form-group">
+            <div>
+                <label for="selVillage"  class="label-adjust">Village</label>
+                <select name="selVillage" class="form-control" ng-model="editdefaultvillages" ng-options="obj.text for obj in villages track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" >
+                </select>
+            </div>                     
+        </div> 
+        <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selGrade"  class="label-adjust">Grade</label>
+                                            <select name="selGrade" class="k-input width-95 validate[required]" ng-model="editdefaultgrades" ng-options="obj.text for obj in grades track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selPayments"  class="label-adjust">Payment Mode</label>
+                                            <select name="selPayments" class="k-input width-95 validate[required]" ng-model="editdefaultpayments" ng-options="obj.text for obj in payments track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selQualifications"  class="label-adjust">Qualifications</label>
+                                            <select name="selQualifications" class="k-input width-95 validate[required]" ng-model="editdefaultqualifications" ng-options="obj.text for obj in qualifications track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selBanks"  class="label-adjust">Bank</label>
+                                            <select name="selBanks" class="k-input width-95 validate[required]" ng-model="editdefaultbanks" ng-options="obj.text for obj in banks track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selCommunities"  class="label-adjust">Community</label>
+                                            <select name="selCommunities" class="k-input width-95 validate[required]" ng-model="editdefaultcommunities" ng-options="obj.text for obj in communities track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selGender"  class="label-adjust">Gender</label>
+                                            <select name="selGender" class="k-input width-95 validate[required]" ng-model="editdefaultgenders" ng-options="obj.text for obj in genders track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtIFSCCode" class="label-adjust">IFSC Code</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtIFSCCode" name="txtIFSCCode"
+                                                   data-ng-model="editvrp.ifscCode" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtTotalDays" class="label-adjust">Total Days</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtTotalDays" name="txtTotalDays"
+                                                   data-ng-model="editvrp.totalDays" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtPaidAmount" class="label-adjust">Paid Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtPaidAmount" name="txtPaidAmount"
+                                                   data-ng-model="editvrp.paidAmount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtJobCardNumber" class="label-adjust">Job Card Number</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtJobCardNumber" name="txtJobCardNumber"
+                                                   data-ng-model="editvrp.jobCardNumber" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtGuardianName" class="label-adjust">Guardian Name</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtGuardianName" name="txtGuardianName"
+                                                   data-ng-model="editvrp.guardianName" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>        
+    </div>
+    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+    </div>
+</form>

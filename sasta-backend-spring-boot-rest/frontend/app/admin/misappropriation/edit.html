@@ -1,0 +1,528 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
+</div>
+<form class="form-horizontal" name="frmaddbanks" id="frmaddbanks">
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selRounds"  class="label-adjust">Round</label>
+                                            <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selDistrict"  class="label-adjust">District</label>
+                                            <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>     
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selBlock"  class="label-adjust">Block</label>
+                                            <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>     
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selVillage"  class="label-adjust">Village</label>
+                                            <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmultipleJcIssuedWorkersCount" class="label-adjust">Multiple job cards issued to workers for more than 100 days No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmultipleJcIssuedWorkersCount" name="txtmultipleJcIssuedWorkersCount"
+                                                   data-ng-model="editmisappropriation.multipleJcIssuedWorkersCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmultipleJcIssuedWorkersAmt" class="label-adjust">Multiple job cards issued to workers for more than 100 days Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmultipleJcIssuedWorkersAmt" name="txtmultipleJcIssuedWorkersAmt"
+                                                   data-ng-model="editmisappropriation.multipleJcIssuedWorkersAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagedToDeadCount" class="label-adjust">Wages to dead No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagedToDeadCount" name="txtwagedToDeadCount"
+                                                   data-ng-model="editmisappropriation.wagedToDeadCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtwagedToDeadAmt" class="label-adjust">Wages to dead Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagedToDeadAmt" name="txtwagedToDeadAmt"
+                                                   data-ng-model="editmisappropriation.wagedToDeadAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesNonExistentCount" class="label-adjust">Wages to non-existent No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesNonExistentCount" name="txtwagesNonExistentCount"
+                                                   data-ng-model="editmisappropriation.wagesNonExistentCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtwagesNonExistentAmt" class="label-adjust">Wages to non-existent Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesNonExistentAmt" name="txtwagesNonExistentAmt"
+                                                   data-ng-model="editmisappropriation.wagesNonExistentAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesMigratedCount" class="label-adjust">Wages to migrated No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesMigratedCount" name="txtwagesMigratedCount"
+                                                   data-ng-model="editmisappropriation.wagesMigratedCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtwagesMigratedAmt" class="label-adjust">Wages to migrated Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesMigratedAmt" name="txtwagesMigratedAmt"
+                                                   data-ng-model="editmisappropriation.wagesMigratedAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesCreditedWrongAccountsCount" class="label-adjust">Wages credited to wrong accounts by mistake No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesCreditedWrongAccountsCount" name="txtwagesCreditedWrongAccountsCount"
+                                                   data-ng-model="editmisappropriation.wagesCreditedWrongAccountsCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtwagesCreditedWrongAccountsAmt" class="label-adjust">Wages credited to wrong accounts by mistake Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesCreditedWrongAccountsAmt" name="txtwagesCreditedWrongAccountsAmt"
+                                                   data-ng-model="editmisappropriation.wagesCreditedWrongAccountsAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdoubleWagessCount" class="label-adjust">Double wages No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtdoubleWagessCount" name="txtdoubleWagessCount"
+                                                   data-ng-model="editmisappropriation.doubleWagessCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtdoubleWagesAmt" class="label-adjust">Double wages Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtdoubleWagesAmt" name="txtdoubleWagesAmt"
+                                                   data-ng-model="editmisappropriation.doubleWagesAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaidToNotWorkedCount" class="label-adjust"> Wages paid to people who did not work No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesPaidToNotWorkedCount" name="txtwagesPaidToNotWorkedCount"
+                                                   data-ng-model="editmisappropriation.wagesPaidToNotWorkedCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtwagesPaidToNotWorkedAmt" class="label-adjust">Double wagesWages paid to people who did not work Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesPaidToNotWorkedAmt" name="txtwagesPaidToNotWorkedAmt"
+                                                   data-ng-model="editmisappropriation.wagesPaidToNotWorkedAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdoubleWagesWSFCount" class="label-adjust">Double wages to WSF No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtdoubleWagesWSFCount" name="txtdoubleWagesWSFCount"
+                                                   data-ng-model="editmisappropriation.doubleWagesWSFCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtdoubleWagesWSFAmt" class="label-adjust">Double wages to WSF Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtdoubleWagesWSFAmt" name="txtdoubleWagesWSFAmt"
+                                                   data-ng-model="editmisappropriation.doubleWagesWSFAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaidSameAccCount" class="label-adjust">Wages paid to same account number</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesPaidSameAccCount" name="txtwagesPaidSameAccCount"
+                                                   data-ng-model="editmisappropriation.wagesPaidSameAccCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtwagesPaidSameAccAmt" class="label-adjust">Wages paid to same account number</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesPaidSameAccAmt" name="txtwagesPaidSameAccAmt"
+                                                   data-ng-model="editmisappropriation.wagesPaidSameAccAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtinclusionBogousFTOCount" class="label-adjust">Inclusion of bogus names in FTO</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtinclusionBogousFTOCount" name="txtinclusionBogousFTOCount"
+                                                   data-ng-model="editmisappropriation.inclusionBogousFTOCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtinclusionBogousFTOAmt" class="label-adjust">Inclusion of bogus names in FTO</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtinclusionBogousFTOAmt" name="txtinclusionBogousFTOAmt"
+                                                   data-ng-model="editmisappropriation.inclusionBogousFTOAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingTanksEriCount" class="label-adjust">Missing Tanks / Eri No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingTanksEriCount" name="txtmissingTanksEriCount"
+                                                   data-ng-model="editmisappropriation.missingTanksEriCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingTanksEriAmt" class="label-adjust">Missing Tanks / Eri Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingTanksEriAmt" name="txtmissingTanksEriAmt"
+                                                   data-ng-model="editmisappropriation.missingTanksEriAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingTanksEriCount" class="label-adjust">Missing Canals No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingTanksEriCount" name="txtmissingTanksEriCount"
+                                                   data-ng-model="editmisappropriation.missingCanalCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingCanalAmt" class="label-adjust">Missing Canals Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingCanalAmt" name="txtmissingCanalAmt"
+                                                   data-ng-model="editmisappropriation.missingCanalAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingRoadsCount" class="label-adjust">Missing Roads No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingRoadsCount" name="txtmissingRoadsCount"
+                                                   data-ng-model="editmisappropriation.missingRoadsCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingRoadsAmt" class="label-adjust">Missing Roads Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingRoadsAmt" name="txtmissingRoadsAmt"
+                                                   data-ng-model="editmisappropriation.missingRoadsAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingPlantationsCount" class="label-adjust">Missing Plantations No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingPlantationsCount" name="txtmissingPlantationsCount"
+                                                   data-ng-model="editmisappropriation.missingPlantationsCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingPlantationsAmt" class="label-adjust">Missing Plantations Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingPlantationsAmt" name="txtmissingPlantationsAmt"
+                                                   data-ng-model="editmisappropriation.missingPlantationsAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingIHHLSCount" class="label-adjust">Missing IHHLs No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingIHHLSCount" name="txtmissingIHHLSCount"
+                                                   data-ng-model="editmisappropriation.missingIHHLSCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingIHHLSAmt" class="label-adjust">Missing IHHLs Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingIHHLSAmt" name="txtmissingIHHLSAmt"
+                                                   data-ng-model="editmisappropriation.missingIHHLSAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingFarmPondCount" class="label-adjust">Missing Farm Pond No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingFarmPondCount" name="txtmissingFarmPondCount"
+                                                   data-ng-model="editmisappropriation.missingFarmPondCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingFarmPondAmt" class="label-adjust">Missing Farm Pond Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingFarmPondAmt" name="txtmissingFarmPondAmt"
+                                                   data-ng-model="editmisappropriation.missingFarmPondAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingCattleShedCount" class="label-adjust">Missing Cattle shed No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingCattleShedCount" name="txtmissingCattleShedCount"
+                                                   data-ng-model="editmisappropriation.missingCattleShedCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingCattleShedAmt" class="label-adjust">Missing Cattle shed Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingCattleShedAmt" name="txtmissingCattleShedAmt"
+                                                   data-ng-model="editmisappropriation.missingCattleShedAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingGoatShedCount" class="label-adjust">Missing Goat shed No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingGoatShedCount" name="txtmissingGoatShedCount"
+                                                   data-ng-model="editmisappropriation.missingGoatShedCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingGoatShedAmt" class="label-adjust">Missing Goat shed Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingGoatShedAmt" name="txtmissingGoatShedAmt"
+                                                   data-ng-model="editmisappropriation.missingGoatShedAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingPoultryCount" class="label-adjust">Missing Poultry No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingPoultryCount" name="txtmissingPoultryCount"
+                                                   data-ng-model="editmisappropriation.missingPoultryCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingPoultryAmt" class="label-adjust">Missing Poultry Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingPoultryAmt" name="txtmissingPoultryAmt"
+                                                   data-ng-model="editmisappropriation.missingPoultryAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingMgnregaComponentIAYCount" class="label-adjust">Missing MGNREGA component in IAY No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingMgnregaComponentIAYCount" name="txtmissingMgnregaComponentIAYCount"
+                                                   data-ng-model="editmisappropriation.missingMgnregaComponentIAYCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingMgnregaComponentIAYAmt" class="label-adjust">Missing MGNREGA component in IAY Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingMgnregaComponentIAYAmt" name="txtmissingMgnregaComponentIAYAmt"
+                                                   data-ng-model="editmisappropriation.missingMgnregaComponentIAYAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmissingMgnregaComponentGHCount" class="label-adjust">Missing MGNREGA component in Green house No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingMgnregaComponentGHCount" name="txtmissingMgnregaComponentGHCount"
+                                                   data-ng-model="editmisappropriation.missingMgnregaComponentGHCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmissingMgnregaComponentGHAmt" class="label-adjust">Missing MGNREGA component in Green house Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmissingMgnregaComponentGHAmt" name="txtmissingMgnregaComponentGHAmt"
+                                                   data-ng-model="editmisappropriation.missingMgnregaComponentGHAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmisappropriationByVPTPresidentCount" class="label-adjust">Misappropriation by VPt President  No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmisappropriationByVPTPresidentCount" name="txtmisappropriationByVPTPresidentCount"
+                                                   data-ng-model="editmisappropriation.misappropriationByVPTPresidentCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmisappropriationByVPTPresidentAmt" class="label-adjust">Misappropriation by VPt President  Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmisappropriationByVPTPresidentAmt" name="txtmisappropriationByVPTPresidentAmt"
+                                                   data-ng-model="editmisappropriation.misappropriationByVPTPresidentAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmisappropriationByVPTSecretoryCount" class="label-adjust">Misappropriation by VPt Secretary  No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmisappropriationByVPTSecretoryCount" name="txtmisappropriationByVPTSecretoryCount"
+                                                   data-ng-model="editmisappropriation.misappropriationByVPTSecretoryCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtmisappropriationByVPTSecretoryAmt" class="label-adjust">Misappropriation by VPt Secretary  Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmisappropriationByVPTSecretoryAmt" name="txtmisappropriationByVPTSecretoryAmt"
+                                                   data-ng-model="editmisappropriation.misappropriationByVPTSecretoryAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtamountDrawnSameWorkCount" class="label-adjust">Amount drawn twice for same work No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtamountDrawnSameWorkCount" name="txtamountDrawnSameWorkCount"
+                                                   data-ng-model="editmisappropriation.amountDrawnSameWorkCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtamountDrawnSameWorkAmt" class="label-adjust">Amount drawn twice for same work Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtamountDrawnSameWorkAmt" name="txtamountDrawnSameWorkAmt"
+                                                   data-ng-model="editmisappropriation.amountDrawnSameWorkAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesDisbursedPrevConstructedIHHLSCount" class="label-adjust">Wages disbursed for previously constructed IHHLs No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesDisbursedPrevConstructedIHHLSCount" name="txtwagesDisbursedPrevConstructedIHHLSCount"
+                                                   data-ng-model="editmisappropriation.wagesDisbursedPrevConstructedIHHLSCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtwagesDisbursedPrevConstructedIHHLSAmt" class="label-adjust">Wages disbursed for previously constructed IHHLs Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesDisbursedPrevConstructedIHHLSAmt" name="txtwagesDisbursedPrevConstructedIHHLSAmt"
+                                                   data-ng-model="editmisappropriation.wagesDisbursedPrevConstructedIHHLSAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtbogusEntriesFTOCorretingFluidCount" class="label-adjust">Bogus entries made in FTO by using correcting Fluid No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtbogusEntriesFTOCorretingFluidCount" name="txtbogusEntriesFTOCorretingFluidCount"
+                                                   data-ng-model="editmisappropriation.bogusEntriesFTOCorretingFluidCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtbogusEntriesFTOCorretingFluidAmt" class="label-adjust">Bogus entries made in FTO by using correcting Fluid Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtbogusEntriesFTOCorretingFluidAmt" name="txtbogusEntriesFTOCorretingFluidAmt"
+                                                   data-ng-model="editmisappropriation.bogusEntriesFTOCorretingFluidAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmachineryUsedCount" class="label-adjust">Machinery used No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtmachineryUsedCount" name="txtmachineryUsedCount"
+                                                   data-ng-model="editmisappropriation.machineryUsedCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtbogusEntriesFTOCorretingFluidAmt" class="label-adjust">Machinery used Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtbogusEntriesFTOCorretingFluidAmt" name="txtbogusEntriesFTOCorretingFluidAmt"
+                                                   data-ng-model="editmisappropriation.machineryUsedAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesDrawnMoreThanActualWorkingDayCount" class="label-adjust">Wages drawn more than actual no of working days No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesDrawnMoreThanActualWorkingDayCount" name="txtwagesDrawnMoreThanActualWorkingDayCount"
+                                                   data-ng-model="editmisappropriation.wagesDrawnMoreThanActualWorkingDayCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtwagesDrawnMoreThanActualWorkingDayAmt" class="label-adjust">Wages drawn more than actual no of working days Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtwagesDrawnMoreThanActualWorkingDayAmt" name="txtwagesDrawnMoreThanActualWorkingDayAmt"
+                                                   data-ng-model="editmisappropriation.wagesDrawnMoreThanActualWorkingDayAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtworkDoneByContractorsCount" class="label-adjust">Wok done by contractors No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtworkDoneByContractorsCount" name="txtworkDoneByContractorsCount"
+                                                   data-ng-model="editmisappropriation.workDoneByContractorsCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div> 
+                                            <label for="txtworkDoneByContractorsAmt" class="label-adjust">Wok done by contractors Amount</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtworkDoneByContractorsAmt" name="txtworkDoneByContractorsAmt"
+                                                   data-ng-model="editmisappropriation.workDoneByContractorsAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="dialog-buttons dialog-footer">        
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+    </div>
+                                 
+</form>

@@ -1,0 +1,343 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
+</div>
+<form class="form-horizontal" name="frmaddbanks" id="frmaddbanks">
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selRounds"  class="label-adjust">Round</label>
+                                            <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selDistrict"  class="label-adjust">District</label>
+                                            <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>     
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selBlock"  class="label-adjust">Block</label>
+                                            <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>     
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selVillage"  class="label-adjust">Village</label>
+                                            <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtjcMisusedByOthersCount" class="label-adjust">Job Cards misused by others No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtjcMisusedByOthersCount" name="txtjcMisusedByOthersCount"
+                                                   data-ng-model="editdeviation.jcMisusedByOthersCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtjcMisusedByOthersAmt" class="label-adjust">Job Cards misused by others Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtjcMisusedByOthersAmt" name="txtjcMisusedByOthersAmt"
+                                                   data-ng-model="editdeviation.jcMisusedByOthersAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaidWorkersWithoutJcCount" class="label-adjust">Wages paid to workers without Job Cards No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtwagesPaidWorkersWithoutJcCount" name="txtwagesPaidWorkersWithoutJcCount"
+                                                   data-ng-model="editdeviation.wagesPaidWorkersWithoutJcCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaidWorkersWithoutJcAmt" class="label-adjust">Wages paid to workers without Job Cards Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtwagesPaidWorkersWithoutJcAmt" name="txtwagesPaidWorkersWithoutJcAmt"
+                                                   data-ng-model="editdeviation.wagesPaidWorkersWithoutJcAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaidWithoutRecordMesurementCount" class="label-adjust">Wages paid without recording measurements No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtwagesPaidWithoutRecordMesurementCount" name="txtwagesPaidWithoutRecordMesurementCount"
+                                                   data-ng-model="editdeviation.wagesPaidWithoutRecordMesurementCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaidWithoutRecordMesurementAmt" class="label-adjust">Wages paid without recording measurements Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtwagesPaidWithoutRecordMesurementAmt" name="txtwagesPaidWithoutRecordMesurementAmt"
+                                                   data-ng-model="editdeviation.wagesPaidWithoutRecordMesurementAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaidExcessMBooksValueCount" class="label-adjust">Wages paid in excess of M book value No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtwagesPaidExcessMBooksValueCount" name="txtwagesPaidExcessMBooksValueCount"
+                                                   data-ng-model="editdeviation.wagesPaidExcessMBooksValueCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaidExcessMBooksValueAmt" class="label-adjust">Wages paid in excess of M book value Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtwagesPaidExcessMBooksValueAmt" name="txtwagesPaidExcessMBooksValueAmt"
+                                                   data-ng-model="editdeviation.wagesPaidExcessMBooksValueAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtvariationsBetweenNMRRegisterCount" class="label-adjust">Variations in signatures between NMR and Register I No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtvariationsBetweenNMRRegisterCount" name="txtvariationsBetweenNMRRegisterCount"
+                                                   data-ng-model="editdeviation.variationsBetweenNMRRegisterCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtvariationsBetweenNMRRegisterAmt" class="label-adjust">Variations in signatures between NMR and Register I Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtvariationsBetweenNMRRegisterAmt" name="txtvariationsBetweenNMRRegisterAmt"
+                                                   data-ng-model="editdeviation.variationsBetweenNMRRegisterAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtnmroverWritingCorrectionsCount" class="label-adjust">NMR overwriting corrections No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtnmroverWritingCorrectionsCount" name="txtnmroverWritingCorrectionsCount"
+                                                   data-ng-model="editdeviation.nmroverWritingCorrectionsCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtnmroverWritingCorrectionsAmt" class="label-adjust">NMR overwriting corrections Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtnmroverWritingCorrectionsAmt" name="txtnmroverWritingCorrectionsAmt"
+                                                   data-ng-model="editdeviation.nmroverWritingCorrectionsAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtinEligibleWorkersIncludeUnder18Count" class="label-adjust">Ineligible workers including under 18 years No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtinEligibleWorkersIncludeUnder18Count" name="txtinEligibleWorkersIncludeUnder18Count"
+                                                   data-ng-model="editdeviation.inEligibleWorkersIncludeUnder18Count" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtinEligibleWorkersIncludeUnder18Amt" class="label-adjust">Ineligible workers including under 18 years Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtinEligibleWorkersIncludeUnder18Amt" name="txtinEligibleWorkersIncludeUnder18Amt"
+                                                   data-ng-model="editdeviation.inEligibleWorkersIncludeUnder18Amt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdiffOnlineNMRPhysicalNMRCount" class="label-adjust">Difference between online NMR and physical NMR No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtdiffOnlineNMRPhysicalNMRCount" name="txtdiffOnlineNMRPhysicalNMRCount"
+                                                   data-ng-model="editdeviation.diffOnlineNMRPhysicalNMRCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdiffOnlineNMRPhysicalNMRAmt" class="label-adjust">Difference between online NMR and physical NMR Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtdiffOnlineNMRPhysicalNMRAmt" name="txtdiffOnlineNMRPhysicalNMRAmt"
+                                                   data-ng-model="editdeviation.diffOnlineNMRPhysicalNMRAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaymentFromSchemeCount" class="label-adjust">WSF Payment from scheme amount No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtwagesPaymentFromSchemeCount" name="txtwagesPaymentFromSchemeCount"
+                                                   data-ng-model="editdeviation.wagesPaymentFromSchemeCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtwagesPaymentFromSchemeAmt" class="label-adjust">WSF Payment from scheme amount Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtwagesPaymentFromSchemeAmt" name="txtwagesPaymentFromSchemeAmt"
+                                                   data-ng-model="editdeviation.wagesPaymentFromSchemeAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                     <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtamountMoreThanNMRFTOCount" class="label-adjust">Amount more than NMR in FTO No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtamountMoreThanNMRFTOCount" name="txtamountMoreThanNMRFTOCount"
+                                                   data-ng-model="editdeviation.amountMoreThanNMRFTOCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtamountMoreThanNMRFTOAmt" class="label-adjust">Amount more than NMR in FTO Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtamountMoreThanNMRFTOAmt" name="txtamountMoreThanNMRFTOAmt"
+                                                   data-ng-model="editdeviation.amountMoreThanNMRFTOAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtnmrnotProducedForAuditCount" class="label-adjust">NMRs not produced for Audit No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtnmrnotProducedForAuditCount" name="txtnmrnotProducedForAuditCount"
+                                                   data-ng-model="editdeviation.nmrnotProducedForAuditCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtnmrnotProducedForAuditAmt" class="label-adjust">NMRs not produced for Audit Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtnmrnotProducedForAuditAmt" name="txtnmrnotProducedForAuditAmt"
+                                                   data-ng-model="editdeviation.nmrnotProducedForAuditAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmbooksNotProducedForAuditCount" class="label-adjust">M books not produced for Audit No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtmbooksNotProducedForAuditCount" name="txtmbooksNotProducedForAuditCount"
+                                                   data-ng-model="editdeviation.mbooksNotProducedForAuditCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmbooksNotProducedForAuditAmt" class="label-adjust">M books not produced for Audit Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtmbooksNotProducedForAuditAmt" name="txtmbooksNotProducedForAuditAmt"
+                                                   data-ng-model="editdeviation.mbooksNotProducedForAuditAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtshortageMeasurementsCount" class="label-adjust">Shortage in measurements No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtshortageMeasurementsCount" name="txtshortageMeasurementsCount"
+                                                   data-ng-model="editdeviation.shortageMeasurementsCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtshortageMeasurementsAmt" class="label-adjust">Shortage in measurements Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtshortageMeasurementsAmt" name="txtshortageMeasurementsAmt"
+                                                   data-ng-model="editdeviation.shortageMeasurementsAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtworksTakenUpWithoutGbApprovalCount" class="label-adjust">Works taken up without Grama Sabha approval No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtworksTakenUpWithoutGbApprovalCount" name="txtworksTakenUpWithoutGbApprovalCount"
+                                                   data-ng-model="editdeviation.worksTakenUpWithoutGbApprovalCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtworksTakenUpWithoutGbApprovalAmt" class="label-adjust">Works taken up without Grama Sabha approval Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtworksTakenUpWithoutGbApprovalAmt" name="txtworksTakenUpWithoutGbApprovalAmt"
+                                                   data-ng-model="editdeviation.worksTakenUpWithoutGbApprovalAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtestimatesNotProducedForAuditCount" class="label-adjust">Estimates not produced for Audit No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtestimatesNotProducedForAuditCount" name="txtestimatesNotProducedForAuditCount"
+                                                   data-ng-model="editdeviation.estimatesNotProducedForAuditCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtestimatesNotProducedForAuditAmt" class="label-adjust">Estimates not produced for Audit Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtestimatesNotProducedForAuditAmt" name="txtestimatesNotProducedForAuditAmt"
+                                                   data-ng-model="editdeviation.estimatesNotProducedForAuditAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtasnotProducedForAuditCount" class="label-adjust">AS not produced for Audit No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtasnotProducedForAuditCount" name="txtasnotProducedForAuditCount"
+                                                   data-ng-model="editdeviation.asnotProducedForAuditCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtasnotProducedForAuditAmt" class="label-adjust">AS not produced for Audit Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtasnotProducedForAuditAmt" name="txtasnotProducedForAuditAmt"
+                                                   data-ng-model="editdeviation.asnotProducedForAuditAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txttsnotProducedForAuditCount" class="label-adjust">TS not produced for Audit No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txttsnotProducedForAuditCount" name="txttsnotProducedForAuditCount"
+                                                   data-ng-model="editdeviation.tsnotProducedForAuditCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txttsnotProducedForAuditAmt" class="label-adjust">TS not produced for Audit Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txttsnotProducedForAuditAmt" name="txttsnotProducedForAuditAmt"
+                                                   data-ng-model="editdeviation.tsnotProducedForAuditAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtnoneAdoptionOfScheduleRateCount" class="label-adjust">Non adoption of schedule of rate No</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtnoneAdoptionOfScheduleRateCount" name="txtnoneAdoptionOfScheduleRateCount"
+                                                   data-ng-model="editdeviation.noneAdoptionOfScheduleRateCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtnoneAdoptionOfScheduleRateAmt" class="label-adjust">Non adoption of schedule of rate Amt</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtnoneAdoptionOfScheduleRateAmt" name="txtnoneAdoptionOfScheduleRateAmt"
+                                                   data-ng-model="editdeviation.noneAdoptionOfScheduleRateAmt" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+    </div>
+                                 
+</form>

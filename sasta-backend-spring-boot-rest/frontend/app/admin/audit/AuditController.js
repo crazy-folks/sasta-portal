@@ -93,6 +93,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 
         $scope.OpenAuditWindow = function($event){
         	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+        	$scope.doReset();
             $scope.addAuditWindow.center().open();
         }
 
@@ -112,6 +113,40 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
         $scope.doReset = function(){
         	$scope.audit = $scope.defaultOptions;
         	$scope.editaudit =  $scope.defaultOptions;
+        	$scope.defaultdistricts = [];
+        	$scope.defaultblocks = [];
+        	$scope.defaultvillages = [];
+        	$scope.defaultrounds = [];
+        	$scope.villages=[];
+        	$scope.districts=[];
+        	$scope.rounds = [];
+        	$scope.blocks=[];
+
+        	GetLookupValues(13,'').done(function(result){
+				var b = jQuery.map( $scope.rounds, function( n, i ) {
+					if(0 === n.value)
+				  		return n;
+				});
+
+				if(b instanceof Array){
+					$scope.defaultrounds =  b[0];
+				}else{
+					$scope.defaultrounds = $scope.defaultrounds;
+				}		    		
+	    	}); 
+
+			GetLookupValues(2,'').done(function(result){
+				var b = jQuery.map( $scope.districts, function( n, i ) {
+					if(0 === n.value)
+				  		return n;
+				});
+
+				if(b instanceof Array){
+					$scope.defaultdistricts =  b[0];
+				}else{
+					$scope.defaultdistricts = $scope.defaultdistricts;
+				}		    		
+	    	}); 
         }
 
         $scope.OnRoundSelectedValue = function(defaultrounds){
@@ -223,88 +258,87 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 
 	    };
 
-	    $scope.Submit = function(){
-	    	if($scope.jQueryAddAuditValidator.doValidate()){
-		    	$scope.audit.roundId = $scope.defaultrounds.value;
-		    	$scope.audit.auditDistrictId = $scope.defaultdistricts.value;
-		    	$scope.audit.auditBlockId = $scope.defaultblocks.value;
-		    	$scope.audit.villagePanchayatId = $scope.defaultvillages.value;
+     $scope.Submit = function(){
+	    if($scope.jQueryAddAuditValidator.doValidate()){
+	       $scope.audit.roundId = $scope.defaultrounds.value;
+	       $scope.audit.auditDistrictId = $scope.defaultdistricts.value;
+	       $scope.audit.auditBlockId = $scope.defaultblocks.value;
+	       $scope.audit.villagePanchayatId = $scope.defaultvillages.value;
 
-		    	//$scope.audit.startDate = '2015-12-25';
-		    	//$scope.audit.endDate = '2015-12-25';
-		    	//$scope.audit.gramaSabhaDate = '2015-12-25';
-		    	$scope.audit.createdBy = $rootScope.sessionConfig.userId;
+	       //$scope.audit.startDate = '2015-12-25';
+	       //$scope.audit.endDate = '2015-12-25';
+	       //$scope.audit.gramaSabhaDate = '2015-12-25';
+	       $scope.audit.createdBy = $rootScope.sessionConfig.userId;
 
-		    	var responseText = auditfactory.doSubmitData($scope.audit);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to add audit!</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });
-			  		}
-				}).error(function(error,status){
-			  		notify({
-			            messageTemplate: '<span>Unable to add audit!</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });
-				});    		
-	    	}
-	    }
+	       var responseText = auditfactory.doSubmitData($scope.audit);
+		    responseText.success(function(result){
+		     if(result.status){
+		        notify({
+		                messageTemplate: '<span>'+result.data+'</span>',
+		                position: $rootScope.appConfig.notifyConfig.position,
+		                scope:$scope
+		            });       
+		      // scope.grid is the widget reference
+		        $scope.grid.dataSource.read();
+		      $scope.CloseAuditWindow();
+		            $scope.doReset();
+		       }else{
+		        notify({
+		                messageTemplate: '<span>Unable to add audit!</span>',
+		                position: $rootScope.appConfig.notifyConfig.position,
+		                scope:$scope
+		            });
+		       }
+		    }).error(function(error,status){
+		       notify({
+		               messageTemplate: '<span>Unable to add audit!</span>',
+		               position: $rootScope.appConfig.notifyConfig.position,
+		               scope:$scope
+		           });
+		    });      
+    	}
+    }
 
-	    $scope.Update = function(){
-			if($scope.jQueryEditAuditValidator.doValidate()){
-		    	$scope.editaudit.roundId = $scope.editdefaultrounds.value;
-		    	$scope.editaudit.auditDistrictId = $scope.editdefaultdistricts.value;
-		    	$scope.editaudit.auditBlockId = $scope.editdefaultblocks.value;
-		    	$scope.editaudit.villagePanchayatId = $scope.editdefaultvillages.value;
-				
-				$scope.editaudit.startDate = null;
-		    	$scope.editaudit.endDate = null	;
-		    	$scope.editaudit.gramaSabhaDate = '2016-01-01';
-		    	$scope.editaudit.modifiedBy = $rootScope.sessionConfig.userId;
+    $scope.Update = function(){
+	   if($scope.jQueryEditAuditValidator.doValidate()){
+	       $scope.editaudit.roundId = $scope.editdefaultrounds.value;
+	       $scope.editaudit.auditDistrictId = $scope.editdefaultdistricts.value;
+	       $scope.editaudit.auditBlockId = $scope.editdefaultblocks.value;
+	       $scope.editaudit.villagePanchayatId = $scope.editdefaultvillages.value;
+	    
+	       $scope.editaudit.startDate = null;
+	       $scope.editaudit.endDate = null ;
+	       $scope.editaudit.gramaSabhaDate = '2016-01-01';
+	       $scope.editaudit.modifiedBy = $rootScope.sessionConfig.userId;
 
-		    	var responseText = auditfactory.doUpdateData($scope.editaudit);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update audit!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
-			  		notify({
-			            messageTemplate: '<span>Unable to update audit!.</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });	
-				});	 			
-			}
-	    }
-
+	       var responseText = auditfactory.doUpdateData($scope.editaudit);
+		    responseText.success(function(result){
+		     if(result.status){
+		        notify({
+		                messageTemplate: '<span>'+result.data+'</span>',
+		                position: $rootScope.appConfig.notifyConfig.position,
+		                scope:$scope
+		            });       
+		      // scope.grid is the widget reference
+		        $scope.grid.dataSource.read();
+		      $scope.CloseEditAuditWindow();
+		            $scope.doReset();
+		       }else{
+		        notify({
+		                messageTemplate: '<span>Unable to update audit!.</span>',
+		                position: $rootScope.appConfig.notifyConfig.position,
+		                scope:$scope
+		            }); 
+		       }
+		    }).error(function(error,status){
+		       notify({
+		               messageTemplate: '<span>Unable to update audit!.</span>',
+		               position: $rootScope.appConfig.notifyConfig.position,
+		               scope:$scope
+		           }); 
+		    });     
+		}
+    }
 	    $scope.EditData = function(data){
 	    	$scope.editaudit = $scope.defaultOptions;
 	    	$scope.editdefaultblocks = $scope.defaultblocks;
@@ -313,27 +347,28 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    	$scope.editdefaultvillages = $scope.defaultvillages;
 	    	$scope.blocks = [];
 	    	
-	    	alert($scope.blocks.length);
 	    	var r = jQuery.map( $scope.rounds, function( n, i ) {
 				if(data.roundId === n.value)
 			  		return n;
-			});	  
+			});
+
 			if(r instanceof Array){
 				$scope.editdefaultrounds =  r[0];
 			}else{
 				$scope.editdefaultrounds = $scope.defaultrounds;
 			}	  
+			
 			var d = jQuery.map( $scope.districts, function( n, i ) {
 				if(data.auditDistrictId === n.value)
 			  		return n;
 			});	  
+
 			if(d instanceof Array){
 				$scope.editdefaultdistricts =  d[0];
 			}else{
 				$scope.editdefaultdistricts = $scope.defaultdistricts;
 			}	  
 
-			 
 			GetLookupValues(1,data.auditDistrictId).done(function(result){
 				var b = jQuery.map( $scope.blocks, function( n, i ) {
 					if(data.auditBlockId === n.value)
@@ -349,18 +384,17 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	   
 
 			GetLookupValues(14,data.auditBlockId).done(function(result){
-			var v = jQuery.map( $scope.villages, function( n, i ) {
-				if(data.villagePanchayatId === n.value)
-			  		return n;
-			});	  
-			if(v instanceof Array){
-				$scope.editdefaultvillages =  v[0];
-			}else{
-				$scope.editdefaultvillages = $scope.defaultvillages;
-			}});	   	
+				var v = jQuery.map( $scope.villages, function( n, i ) {
+					if(data.villagePanchayatId === n.value)
+				  		return n;
+				});	  
 
-			
-	    	
+				if(v instanceof Array){
+					$scope.editdefaultvillages =  v[0];
+				}else{
+					$scope.editdefaultvillages = $scope.defaultvillages;
+				}
+			});	    	
 
 	    	$scope.editaudit = {
 	    		auditId : data.auditId,
@@ -481,7 +515,6 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 			})
 			return deffered.promise();
 
-
 		}
 
 		GetLookupValues(13,''); 
@@ -503,6 +536,18 @@ app.factory('auditfactory',function($http,$q,$rootScope){
             	url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + filter
         	});
 		
+<<<<<<< HEAD
+=======
+	}
+
+	service.getAudit = function(roundId,districtId,blockId,panchayatId){
+		
+			return $http({
+            	method : 'GET',
+            	url : crudServiceBaseUrl + '/audit/doesexistaudit?rounid=' + roundId + '&districtid=' + districtId + '&blockid=' +  blockId + '&panchayatid=' + panchayatId
+        	});
+		
+>>>>>>> refs/remotes/origin/master
 	}
 
 	service.doSubmitData = function(model){
