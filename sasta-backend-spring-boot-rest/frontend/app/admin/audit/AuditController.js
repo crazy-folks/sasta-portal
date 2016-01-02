@@ -529,25 +529,18 @@ app.factory('auditfactory',function($http,$q,$rootScope){
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 	var createbankUrl = '/audit/create';
 
-	service.getLookupValues = function(id,filter){
-		
-			return $http({
-            	method : 'GET',
-            	url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + filter
-        	});
-		
-<<<<<<< HEAD
-=======
+	service.getLookupValues = function(id,filter){		
+		return $http({
+        	method : 'GET',
+        	url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + filter
+    	});
 	}
 
-	service.getAudit = function(roundId,districtId,blockId,panchayatId){
-		
-			return $http({
-            	method : 'GET',
-            	url : crudServiceBaseUrl + '/audit/doesexistaudit?rounid=' + roundId + '&districtid=' + districtId + '&blockid=' +  blockId + '&panchayatid=' + panchayatId
-        	});
-		
->>>>>>> refs/remotes/origin/master
+	service.getAudit = function(roundId,districtId,blockId,panchayatId){		
+		return $http({
+        	method : 'GET',
+        	url : crudServiceBaseUrl + '/audit/doesexistaudit?rounid=' + roundId + '&districtid=' + districtId + '&blockid=' +  blockId + '&panchayatid=' + panchayatId
+    	});
 	}
 
 	service.doSubmitData = function(model){

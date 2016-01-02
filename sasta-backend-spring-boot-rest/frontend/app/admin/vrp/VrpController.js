@@ -82,13 +82,8 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 		$scope.defaultgender = [{
             "value": 0,
             "text": "Select"
-	        }, {
-	            "value": 1,
-	            "text": "Male"
-	        }, {
-	            "value": 2,
-	            "text": "Female"
 	        }];
+
 		$scope.genders = [{
             "value": 0,
             "text": "Select"
@@ -162,8 +157,8 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddAudit';
-        $scope.EditAuditFormName = '#frmEditAudit';    
+        $scope.AddAuditFormName = '#frmAddVrp';
+        $scope.EditAuditFormName = '#frmEditVrp';    
 
         $scope.keditWindowOptions = {
             content: 'admin/vrp/edit.html',
@@ -209,31 +204,6 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
         	$scope.audit = $scope.defaultOptions;
         	$scope.editaudit =  $scope.defaultOptions;
         }
-
-        $scope.defaultOptions = {
-	      "status": true,
-	      "createdDate": null,
-	      "modifiedDate": null,
-	      "createdByName": null,
-	      "modifiedByName": null,
-	      "gramaSabhaDate": null,
-	      "auditDistrictId": null,
-	      "auditBlockId": null,
-	      "villagePanchayatId": null,
-	      "financialDescription": null,
-	      "financialYear": null,
-	      "roundDescription": null,
-	      "districtName": null,
-	      "modifiedBy": null,
-	      "createdBy": null,
-	      "blockName": null,
-	      "auditId": null,
-	      "startDate": null,
-	      "roundId": null,
-	      "roundName": null,
-	      "endDtate": null,
-	      "vpName": null
-	    };
 
 	    $scope.vrp = {
 	      		"id" : 0,
@@ -554,8 +524,8 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 	        }
 	    }
 
-	    function GetLookupValues(type){
-	    	vrpfactory.getLookupValues(type).success(function(result){
+	    function GetLookupValues(type,where){
+	    	vrpfactory.getLookupValues(type,where).success(function(result){
 	    		var defaultOptions = {
 				    "value": 0,
 				    "text": "Select"
@@ -633,12 +603,13 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 		}
 
 		GetLookupValues(13); 
-		GetLookupValues(2); 
+		GetLookupValues(2);
 		GetLookupValues(1); 
 		GetLookupValues(6); 
 		GetLookupValues(10); 
-		GetLookupValues(12); 
+		GetLookupValues(12);
 		GetLookupValues(4); 
+		GetLookupValues(14,$rootScope.sessionConfig.allottedBlock); 
 
 }]);
 
@@ -648,10 +619,20 @@ app.factory('vrpfactory',function($http,$q,$rootScope){
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 	var createbankUrl = '/vrp/create';
 
-	service.getLookupValues = function(id){
+	function buildLookupUrl(id,where){
+		var lookupUrl = '/lookup/getlookup?id={0}&where={1}'
+		where = where || '';
+		lookupUrl = lookupUrl.replace('{0}',id);
+		lookupUrl = lookupUrl.replace('{1}',where);
+		return lookupUrl;
+	}
+
+
+	service.getLookupValues = function(id,where){debugger;
+		var finalUrl = buildLookupUrl(id,where);
 		return $http({
             method : 'GET',
-            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=0'
+            url : crudServiceBaseUrl + finalUrl
         });
 	}
 
