@@ -27,6 +27,7 @@ public class Blocks implements java.io.Serializable{
     private String created_by_Name;
     private String modified_by_Name;
     private String description;
+    private Boolean is_active;
 
     public Blocks(){}
 
@@ -108,16 +109,29 @@ public class Blocks implements java.io.Serializable{
         this.modified_by_Name = modified_by_Name;
     }
 
+    public Boolean getIsActive() {
+        return is_active;
+    }
+
+    public void setIsActive(Boolean is_active) {
+        this.is_active = is_active;
+    }
+
+
     @Override
-    public String toString(){
-        return Objects.toStringHelper(this)
-                .add("id", block_id )
-                .add("name",name)
-                .add("create_date",created_date)
-                .add("expire_date",modified_date)
-                .add("district",district_id)
-                .add("modifyby",modifed_dy)
-                .add("createby",created_by)
-                .toString();
+    public String toString() {
+        return "Blocks{" +
+                "block_id=" + block_id +
+                ", name='" + name + '\'' +
+                ", district_id=" + district_id +
+                ", created_date=" + created_date +
+                ", modified_date=" + modified_date +
+                ", created_by=" + created_by +
+                ", modifed_dy=" + modifed_dy +
+                ", created_by_Name='" + created_by_Name + '\'' +
+                ", modified_by_Name='" + modified_by_Name + '\'' +
+                ", description='" + description + '\'' +
+                ", is_active=" + is_active +
+                '}';
     }
 }

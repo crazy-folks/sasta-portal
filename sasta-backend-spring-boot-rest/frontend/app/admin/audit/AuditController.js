@@ -93,7 +93,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 
         $scope.OpenAuditWindow = function($event){
         	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-        	$scope.doReset();
+        	
             $scope.addAuditWindow.center().open();
         }
 
@@ -111,8 +111,8 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
         }
 
         $scope.doReset = function(){
-        	$scope.audit = $scope.defaultOptions;
-        	$scope.editaudit =  $scope.defaultOptions;
+        	$scope.audit = angular.copy($scope.defaultOptions);
+        	$scope.editaudit =  angular.copy($scope.defaultOptions);
         	$scope.defaultdistricts = [];
         	$scope.defaultblocks = [];
         	$scope.defaultvillages = [];
@@ -229,7 +229,8 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 			"modifiedBy" : 0,
 			"startDate" : null,
 			"blockName" : null,
-			"auditId" : null
+			"auditId" : null,
+			"key" : null
 	    };
 
 	    $scope.audit = {
@@ -254,7 +255,8 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 			"modifiedBy" : 0,
 			"startDate" : null,
 			"blockName" : null,
-			"auditId" : null
+			"auditId" : null,
+			"key" : null
 
 	    };
 
@@ -308,7 +310,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    
 	       $scope.editaudit.startDate = null;
 	       $scope.editaudit.endDate = null ;
-	       $scope.editaudit.gramaSabhaDate = '2016-01-01';
+	       $scope.editaudit.gramaSabhaDate = null;
 	       $scope.editaudit.modifiedBy = $rootScope.sessionConfig.userId;
 
 	       var responseText = auditfactory.doUpdateData($scope.editaudit);
@@ -339,6 +341,23 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		    });     
 		}
     }
+
+    	$scope.VrpData = function(data){
+			$state.go('admin.vrp',{aid:data.key});
+    	}
+
+    	$scope.ExpenData = function(data){
+			$state.go('admin.expenditure',{aid:data.key});
+    	}
+    	$scope.DeviationData = function(data){
+			$state.go('admin.deviation',{aid:data.key});
+    	}
+    	$scope.GrievanceData = function(data){
+			$state.go('admin.grievance',{aid:data.key});
+    	}
+    	$scope.MissappropriationData = function(data){
+			$state.go('admin.misappropriation',{aid:data.key});
+    	}
 	    $scope.EditData = function(data){
 	    	$scope.editaudit = $scope.defaultOptions;
 	    	$scope.editdefaultblocks = $scope.defaultblocks;
@@ -419,7 +438,8 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 				createdBy : data.createdBy,
 				roundName : data.roundName,
 				vpName : data.vpName,
-				blockName : data.blockName
+				blockName : data.blockName,
+				key : data.key
 	    	};
 	    	$scope.OpenEditAuditWindow();
 
@@ -435,7 +455,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		        		{ field: "districtName", title : "District", editable : false},
 		        		{ field: "blockName", title : "Block", editable : false },
 		        		{ field: "vpName", title : "Village", editable : false},
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"VrpData(dataItem);\">Vrp Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"ExpenData(dataItem);\">Expenditure Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"DeviationData(dataItem);\">Deviation Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"GrievanceData(dataItem);\">Grievance Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"MissappropriationData(dataItem);\">Misappropriation Details</button>"   }
 		        	],
 	        pageable: true,
 	        filterable :true,
@@ -529,18 +549,24 @@ app.factory('auditfactory',function($http,$q,$rootScope){
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 	var createbankUrl = '/audit/create';
 
-	service.getLookupValues = function(id,filter){		
-		return $http({
-        	method : 'GET',
-        	url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + filter
-    	});
+	service.getLookupValues = function(id,filter){
+		
+			return $http({
+            	method : 'GET',
+            	url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + filter
+        	});
+		
+
 	}
 
-	service.getAudit = function(roundId,districtId,blockId,panchayatId){		
-		return $http({
-        	method : 'GET',
-        	url : crudServiceBaseUrl + '/audit/doesexistaudit?rounid=' + roundId + '&districtid=' + districtId + '&blockid=' +  blockId + '&panchayatid=' + panchayatId
-    	});
+	service.getAudit = function(roundId,districtId,blockId,panchayatId){
+		
+			return $http({
+            	method : 'GET',
+            	url : crudServiceBaseUrl + '/audit/doesexistaudit?rounid=' + roundId + '&districtid=' + districtId + '&blockid=' +  blockId + '&panchayatid=' + panchayatId
+        	});
+		
+
 	}
 
 	service.doSubmitData = function(model){

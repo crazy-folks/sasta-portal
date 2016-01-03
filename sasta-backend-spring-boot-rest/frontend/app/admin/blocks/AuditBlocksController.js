@@ -147,40 +147,46 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
     	
 	    }
 
-	    $scope.Update = function(){
-			if($scope.editjQueryValidator.doValidate()){
-				$scope.editblocks.districtID = $scope.editdefaultOptions.value;
-				var responseText = blocksfactory.doUpdateData($scope.editblocks);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-						$scope.grid.dataSource.read();
-						$scope.CloseEditBlockWindow();
-						$scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update blocks!</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+			var responseText = blocksfactory.doUpdateData($scope.editblocks);
+			responseText.success(function(result){
+				if(result.status){
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+					$scope.grid.dataSource.read();
+					$scope.CloseEditBlockWindow();
+					$scope.doReset();
+		  		}else{
 			  		notify({
 			            messageTemplate: '<span>Unable to update blocks!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });
-				});
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update blocks!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });
+			});
+	    }
+
+	    $scope.Update = function(){
+			if($scope.editjQueryValidator.doValidate()){
+				$scope.editblocks.districtID = $scope.editdefaultOptions.value;
+				DoUpdate();
 			}	    	
 	    }
+
 	    $scope.OnSelectedValue = function(defaultDistricts){
 	    	$scope.defaultDistricts = defaultDistricts;
 	    }
+
 	    $scope.EditData = function(data){
 	    	var s = jQuery.map( $scope.Districts, function( n, i ) {
 				if(data.districtID === n.value)
@@ -191,18 +197,39 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 			}else{
 				$scope.editdefaultOptions = $scope.defaultDistricts;
 			}
-	    	$scope.editblocks = {
-	    		districtID : $scope.editdefaultOptions.value,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				blockName : data.blockName,
-				blockID : data.blockID,
-				status: true
-	    	};
+
+			$scope.editblocks ={
+				  "description": data.description || '',
+				  "createdDate": null,
+				  "blockID": data.blockID,
+				  "districtID": $scope.editdefaultOptions.value,
+				  "isActive": true,
+				  "blockName": data.blockName,
+				  "createdBy": $rootScope.sessionConfig.userId,
+				  "modifiedBy": $rootScope.sessionConfig.userId,
+				  "modifiedDate": null,
+				  "createdByName": null,
+				  "modifiedByName": null
+			}
 	    	$scope.editBlockWindow();
 	    }
 
+	    $scope.OnDelete = function(data){
+			$scope.editblocks =	{
+				  "description": data.description || '',
+				  "createdDate": null,
+				  "blockID": data.blockID,
+				  "districtID": data.districtID,
+				  "isActive": false,
+				  "blockName": data.blockName,
+				  "createdBy": $rootScope.sessionConfig.userId,
+				  "modifiedBy": $rootScope.sessionConfig.userId,
+				  "modifiedDate": null,
+				  "createdByName": null,
+				  "modifiedByName": null
+			};
+	    	DoUpdate();	
+	    }
 
 	    $scope.gridOptions = {
 	        columns: [ 
@@ -215,7 +242,7 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"OnDelete(dataItem);\">Delete</button>" }
 		        	],
 	        pageable: true,
 	        filterable :true,
@@ -292,7 +319,7 @@ app.factory('blocksfactory',function($http,$q,$rootScope){
 		return $http({
             method : 'POST',
             url : crudServiceBaseUrl + createblocksUrl,
-            params : model,
+            data : JSON.stringify(model),
 		    headers: {
 		        "Content-Type": "application/json"
 		    }
@@ -302,8 +329,8 @@ app.factory('blocksfactory',function($http,$q,$rootScope){
 	service.doUpdateData = function(model){
 		return $http({
             method : 'POST',
-            url : crudServiceBaseUrl + '/block/updateblock',
-            params : model,
+            url : crudServiceBaseUrl + '/block/update',
+            data : JSON.stringify(model),
 		    headers: {
 		        "Content-Type": "application/json"
 		    }

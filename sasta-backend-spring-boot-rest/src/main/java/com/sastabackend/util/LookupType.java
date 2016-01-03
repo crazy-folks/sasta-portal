@@ -19,7 +19,8 @@ public enum LookupType {
     Rounds(13),
     VillagePanchayats(14),
     Users(15),
-    None(16);
+    UserGroups(16),
+    None(17);
     int id;
 
     /**

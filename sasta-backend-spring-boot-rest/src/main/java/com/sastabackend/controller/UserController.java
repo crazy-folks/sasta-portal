@@ -96,4 +96,12 @@ public class UserController {
                                        @RequestParam("NewPassword") String NewPassword,@RequestParam("ChangeReqBy") Boolean changedby){
         return userService.ChangePassword(userid, oldPassword, NewPassword, changedby);
     }
+
+    @ApiOperation(value = "search users", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseModel SeacrhUsers(@RequestBody SearchModel search){
+        return userService.SearchUsers(search);
+    }
+
 }

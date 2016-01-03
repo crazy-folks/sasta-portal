@@ -62,8 +62,8 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddAudit';
-        $scope.EditAuditFormName = '#frmEditAudit';    
+        $scope.AddAuditFormName = '#frmAddAuditMisappropriation';
+        $scope.EditAuditFormName = '#frmEditAuditMisappropriation';    
 
         $scope.keditWindowOptions = {
             content: 'admin/misappropriation/edit.html',
@@ -89,7 +89,12 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 
         $scope.OpenAuditWindow = function($event){
         	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            $scope.addAuditWindow.center().open();
+        	$scope.doReset();
+        	GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
+            	
+            	$scope.addAuditWindow.center().open();
+        	});
+            
         }
 
         $scope.CloseAuditWindow  = function(){
@@ -106,37 +111,95 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
         }
 
         $scope.doReset = function(){
-        	$scope.audit = $scope.defaultOptions;
-        	$scope.editaudit =  $scope.defaultOptions;
+        	$scope.misappropriation = angular.copy($scope.defaultOptions);
+        	$scope.editmisappropriation =  angular.copy($scope.defaultOptions);
         }
 
         $scope.defaultOptions = {
-	      "status": true,
-	      "createdDate": null,
-	      "modifiedDate": null,
-	      "createdByName": null,
-	      "modifiedByName": null,
-	      "gramaSabhaDate": null,
-	      "auditDistrictId": null,
-	      "auditBlockId": null,
-	      "villagePanchayatId": null,
-	      "financialDescription": null,
-	      "financialYear": null,
-	      "roundDescription": null,
-	      "districtName": null,
-	      "modifiedBy": null,
-	      "createdBy": null,
-	      "blockName": null,
-	      "auditId": null,
-	      "startDate": null,
-	      "roundId": null,
-	      "roundName": null,
-	      "endDtate": null,
-	      "vpName": null
+	    	   	 "id" : 0,
+				 "createdByName" : null,
+				 "modifiedByName" : null,
+				 "createdDate" : null,
+				 "auditDistrictId" : null,
+				 "modifiedDate" : null,
+				 "financialDescription" : null,
+				 "financialYear" : null,
+				 "status" : null,
+				 "misappropriationByVPTSecretoryCount" : null,
+				 "wagesCreditedWrongAccountsCount" : null,
+				 "misappropriationByVPTSecretoryAmt" : null,
+				 "wagesDrawnMoreThanActualWorkingDayAmt" : null,
+				 "missingMgnregaComponentGHAmt" : null,
+				 "bogusEntriesFTOCorretingFluidAmt" : null,
+				 "missingMgnregaComponentIAYAmt" : null,
+				 "wagesCreditedWrongAccountsAmt" : null,
+				 "missingMgnregaComponentGHCount" : null,
+				 "misappropriationByVPTPresidentCount" : null,
+				 "misappropriationByVPTPresidentAmt" : null,
+				 "missingMgnregaComponentIAYCount" : null,
+				 "wagesDisbursedPrevConstructedIHHLSCount" : null,
+				 "multipleJcIssuedWorkersCount" : null,
+				 "wagesDisbursedPrevConstructedIHHLSAmt" : null,
+				 "bogusEntriesFTOCorretingFluidCount" : null,
+				 "wagesDrawnMoreThanActualWorkingDayCount" : null,
+				 "wagesNonExistentAmt" : null,
+				 "wagesMigratedAmt" : null,
+				 "doubleWagessCount" : null,
+				 "wagedToDeadAmt" : null,
+				 "multipleJcIssuedWorkersAmt" : null,
+				 "doubleWagesAmt" : null,
+				 "wagesPaidToNotWorkedAmt" : null,
+				 "doubleWagesWSFAmt" : null,
+				 "inclusionBogousFTOCount" : null,
+				 "roundDescription" : null,
+				 "districtName" : null,
+				 "wagesNonExistentCount" : null,
+				 "wagedToDeadCount" : null,
+				 "wagesMigratedCount" : null,
+				 "wagesPaidToNotWorkedCount" : null,
+				 "doubleWagesWSFCount" : null,
+				 "inclusionBogousFTOAmt" : null,
+				 "wagesPaidSameAccCount" : null,
+				 "wagesPaidSameAccAmt" : null,
+				 "missingTanksEriCount" : null,
+				 "machineryUsedAmt" : null,
+				 "missingPoultryAmt" : null,
+				 "amountDrawnSameWorkAmt" : null,
+				 "missingRoadsCount" : null,
+				 "missingCattleShedAmt" : null,
+				 "missingCanalAmt" : null,
+				 "workDoneByContractorsCount" : null,
+				 "missingCattleShedCount" : null,
+				 "roundStartDate" : null,
+				 "missingTanksEriAmt" : null,
+				 "missingRoadsAmt" : null,
+				 "amountDrawnSameWorkCount" : null,
+				 "missingFarmPondAmt" : null,
+				 "missingIHHLSAmt" : null,
+				 "roundEndDate" : null,
+				 "missingGoatShedAmt" : null,
+				 "missingPoultryCount" : null,
+				 "missingIHHLSCount" : null,
+				 "missingPlantationsAmt" : null,
+				 "workDoneByContractorsAmt" : null,
+				 "machineryUsedCount" : null,
+				 "missingPlantationsCount" : null,
+				 "missingCanalCount" : null,
+				 "missingFarmPondCount" : null,
+				 "missingGoatShedCount" : null,
+				 "createdBy" : null,
+				 "roundId" : null,
+				 "roundName" : null,
+				 "vpName" : null,
+				 "modifiedBy" : null,
+				 "blockName" : null,
+				 "auditId" : null,
+				 "blockId" : null,
+				 "vpId" : null
 	    };
 
 	    $scope.misappropriation = {
-	    	   	"id" : 0,
+	    	   	 "id" : 0,
 				 "createdByName" : null,
 				 "modifiedByName" : null,
 				 "createdDate" : null,
@@ -221,13 +284,13 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
-		    	$scope.misappropriation.roundId = $scope.defaultrounds.value;
-		    	$scope.misappropriation.auditDistrictId = $scope.defaultdistricts.value;
-		    	$scope.misappropriation.blockId = $scope.defaultblocks.value;
-		    	$scope.misappropriation.vpId = $scope.defaultvillages.value;
+		    	//$scope.misappropriation.roundId = $scope.defaultrounds.value;
+		    	//$scope.misappropriation.auditDistrictId = $scope.defaultdistricts.value;
+		    	//$scope.misappropriation.blockId = $scope.defaultblocks.value;
+		    	//$scope.misappropriation.vpId = $scope.defaultvillages.value;
 
-		    	$scope.misappropriation.roundStartDate = '2015-12-25';
-		    	$scope.misappropriation.roundEndDate = '2015-12-25';
+		    	//$scope.misappropriation.roundStartDate = '2015-12-25';
+		    	//$scope.misappropriation.roundEndDate = '2015-12-25';
 		    	
 		    	$scope.misappropriation.createdBy = $rootScope.sessionConfig.userId;
 
@@ -451,6 +514,32 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 	        }
 	    }
 
+	    function GetAudit(id,type)
+	    {
+	    	var deffered = jQuery.Deferred();
+	    	misappropriationfactory.getAudit(id).success(function(result){
+	    		
+
+		    		$scope.misappropriation.auditId= result.data.auditId;
+		    		$scope.misappropriation.roundId =result.data.roundId;
+			    	$scope.misappropriation.auditDistrictId =result.data.auditDistrictId;
+			    	$scope.misappropriation.blockId =result.data.auditBlockId;
+			    	$scope.misappropriation.vpId =result.data.villagePanchayatId;
+					
+	    		
+				
+		  		return deffered.resolve('Ok');
+			}).error(function(error,status){
+	  			notify({
+		            messageTemplate: '<span>Unable to read look up values!!!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+	        	});
+			})
+			return deffered.promise();
+
+	    }
+
 	    function GetLookupValues(type){
 	    	misappropriationfactory.getLookupValues(type).success(function(result){
 	    		var defaultOptions = {
@@ -513,6 +602,13 @@ app.factory('misappropriationfactory',function($http,$q,$rootScope){
 	var service = {};
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 	var createbankUrl = '/misappropriation/create';
+
+	service.getAudit = function(id){
+		return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id
+        });
+	}
 
 	service.getLookupValues = function(id){
 		return $http({

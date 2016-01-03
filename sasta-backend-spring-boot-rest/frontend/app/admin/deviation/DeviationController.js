@@ -62,8 +62,8 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddAudit';
-        $scope.EditAuditFormName = '#frmEditAudit';    
+        $scope.AddAuditFormName = '#frmAddAuditDeviation';
+        $scope.EditAuditFormName = '#frmEditAuditDeviation';    
 
         $scope.keditWindowOptions = {
             content: 'admin/deviation/edit.html',
@@ -89,8 +89,14 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 
         $scope.OpenAuditWindow = function($event){
         	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            $scope.addAuditWindow.center().open();
+            //$scope.addAuditWindow.center().open();
+            $scope.doReset();
+        	GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
+            	
+            	$scope.addAuditWindow.center().open();
+        	});
         }
+
 
         $scope.CloseAuditWindow  = function(){
             $scope.addAuditWindow.close();
@@ -99,6 +105,7 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
         $scope.OpenEditAuditWindow = function(){
 			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
             $scope.editAuditWindow.center().open();
+            
         }
 
         $scope.CloseEditAuditWindow = function(){
@@ -106,33 +113,69 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
         }
 
         $scope.doReset = function(){
-        	$scope.audit = $scope.defaultOptions;
-        	$scope.editaudit =  $scope.defaultOptions;
+        	$scope.deviation = angular.copy($scope.defaultOptions);
+        	$scope.editdeviation =  angular.copy($scope.defaultOptions);
         }
 
         $scope.defaultOptions = {
-	      "status": true,
-	      "createdDate": null,
-	      "modifiedDate": null,
-	      "createdByName": null,
-	      "modifiedByName": null,
-	      "gramaSabhaDate": null,
-	      "auditDistrictId": null,
-	      "auditBlockId": null,
-	      "villagePanchayatId": null,
-	      "financialDescription": null,
-	      "financialYear": null,
-	      "roundDescription": null,
-	      "districtName": null,
-	      "modifiedBy": null,
-	      "createdBy": null,
-	      "blockName": null,
-	      "auditId": null,
-	      "startDate": null,
-	      "roundId": null,
-	      "roundName": null,
-	      "endDtate": null,
-	      "vpName": null
+	    	   	"id" : 0,
+				"status" : null,
+				"roundId" : null,
+				"createdBy" : null,
+				"auditId" : 1,
+				"modifiedBy" : null,
+				"blockName" : null,
+				"nmroverWritingCorrectionsAmt" : null,
+				"estimatesNotProducedForAuditCount" : null,
+				"worksTakenUpWithoutGbApprovalCount" : null,
+				"noneAdoptionOfScheduleRateAmt" : null,
+				"nmroverWritingCorrectionsCount" : null,
+				"worksTakenUpWithoutGbApprovalAmt" : null,
+				"noneAdoptionOfScheduleRateCount" : null,
+				"wagesPaidExcessMBooksValueCount" : null,
+				"wagesPaidWithoutRecordMesurementAmt" : null,
+				"estimatesNotProducedForAuditAmt" : null,
+				"wagesPaidWithoutRecordMesurementCount" : null,
+				"mbooksNotProducedForAuditAmt" : null,
+				"diffOnlineNMRPhysicalNMRAmt" : null,
+				"wagesPaidExcessMBooksValueAmt" : null,
+				"wagesPaymentFromSchemeCount" : null,
+				"wagesPaidWorkersWithoutJcCount" : null,
+				"variationsBetweenNMRRegisterCount" : null,
+				"nmrnotProducedForAuditCount" : null,
+				"diffOnlineNMRPhysicalNMRCount" : null,
+				"variationsBetweenNMRRegisterAmt" : null,
+				"inEligibleWorkersIncludeUnder18Count" : null,
+				"inEligibleWorkersIncludeUnder18Amt" : null,
+				"mbooksNotProducedForAuditCount" : null,
+				"auditDistrictId" : null,
+				"wagesPaymentFromSchemeAmt" : null,
+				"amountMoreThanNMRFTOCount" : null,
+				"amountMoreThanNMRFTOAmt" : null,
+				"jcMisusedByOthersCount" : null,
+				"tsnotProducedForAuditCount" : null,
+				"asnotProducedForAuditAmt" : null,
+				"jcMisusedByOthersAmt" : null,
+				"shortageMeasurementsAmt" : null,
+				"nmrnotProducedForAuditAmt" : null,
+				"shortageMeasurementsCount" : null,
+				"asnotProducedForAuditCount" : null,
+				"tsnotProducedForAuditAmt" : null,
+				"createdDate" : null,
+				"wagesPaidWorkersWithoutJcAmt" : null,
+				"modifiedByName" : null,
+				"roundDescription" : null,
+				"createdByName" : null,
+				"financialYear" : null,
+				"financialDescription" : null,
+				"districtName" : null,
+				"modifiedDate" : null,
+				"roundEndDate" : null,
+				"roundStartDate" : null,
+				"roundName" : null,
+				"vpName" : null,
+				"blockId" : null,
+				"vpId" : null
 	    };
 
 	    $scope.deviation = {
@@ -199,10 +242,10 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
-		    	$scope.deviation.roundId = $scope.defaultrounds.value;
-		    	$scope.deviation.auditDistrictId = $scope.defaultdistricts.value;
-		    	$scope.deviation.blockId = $scope.defaultblocks.value;
-		    	$scope.deviation.vpId = $scope.defaultvillages.value;
+		    	//$scope.deviation.roundId = $scope.defaultrounds.value;
+		    	//$scope.deviation.auditDistrictId = $scope.defaultdistricts.value;
+		    	//$scope.deviation.blockId = $scope.defaultblocks.value;
+		    	//$scope.deviation.vpId = $scope.defaultvillages.value;
 
 		    	//$scope.deviation.roundStartDate = '2015-12-25';
 		    	//$scope.deviation.roundEndDate = '2015-12-25';
@@ -244,6 +287,7 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 		    	//$scope.editmisappropriation.districtid = $scope.editdefaultdistricts.value;
 		    	//$scope.editmisappropriation.blockid = $scope.editdefaultblocks.value;
 		    	//$scope.editmisappropriation.panchayatid = $scope.editdefaultvillages.value;
+		    	$scope.editmisappropriation.modifiedBy = $rootScope.sessionConfig.userId;
 
 		    	var responseText = deviationfactory.doUpdateData($scope.editdeviation);
 				responseText.success(function(result){
@@ -407,6 +451,33 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 	        }
 	    }
 
+	    function GetAudit(id)
+	    {
+	    	var deffered = jQuery.Deferred();
+	    	deviationfactory.getAudit(id).success(function(result){
+
+
+
+		    		$scope.deviation.auditId= result.data.auditId;
+		    		$scope.deviation.roundId =result.data.roundId;
+			    	$scope.deviation.auditDistrictId =result.data.auditDistrictId;
+			    	$scope.deviation.blockId =result.data.auditBlockId;
+			    	$scope.deviation.vpId =result.data.villagePanchayatId;
+					
+	    		
+				
+		  		return deffered.resolve('Ok');
+			}).error(function(error,status){
+	  			notify({
+		            messageTemplate: '<span>Unable to read look up values!!!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+	        	});
+			})
+			return deffered.promise();
+
+	    }
+
 	    function GetLookupValues(type){
 	    	deviationfactory.getLookupValues(type).success(function(result){
 	    		var defaultOptions = {
@@ -469,6 +540,13 @@ app.factory('deviationfactory',function($http,$q,$rootScope){
 	var service = {};
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 	var createbankUrl = '/deviation/create';
+
+	service.getAudit = function(id){
+		return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id
+        });
+	}
 
 	service.getLookupValues = function(id){
 		return $http({

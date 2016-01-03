@@ -62,8 +62,8 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddAudit';
-        $scope.EditAuditFormName = '#frmEditAudit';    
+        $scope.AddAuditFormName = '#frmAddAuditGrievance';
+        $scope.EditAuditFormName = '#frmEditAuditGrievance';    
 
         $scope.keditWindowOptions = {
             content: 'admin/grievance/edit.html',
@@ -89,7 +89,12 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 
         $scope.OpenAuditWindow = function($event){
         	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            $scope.addAuditWindow.center().open();
+            //$scope.addAuditWindow.center().open();
+            $scope.doReset();
+        	GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
+            	
+            	$scope.addAuditWindow.center().open();
+        	});
         }
 
         $scope.CloseAuditWindow  = function(){
@@ -106,33 +111,75 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
         }
 
         $scope.doReset = function(){
-        	$scope.audit = $scope.defaultOptions;
-        	$scope.editaudit =  $scope.defaultOptions;
+        	$scope.grievance = angular.copy($scope.defaultOptions);
+        	$scope.editgrievance =  angular.copy($scope.defaultOptions);
         }
 
         $scope.defaultOptions = {
-	      "status": true,
-	      "createdDate": null,
-	      "modifiedDate": null,
-	      "createdByName": null,
-	      "modifiedByName": null,
-	      "gramaSabhaDate": null,
-	      "auditDistrictId": null,
-	      "auditBlockId": null,
-	      "villagePanchayatId": null,
-	      "financialDescription": null,
-	      "financialYear": null,
-	      "roundDescription": null,
-	      "districtName": null,
-	      "modifiedBy": null,
-	      "createdBy": null,
-	      "blockName": null,
-	      "auditId": null,
-	      "startDate": null,
-	      "roundId": null,
-	      "roundName": null,
-	      "endDtate": null,
-	      "vpName": null
+	      	    "id" : 0,
+				"others" : null,
+				"status" : null,
+				"roundId" : null,
+				"createdBy" : null,
+				"auditId" : 1,
+				"modifiedBy" : null,
+				"blockName" : null,
+				"wagesNotPaidWorkersActuallyWorkedCount" : null,
+				"transportAllowanceNotGivenCount" : null,
+				"demandForIndividualBenefitScheme" : null,
+				"totalReceivedGrievancesMeeting" : null,
+				"complaintsAgainstUnionOverseer" : null,
+				"complaintsAgainstVPSecretory" : null,
+				"wagesDrawnLessThanActualNoDaysCount" : null,
+				"wagesDrawnLessThanActualNoDaysAmt" : null,
+				"wagesNotPaidWorkersActuallyWorkedAmt" : null,
+				"noCompensationInjuredAtWorksiteAmt" : null,
+				"nonProvisionOfWorkSiteFacilities" : null,
+				"noCompensationDeadAtWorksiteCount" : null,
+				"reqPaymentCompletedIHHLWorkCount" : null,
+				"fullEntitlementNotGivenCount" : null,
+				"complaintsAgainstVPPresident" : null,
+				"complaintAgainstBankingCorrespondent" : null,
+				"lessPaymentValueRecordedMBookAmt" : null,
+				"transportAllowanceNotGivenAmt" : null,
+				"complaintsAgainstWorksiteFacilidator" : null,
+				"lessPaymentValueRecordedMBookCount" : null,
+				"noCompensationDeadAtWorksiteAmt" : null,
+				"reqPaymentCompletedIHHLWorkAmt" : null,
+				"reqForConstructionCattleShelter" : null,
+				"noCompensationInjuredAtWorksiteCount" : null,
+				"auditDistrictId" : null,
+				"totalReceivedGrievancesHF" : null,
+				"reqForNewJc" : null,
+				"reqForConstructionIAYHouse" : null,
+				"demandForLibraryBuilding" : null,
+				"reqForConstructionIHHL" : null,
+				"demandForWork" : null,
+				"reqForMoreThan100Days" : null,
+				"demandForPds" : null,
+				"demandForWagesIncrease" : null,
+				"fullEntitlementNotGivenAmt" : null,
+				"oapnotProvidedWork" : null,
+				"delayWagesPaymentCount" : null,
+				"oapnotProvidedJc" : null,
+				"complaintsAgainstBDOVP" : null,
+				"demandForRenewelJc" : null,
+				"delayWagesPaymentAmt" : null,
+				"createdDate" : null,
+				"modifiedByName" : null,
+				"roundDescription" : null,
+				"createdByName" : null,
+				"financialYear" : null,
+				"financialDescription" : null,
+				"districtName" : null,
+				"modifiedDate" : null,
+				"roundEndDate" : null,
+				"roundStartDate" : null,
+				"roundName" : null,
+				"vpName" : null,
+				"blockId" : null,
+				"vpId" : null
+
 	    };
 
 	    $scope.grievance = {
@@ -204,10 +251,10 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
-		    	$scope.grievance.roundId = $scope.defaultrounds.value;
-		    	$scope.grievance.auditDistrictId = $scope.defaultdistricts.value;
-		    	$scope.grievance.blockId = $scope.defaultblocks.value;
-		    	$scope.grievance.vpId = $scope.defaultvillages.value;
+		    	//$scope.grievance.roundId = $scope.defaultrounds.value;
+		    	//$scope.grievance.auditDistrictId = $scope.defaultdistricts.value;
+		    	//$scope.grievance.blockId = $scope.defaultblocks.value;
+		    	//$scope.grievance.vpId = $scope.defaultvillages.value;
 
 		    	//$scope.deviation.roundStartDate = '2015-12-25';
 		    	//$scope.deviation.roundEndDate = '2015-12-25';
@@ -249,6 +296,7 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 		    	//$scope.editmisappropriation.districtid = $scope.editdefaultdistricts.value;
 		    	//$scope.editmisappropriation.blockid = $scope.editdefaultblocks.value;
 		    	//$scope.editmisappropriation.panchayatid = $scope.editdefaultvillages.value;
+		    	$scope.editmisappropriation.modifiedBy = $rootScope.sessionConfig.userId;
 
 		    	var responseText = grievancefactory.doUpdateData($scope.editgrievance);
 				responseText.success(function(result){
@@ -418,6 +466,32 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 	        }
 	    }
 
+	    function GetAudit(id)
+	    {
+	    	var deffered = jQuery.Deferred();
+	    	grievancefactory.getAudit(id).success(function(result){
+
+		    		$scope.grievance.auditId= result.data.auditId;
+		    		$scope.grievance.roundId =result.data.roundId;
+			    	$scope.grievance.auditDistrictId =result.data.auditDistrictId;
+			    	$scope.grievance.blockId =result.data.auditBlockId;
+			    	$scope.grievance.vpId =result.data.villagePanchayatId;
+					
+	    		
+				
+		  		return deffered.resolve('Ok');
+			}).error(function(error,status){
+	  			notify({
+		            messageTemplate: '<span>Unable to read look up values!!!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+	        	});
+			})
+			return deffered.promise();
+
+	    }
+
+
 	    function GetLookupValues(type){
 	    	grievancefactory.getLookupValues(type).success(function(result){
 	    		var defaultOptions = {
@@ -480,6 +554,13 @@ app.factory('grievancefactory',function($http,$q,$rootScope){
 	var service = {};
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 	var createbankUrl = '/grievances/create';
+
+	service.getAudit = function(id){
+		return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id
+        });
+	}
 
 	service.getLookupValues = function(id){
 		return $http({

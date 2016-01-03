@@ -3,6 +3,8 @@ package com.sastabackend.controller;
 import com.sastabackend.domain.Audit;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.service.audit.AuditService;
+import com.sastabackend.util.Constants;
+import com.sastabackend.util.CryptoUtil;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +62,19 @@ public class AuditController {
     @RequestMapping(value = "/doesexistaudit", method = RequestMethod.GET)
     public ResponseModel doesExistAudit(@RequestParam("rounid") Long rounid,@RequestParam("districtid") Integer districtid,
                                         @RequestParam("blockid") Integer blockid,@RequestParam("panchayatid") Integer panchayatid) {
-        return auditService.DoesExistAuditEntry(rounid,districtid,blockid,panchayatid);
+        return auditService.DoesExistAuditEntry(rounid, districtid, blockid, panchayatid);
+    }
+
+    @ApiOperation(value = "get config data value", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/getconfiguration", method = RequestMethod.GET)
+    public ResponseModel GetConfiguration(@RequestParam("id") String key) {
+        CryptoUtil crypt = new CryptoUtil();
+        Long value = 0L;
+        try {
+            value = Long.valueOf(crypt.decrypt(Constants.SALT_KEY,key)).longValue();
+        }catch (Exception err){
+            // do nothing
+        }
+        return auditService.SelectConfig(value);
     }
 }

@@ -451,3 +451,15 @@ var Validator = function (NameOfForm) {
         $(NameOfForm).validationEngine('hideAll');
     };
 };
+
+var Util = {
+    blockListProperties : [ '_events','_handlers','parent','uid'],
+    escapeProperties : function(obj){
+        for(var key in obj){
+            if(jQuery.inArray(key,Util.blockListProperties) > -1){
+                delete obj[key];
+            }
+        }
+        return obj;
+    }
+}

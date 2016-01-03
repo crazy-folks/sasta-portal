@@ -207,7 +207,7 @@ app.controller('RoundsController',['$http','$window','$scope','$rootScope','noti
 	    	}
 	    }
 
-	    $scope.Update = function(){debugger;
+	    $scope.Update = function(){
 			if($scope.editjQueryValidator.doValidate()){	
 		    	$scope.editround.referenceId = $scope.editdefaultOptions.value;
 		    	var responseText = roundsfactory.doUpdateData($scope.editround);

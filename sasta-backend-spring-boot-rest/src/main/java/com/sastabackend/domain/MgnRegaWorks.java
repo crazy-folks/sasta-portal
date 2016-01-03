@@ -123,7 +123,7 @@ public class MgnRegaWorks implements  CommonProperties{
     }
 
     public void setMaterialExpComplWorks(Integer material_exp_compl_works) {
-        Material_exp_compl_works = material_exp_compl_works;
+        this.Material_exp_compl_works = material_exp_compl_works;
     }
 
     public Integer getAdministrativeExpComplWorks() {
@@ -183,7 +183,7 @@ public class MgnRegaWorks implements  CommonProperties{
     }
 
     public String getMgnRegaWorksCol() {
-        return mgnrega_workscol;
+        return this.mgnrega_workscol;
     }
 
     public void setMgnRegaWorksCol(String mgnrega_workscol) {
@@ -191,15 +191,15 @@ public class MgnRegaWorks implements  CommonProperties{
     }
 
     public Integer getMaterialExpOglWorks() {
-        return Material_exp_ogl_works;
+        return this.Material_exp_ogl_works;
     }
 
     public void setMaterialExpOglWorks(Integer material_exp_ogl_works) {
-        Material_exp_ogl_works = material_exp_ogl_works;
+        this.Material_exp_ogl_works = material_exp_ogl_works;
     }
 
     public Integer getAdministrativeExpOgWorks() {
-        return administrative_exp_og_works;
+        return this.administrative_exp_og_works;
     }
 
     public void setAdministrativeExpOgWorks(Integer administrative_exp_og_works) {
@@ -219,11 +219,11 @@ public class MgnRegaWorks implements  CommonProperties{
     }
 
     public void setExpIncurredOgWorks(Integer exp_incurred_og_works) {
-        Exp_incurred_og_works = exp_incurred_og_works;
+        this.Exp_incurred_og_works = exp_incurred_og_works;
     }
 
     public Integer getOglWorksEvaluatedSATeam() {
-        return ogl_works_evaluated_SA_team;
+        return this.ogl_works_evaluated_SA_team;
     }
 
     public void setOglWorksEvaluatedSATeam(Integer ogl_works_evaluated_SA_team) {

@@ -13,4 +13,5 @@ public interface AuditService {
     ResponseModel Update(Long auditid,Long roundid, java.sql.Date startdate, java.sql.Date enddate, java.sql.Date gramasabhadate,
                          Integer district_id, Integer block_id, Integer panchayat_id, Long modifyby,Boolean isactive);
     ResponseModel DoesExistAuditEntry(Long roundid,Integer districtid,Integer blockid,Integer panchayatid);
+    ResponseModel SelectConfig(Long id);
 }

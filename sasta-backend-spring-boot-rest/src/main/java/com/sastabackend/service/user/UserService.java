@@ -26,4 +26,6 @@ public interface UserService {
 
     ResponseModel ChangePassword(Long userid,String oldPassword,String NewPassword,Boolean changedby);
 
+    ResponseModel SearchUsers(SearchModel model);
+
 }

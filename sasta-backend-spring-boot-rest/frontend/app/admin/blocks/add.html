@@ -10,20 +10,20 @@
                                     <div class="form-group no-margin">
                                         <div>
                                             <label for="selDistricts"  class="label-adjust">Districts</label>
-                                            <select name="selDistricts" id="selDistricts" class="form-control no-padding width-95 validate[required]" ng-model="defaultDistricts" ng-options="obj.text for obj in Districts track by obj.value" ng-change="OnSelectedValue(defaultDistricts)">
+                                            <select name="selDistricts" id="selDistricts" class="k-input width-95 validate[required]" ng-model="defaultDistricts" ng-options="obj.text for obj in Districts track by obj.value" ng-change="OnSelectedValue(defaultDistricts)">
                                             </select>
                                         </div>
                                     </div> 
                                     <div class="form-group no-margin">
                                         <div>
                                             <label for="txtblockName" class="label-adjust">Block Name</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtblockName" name="txtblockName"
+                                            <input type="text" class="k-input width-95 validate[required]" id="txtblockName" name="txtblockName"
                                                    data-ng-model="block.blockName" ng-maxlength="100"/>
                                         </div>
                                     </div>                
                                     <div class="form-group no-margin">
                                         <label for="txtdescription" class="label-adjust">Description</label> 
-                                        <textarea rows="6" class="form-control no-padding width-95  validate[required]" id="txtdescription" name="txtdescription"
+                                        <textarea rows="6" class="k-input width-95  validate[required]" id="txtdescription" name="txtdescription"
                                                data-ng-model="block.description"></textarea>                       
                                     </div> 
                                 </form>                           

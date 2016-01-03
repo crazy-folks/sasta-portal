@@ -1,6 +1,7 @@
 package com.sastabackend.service.audit;
 
 import com.sastabackend.domain.Audit;
+import com.sastabackend.domain.ConfigurationSettings;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.Rounds;
 import com.sastabackend.repository.AuditRepository;
@@ -147,6 +148,11 @@ public class AuditServiceImpl implements AuditService {
         return  response;
     }
 
+    @Override
+    public ResponseModel SelectConfig(Long id) {
+        return getConfiguration(id);
+    }
+
 
     private boolean Create(Long roundid, Date startdate, Date enddate, Date gramasabhadate, Integer district_id,
                            Integer block_id, Integer panchayat_id, Long createdby) {
@@ -230,6 +236,44 @@ public class AuditServiceImpl implements AuditService {
             return null;
         else
             return o.get(0);
+    }
+
+    private ResponseModel getConfiguration(Long id){
+        ResponseModel response = null;
+        try {
+            response = new ResponseModel<ConfigurationSettings>();
+            List<ConfigurationSettings> o = new ArrayList<ConfigurationSettings>();
+            o = jdbcTemplate.query("call select_config_settings(?)", new Object[]{id}, new ConfigSettingsMapper());
+            response.setStatus(true);
+            if (o.size() == 0) {
+                response.setData(null);
+            }
+            else {
+                response.setData(o.get(0));
+            }
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setStatus(false);
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+
+    private static final class ConfigSettingsMapper implements  RowMapper{
+        public Object mapRow(ResultSet set,int rowNo) throws  SQLException{
+            ConfigurationSettings o = new ConfigurationSettings();
+            o.setAuditId(set.getLong("audit_id"));
+            o.setRoundId(set.getLong("round_id"));
+            o.setStartDate(set.getDate("start_date"));
+            o.setEndDate(set.getDate("end_date"));
+            o.setGramaSabhaDate(set.getDate("grama_sabha_date"));
+            o.setFinancialYearId(set.getInt("reference_id"));
+            o.setBlockId(set.getInt("audit_block_id"));
+            o.setDistrictId(set.getInt("audit_district_id"));
+            o.setPanchayatId(set.getInt("village_panchayat_id"));
+            return o;
+        }
     }
 
     protected static final class AuditMapper implements RowMapper {

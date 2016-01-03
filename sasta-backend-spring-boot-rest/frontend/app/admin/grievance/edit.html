@@ -1,29 +1,29 @@
 <div class="dialog-header">
     <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
 </div>
-                  <form class="form-horizontal" name="frmaddbanks" id="frmaddbanks">
-                                    <div class="form-group no-margin">
+                  <form class="form-horizontal" name="frmEditAuditGrievance" id="frmEditAuditGrievance">
+                                    <div class="form-group no-margin display-none">
                                         <div>
                                             <label for="selRounds"  class="label-adjust">Round</label>
                                             <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group no-margin">
+                                    <div class="form-group no-margin display-none">
                                         <div>
                                             <label for="selDistrict"  class="label-adjust">District</label>
                                             <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
                                             </select>
                                         </div>                     
                                     </div>     
-                                    <div class="form-group no-margin">
+                                    <div class="form-group no-margin display-none">
                                         <div>
                                             <label for="selBlock"  class="label-adjust">Block</label>
                                             <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
                                             </select>
                                         </div>                     
                                     </div>     
-                                    <div class="form-group no-margin">
+                                    <div class="form-group no-margin display-none">
                                         <div>
                                             <label for="selVillage"  class="label-adjust">Village</label>
                                             <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">

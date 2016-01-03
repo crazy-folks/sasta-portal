@@ -1,5 +1,8 @@
 package com.sastabackend.domain;
 
+import com.sastabackend.util.Constants;
+import com.sastabackend.util.CryptoUtil;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -22,6 +25,7 @@ public class Audit implements java.io.Serializable , CommonProperties{
     private Integer audit_block_id;
     private Integer village_panchayat_id;
     private Boolean is_active;
+    private String key;
 
     private java.sql.Timestamp created_date;
     private java.sql.Timestamp modified_date;
@@ -48,6 +52,7 @@ public class Audit implements java.io.Serializable , CommonProperties{
 
     public void setAuditId(Long audit_id) {
         this.audit_id = audit_id;
+        setKey(Long.toString(audit_id));
     }
 
     public Long getRoundId() {
@@ -88,6 +93,20 @@ public class Audit implements java.io.Serializable , CommonProperties{
 
     public void setVillagePanchayatId(Integer village_panchayat_id) {
         this.village_panchayat_id = village_panchayat_id;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        try{
+            CryptoUtil crypt = new CryptoUtil();
+            key = crypt.encrypt(Constants.SALT_KEY,key);
+        }catch(Exception err){
+            key = Constants.Empty;
+        }
+        this.key = key;
     }
 
     public String getRoundName() {

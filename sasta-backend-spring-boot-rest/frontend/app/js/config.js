@@ -197,45 +197,57 @@
             controller : 'AuditController as AuditCtl'
         })   
         .state('admin.expenditure', {
-            url: "/expenditure",
+            url: "/expenditure?aid",
             templateUrl: "admin/expenditure/templates.html",
             data: {
                 pageTitle: 'Audit expenditure'
             },
-            controller : 'ExpenditureController as ExpenCtl'
+            controller : 'ExpenditureController as ExpenCtl',
+            params: {aid: null}
         })  
         .state('admin.misappropriation', {
-            url: "/misappropriation",
+            url: "/misappropriation?aid",
             templateUrl: "admin/misappropriation/templates.html",
             data: {
                 pageTitle: 'Audit Misappropriation'
             },
-            controller : 'MisappropriationController as MisCtl'
+            controller : 'MisappropriationController as MisCtl',
+            params: {aid: null}
         })  
         .state('admin.vrp', {
-            url: "/vrp",
+            url: "/vrp?aid",
             templateUrl: "admin/vrp/templates.html",
             data: {
                 pageTitle: 'Audit VRP'
             },
-            controller : 'VrpController as VrpCtl'
+            controller : 'VrpController as VrpCtl',
+            params: {aid: null}
         })  
         .state('admin.deviation', {
-            url: "/deviation",
+            url: "/deviation?aid",
             templateUrl: "admin/deviation/templates.html",
             data: {
                 pageTitle: 'Audit Deviation'
             },
-            controller : 'DeviationController as DevCtl'
+            controller : 'DeviationController as DevCtl',
+            params: {aid: null}
         })  
         .state('admin.grievance', {
-            url: "/grievance",
+            url: "/grievance?aid",
             templateUrl: "admin/grievance/templates.html",
             data: {
                 pageTitle: 'Audit Grievance'
             },
-            controller : 'GrievanceController as GriCtl'
-        })       
+            controller : 'GrievanceController as GriCtl',
+            params: {aid: null}
+        }).state('admin.search', {
+            url: "/search",
+            templateUrl: "admin/search/templates.html",
+            data: {
+                pageTitle: 'User Search'
+            },
+            controller : 'SearchController as SearchCtl'
+        })        
     /*$locationProvider.html5Mode({
       enabled: true
     });*/
@@ -246,10 +258,10 @@ angular.module('sastaboard')
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
         // Local Environment
-        //baseUrl: "http://localhost:8080/sasta-backend/api",
+        baseUrl: "http://localhost:8080/sasta-backend/api",
         // Live Environment
         //baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
-        baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
+        //baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
         debug : true,
         environment : 'development',
         notifyConfig : {

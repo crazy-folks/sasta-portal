@@ -62,8 +62,8 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddAudit';
-        $scope.EditAuditFormName = '#frmEditAudit';    
+        $scope.AddAuditFormName = '#frmAddAuditExpenditure';
+        $scope.EditAuditFormName = '#frmEditAuditExpenditure';    
 
         $scope.keditWindowOptions = {
             content: 'admin/expenditure/edit.html',
@@ -89,7 +89,13 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 
         $scope.OpenAuditWindow = function($event){
         	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            $scope.addAuditWindow.center().open();
+            
+            $scope.doReset();
+        	
+            GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
+            	
+            	$scope.addAuditWindow.center().open();
+        	});
         }
 
         $scope.CloseAuditWindow  = function(){
@@ -106,33 +112,44 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
         }
 
         $scope.doReset = function(){
-        	$scope.audit = $scope.defaultOptions;
-        	$scope.editaudit =  $scope.defaultOptions;
+        	$scope.expenditure = angular.copy($scope.defaultOptions);
+        	$scope.editexpenditure =  angular.copy($scope.defaultOptions);
         }
 
         $scope.defaultOptions = {
-	      "status": true,
-	      "createdDate": null,
-	      "modifiedDate": null,
-	      "createdByName": null,
-	      "modifiedByName": null,
-	      "gramaSabhaDate": null,
-	      "auditDistrictId": null,
-	      "auditBlockId": null,
-	      "villagePanchayatId": null,
-	      "financialDescription": null,
-	      "financialYear": null,
-	      "roundDescription": null,
-	      "districtName": null,
-	      "modifiedBy": null,
-	      "createdBy": null,
-	      "blockName": null,
-	      "auditId": null,
-	      "startDate": null,
-	      "roundId": null,
-	      "roundName": null,
-	      "endDtate": null,
-	      "vpName": null
+	      "id" :  null,
+			"stationary" :  null,
+			"others" :  null,
+			"createdByName" :  null,
+			"modifiedByName" :  null,
+			"createdDate" :  null,
+			"auditDistrictId" :  null,
+			"modifiedDate" :  null,
+			"financialDescription" :  null,
+			"financialYear" :  null,
+			"status" :  null,
+			"roundDescription" :  null,
+			"districtName" :  null,
+			"roundStartDate" :  null,
+			"roundEndDate" :  null,
+			"appReceivedCount" :  null,
+			"attendedAppCount" :  null,
+			"refreshmentCharges" :  null,
+			"selectedVrpCount" :  null,
+			"photographyCharges" :  null,
+			"paidedAmount" :  null,
+			"visitedVillageCount" :  null,
+			"videosCharges" :  null,
+			"createdBy" :  null,
+			"roundId" :  null,
+			"roundName" :  null,
+			"vpName" :  null,
+			"modifiedBy" :  null,
+			"blockName" :  null,
+			"auditId" :  1,
+			"blockId" :  null,
+			"vpId" :  null,
+			"ppleafLets" :  null
 	    };
 
 	    $scope.expenditure = {
@@ -174,10 +191,10 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
-		    	$scope.expenditure.roundId = $scope.defaultrounds.value;
-		    	$scope.expenditure.auditDistrictId = $scope.defaultdistricts.value;
-		    	$scope.expenditure.blockId = $scope.defaultblocks.value;
-		    	$scope.expenditure.vpId = $scope.defaultvillages.value;
+		    	//$scope.expenditure.roundId = $scope.defaultrounds.value;
+		    	//$scope.expenditure.auditDistrictId = $scope.defaultdistricts.value;
+		    	//$scope.expenditure.blockId = $scope.defaultblocks.value;
+		    	//$scope.expenditure.vpId = $scope.defaultvillages.value;
 
 		    	//$scope.expenditure.startdate = '2015-12-25';
 		    	//$scope.expenditure.enddate = '2015-12-25';
@@ -216,14 +233,14 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 
 	    $scope.Update = function(){
 			if($scope.editjQueryValidator.doValidate()){
-		    	$scope.editexpenditure.roundId = 1;// $scope.editdefaultrounds.value;
-		    	$scope.editexpenditure.auditDistrictId =1;// $scope.editdefaultdistricts.value;
-		    	$scope.editexpenditure.blockId =1;// $scope.editdefaultblocks.value;
-		    	$scope.editexpenditure.vpId =1;// $scope.editdefaultvillages.value;
-		    	$scope.editexpenditure.createdDate=null;
-		    	$scope.editexpenditure.modifiedDate=null;
-		    	$scope.editexpenditure.roundStartDate=null;
-		    	$scope.editexpenditure.roundEndDate=null;
+		    	//$scope.editexpenditure.roundId = 1;// $scope.editdefaultrounds.value;
+		    	//$scope.editexpenditure.auditDistrictId =1;// $scope.editdefaultdistricts.value;
+		    	//$scope.editexpenditure.blockId =1;// $scope.editdefaultblocks.value;
+		    	//$scope.editexpenditure.vpId =1;// $scope.editdefaultvillages.value;
+		    	//$scope.editexpenditure.createdDate=null;
+		    	//$scope.editexpenditure.modifiedDate=null;
+		    	//$scope.editexpenditure.roundStartDate=null;
+		    	//$scope.editexpenditure.roundEndDate=null;
 				$scope.editexpenditure.modifiedBy = $rootScope.sessionConfig.userId;
 				
 		    	var responseText = expenditurefactory.doUpdateData($scope.editexpenditure);
@@ -364,6 +381,32 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 	        }
 	    }
 
+	    function GetAudit(id,type)
+	    {
+	    	var deffered = jQuery.Deferred();
+	    	expenditurefactory.getAudit(id).success(function(result){
+	    		
+
+		    		$scope.expenditure.auditId= result.data.auditId;
+		    		$scope.expenditure.roundId =result.data.roundId;
+			    	$scope.expenditure.auditDistrictId =result.data.auditDistrictId;
+			    	$scope.expenditure.blockId =result.data.auditBlockId;
+			    	$scope.expenditure.vpId =result.data.villagePanchayatId;
+					
+	    		
+				
+		  		return deffered.resolve('Ok');
+			}).error(function(error,status){
+	  			notify({
+		            messageTemplate: '<span>Unable to read look up values!!!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+	        	});
+			})
+			return deffered.promise();
+
+	    }
+
 	    function GetLookupValues(type){
 	    	expenditurefactory.getLookupValues(type).success(function(result){
 	    		var defaultOptions = {
@@ -431,6 +474,13 @@ app.factory('expenditurefactory',function($http,$q,$rootScope){
 		return $http({
             method : 'GET',
             url : crudServiceBaseUrl + '/lookup/getlookup?id='+id
+        });
+	}
+
+	service.getAudit = function(id){
+		return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id
         });
 	}
 

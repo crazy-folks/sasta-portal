@@ -134,34 +134,38 @@ app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope'
 	    	}
 	    }
 
-	    $scope.Update = function(){
-			if($scope.editjQueryValidator.doValidate()){
-		    	var responseText = configsystemfactory.doUpdateData($scope.editconfigsystem);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });								
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditConfigSystemWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update Config System!</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+	    	var responseText = configsystemfactory.doUpdateData($scope.editconfigsystem);
+			responseText.success(function(result){
+				if(result.status){
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });								
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditConfigSystemWindow();
+			        $scope.doReset();
+		  		}else{
 			  		notify({
 			            messageTemplate: '<span>Unable to update Config System!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
-			        });		
-				});	 				
+			        });
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update Config System!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });		
+			});		    	
+	    }
+
+	    $scope.Update = function(){
+			if($scope.editjQueryValidator.doValidate()){
+ 				DoUpdate();
 			}
 	    }
 
@@ -176,6 +180,19 @@ app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope'
 				allowEdit: true
 	    	};
 	    	$scope.OpenEditConfigSystemWindow();
+	    }
+
+	    $scope.OnDelete = function(data){
+	    	$scope.editconfigsystem = {
+	    		id : data.id,
+				createBy : $rootScope.sessionConfig.userId,
+				label: data.label || '',
+				createBy : $rootScope.sessionConfig.userId,
+				name : data.name,
+				value : data.value || '',
+				allowEdit: true
+	    	};
+	    	DoUpdate();
 	    }
 
 	    $scope.gridOptions = {

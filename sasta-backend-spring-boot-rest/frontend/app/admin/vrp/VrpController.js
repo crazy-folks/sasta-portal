@@ -82,8 +82,13 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 		$scope.defaultgender = [{
             "value": 0,
             "text": "Select"
+	        }, {
+	            "value": 1,
+	            "text": "Male"
+	        }, {
+	            "value": 2,
+	            "text": "Female"
 	        }];
-
 		$scope.genders = [{
             "value": 0,
             "text": "Select"
@@ -152,13 +157,18 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });         
-		        $scope.addjQueryValidator = new Validator($scope.AddAuditFormName); 
+		        $scope.add1jQueryValidator = new Validator($scope.AddAuditFormName); 
+
 		        //$scope.genders.push($scope.defaultgender);
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddVrp';
-        $scope.EditAuditFormName = '#frmEditVrp';    
+        $scope.add1jQueryValidator = null;
+        $scope.edit1jQueryValidator = null;
+
+
+        $scope.AddAuditFormName = '#frmaddbanks';
+        $scope.EditAuditFormName = '#frmaddbanks';    
 
         $scope.keditWindowOptions = {
             content: 'admin/vrp/edit.html',
@@ -178,13 +188,19 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });		        
-		        $scope.editjQueryValidator = new Validator($scope.EditAuditFormName);            	
+		        $scope.edit1jQueryValidator = new Validator($scope.EditAuditFormName);            	
             }
         };
 
         $scope.OpenAuditWindow = function($event){
+        	alert(decodeURIComponent($location.search().aid));
         	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            $scope.addAuditWindow.center().open();
+            $scope.doReset();
+        	
+            GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
+            	GetLookupValues(14,$scope.vrp.auditBlockId);
+            	$scope.addAuditWindow.center().open();
+        	});
         }
 
         $scope.CloseAuditWindow  = function(){
@@ -192,8 +208,11 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
         }
 
         $scope.OpenEditAuditWindow = function(){
-			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
-            $scope.editAuditWindow.center().open();
+        	alert($location.search().aid);
+			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin"); 
+			$scope.editAuditWindow.center().open();
+			      	
+            
         }
 
         $scope.CloseEditAuditWindow = function(){
@@ -201,9 +220,119 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
         }
 
         $scope.doReset = function(){
-        	$scope.audit = $scope.defaultOptions;
-        	$scope.editaudit =  $scope.defaultOptions;
+        	$scope.vrp = angular.copy($scope.defaultOptions);
+        	$scope.editvrp =  angular.copy($scope.defaultOptions);
+        	$scope.defaultdistricts = [];
+        	$scope.defaultblocks = [];
+        	$scope.defaultvillages = [];
+        	$scope.defaultrounds = [];
+        	$scope.defaultgender = [];
+        	$scope.defaultqualifications=[];
+        	$scope.defaultpayments=[];
+        	$scope.defaultcommunities=[];
+        	$scope.defaultgrades=[];
+
+        	
+
+			var ba = jQuery.map( $scope.banks, function( n, i ) {
+				if(0 === n.value)
+			  		return n;
+			});	  
+			if(ba instanceof Array){
+				$scope.defaultbanks =  ba[0];
+			}else{
+				$scope.defaultbanks = $scope.defaultbanks;
+			}	   
+			var c = jQuery.map( $scope.communities, function( n, i ) {
+				if(0 === n.value)
+			  		return n;
+			});	  
+			if(c instanceof Array){
+				$scope.defaultcommunities =  c[0];
+			}else{
+				$scope.defaultcommunities = $scope.defaultcommunities;
+			}	 	
+			var q = jQuery.map( $scope.qualifications, function( n, i ) {
+				if(0 === n.value)
+			  		return n;
+			});	  
+			if(q instanceof Array){
+				$scope.defaultqualifications =  q[0];
+			}else{
+				$scope.defaultqualifications = $scope.defaultqualifications;
+			}
+			var g = jQuery.map( $scope.grades, function( n, i ) {
+				if(0 === n.value)
+			  		return n;
+			});	  
+			if(g instanceof Array){
+				$scope.defaultgrades =  g[0];
+			}else{
+				$scope.defaultgrades = $scope.defaultgrades;
+			}	
+			var p = jQuery.map( $scope.payments, function( n, i ) {
+				if(0 === n.value)
+			  		return n;
+			});	  
+			if(p instanceof Array){
+				$scope.defaultpayments =  p[0];
+			}else{
+				$scope.defaultpayments = $scope.defaultpayments;
+			}
+
+
+        	//$scope.villages=[];
+        	//$scope.districts=[];
+        	//$scope.rounds = [];
+        	//$scope.blocks=[];
+
         }
+
+        $scope.defaultOptions = {
+	      		"id" : 0,
+				"name" : null,
+				"createdByName" : null,
+				"modifiedByName" : null,
+				"createdDate" : null,
+				"auditDistrictId" : null,
+				"auditBlockId" : null,
+				"villagePanchayatId" : null,
+				"modifiedDate" : null,
+				"status" : null,
+				"roundDescription" : null,
+				"roundStartDate" : null,
+				"roundEndDate" : null,
+				"qualificationId" : null,
+				"vrpGradeName" : null,
+				"auditDistrictName" : null,
+				"auditFinancialYear" : null,
+				"vrpQualificationName" : null,
+				"jobCardNumber" : null,
+				"auditBlockName" : null,
+				"vrpBankName" : null,
+				"contactNumber" : null,
+				"auditVpName" : null,
+				"auditFinancialDescription" : null,
+				"accountNumber" : null,
+				"vrpPanchayatName" : null,
+				"communityId" : null,
+				"guardianName" : null,
+				"vrpCommunityName" : null,
+				"createdBy" : null,
+				"roundId" : null,
+				"roundName" : null,
+				"modifiedBy" : null,
+				"auditId" : null,
+				"bankId" : null,
+				"genderId" : null,
+				"ifscCode" : null,
+				"active" : null,
+				"auditVpId" : null,
+				"payMode" : null,
+				"gradeId" : null,
+				"paidAmount" : null,
+				"totalDays" : null
+	    };
 
 	    $scope.vrp = {
 	      		"id" : 0,
@@ -252,14 +381,14 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 	    };
 
 	    $scope.Submit = function(){
-	    	if($scope.addjQueryValidator.doValidate()){
-		    	$scope.vrp.roundId =1;// $scope.defaultrounds.value;
-		    	$scope.vrp.auditDistrictId =1;// $scope.defaultdistricts.value;
-		    	$scope.vrp.auditBlockId =1;// $scope.defaultblocks.value;
-		    	$scope.vrp.villagePanchayatId =1;// $scope.defaultvillages.value;
-				$scope.vrp.roundId =1;// $scope.defaultvillages.value;
+	    	if($scope.add1jQueryValidator.doValidate()){
+		    	//$scope.vrp.roundId =1;// $scope.defaultrounds.value;
+		    	//$scope.vrp.auditDistrictId =1;// $scope.defaultdistricts.value;
+		    	//$scope.vrp.auditBlockId =1;// $scope.defaultblocks.value;
+		    	//$scope.vrp.villagePanchayatId =1;// $scope.defaultvillages.value;
+				//$scope.vrp.roundId =1;// $scope.defaultvillages.value;
 				$scope.vrp.communityId = $scope.defaultcommunities.value;
-				$scope.vrp.auditId=1;
+				//$scope.vrp.auditId=1;
 				$scope.vrp.genderId = $scope.defaultgender.value;
 				$scope.vrp.bankId = $scope.defaultbanks.value;
 				$scope.vrp.gradeId = $scope.defaultgrades.value;
@@ -301,7 +430,7 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 	    }
 
 	    $scope.Update = function(){
-			if($scope.editjQueryValidator.doValidate()){
+			if($scope.edit1jQueryValidator.doValidate()){
 		    	//$scope.editexpenditure.roundid = $scope.editdefaultrounds.value;
 		    	//$scope.editexpenditure.districtid = $scope.editdefaultdistricts.value;
 		    	//$scope.editexpenditure.blockid = $scope.editdefaultblocks.value;
@@ -315,8 +444,8 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 				$scope.editvrp.communityId = $scope.defaultcommunities.value;
 				$scope.editvrp.genderId = $scope.defaultgender.value;
 				$scope.editvrp.bankId = $scope.defaultbanks.value;
-				$scope.editvrp.gradeId = $scope.grades.value;
-				$scope.editvrp.payMode = $scope.payments.value;
+				$scope.editvrp.gradeId = $scope.defaultgrades.value;
+				$scope.editvrp.payMode = $scope.defaultpayments.value;
 				$scope.editvrp.qualificationId = $scope.defaultqualifications.value;
 		    	var responseText = vrpfactory.doUpdateData($scope.editvrp);
 				responseText.success(function(result){
@@ -353,36 +482,36 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 			  		return n;
 			});	  
 			if(r instanceof Array){
-				$scope.editdefaultrounds =  r[0];
+				$scope.defaultrounds =  r[0];
 			}else{
-				$scope.editdefaultrounds = $scope.defaultrounds;
+				$scope.defaultrounds = $scope.defaultrounds;
 			}	  
 			var d = jQuery.map( $scope.districts, function( n, i ) {
 				if(data.auditDistrictId === n.value)
 			  		return n;
 			});	  
 			if(d instanceof Array){
-				$scope.editdefaultdistricts =  d[0];
+				$scope.defaultdistricts =  d[0];
 			}else{
-				$scope.editdefaultdistricts = $scope.defaultdistricts;
+				$scope.defaultdistricts = $scope.defaultdistricts;
 			}	  
 			var b = jQuery.map( $scope.blocks, function( n, i ) {
 				if(data.auditBlockId === n.value)
 			  		return n;
 			});	  
 			if(b instanceof Array){
-				$scope.editdefaultblocks =  b[0];
+				$scope.defaultblocks =  b[0];
 			}else{
-				$scope.editdefaultblocks = $scope.defaultblocks;
+				$scope.defaultblocks = $scope.defaultblocks;
 			}	   
 			var v = jQuery.map( $scope.villages, function( n, i ) {
 				if(data.villagePanchayatId === n.value)
 			  		return n;
 			});	  
 			if(v instanceof Array){
-				$scope.editdefaultvillages =  v[0];
+				$scope.defaultvillages =  v[0];
 			}else{
-				$scope.editdefaultvillages = $scope.defaultvillages;
+				$scope.defaultvillages = $scope.defaultvillages;
 			}	
 
 			var ba = jQuery.map( $scope.banks, function( n, i ) {
@@ -390,45 +519,45 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 			  		return n;
 			});	  
 			if(ba instanceof Array){
-				$scope.editdefaultbanks =  ba[0];
+				$scope.defaultbanks =  ba[0];
 			}else{
-				$scope.editdefaultbanks = $scope.defaultbanks;
+				$scope.defaultbanks = $scope.defaultbanks;
 			}	   
 			var c = jQuery.map( $scope.communities, function( n, i ) {
 				if(data.communityId === n.value)
 			  		return n;
 			});	  
 			if(c instanceof Array){
-				$scope.editdefaultcommunities =  c[0];
+				$scope.defaultcommunities =  c[0];
 			}else{
-				$scope.editdefaultcommunities = $scope.defaultcommunities;
+				$scope.defaultcommunities = $scope.defaultcommunities;
 			}	 	
 			var q = jQuery.map( $scope.qualifications, function( n, i ) {
 				if(data.qualificationId === n.value)
 			  		return n;
 			});	  
 			if(q instanceof Array){
-				$scope.editdefaultqualifications =  q[0];
+				$scope.defaultqualifications =  q[0];
 			}else{
-				$scope.editdefaultqualifications = $scope.defaultqualifications;
+				$scope.defaultqualifications = $scope.defaultqualifications;
 			}
 			var g = jQuery.map( $scope.grades, function( n, i ) {
 				if(data.gradeId === n.value)
 			  		return n;
 			});	  
 			if(g instanceof Array){
-				$scope.editdefaultgrades =  g[0];
+				$scope.defaultgrades =  g[0];
 			}else{
-				$scope.editdefaultgrades = $scope.defaultgrades;
+				$scope.defaultgrades = $scope.defaultgrades;
 			}	
 			var p = jQuery.map( $scope.payments, function( n, i ) {
 				if(data.payMode === n.value)
 			  		return n;
 			});	  
 			if(p instanceof Array){
-				$scope.editdefaultpayments =  p[0];
+				$scope.defaultpayments =  p[0];
 			}else{
-				$scope.editdefaultpayments = $scope.defaultpayments;
+				$scope.defaultpayments = $scope.defaultpayments;
 			}	
 			
 
@@ -437,9 +566,9 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 			  		return n;
 			});	  
 			if(ge instanceof Array){
-				$scope.editdefaultgenders =  ge[0];
+				$scope.defaultgender =  ge[0];
 			}else{
-				$scope.editdefaultgenders = $scope.defaultgenders;
+				$scope.defaultgender = $scope.defaultgender;
 			}	
 
 	    	$scope.editvrp = {
@@ -524,8 +653,33 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 	        }
 	    }
 
-	    function GetLookupValues(type,where){
-	    	vrpfactory.getLookupValues(type,where).success(function(result){
+	    function GetAudit(id,type)
+	    {
+	    	var deffered = jQuery.Deferred();
+	    	vrpfactory.getAudit(id).success(function(result){
+	    		
+		    		$scope.vrp.auditId= result.data.auditId;
+		    		$scope.vrp.roundId =result.data.roundId;
+			    	$scope.vrp.auditDistrictId =result.data.auditDistrictId;
+			    	$scope.vrp.auditBlockId =result.data.auditBlockId;
+			    	$scope.vrp.villagePanchayatId =result.data.villagePanchayatId;
+					$scope.vrp.roundId =result.data.roundId;
+	    		
+				
+		  		return deffered.resolve('Ok');
+			}).error(function(error,status){
+	  			notify({
+		            messageTemplate: '<span>Unable to read look up values!!!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+	        	});
+			})
+			return deffered.promise();
+
+	    }
+
+	    function GetLookupValues(type){
+	    	vrpfactory.getLookupValues(type).success(function(result){
 	    		var defaultOptions = {
 				    "value": 0,
 				    "text": "Select"
@@ -603,13 +757,12 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 		}
 
 		GetLookupValues(13); 
-		GetLookupValues(2);
+		GetLookupValues(2); 
 		GetLookupValues(1); 
 		GetLookupValues(6); 
 		GetLookupValues(10); 
-		GetLookupValues(12);
+		GetLookupValues(12); 
 		GetLookupValues(4); 
-		GetLookupValues(14,$rootScope.sessionConfig.allottedBlock); 
 
 }]);
 
@@ -619,22 +772,20 @@ app.factory('vrpfactory',function($http,$q,$rootScope){
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 	var createbankUrl = '/vrp/create';
 
-	function buildLookupUrl(id,where){
-		var lookupUrl = '/lookup/getlookup?id={0}&where={1}'
-		where = where || '';
-		lookupUrl = lookupUrl.replace('{0}',id);
-		lookupUrl = lookupUrl.replace('{1}',where);
-		return lookupUrl;
-	}
-
-
-	service.getLookupValues = function(id,where){debugger;
-		var finalUrl = buildLookupUrl(id,where);
+	service.getAudit = function(id){
 		return $http({
             method : 'GET',
-            url : crudServiceBaseUrl + finalUrl
+            url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id
         });
 	}
+
+	service.getLookupValues = function(id){
+		return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=0'
+        });
+	}
+
 
 	service.doSubmitData = function(model){
 		return $http({

@@ -75,6 +75,22 @@ function widgetToggle() {
 };
 
 /**
+ * @widgetToggle - Directive to toggle widget
+ */
+function cardFlip() {
+    return {
+        restrict: 'A',
+        link: function(scope, element) {
+          $(element).flip({
+            axis: "y",
+            reverse: true,
+            trigger: "click"
+          });
+        }
+    }
+};
+
+/**
  * @widgetClose - Directive to close widget
  */
 function widgetClose() {
@@ -519,7 +535,6 @@ function fullscreenMode() {
     };
 };
 
-
 /**
  * @toggleSettings - Directive to toggle settings widgets for DEMO
  */
@@ -608,3 +623,5 @@ angular
     .directive('fullscreenWidget', fullscreenWidget)
     .directive('toggleSettings', toggleSettings)
     .directive('switchTheme', switchTheme)
+    .directive('cardFlip', cardFlip)
+    

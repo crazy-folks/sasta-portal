@@ -139,36 +139,39 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 	    	
 	    }
 
-	    $scope.Update = function(){
-			if($scope.editjQueryValidator.doValidate()){
-		    	var responseText = communitiesfactory.doUpdateData($scope.editcommunities);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditCommunitiesWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update communities!</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+	    	var responseText = communitiesfactory.doUpdateData($scope.editcommunities);
+			responseText.success(function(result){
+				if(result.status){
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditCommunitiesWindow();
+			        $scope.doReset();
+		  		}else{
 			  		notify({
 			            messageTemplate: '<span>Unable to update communities!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });	
-				});
-			}	    	
-	    	
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update communities!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });	
+			});	    	
+	    }
+
+	    $scope.Update = function(){
+			if($scope.editjQueryValidator.doValidate()){
+				DoUpdate();
+			}
 	    }
 
 	    $scope.EditData = function(data){
@@ -183,6 +186,18 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 	    	$scope.OpenEditCommunitiesWindow();
 	    }
 
+	    $scope.OnDelete = function(data){
+	    	$scope.editcommunities = {
+	    		id : data.id,
+				createdBy : $rootScope.sessionConfig.userId,
+				description: data.description || '',
+				modifiedBy : $rootScope.sessionConfig.userId,
+				name : data.name,
+				status: false
+	    	};
+	    	DoUpdate();
+	    }
+
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "id", title:'Communities ID', hidden: true, editable : false },
@@ -193,7 +208,7 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"OnDelete(dataItem);\">Delete</button>" }
 		        	],
 	        pageable: true,
 	        filterable :true,

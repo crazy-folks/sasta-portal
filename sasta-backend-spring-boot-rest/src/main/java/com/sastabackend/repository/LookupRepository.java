@@ -2,6 +2,8 @@ package com.sastabackend.repository;
 
 import com.sastabackend.domain.Lookup;
 import com.sastabackend.util.LookupType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,7 +23,7 @@ import java.util.List;
 public class LookupRepository {
     @Autowired
     protected JdbcTemplate jdbc;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(LookupRepository.class);
     public List<Lookup> findLookupData(int value,String where){
         List<Lookup> _list = new java.util.ArrayList();
         _list = jdbc.query(buildQuery(value,where), userMapper);
@@ -93,11 +95,15 @@ public class LookupRepository {
                 builder = new StringBuilder();
                 builder.append("select id as 'value',CONCAT(CONCAT(first_name, ' '),last_name) as 'text' from users");
                 break;
+            case UserGroups:
+                builder.append("entity_groups");
+                break;
             default:
                 throw new RuntimeException("Invalid Look up request");
         }
         builder.append(" ");
         builder.append(where.toString());
+        LOGGER.debug("Builder Query :  " + builder.toString());
         return builder.toString();
     }
 

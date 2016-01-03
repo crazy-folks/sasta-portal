@@ -974,6 +974,7 @@
 						   (!field_val)
                         || field_val == '0'
                         || field_val == '-1'
+                        || field_val == '?'
 						|| (dv_placeholder && field_val == dv_placeholder)
 						|| (placeholder && field_val == placeholder)
 					) {

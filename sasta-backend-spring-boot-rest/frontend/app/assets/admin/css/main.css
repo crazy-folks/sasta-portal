@@ -4432,3 +4432,47 @@ div.config h4 a:hover {
 .config-swatch-wrap .options .theme-style-wrapper:hover {
   cursor: pointer;
 }
+
+.thumb{
+  display: table-cell;
+  vertical-align: middle;  
+  position: relative;
+  display: block;
+}
+.card>.front,.card>.front>span.meta {width: 100%;}
+.card>.front>span.meta{
+  text-align: center;
+}
+
+.card {
+  margin-top: 5px; 
+  height: 460px;
+  cursor : pointer;
+  margin-left : 5px;
+}
+
+.card a.thumb {
+  float: left;
+  width: 100px;
+  height: 60px;
+  margin: 0 5px 10px 0;
+}
+
+.card a.thumb img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.front, .back {
+  width: 90%;
+  height: 80%;
+  padding: 15px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0px 1px 6px rgba(0,0,0, 0.4);
+}
+
+.front,.back{overflow: auto;}
+.lft-lbl{ width: 47%; display: inline-block; margin-top: 5px;} 
+.rht-lbl { display:inline-block; width:45%; } 
+.clear-both{clear:both;}

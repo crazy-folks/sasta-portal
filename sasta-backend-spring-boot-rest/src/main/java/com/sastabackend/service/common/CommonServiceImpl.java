@@ -41,7 +41,7 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public ResponseModel Select() {
         ResponseModel response = null;
-        String query ="select name, value, label, allow_edit, created_date, modified_date, created_by, modified_by from config_system";
+        String query ="select name, value, label, allow_edit, created_date, modified_date, created_by, modified_by from config_system where allow_edit = 1";
         try {
             response = new ResponseModel<List<ConfigSystem>>();
             List<ConfigSystem> list = jdbcTemplate.query(query, new ConfigSystemMapper());

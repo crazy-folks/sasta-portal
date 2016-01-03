@@ -478,6 +478,57 @@ public class UserServiceImpl implements UserService {
         return ResetPassword(userid, oldPassword, NewPassword, changedby);
     }
 
+    @Override
+    public ResponseModel SearchUsers(SearchModel model) {
+        return Search(model);
+    }
+
+    private ResponseModel Search(SearchModel model){
+        ResponseModel response = null;
+        List<Users> o = new ArrayList<Users>();
+        try{
+            response = new ResponseModel<List<Users>>();
+            o = jdbcTemplate.query("call search_users(?,?,?,?,?,?,?,?,?,?,?,?)",
+                    new Object[]{
+                            model.getEmailId(),
+                            model.getFirstName(),
+                            model.getLastName(),
+                            model.getJobTitle(),
+                            model.getAllottedBlockId(),
+                            model.getAllottedDistrictId(),
+                            model.getUserGroupId(),
+                            model.getReportingId(),
+                            model.getDepartmentId(),
+                            model.getEmployeeId(),
+                            model.getContactNo(),
+                            model.getIsActive()
+                    }, new UserMapper());
+            LOGGER.debug("Search List : {}",o.toString());
+            response.setStatus(true);
+            if(o.size()==0)
+                return null;
+            else {
+                for(int index = 0; index < o.size() ; index++){
+                    Users u = o.get(index);
+                    if(u.getImageId() == null || u.getImageId() == 0){
+                        u.setImageName(this.imageUrl+"default.jpg");
+                        o.set(index,u);
+                    } else if(u.getImageId() != null){
+                        u.setImageName(this.imageUrl + u.getImageName());
+                        o.set(index,u);
+                    }
+                }
+            }
+            response.setData(o);
+            return response;
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setStatus(true);
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
     /**
      * Sign out user current session
      * @param sessionid - session id
