@@ -14,6 +14,14 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                     <div class="form-group no-margin">
+                                        <div>
+                                            <label for="selRounds"  class="label-adjust">Grama Sabha Date</label>
+                                            <input type="text" class="k-input width-95" kendo-date-picker="gramaSabhaDateObject" data-ng-model="audit.gramaSabhaDate" k-options="dateOptions" />
+                                        </div>
+                                    </div>
+
                                     <div class="form-group no-margin">
                                         <div>
                                             <label for="selDistrict"  class="label-adjust">District</label>
@@ -42,7 +50,7 @@
                             <div class="row no-padding auto-margin">
                                 <div class="row no-padding auto-margin">
                                     <div class="dialog-buttons dialog-footer text-right">        
-                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseaddBankWindow()">Cancel</button>
+                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseAuditWindow()">Cancel</button>
                                         <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
                                     </div>            
                                 </div>                             

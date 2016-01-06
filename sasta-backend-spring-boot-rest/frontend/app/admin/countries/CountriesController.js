@@ -146,34 +146,38 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 	    	}
 	    }
 
-	    $scope.Update = function(){
-	    	if($scope.editjQueryValidator.doValidate()){
-		    	var responseText = countriesfactory.doUpdateData($scope.editcountries);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditCountriesWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update Countries!</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+	    	var responseText = countriesfactory.doUpdateData($scope.editcountries);
+			responseText.success(function(result){
+				if(result.status){
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditCountriesWindow();
+			        $scope.doReset();
+		  		}else{
 			  		notify({
 			            messageTemplate: '<span>Unable to update Countries!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });
-				});
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update Countries!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });
+			});	    	
+	    }
+
+	    $scope.Update = function(){
+	    	if($scope.editjQueryValidator.doValidate()){
+	    		DoUpdate();
 	    	}
 	    }
 
@@ -191,6 +195,20 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 	    	$scope.OpenEditCountriesWindow();
 	    }
 
+	    $scope.OnDelete = function(data){
+	    	$scope.editcountries = {
+			    name: data.name,
+			    description: data.description,
+			    status: false,
+			    countryCode: data.countryCode,
+			    modifiedBy: $rootScope.sessionConfig.userId,
+			    createdBy: $rootScope.sessionConfig.userId,
+			    countryId: data.countryId,
+			    shortName: data.shortName
+	    	};
+	    	DoUpdate();
+	    }
+
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "countryId", title:'ID', hidden: true, editable : false },
@@ -203,7 +221,11 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }
 		        	],
 	        pageable: true,
 	        filterable :true,

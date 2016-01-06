@@ -38,7 +38,7 @@ public class DistrictController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseModel Update(@ModelAttribute final Districts districts){
         return districtsService.Update(districts.getDistrictID(), districts.getName(), districts.getAuditStateId(),
-                districts.getDescription(), districts.getDistrictCode(), districts.getShortName(), districts.getModifiedBy());
+                districts.getDescription(), districts.getDistrictCode(), districts.getShortName(), districts.getModifiedBy(),districts.getStatus());
     }
 
     @ApiOperation(value = "Read District List", response = ResponseModel.class, httpMethod = "GET")

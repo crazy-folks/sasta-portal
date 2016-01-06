@@ -159,11 +159,9 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 	    	}
 	    }
 
-	    $scope.Update = function(){
-	    	if($scope.editjQueryValidator.doValidate()){
-		    	$scope.editdistricts.auditStateId = $scope.editdefaultOptions.value;
-		    	var responseText = districtsfactory.doUpdateData($scope.editdistricts);
-				responseText.success(function(result){
+	    function DoUpdate(){
+	    	var responseText = districtsfactory.doUpdateData($scope.editdistricts);
+			responseText.success(function(result){
 					if(result.status){
 			  			notify({
 				            messageTemplate: '<span>'+result.data+'</span>',
@@ -181,14 +179,14 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 				            position: $rootScope.appConfig.notifyConfig.position,
 				            scope:$scope
 				        });
-			  		}
-				}).error(function(error,status){
-		  			notify({
-			            messageTemplate: '<span>Unable to update districts!</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });
-				});	
+			  		}	    	
+		    });
+		}
+
+	    $scope.Update = function(){
+	    	if($scope.editjQueryValidator.doValidate()){
+		    	$scope.editdistricts.auditStateId = $scope.editdefaultOptions.value;
+		    	DoUpdate();
 	    	}
 	    }
 
@@ -224,6 +222,21 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 	    	$scope.OpenEditDistrictsWindow();
 	    }
 
+	    $scope.OnDelete = function(data){
+	    	$scope.editdistricts = {
+	    		districtID : data.districtID,
+				createdBy : $rootScope.sessionConfig.userId,
+				description: data.description || '',
+				modifiedBy : $rootScope.sessionConfig.userId,
+				name : data.name,
+				auditStateId : data.auditStateId,
+				districtCode : data.districtCode,
+				shortName : data.shortName,
+				status: false
+	    	};
+	    	DoUpdate();	    	
+	    }
+
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "districtID", title:'ID', hidden: true, editable : false },
@@ -235,7 +248,11 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }
 		        	],
 	        pageable: true,
 	        filterable :true,

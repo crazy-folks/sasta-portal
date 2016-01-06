@@ -48,5 +48,12 @@
 <div kendo-window="editFinancialYearWindow" k-options="keditWindowOptions">
   
 </div>
-
+<script id="toggle-template" type="text/x-kendo-template">
+    <div class="icon-settings">
+       <ul>
+            <li><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Financial Year</a></li>
+            <li><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Financial Year</a></li>
+      </ul>    
+    </div>
+</script>
 

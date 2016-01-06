@@ -208,7 +208,11 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"OnDelete(dataItem);\">Delete</button>" }
+		        		{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }
 		        	],
 	        pageable: true,
 	        filterable :true,

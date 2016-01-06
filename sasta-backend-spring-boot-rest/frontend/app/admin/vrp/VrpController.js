@@ -629,7 +629,11 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 		        		{ field: "roundName", title : "District", editable : false},
 		        		{ field: "roundName", title : "Block", editable : false },
 		        		{ field: "roundName", title : "Village", editable : false},
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }
 		        	],
 	        pageable: true,
 	        filterable :true,

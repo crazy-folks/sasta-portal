@@ -9,6 +9,6 @@ import com.sastabackend.domain.ResponseModel;
 
 public interface DistrictsService {
     ResponseModel Add(String name,Integer stateid,String description,Integer districtCode,String shortName,Long createby);
-    ResponseModel Update(Integer districtId,String name,int stateid,String description,Integer districtCode,String shortName,Long modify_by);
+    ResponseModel Update(Integer districtId,String name,int stateid,String description,Integer districtCode,String shortName,Long modify_by,Boolean isactive);
     ResponseModel getList();
 }

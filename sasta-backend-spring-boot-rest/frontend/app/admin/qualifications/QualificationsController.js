@@ -140,34 +140,38 @@ app.controller('QualificationsController',['$http','$window','$scope','$rootScop
 	    	}
 	    }
 
-	    $scope.Update = function(){
-			if($scope.editjQueryValidator.doValidate()){
-		    	var responseText = qualificationsfactory.doUpdateData($scope.editqualifications);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditQualificationWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update financial year!</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+	    	var responseText = qualificationsfactory.doUpdateData($scope.editqualifications);
+			responseText.success(function(result){
+				if(result.status){
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditQualificationWindow();
+			        $scope.doReset();
+		  		}else{
 			  		notify({
 			            messageTemplate: '<span>Unable to update financial year!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });
-				});					
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update financial year!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });
+			});			    	
+	    }
+
+	    $scope.Update = function(){
+			if($scope.editjQueryValidator.doValidate()){
+				DoUpdate();
 			}
 	    }
 
@@ -183,6 +187,17 @@ app.controller('QualificationsController',['$http','$window','$scope','$rootScop
 	    	$scope.OpenEditQualificationWindow();
 	    }
 
+	    $scope.OnDelete = function(data){
+	    	$scope.editqualifications = {
+	    		id : data.id,
+				createdBy : $rootScope.sessionConfig.userId,
+				description: data.description || '',
+				modifiedBy : $rootScope.sessionConfig.userId,
+				name : data.name,
+				status: false
+	    	};
+	    	DoUpdate();    	
+	    }
 	    $scope.Cancel = function() {
 	      $scope.closeThisDialog("close");
 	    }
@@ -198,7 +213,11 @@ app.controller('QualificationsController',['$http','$window','$scope','$rootScop
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }
 		        	],
 	        pageable: true,
 	        filterable :true,

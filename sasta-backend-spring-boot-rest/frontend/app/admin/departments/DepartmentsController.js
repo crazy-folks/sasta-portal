@@ -140,34 +140,38 @@ app.controller('DepartmentsController',['$http','$window','$scope','$rootScope',
 	    	}
 	    }
 
-	    $scope.Update = function(){
-	    	if($scope.editjQueryValidator.doValidate()){
-		    	var responseText = departmentsfactory.doUpdateData($scope.editdepartments);
-				responseText.success(function(result){
-					if(result.status){
-			  			notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditDepartmentsWindow();
-				        $scope.doReset();
-			  		}else{
-			  			notify({
-				            messageTemplate: '<span>Unable to update departments!</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+	    	var responseText = departmentsfactory.doUpdateData($scope.editdepartments);
+			responseText.success(function(result){
+				if(result.status){
+		  			notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditDepartmentsWindow();
+			        $scope.doReset();
+		  		}else{
 		  			notify({
 			            messageTemplate: '<span>Unable to update departments!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
-			        });	
-				});
+			        });
+		  		}
+			}).error(function(error,status){
+	  			notify({
+		            messageTemplate: '<span>Unable to update departments!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });	
+			});	    	
+	    }
+
+	    $scope.Update = function(){
+	    	if($scope.editjQueryValidator.doValidate()){
+	    		DoUpdate();
 	    	}
 	    }
 
@@ -183,6 +187,18 @@ app.controller('DepartmentsController',['$http','$window','$scope','$rootScope',
 	    	$scope.OpenEditDepartmentsWindow();
 	    }
 
+	    $scope.OnDelete = function(data){
+	    	$scope.editdepartments = {
+	    		id : data.id,
+				createdBy : $rootScope.sessionConfig.userId,
+				description: data.description || '',
+				modifiedBy : $rootScope.sessionConfig.userId,
+				name : data.name,
+				status: false
+	    	};
+	    	DoUpdate();	    	
+	    }
+
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "id", title:'ID', hidden: true, editable : false },
@@ -194,7 +210,11 @@ app.controller('DepartmentsController',['$http','$window','$scope','$rootScope',
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }
 		        	],
 	        pageable: true,
 	        filterable :true,

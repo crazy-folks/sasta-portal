@@ -240,6 +240,24 @@
             },
             controller : 'GrievanceController as GriCtl',
             params: {aid: null}
+        })       
+        .state('admin.mgnrega', {
+            url: "/mgnrega?aid",
+            templateUrl: "admin/mgnrega/templates.html",
+            data: {
+                pageTitle: 'Audit MGNREGA'
+            },
+            controller : 'MgnregaController as MgnCtl',
+            params: {aid: null}
+        })  
+        .state('admin.hlcommittee', {
+            url: "/hlcommitte?aid",
+            templateUrl: "admin/hlcommittee/templates.html",
+            data: {
+                pageTitle: 'Audit High Level Committee'
+            },
+            controller : 'HLCommitteeController as HlcCtl',
+            params: {aid: null}
         }).state('admin.search', {
             url: "/search",
             templateUrl: "admin/search/templates.html",
@@ -247,7 +265,8 @@
                 pageTitle: 'User Search'
             },
             controller : 'SearchController as SearchCtl'
-        })        
+        })
+  
     /*$locationProvider.html5Mode({
       enabled: true
     });*/
@@ -306,7 +325,7 @@ angular.module('sastaboard')
       $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
         var session  = storage.recall();
         if($state.includes('admin') || (next.name.indexOf($rootScope.appConfig.adminPrefixUrl)>-1)){
-            var expire = new Date(session.expiredDate);
+            var expire = kendo.parseDate(kendo.toString(session.expiredDate, "yyyy/MM/dd hh:mm:ss tt")); //new Date(session.expiredDate);
             var now = new Date();
             if( expire > now){
                 authfactory.doUpdateSession(session.sessionId).

@@ -1,13 +1,13 @@
-app.controller('GrievanceController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','grievancefactory',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,grievancefactory){
+app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','hlcommitteefactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,hlcommitteefactory){
 
-		$scope.aufactory = grievancefactory;
+		$scope.aufactory = hlcommitteefactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
-	    	AddAuditTitle : "Add Grievance",
-	    	EditAuditTitle : "Edit Grievance"
+	    	AddAuditTitle : "Add High Level Committee",
+	    	EditAuditTitle : "Edit High Level Committee"
 	    };
 
 		$scope.rounds = [];
@@ -41,11 +41,11 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 
 
         $scope.kaddWindowOptions = {
-            content: 'admin/grievance/add.html',
+            content: 'admin/hlcommittee/add.html',
             title: $scope.modelDialogTitle.AddAuditTitle,
             iframe: false,
             draggable: true,
-            modal: true,
+            modal: true, 
             resizable: true,
             visible: false,      
             animation: {
@@ -62,11 +62,11 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddAuditGrievance';
-        $scope.EditAuditFormName = '#frmEditAuditGrievance';    
+        $scope.AddAuditFormName = '#frmAddAuditDeviation';
+        $scope.EditAuditFormName = '#frmEditAuditDeviation';    
 
         $scope.keditWindowOptions = {
-            content: 'admin/grievance/edit.html',
+            content: 'admin/hlcommittee/edit.html',
             title: $scope.modelDialogTitle.EditAuditTitle,
             iframe: false,
             draggable: true,
@@ -97,6 +97,7 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
         	});
         }
 
+
         $scope.CloseAuditWindow  = function(){
             $scope.addAuditWindow.close();
         }
@@ -104,6 +105,7 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
         $scope.OpenEditAuditWindow = function(){
 			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
             $scope.editAuditWindow.center().open();
+            
         }
 
         $scope.CloseEditAuditWindow = function(){
@@ -111,157 +113,95 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
         }
 
         $scope.doReset = function(){
-        	$scope.grievance = angular.copy($scope.defaultOptions);
-        	$scope.editgrievance =  angular.copy($scope.defaultOptions);
+        	$scope.hlcommittee = angular.copy($scope.defaultOptions);
+        	$scope.edithlcommittee =  angular.copy($scope.defaultOptions);
         }
 
         $scope.defaultOptions = {
-	      	    "id" : 0,
-				"others" : null,
-				"status" : null,
-				"roundId" : null,
-				"createdBy" : null,
-				"auditId" : 1,
-				"modifiedBy" : null,
-				"blockName" : null,
-				"wagesNotPaidWorkersActuallyWorkedCount" : null,
-				"transportAllowanceNotGivenCount" : null,
-				"demandForIndividualBenefitScheme" : null,
-				"totalReceivedGrievancesMeeting" : null,
-				"complaintsAgainstUnionOverseer" : null,
-				"complaintsAgainstVPSecretory" : null,
-				"wagesDrawnLessThanActualNoDaysCount" : null,
-				"wagesDrawnLessThanActualNoDaysAmt" : null,
-				"wagesNotPaidWorkersActuallyWorkedAmt" : null,
-				"noCompensationInjuredAtWorksiteAmt" : null,
-				"nonProvisionOfWorkSiteFacilities" : null,
-				"noCompensationDeadAtWorksiteCount" : null,
-				"reqPaymentCompletedIHHLWorkCount" : null,
-				"fullEntitlementNotGivenCount" : null,
-				"complaintsAgainstVPPresident" : null,
-				"complaintAgainstBankingCorrespondent" : null,
-				"lessPaymentValueRecordedMBookAmt" : null,
-				"transportAllowanceNotGivenAmt" : null,
-				"complaintsAgainstWorksiteFacilidator" : null,
-				"lessPaymentValueRecordedMBookCount" : null,
-				"noCompensationDeadAtWorksiteAmt" : null,
-				"reqPaymentCompletedIHHLWorkAmt" : null,
-				"reqForConstructionCattleShelter" : null,
-				"noCompensationInjuredAtWorksiteCount" : null,
-				"auditDistrictId" : null,
-				"totalReceivedGrievancesHF" : null,
-				"reqForNewJc" : null,
-				"reqForConstructionIAYHouse" : null,
-				"demandForLibraryBuilding" : null,
-				"reqForConstructionIHHL" : null,
-				"demandForWork" : null,
-				"reqForMoreThan100Days" : null,
-				"demandForPds" : null,
-				"demandForWagesIncrease" : null,
-				"fullEntitlementNotGivenAmt" : null,
-				"oapnotProvidedWork" : null,
-				"delayWagesPaymentCount" : null,
-				"oapnotProvidedJc" : null,
-				"complaintsAgainstBDOVP" : null,
-				"demandForRenewelJc" : null,
-				"delayWagesPaymentAmt" : null,
-				"createdDate" : null,
-				"modifiedByName" : null,
-				"roundDescription" : null,
-				"createdByName" : null,
-				"financialYear" : null,
-				"financialDescription" : null,
-				"districtName" : null,
-				"modifiedDate" : null,
-				"roundEndDate" : null,
-				"roundStartDate" : null,
-				"roundName" : null,
-				"vpName" : null,
-				"blockId" : null,
-				"vpId" : null
+			"id" : null,
+			"status" : null,
+			"roundId" : null,
+			"vpName" : null,
+			"blockName" : null,
+			"auditId" : null,
+			"createdBy" : null,
+			"modifiedBy" : null,
+			"roundName" : null,
+			"blockId" : null,
+			"vpId" : null,
+			"financialYear" : null,
+			"createdByName" : null,
+			"modifiedByName" : null,
+			"modifiedDate" : null,
+			"roundDescription" : null,
+			"createdDate" : null,
+			"auditDistrictId" : null,
+			"financialDescription" : null,
+			"districtName" : null,
+			"roundEndDate" : null,
+			"roundStartDate" : null,
+			"pendingParasCount" : null,
+			"amountToBeRecovered" : null,
+			"totalParasCount" : null,
+			"totalParasAmt" : null,
+			"paraSettledDuringDSAmt" : null,
+			"paraSettledDuringHLCCount" : null,
+			"paraSettledDuringHLCAmt" : null,
+			"amountRecovered" : null,
+			"paraSettledDuringDSCount" : null,
+			"pendingParasAmt" : null
 
 	    };
 
-	    $scope.grievance = {
-	    	   	"id" : 0,
-				"others" : null,
-				"status" : null,
-				"roundId" : null,
-				"createdBy" : null,
-				"auditId" : 1,
-				"modifiedBy" : null,
-				"blockName" : null,
-				"wagesNotPaidWorkersActuallyWorkedCount" : null,
-				"transportAllowanceNotGivenCount" : null,
-				"demandForIndividualBenefitScheme" : null,
-				"totalReceivedGrievancesMeeting" : null,
-				"complaintsAgainstUnionOverseer" : null,
-				"complaintsAgainstVPSecretory" : null,
-				"wagesDrawnLessThanActualNoDaysCount" : null,
-				"wagesDrawnLessThanActualNoDaysAmt" : null,
-				"wagesNotPaidWorkersActuallyWorkedAmt" : null,
-				"noCompensationInjuredAtWorksiteAmt" : null,
-				"nonProvisionOfWorkSiteFacilities" : null,
-				"noCompensationDeadAtWorksiteCount" : null,
-				"reqPaymentCompletedIHHLWorkCount" : null,
-				"fullEntitlementNotGivenCount" : null,
-				"complaintsAgainstVPPresident" : null,
-				"complaintAgainstBankingCorrespondent" : null,
-				"lessPaymentValueRecordedMBookAmt" : null,
-				"transportAllowanceNotGivenAmt" : null,
-				"complaintsAgainstWorksiteFacilidator" : null,
-				"lessPaymentValueRecordedMBookCount" : null,
-				"noCompensationDeadAtWorksiteAmt" : null,
-				"reqPaymentCompletedIHHLWorkAmt" : null,
-				"reqForConstructionCattleShelter" : null,
-				"noCompensationInjuredAtWorksiteCount" : null,
-				"auditDistrictId" : null,
-				"totalReceivedGrievancesHF" : null,
-				"reqForNewJc" : null,
-				"reqForConstructionIAYHouse" : null,
-				"demandForLibraryBuilding" : null,
-				"reqForConstructionIHHL" : null,
-				"demandForWork" : null,
-				"reqForMoreThan100Days" : null,
-				"demandForPds" : null,
-				"demandForWagesIncrease" : null,
-				"fullEntitlementNotGivenAmt" : null,
-				"oapnotProvidedWork" : null,
-				"delayWagesPaymentCount" : null,
-				"oapnotProvidedJc" : null,
-				"complaintsAgainstBDOVP" : null,
-				"demandForRenewelJc" : null,
-				"delayWagesPaymentAmt" : null,
-				"createdDate" : null,
-				"modifiedByName" : null,
-				"roundDescription" : null,
-				"createdByName" : null,
-				"financialYear" : null,
-				"financialDescription" : null,
-				"districtName" : null,
-				"modifiedDate" : null,
-				"roundEndDate" : null,
-				"roundStartDate" : null,
-				"roundName" : null,
-				"vpName" : null,
-				"blockId" : null,
-				"vpId" : null
+	    $scope.hlcommittee = {
+			"id" : 0,
+			"status" : null,
+			"roundId" : null,
+			"vpName" : null,
+			"blockName" : null,
+			"auditId" : null,
+			"createdBy" : null,
+			"modifiedBy" : null,
+			"roundName" : null,
+			"blockId" : null,
+			"vpId" : null,
+			"financialYear" : null,
+			"createdByName" : null,
+			"modifiedByName" : null,
+			"modifiedDate" : null,
+			"roundDescription" : null,
+			"createdDate" : null,
+			"auditDistrictId" : null,
+			"financialDescription" : null,
+			"districtName" : null,
+			"roundEndDate" : null,
+			"roundStartDate" : null,
+			"pendingParasCount" : null,
+			"amountToBeRecovered" : null,
+			"totalParasCount" : null,
+			"totalParasAmt" : null,
+			"paraSettledDuringDSAmt" : null,
+			"paraSettledDuringHLCCount" : null,
+			"paraSettledDuringHLCAmt" : null,
+			"amountRecovered" : null,
+			"paraSettledDuringDSCount" : null,
+			"pendingParasAmt" : null
 
 	    };
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
-		    	//$scope.grievance.roundId = $scope.defaultrounds.value;
-		    	//$scope.grievance.auditDistrictId = $scope.defaultdistricts.value;
-		    	//$scope.grievance.blockId = $scope.defaultblocks.value;
-		    	//$scope.grievance.vpId = $scope.defaultvillages.value;
+		    	//$scope.deviation.roundId = $scope.defaultrounds.value;
+		    	//$scope.deviation.auditDistrictId = $scope.defaultdistricts.value;
+		    	//$scope.deviation.blockId = $scope.defaultblocks.value;
+		    	//$scope.deviation.vpId = $scope.defaultvillages.value;
 
 		    	//$scope.deviation.roundStartDate = '2015-12-25';
 		    	//$scope.deviation.roundEndDate = '2015-12-25';
 		    	
-		    	$scope.grievance.createdBy = $rootScope.sessionConfig.userId;
+		    	$scope.hlcommittee.createdBy = $rootScope.sessionConfig.userId;
 
-		    	var responseText = grievancefactory.doSubmitData($scope.grievance);
+		    	var responseText = hlcommitteefactory.doSubmitData($scope.hlcommittee);
 				responseText.success(function(result){
 					if(result.status){
 				  		notify({
@@ -311,14 +251,14 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 				        $scope.doReset();
 			  		}else{
 				  		notify({
-				            messageTemplate: '<span>Unable to delete grievance!.</span>',
+				            messageTemplate: '<span>Unable to delete HLC!.</span>',
 				            position: $rootScope.appConfig.notifyConfig.position,
 				            scope:$scope
 				        });	
 			  		}
 				}).error(function(error,status){
 			  		notify({
-			            messageTemplate: '<span>Unable to delete grievance!.</span>',
+			            messageTemplate: '<span>Unable to delete HLC!.</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });	
@@ -332,9 +272,9 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 		    	//$scope.editmisappropriation.districtid = $scope.editdefaultdistricts.value;
 		    	//$scope.editmisappropriation.blockid = $scope.editdefaultblocks.value;
 		    	//$scope.editmisappropriation.panchayatid = $scope.editdefaultvillages.value;
-		    	$scope.editmisappropriation.modifiedBy = $rootScope.sessionConfig.userId;
+		    	$scope.edithlcommittee.modifiedBy = $rootScope.sessionConfig.userId;
 
-		    	var responseText = grievancefactory.doUpdateData($scope.editgrievance);
+		    	var responseText = hlcommitteefactory.doUpdateData($scope.edithlcommittee);
 				responseText.success(function(result){
 					if(result.status){
 				  		notify({
@@ -400,70 +340,39 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 			}else{
 				$scope.editdefaultvillages = $scope.defaultvillages;
 			}	   	
-	    	$scope.editgrievance = {
-				  		id : data.id,
-						others : data.others,
-						status : data.status,
-						roundId : data.roundId,
-						createdBy : data.createdBy,
-						auditId : data.auditId,
-						modifiedBy : data.modifiedBy,
-						blockName : data.blockName,
-						wagesNotPaidWorkersActuallyWorkedCount : data.wagesNotPaidWorkersActuallyWorkedCount,
-						transportAllowanceNotGivenCount : data.transportAllowanceNotGivenCount,
-						demandForIndividualBenefitScheme : data.demandForIndividualBenefitScheme,
-						totalReceivedGrievancesMeeting : data.totalReceivedGrievancesMeeting,
-						complaintsAgainstUnionOverseer : data.complaintsAgainstUnionOverseer,
-						complaintsAgainstVPSecretory : data.complaintsAgainstVPSecretory,
-						wagesDrawnLessThanActualNoDaysCount : data.wagesDrawnLessThanActualNoDaysCount,
-						wagesDrawnLessThanActualNoDaysAmt : data.wagesDrawnLessThanActualNoDaysAmt,
-						wagesNotPaidWorkersActuallyWorkedAmt : data.wagesNotPaidWorkersActuallyWorkedAmt,
-						noCompensationInjuredAtWorksiteAmt : data.noCompensationInjuredAtWorksiteAmt,
-						nonProvisionOfWorkSiteFacilities : data.nonProvisionOfWorkSiteFacilities,
-						noCompensationDeadAtWorksiteCount : data.noCompensationDeadAtWorksiteCount,
-						reqPaymentCompletedIHHLWorkCount : data.reqPaymentCompletedIHHLWorkCount,
-						fullEntitlementNotGivenCount : data.fullEntitlementNotGivenCount,
-						complaintsAgainstVPPresident : data.complaintsAgainstVPPresident,
-						complaintAgainstBankingCorrespondent : data.complaintAgainstBankingCorrespondent,
-						lessPaymentValueRecordedMBookAmt : data.lessPaymentValueRecordedMBookAmt,
-						transportAllowanceNotGivenAmt : data.transportAllowanceNotGivenAmt,
-						complaintsAgainstWorksiteFacilidator : data.complaintsAgainstWorksiteFacilidator,
-						lessPaymentValueRecordedMBookCount : data.lessPaymentValueRecordedMBookCount,
-						noCompensationDeadAtWorksiteAmt : data.noCompensationDeadAtWorksiteAmt,
-						reqPaymentCompletedIHHLWorkAmt : data.reqPaymentCompletedIHHLWorkAmt,
-						reqForConstructionCattleShelter : data.reqForConstructionCattleShelter,
-						noCompensationInjuredAtWorksiteCount : data.noCompensationInjuredAtWorksiteCount,
-						auditDistrictId : data.auditDistrictId,
-						totalReceivedGrievancesHF : data.totalReceivedGrievancesHF,
-						reqForNewJc : data.reqForNewJc,
-						reqForConstructionIAYHouse : data.reqForConstructionIAYHouse,
-						demandForLibraryBuilding : data.demandForLibraryBuilding,
-						reqForConstructionIHHL : data.reqForConstructionIHHL,
-						demandForWork : data.demandForWork,
-						reqForMoreThan100Days : data.reqForMoreThan100Days,
-						demandForPds : data.demandForPds,
-						demandForWagesIncrease : data.demandForWagesIncrease,
-						fullEntitlementNotGivenAmt : data.fullEntitlementNotGivenAmt,
-						oapnotProvidedWork : data.oapnotProvidedWork,
-						delayWagesPaymentCount : data.delayWagesPaymentCount,
-						oapnotProvidedJc : data.oapnotProvidedJc,
-						complaintsAgainstBDOVP : data.complaintsAgainstBDOVP,
-						demandForRenewelJc : data.demandForRenewelJc,
-						delayWagesPaymentAmt : data.delayWagesPaymentAmt,
-						createdDate : data.createdDate,
-						modifiedByName : data.modifiedByName,
-						roundDescription : data.roundDescription,
-						createdByName : data.createdByName,
-						financialYear : data.financialYear,
-						financialDescription : data.financialDescription,
-						districtName : data.districtName,
-						modifiedDate : data.modifiedDate,
-						roundEndDate : data.roundEndDate,
-						roundStartDate : data.roundStartDate,
-						roundName : data.roundName,
-						vpName : data.vpName,
-						blockId : data.blockId,
-						vpId : data.vpId
+	    	$scope.edithlcommittee = {
+					id : data.id,
+					status : data.status,
+					roundId : data.roundId,
+					vpName : data.vpName,
+					blockName : data.blockName,
+					auditId : data.auditId,
+					createdBy : data.createdBy,
+					modifiedBy : data.modifiedBy,
+					roundName : data.roundName,
+					blockId : data.blockId,
+					vpId : data.vpId,
+					financialYear : data.financialYear,
+					createdByName : data.createdByName,
+					modifiedByName : data.modifiedByName,
+					modifiedDate : data.modifiedDate,
+					roundDescription : data.roundDescription,
+					createdDate : data.createdDate,
+					auditDistrictId : data.auditDistrictId,
+					financialDescription : data.financialDescription,
+					districtName : data.districtName,
+					roundEndDate : data.roundEndDate,
+					roundStartDate : data.roundStartDate,
+					pendingParasCount : data.pendingParasCount,
+					amountToBeRecovered : data.amountToBeRecovered,
+					totalParasCount : data.totalParasCount,
+					totalParasAmt : data.totalParasAmt,
+					paraSettledDuringDSAmt : data.paraSettledDuringDSAmt,
+					paraSettledDuringHLCCount : data.paraSettledDuringHLCCount,
+					paraSettledDuringHLCAmt : data.paraSettledDuringHLCAmt,
+					amountRecovered : data.amountRecovered,
+					paraSettledDuringDSCount : data.paraSettledDuringDSCount,
+					pendingParasAmt : data.pendingParasAmt
 
 	    	};
 	    	$scope.OpenEditAuditWindow();
@@ -493,7 +402,7 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/grievances/getlist'
+				         url: $scope.crudServiceBaseUrl + '/highLevelcommities/getlist'
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)
@@ -509,13 +418,12 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 	    function GetAudit(id)
 	    {
 	    	var deffered = jQuery.Deferred();
-	    	grievancefactory.getAudit(id).success(function(result){
-
-		    		$scope.grievance.auditId= result.data.auditId;
-		    		$scope.grievance.roundId =result.data.roundId;
-			    	$scope.grievance.auditDistrictId =result.data.auditDistrictId;
-			    	$scope.grievance.blockId =result.data.auditBlockId;
-			    	$scope.grievance.vpId =result.data.villagePanchayatId;
+			    	hlcommitteefactory.getAudit(id).success(function(result){
+		    		$scope.hlcommittee.auditId= result.data.auditId;
+		    		$scope.hlcommittee.roundId =result.data.roundId;
+			    	$scope.hlcommittee.auditDistrictId =result.data.auditDistrictId;
+			    	$scope.hlcommittee.blockId =result.data.auditBlockId;
+			    	$scope.hlcommittee.vpId =result.data.villagePanchayatId;
 					
 	    		
 				
@@ -531,9 +439,8 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 
 	    }
 
-
 	    function GetLookupValues(type){
-	    	grievancefactory.getLookupValues(type).success(function(result){
+	    	hlcommitteefactory.getLookupValues(type).success(function(result){
 	    		var defaultOptions = {
 				    "value": 0,
 				    "text": "Select"
@@ -589,11 +496,11 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 		GetLookupValues(14); 
 }]);
 
-app.factory('grievancefactory',function($http,$q,$rootScope){
+app.factory('hlcommitteefactory',function($http,$q,$rootScope){
 
 	var service = {};
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-	var createbankUrl = '/grievances/create';
+	var createbankUrl = '/highLevelcommities/create';
 
 	service.getAudit = function(id){
 		return $http({
@@ -624,7 +531,7 @@ app.factory('grievancefactory',function($http,$q,$rootScope){
 	service.doUpdateData = function(model){
 		return $http({
             method : 'POST',
-            url : crudServiceBaseUrl + '/grievances/update',
+            url : crudServiceBaseUrl + '/highLevelcommities/update',
             data : JSON.stringify(model),
 		    headers: {
 		        "Content-Type": "application/json"

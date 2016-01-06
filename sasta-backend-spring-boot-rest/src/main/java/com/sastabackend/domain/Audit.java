@@ -1,5 +1,6 @@
 package com.sastabackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sastabackend.util.Constants;
 import com.sastabackend.util.CryptoUtil;
 
@@ -20,6 +21,7 @@ public class Audit implements java.io.Serializable , CommonProperties{
     @Column(name = "audit_id", nullable = false, updatable = false)
     private Long audit_id;
     private Long round_id;
+    @JsonFormat(pattern="yyyy/MM/dd")
     private java.sql.Date grama_sabha_date;
     private Integer audit_district_id;
     private Integer audit_block_id;
@@ -110,7 +112,7 @@ public class Audit implements java.io.Serializable , CommonProperties{
     }
 
     public String getRoundName() {
-        return round_name;
+        return this.round_name;
     }
 
     public void setRoundName(String round_name) {
@@ -129,7 +131,7 @@ public class Audit implements java.io.Serializable , CommonProperties{
 
     @Override
     public Timestamp getModifiedDate() {
-        return this.created_date;
+        return this.modified_date;
     }
 
     @Override

@@ -1,0 +1,234 @@
+<div class="dialog-header">
+    <div class="dialog-title">{{ modelDialogTitle.edit }}</div>
+</div>
+<form class="form-horizontal" name="frmAddAuditDeviation" id="frmAddAuditDeviation">
+                                    <div class="form-group no-margin display-none">
+                                        <div>
+                                            <label for="selRounds"  class="label-adjust">Round</label>
+                                            <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group no-margin display-none">
+                                        <div>
+                                            <label for="selDistrict"  class="label-adjust">District</label>
+                                            <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>     
+                                    <div class="form-group no-margin display-none">
+                                        <div>
+                                            <label for="selBlock"  class="label-adjust">Block</label>
+                                            <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>     
+                                    <div class="form-group no-margin display-none">
+                                        <div>
+                                            <label for="selVillage"  class="label-adjust">Village</label>
+                                            <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">
+                                            </select>
+                                        </div>                     
+                                    </div>
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txttotalWorksExecuted" class="label-adjust">Total works executed during FY</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txttotalWorksExecuted" name="txttotalWorksExecuted"
+                                                   data-ng-model="editmgnrega.totalWorksExecuted" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtcompletedWorkCount" class="label-adjust">No. of  works Completed</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtcompletedWorkCount" name="txtcompletedWorkCount"
+                                                   data-ng-model="editmgnrega.completedWorkCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtpendingWorkCount" class="label-adjust">No. of pending works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtpendingWorkCount" name="txtpendingWorkCount"
+                                                   data-ng-model="editmgnrega.pendingWorkCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtunskilledWagesComplWorks" class="label-adjust">Unskilled wages for compl. works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtunskilledWagesComplWorks" name="txtunskilledWagesComplWorks"
+                                                   data-ng-model="editmgnrega.unskilledWagesComplWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtskilledWagesComplWorks" class="label-adjust">Skilled wages for compl. works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtskilledWagesComplWorks" name="txtskilledWagesComplWorks"
+                                                   data-ng-model="editmgnrega.skilledWagesComplWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmaterialExpComplWorks" class="label-adjust">Material exp for compl. works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtmaterialExpComplWorks" name="txtmaterialExpComplWorks"
+                                                   data-ng-model="editmgnrega.materialExpComplWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtadministrativeExpComplWorks" class="label-adjust">Administrative exp for compl. works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtadministrativeExpComplWorks" name="txtadministrativeExpComplWorks"
+                                                   data-ng-model="editmgnrega.administrativeExpComplWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txttotal" class="label-adjust">Total Exp. of Compl. works</label>
+                                            <input type="text" class="form-control no-padding width-95" id="txttotal" name="txttotal"
+                                                   ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtcomplWorksEvaluatedBySA" class="label-adjust">No. of compl. works evaluated by SA</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtcomplWorksEvaluatedBySA" name="txtcomplWorksEvaluatedBySA"
+                                                   data-ng-model="editmgnrega.complWorksEvaluatedBySA" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtexpIncurredComplWorks" class="label-adjust">Exp. incurred for compl. works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtexpIncurredComplWorks" name="txtexpIncurredComplWorks"
+                                                   data-ng-model="editmgnrega.expIncurredComplWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtcomplWorksEvaluatedSATeam" class="label-adjust">Value of compl. works as evaluated by SA team</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtcomplWorksEvaluatedSATeam" name="txtcomplWorksEvaluatedSATeam"
+                                                   data-ng-model="editmgnrega.complWorksEvaluatedSATeam" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdifference" class="label-adjust">Difference in value of compl.works</label>
+                                            <input type="text" class="form-control no-padding width-95" id="txtdifference" name="txtdifference"
+                                                    ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtonGoingWorksCount" class="label-adjust">No of on-going works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtonGoingWorksCount" name="txtonGoingWorksCount"
+                                                   data-ng-model="editmgnrega.onGoingWorksCount" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtunskilledWagesOgWorks" class="label-adjust">Unskilled wages for on-going Works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtunskilledWagesOgWorks" name="txtunskilledWagesOgWorks"
+                                                   data-ng-model="editmgnrega.unskilledWagesOgWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtskilledWagesOgWorks" class="label-adjust">Skilled wages for on-going  Works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtskilledWagesOgWorks" name="txtskilledWagesOgWorks"
+                                                   data-ng-model="editmgnrega.skilledWagesOgWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtmaterialExpOglWorks" class="label-adjust">Material Exp for on-going Works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtmaterialExpOglWorks" name="txtmaterialExpOglWorks"
+                                                   data-ng-model="editmgnrega.materialExpOglWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtadministrativeExpOgWorks" class="label-adjust">Administrative Exp for ongoing. Works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtadministrativeExpOgWorks" name="txtadministrativeExpOgWorks"
+                                                   data-ng-model="editmgnrega.administrativeExpOgWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txttotal1" class="label-adjust">Total Exp for on-going works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txttotal1" name="txttotal1"
+                                                    ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtogWorksEvaluatedBySA" class="label-adjust">No. of on-going works evaluated by SA team</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtogWorksEvaluatedBySA" name="txtogWorksEvaluatedBySA"
+                                                   data-ng-model="editmgnrega.ogWorksEvaluatedBySA" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtexpIncurredOgWorks" class="label-adjust">Exp. incurred for on-going works</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtexpIncurredOgWorks" name="txtexpIncurredOgWorks"
+                                                   data-ng-model="editmgnrega.expIncurredOgWorks" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtoglWorksEvaluatedSATeam" class="label-adjust">Value of on-going works evaluated by SA team</label>
+                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtoglWorksEvaluatedSATeam" name="txtoglWorksEvaluatedSATeam"
+                                                   data-ng-model="editmgnrega.oglWorksEvaluatedSATeam" ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group no-margin">
+                                        <div>
+                                            <label for="txtdifference1" class="label-adjust">Difference in value for on-going works</label>
+                                            <input type="text" class="form-control no-padding width-95 " id="txtdifference1" name="txtdifference1"
+                                                   ng-maxlength="50" 
+                                                  />
+                                        </div>
+                                    </div>
+        <button type="button" class="btn btn-danger btn-sm" ng-click="Cancel()">Cancel</button>
+        <button type="button" class="btn btn-success btn-sm" data-ng-click="Update()">&#160;Save&#160;</button>
+    </div>
+                                 
+</form>

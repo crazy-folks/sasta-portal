@@ -4,6 +4,10 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		$scope.aufactory = auditfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
+		$scope.dateOptions = {
+		    format: 'yyyy-MM-dd'
+		};
+
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
 	    	AddAuditTitle : "Add Audit",
@@ -42,87 +46,87 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 
 
 
-        $scope.kaddWindowOptions = {
-            content: 'admin/audit/add.html',
-            title: $scope.modelDialogTitle.AddAuditTitle,
-            iframe: false,
-            draggable: true,
-            modal: true,
-            resizable: true,
-            visible: false,      
-            animation: {
-                close: {
-                    effects: "fade:out"
-                }
-            },
-            open : function() {
+	    $scope.kaddWindowOptions = {
+	        content: 'admin/audit/add.html',
+	        title: $scope.modelDialogTitle.AddAuditTitle,
+	        iframe: false,
+	        draggable: true,
+	        modal: true,
+	        resizable: true,
+	        visible: false,      
+	        animation: {
+	            close: {
+	                effects: "fade:out"
+	            }
+	        },
+	        open : function() {
 		        $($scope.AddAuditFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });         
 		        $scope.jQueryAddAuditValidator = new Validator($scope.AddAuditFormName); 
-            }
-        };
+	        }
+	    };
 
-        $scope.jQueryAddAuditValidator = null;
-        $scope.jQueryEditAuditValidator = null;
-        $scope.AddAuditFormName = '#frmAddAudit';
-        $scope.EditAuditFormName = '#frmEditAudit';    
+	    $scope.jQueryAddAuditValidator = null;
+	    $scope.jQueryEditAuditValidator = null;
+	    $scope.AddAuditFormName = '#frmAddAudit';
+	    $scope.EditAuditFormName = '#frmEditAudit';    
 
-        $scope.keditWindowOptions = {
-            content: 'admin/audit/edit.html',
-            title: $scope.modelDialogTitle.EditAuditTitle,
-            iframe: false,
-            draggable: true,
-            modal: true,
-            resizable: false,
-            visible: false,      
-            animation: {
-                close: {
-                    effects: "fade:out"
-                }
-            },
-            open : function(){
+	    $scope.keditWindowOptions = {
+	        content: 'admin/audit/edit.html',
+	        title: $scope.modelDialogTitle.EditAuditTitle,
+	        iframe: false,
+	        draggable: true,
+	        modal: true,
+	        resizable: false,
+	        visible: false,      
+	        animation: {
+	            close: {
+	                effects: "fade:out"
+	            }
+	        },
+	        open : function(){
 		        $($scope.EditAuditFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });		        
 		        $scope.jQueryEditAuditValidator = new Validator($scope.EditAuditFormName);            	
-            }
-        };
+	        }
+	    };
 
-        $scope.OpenAuditWindow = function($event){
-        	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-        	
-            $scope.addAuditWindow.center().open();
-        }
+	    $scope.OpenAuditWindow = function($event){
+	    	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+	    	
+	        $scope.addAuditWindow.center().open();
+	    }
 
-        $scope.CloseAuditWindow  = function(){
-            $scope.addAuditWindow.close();
-        }
+	    $scope.CloseAuditWindow  = function(){
+	        $scope.addAuditWindow.close();
+	    }
 
-        $scope.OpenEditAuditWindow = function(){
+	    $scope.OpenEditAuditWindow = function(){
 			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
-            $scope.editAuditWindow.center().open();
-        }
+	        $scope.editAuditWindow.center().open();
+	    }
 
-        $scope.CloseEditAuditWindow = function(){
-            $scope.editAuditWindow.close();
-        }
+	    $scope.CloseEditAuditWindow = function(){
+	        $scope.editAuditWindow.close();
+	    }
 
-        $scope.doReset = function(){
-        	$scope.audit = angular.copy($scope.defaultOptions);
-        	$scope.editaudit =  angular.copy($scope.defaultOptions);
-        	$scope.defaultdistricts = [];
-        	$scope.defaultblocks = [];
-        	$scope.defaultvillages = [];
-        	$scope.defaultrounds = [];
-        	$scope.villages=[];
-        	$scope.districts=[];
-        	$scope.rounds = [];
-        	$scope.blocks=[];
+	    $scope.doReset = function(){
+	    	$scope.audit = angular.copy($scope.defaultOptions);
+	    	$scope.editaudit =  angular.copy($scope.defaultOptions);
+	    	$scope.defaultdistricts = [];
+	    	$scope.defaultblocks = [];
+	    	$scope.defaultvillages = [];
+	    	$scope.defaultrounds = [];
+	    	$scope.villages=[];
+	    	$scope.districts=[];
+	    	$scope.rounds = [];
+	    	$scope.blocks=[];
 
-        	GetLookupValues(13,'').done(function(result){
+	    	GetLookupValues(13,'').done(function(result){
 				var b = jQuery.map( $scope.rounds, function( n, i ) {
 					if(0 === n.value)
 				  		return n;
@@ -147,31 +151,24 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 					$scope.defaultdistricts = $scope.defaultdistricts;
 				}		    		
 	    	}); 
-        }
+	    }
 
-        $scope.OnRoundSelectedValue = function(defaultrounds){
+	    $scope.OnRoundSelectedValue = function(defaultrounds){
 	    	$scope.defaultrounds = defaultrounds;
 	    }
 
 	    $scope.OnDistrictsSelectedValue = function(defaultdistricts){
-	    	
 	    	$scope.blocks=[];
 	    	GetLookupValues(1,defaultdistricts.value).done(function(result){
 				$scope.defaultdistricts = defaultdistricts;
 	    	});
-	    	
 	    }
 
 	    $scope.OnBlocksSelectedValue = function(defaultblocks){
-
-	    	
 	    	$scope.villages=[];
-	    	
-	    	
 	    	GetLookupValues(14,defaultblocks.value).done(function(result){
 	    		$scope.defaultblocks = defaultblocks;
 	    	});
-
 	    }
 
 	    $scope.OnVillagesSelectedValue = function(defaultvillages){
@@ -184,163 +181,154 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 
 	    $scope.OnEditDistrictsSelectedValue = function(editdefaultdistricts){
 	    	$scope.blocks = [];
-	    	
-
-	    	
 	    	GetLookupValues(1,editdefaultdistricts.value).done(function(result){
 	    		$scope.editdefaultdistricts = editdefaultdistricts;
 	    	});
-
 	    }
 
 	    $scope.OnEditBlocksSelectedValue = function(editdefaultblocks){
 	    	$scope.villages=[];
-	    	
-	    	
 	    	GetLookupValues(14,editdefaultblocks.value).done(function(result){
 	    		$scope.editdefaultblocks = editdefaultblocks;
 	    	});
-
 	    }
 
 	    $scope.OnEditVillagesSelectedValue = function(editdefaultvillages){
 	    	$scope.editdefaultvillages = editdefaultvillages;
 	    }
 
-        $scope.defaultOptions = {
-	      	"createdByName" : null,
-			"modifiedByName" : null,
-			"createdDate" : null,
-			"auditDistrictId" : null,
-			"auditBlockId" : null,
-			"villagePanchayatId" : null,
-			"modifiedDate" : null,
-			"gramaSabhaDate" : null,
-			"financialDescription" : null,
-			"financialYear" : null,
-			"status" : true,
-			"roundDescription" : null,
-			"districtName" : null,
-			"createdBy" : 0,
-			"roundId" : null,
-			"roundName" : null,
-			"endDate" : null,
-			"vpName" : null,
-			"modifiedBy" : 0,
-			"startDate" : null,
-			"blockName" : null,
-			"auditId" : null,
-			"key" : null
-	    };
+	    $scope.defaultOptions =  {
+		  "key": "",
+		  "status": true,
+		  "gramaSabhaDate": "",
+		  "auditDistrictId": null,
+		  "auditBlockId": null,
+		  "villagePanchayatId": null,
+		  "createdDate": null,
+		  "roundId": null,
+		  "startDate": "2016-01-05T22:23:28.513Z",
+		  "createdBy": $rootScope.sessionConfig.userId,
+		  "auditId":  0,
+		  "modifiedBy":  $rootScope.sessionConfig.userId,
+		  "blockName":  null,
+		  "modifiedDate": null,
+		  "createdByName":  null,
+		  "modifiedByName":  null,
+		  "financialDescription":  null,
+		  "financialYear":  null,
+		  "roundDescription":  null,
+		  "districtName":  null,
+		  "roundName":  null,
+		  "endDate": "2016-01-05T22:23:28.513Z",
+		  "vpName":  null
+		};
 
 	    $scope.audit = {
-	      	"createdByName" : null,
-			"modifiedByName" : null,
-			"createdDate" : null,
-			"auditDistrictId" : null,
-			"auditBlockId" : null,
-			"villagePanchayatId" : null,
-			"modifiedDate" : null,
-			"gramaSabhaDate" : null,
-			"financialDescription" : null,
-			"financialYear" : null,
-			"status" : true,
-			"roundDescription" : null,
-			"districtName" : null,
-			"createdBy" : 0,
-			"roundId" : null,
-			"roundName" : null,
-			"endDate" : null,
-			"vpName" : null,
-			"modifiedBy" : 0,
-			"startDate" : null,
-			"blockName" : null,
-			"auditId" : null,
-			"key" : null
+		  "key": "",
+		  "status": true,
+		  "gramaSabhaDate": "",
+		  "auditDistrictId": null,
+		  "auditBlockId": null,
+		  "villagePanchayatId": null,
+		  "createdDate": null,
+		  "roundId": null,
+		  "startDate": "2016-01-05T22:23:28.513Z",
+		  "createdBy": $rootScope.sessionConfig.userId,
+		  "auditId":  0,
+		  "modifiedBy":  $rootScope.sessionConfig.userId,
+		  "blockName":  null,
+		  "modifiedDate": null,
+		  "createdByName":  null,
+		  "modifiedByName":  null,
+		  "financialDescription":  null,
+		  "financialYear":  null,
+		  "roundDescription":  null,
+		  "districtName":  null,
+		  "roundName":  null,
+		  "endDate": "2016-01-05T22:23:28.513Z",
+		  "vpName":  null
+		};
 
-	    };
+	    $scope.Submit = function(){
+		    if($scope.jQueryAddAuditValidator.doValidate()){
+		       $scope.audit.roundId = $scope.defaultrounds.value;
+		       $scope.audit.auditDistrictId = $scope.defaultdistricts.value;
+		       $scope.audit.auditBlockId = $scope.defaultblocks.value;
+		       $scope.audit.villagePanchayatId = $scope.defaultvillages.value;
 
-     $scope.Submit = function(){
-	    if($scope.jQueryAddAuditValidator.doValidate()){
-	       $scope.audit.roundId = $scope.defaultrounds.value;
-	       $scope.audit.auditDistrictId = $scope.defaultdistricts.value;
-	       $scope.audit.auditBlockId = $scope.defaultblocks.value;
-	       $scope.audit.villagePanchayatId = $scope.defaultvillages.value;
+		       //$scope.audit.startDate = '2015-12-25';
+		       //$scope.audit.endDate = '2015-12-25';
+		       //$scope.audit.gramaSabhaDate = '2015-12-25';
+		       $scope.audit.createdBy = $rootScope.sessionConfig.userId;
 
-	       //$scope.audit.startDate = '2015-12-25';
-	       //$scope.audit.endDate = '2015-12-25';
-	       //$scope.audit.gramaSabhaDate = '2015-12-25';
-	       $scope.audit.createdBy = $rootScope.sessionConfig.userId;
-
-	       var responseText = auditfactory.doSubmitData($scope.audit);
-		    responseText.success(function(result){
-		     if(result.status){
-		        notify({
-		                messageTemplate: '<span>'+result.data+'</span>',
-		                position: $rootScope.appConfig.notifyConfig.position,
-		                scope:$scope
-		            });       
-		      // scope.grid is the widget reference
-		        $scope.grid.dataSource.read();
-		      $scope.CloseAuditWindow();
-		            $scope.doReset();
-		       }else{
-		        notify({
-		                messageTemplate: '<span>Unable to add audit!</span>',
-		                position: $rootScope.appConfig.notifyConfig.position,
-		                scope:$scope
-		            });
-		       }
-		    }).error(function(error,status){
-		       notify({
-		               messageTemplate: '<span>Unable to add audit!</span>',
-		               position: $rootScope.appConfig.notifyConfig.position,
-		               scope:$scope
-		           });
-		    });      
-    	}
-    }
-
-    $scope.Update = function(){
-	   if($scope.jQueryEditAuditValidator.doValidate()){
-	       $scope.editaudit.roundId = $scope.editdefaultrounds.value;
-	       $scope.editaudit.auditDistrictId = $scope.editdefaultdistricts.value;
-	       $scope.editaudit.auditBlockId = $scope.editdefaultblocks.value;
-	       $scope.editaudit.villagePanchayatId = $scope.editdefaultvillages.value;
-	    
-	       $scope.editaudit.startDate = null;
-	       $scope.editaudit.endDate = null ;
-	       $scope.editaudit.gramaSabhaDate = null;
-	       $scope.editaudit.modifiedBy = $rootScope.sessionConfig.userId;
-
-	       var responseText = auditfactory.doUpdateData($scope.editaudit);
-		    responseText.success(function(result){
-		     if(result.status){
-		        notify({
-		                messageTemplate: '<span>'+result.data+'</span>',
-		                position: $rootScope.appConfig.notifyConfig.position,
-		                scope:$scope
-		            });       
-		      // scope.grid is the widget reference
-		        $scope.grid.dataSource.read();
-		      $scope.CloseEditAuditWindow();
-		            $scope.doReset();
-		       }else{
-		        notify({
-		                messageTemplate: '<span>Unable to update audit!.</span>',
-		                position: $rootScope.appConfig.notifyConfig.position,
-		                scope:$scope
-		            }); 
-		       }
-		    }).error(function(error,status){
-		       notify({
-		               messageTemplate: '<span>Unable to update audit!.</span>',
-		               position: $rootScope.appConfig.notifyConfig.position,
-		               scope:$scope
-		           }); 
-		    });     
+		       var responseText = auditfactory.doSubmitData($scope.audit);
+			    responseText.success(function(result){
+			     if(result.status){
+			        notify({
+			                messageTemplate: '<span>'+result.data+'</span>',
+			                position: $rootScope.appConfig.notifyConfig.position,
+			                scope:$scope
+			            });       
+			      // scope.grid is the widget reference
+			        $scope.grid.dataSource.read();
+			      $scope.CloseAuditWindow();
+			            $scope.doReset();
+			       }else{
+			        notify({
+			                messageTemplate: '<span>Unable to add audit!</span>',
+			                position: $rootScope.appConfig.notifyConfig.position,
+			                scope:$scope
+			            });
+			       }
+			    }).error(function(error,status){
+			       notify({
+			               messageTemplate: '<span>Unable to add audit!</span>',
+			               position: $rootScope.appConfig.notifyConfig.position,
+			               scope:$scope
+			           });
+			    });      
+	    	}
 		}
-    }
+
+	    $scope.Update = function(){
+		   if($scope.jQueryEditAuditValidator.doValidate()){
+		       $scope.editaudit.roundId = $scope.editdefaultrounds.value;
+		       $scope.editaudit.auditDistrictId = $scope.editdefaultdistricts.value;
+		       $scope.editaudit.auditBlockId = $scope.editdefaultblocks.value;
+		       $scope.editaudit.villagePanchayatId = $scope.editdefaultvillages.value;
+		    
+		       $scope.editaudit.startDate = null;
+		       $scope.editaudit.endDate = null ;
+		       $scope.editaudit.modifiedBy = $rootScope.sessionConfig.userId;
+
+		       var responseText = auditfactory.doUpdateData($scope.editaudit);
+			    responseText.success(function(result){
+			     if(result.status){
+			        notify({
+			                messageTemplate: '<span>'+result.data+'</span>',
+			                position: $rootScope.appConfig.notifyConfig.position,
+			                scope:$scope
+			            });       
+			      // scope.grid is the widget reference
+			        $scope.grid.dataSource.read();
+			      $scope.CloseEditAuditWindow();
+			            $scope.doReset();
+			       }else{
+			        notify({
+			                messageTemplate: '<span>Unable to update audit!.</span>',
+			                position: $rootScope.appConfig.notifyConfig.position,
+			                scope:$scope
+			            }); 
+			       }
+			    }).error(function(error,status){
+			       notify({
+			               messageTemplate: '<span>Unable to update audit!.</span>',
+			               position: $rootScope.appConfig.notifyConfig.position,
+			               scope:$scope
+			           }); 
+			    });     
+			}
+	    }
 
     	$scope.VrpData = function(data){
 			$state.go('admin.vrp',{aid:data.key});
@@ -357,6 +345,14 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
     	}
     	$scope.MissappropriationData = function(data){
 			$state.go('admin.misappropriation',{aid:data.key});
+    	}
+
+    	$scope.MgnregaData = function(data){
+			$state.go('admin.mgnrega',{aid:data.key});
+    	}
+
+    	$scope.HlcommitteeData = function(data){
+			$state.go('admin.hlcommittee',{aid:data.key});
     	}
 	    $scope.EditData = function(data){
 	    	$scope.editaudit = $scope.defaultOptions;
@@ -450,18 +446,24 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	        columns: [ 
 		        		{ field: "auditId", title:'Audit ID', hidden: true, editable : false },
 		        		{ field: "roundName", title:'Round', editable : false  },
+		        		{ field: "gramaSabhaDate", title:'Grama Sabha Date', editable : false  },
 		        		{ field: "startDate", title:'Start Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(startDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
 		        		{ field: "endDtate", title:'End Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(endDtate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
 		        		{ field: "districtName", title : "District", editable : false},
 		        		{ field: "blockName", title : "Block", editable : false },
 		        		{ field: "vpName", title : "Village", editable : false},
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"VrpData(dataItem);\">Vrp Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"ExpenData(dataItem);\">Expenditure Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"DeviationData(dataItem);\">Deviation Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"GrievanceData(dataItem);\">Grievance Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"MissappropriationData(dataItem);\">Misappropriation Details</button>"   }
+		        		//{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"VrpData(dataItem);\">Vrp Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"ExpenData(dataItem);\">Expenditure Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"DeviationData(dataItem);\">Deviation Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"GrievanceData(dataItem);\">Grievance Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"MissappropriationData(dataItem);\">Misappropriation Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"MgnregaData(dataItem);\">Mgnrega Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"HlcommitteeData(dataItem);\">High Level Committee</button>"   }
+		        		{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }	
 		        	],
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,
 	        dataSource: {
-	            pageSize: 5,
+	            pageSize: 30,
 	            transport: {
 	                read: function (e) {
 	                  $http({

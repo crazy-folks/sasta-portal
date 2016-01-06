@@ -63,11 +63,11 @@ public class DistrictsServiceImpl implements  DistrictsService {
     }
 
     @Override
-    public ResponseModel Update(Integer districtId, String name, int stateid, String description, Integer districtCode, String shortName, Long modify_by) {
+    public ResponseModel Update(Integer districtId, String name, int stateid, String description, Integer districtCode, String shortName, Long modify_by,Boolean isactive) {
         LOGGER.debug("Updating Districts : {}", districtId,name,stateid,description,districtCode,shortName,modify_by);
         ResponseModel response = new ResponseModel<Boolean>();
         try{
-            boolean flag = Modify(districtId, name, stateid, description, districtCode, shortName, modify_by);
+            boolean flag = Modify(districtId, name, stateid, description, districtCode, shortName, modify_by, isactive);
             response.setStatus(flag);
             response.setData(flag == true ? "District Updated Successfully!!" : "Unable to update District!!");
         }catch(Exception err){
@@ -120,7 +120,7 @@ public class DistrictsServiceImpl implements  DistrictsService {
     }
 
 
-    private boolean Modify(Integer districtId,String name,int stateid,String description,Integer districtCode,String shortName,Long modify_by){
+    private boolean Modify(Integer districtId,String name,int stateid,String description,Integer districtCode,String shortName,Long modify_by,Boolean isactive) {
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_districts")
                 .declareParameters(
                         new SqlParameter("d_id", Types.INTEGER),
@@ -130,6 +130,7 @@ public class DistrictsServiceImpl implements  DistrictsService {
                         new SqlParameter("shortname", Types.VARCHAR),
                         new SqlParameter("dcode", Types.INTEGER),
                         new SqlParameter("modifyby", Types.BIGINT),
+                        new SqlParameter("isactive", Types.BIT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
@@ -140,6 +141,7 @@ public class DistrictsServiceImpl implements  DistrictsService {
         inParamMap.put("shortname", shortName);
         inParamMap.put("dcode", districtCode);
         inParamMap.put("modifyby", modify_by);
+        inParamMap.put("isactive", isactive);
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
         Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
@@ -173,7 +175,7 @@ public class DistrictsServiceImpl implements  DistrictsService {
             o.setCreatedBy(set.getLong("modified_by"));
             o.setCreateByName(StringUtils.trimToNull(set.getString("created_by_name")));
             o.setModifyByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
-            o.setStatusName(StringUtils.trimToNull(set.getString("Status")));
+            o.setStatus(set.getBoolean("is_active"));
             System.out.println(o.toString());
             return o;
         }

@@ -323,6 +323,42 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 	    	}
 	    }
 
+	    $scope.Delete = function(data){
+	    	$scope.delData = angular.copy($scope.defaultOptions);
+	    	$scope.delData.id = data.id;
+	    	$scope.delData.status = false;
+
+	    	$scope.delData.modifiedBy = $rootScope.sessionConfig.userId;
+
+		    	var responseText = hlcommitteefactory.doUpdateData($scope.delData);
+				responseText.success(function(result){
+					if(result.status){
+				  		notify({
+				            messageTemplate: '<span>'+result.data+'</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });							
+						// scope.grid is the widget reference
+	  					$scope.grid.dataSource.read();
+						$scope.CloseEditAuditWindow();
+				        $scope.doReset();
+			  		}else{
+				  		notify({
+				            messageTemplate: '<span>Unable to delete misappropriation!.</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });	
+			  		}
+				}).error(function(error,status){
+			  		notify({
+			            messageTemplate: '<span>Unable to delete misappropriation!.</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });	
+				});	
+
+	    }
+
 	    $scope.Update = function(){
 			if($scope.editjQueryValidator.doValidate()){
 		    	//$scope.editmisappropriation.roundid = $scope.editdefaultrounds.value;
@@ -490,7 +526,11 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 		        		{ field: "districtName", title : "District", editable : false},
 		        		{ field: "blockName", title : "Block", editable : false },
 		        		{ field: "vpName", title : "Village", editable : false},
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }
 		        	],
 	        pageable: true,
 	        filterable :true,

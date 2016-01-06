@@ -47,4 +47,11 @@
 <div kendo-window="editRoundsWindow" k-options="keditWindowOptions">
   
 </div>
-
+<script id="toggle-template" type="text/x-kendo-template">
+    <div class="icon-settings">
+       <ul>
+            <li><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Round</a></li>
+            <li><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Round</a></li>
+      </ul>    
+    </div>
+</script>

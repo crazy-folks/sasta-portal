@@ -159,9 +159,7 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 	    	}
 	    }
 
-	    $scope.Update = function(){
-			if($scope.editjQueryValidator.doValidate()){
-		    	$scope.editvillage.auditBlockId = $scope.editdefaultStatesOptions.value;
+	    function DoUpdate(){
 		    	var responseText = villagefactory.doUpdateData($scope.editvillage);
 				responseText.success(function(result){
 					if(result.status){
@@ -187,7 +185,13 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });
-				});
+				});	    	
+	    }
+
+	    $scope.Update = function(){
+			if($scope.editjQueryValidator.doValidate()){
+		    	$scope.editvillage.auditBlockId = $scope.editdefaultStatesOptions.value;
+		    	DoUpdate();
 			}
 	    }
 
@@ -214,6 +218,20 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 	    	$scope.OpenEditVpWindow();
 	    }
 
+	    $scope.OnDelete = function(data){
+	    	$scope.editvillage = {
+	    		auditBlockId : data.auditBlockId,
+				createdBy : $rootScope.sessionConfig.userId,
+				description: data.description || '',
+				modifiedBy : $rootScope.sessionConfig.userId,
+				name : data.name,
+				vpCode:data.vpCode,
+				id : data.id,
+				status: false
+	    	};
+	    	DoUpdate();	    	
+	    }
+
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "id", title:'ID', hidden: true, editable : false },
@@ -226,7 +244,11 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>" }
+		        		{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }
 		        	],
 	        pageable: true,
 	        filterable :true,

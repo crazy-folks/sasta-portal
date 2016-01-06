@@ -1,5 +1,5 @@
-app.controller('BankController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','bankfactory',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,bankfactory){
+app.controller('BankController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','bankfactory','$sce',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,bankfactory,$sce){
 
 		$scope.bkfactory = bankfactory;
 		$scope.banks = [];
@@ -199,6 +199,14 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 	   		DoUpdate();
 	   	}
 
+		$scope.GenerateTools = function(){
+            var htmlString = "<div class='icon-settings' slide-toggle=\"#slider\">";
+            htmlString += "<ul id=\"slider\" class=\"slideable\"><li><a href='javascript:void(0)' ng-click=\"EditData(dataItem);\">Edit Bank</a></li>";
+            htmlString += "<li><a href='javascript:void(0)'  ng-click=\"OnDelete(dataItem);\">Delete Bank</a></li>";
+            htmlString += "</ul></div>";
+            return $sce.trustAsHtml(htmlString);			
+		}
+		
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "bankId", title:'Bank ID', hidden: true, editable : false },
@@ -209,7 +217,12 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
 		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
 		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"OnDelete(dataItem);\">Delete</button>" }
+		        		//{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"OnDelete(dataItem);\">Delete</button>" }
+ 						{
+ 							title : "",
+		                    width: '30px',
+		                    template: kendo.template($("#toggle-template").html())
+		                }		        		
 		        	],
 	        pageable: true,
 	        filterable :true,
