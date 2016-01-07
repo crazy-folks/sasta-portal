@@ -85,7 +85,8 @@ img {
   max-width: 100%;
 }
 ::selection {
-  background: #fff7dd;
+    background: #2196F3;
+    color: #fff;
 }
 ::-moz-selection {
   background: #fff7dd;

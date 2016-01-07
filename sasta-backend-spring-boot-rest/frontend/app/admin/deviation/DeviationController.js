@@ -44,6 +44,8 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
             content: 'admin/deviation/add.html',
             title: $scope.modelDialogTitle.AddAuditTitle,
             iframe: false,
+            width : '800px',
+            height:'400px',
             draggable: true,
             modal: true,
             resizable: true,
@@ -54,21 +56,23 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
                 }
             },
             open : function() {
-		        $($scope.AddAuditFormName).validationEngine('attach', {
+		        $($scope.AddAuditDeviationFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });         
-		        $scope.addjQueryValidator = new Validator($scope.AddAuditFormName); 
+		        $scope.addjQueryValidator = new Validator($scope.AddAuditDeviationFormName); 
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddAuditDeviation';
-        $scope.EditAuditFormName = '#frmEditAuditDeviation';    
+        $scope.AddAuditDeviationFormName = '#frmAddAuditDeviation';
+        $scope.EditAuditDeviationFormName = '#frmEditAuditDeviation';    
 
         $scope.keditWindowOptions = {
             content: 'admin/deviation/edit.html',
             title: $scope.modelDialogTitle.EditAuditTitle,
             iframe: false,
+            width : '800px',
+            height:'400px',            
             draggable: true,
             modal: true,
             resizable: false,
@@ -79,37 +83,44 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
                 }
             },
             open : function(){
-		        $($scope.EditAuditFormName).validationEngine('attach', {
+		        $($scope.EditAuditDeviationFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });		        
-		        $scope.editjQueryValidator = new Validator($scope.EditAuditFormName);            	
+		        $scope.editjQueryValidator = new Validator($scope.EditAuditDeviationFormName);            	
             }
         };
 
-        $scope.OpenAuditWindow = function($event){
-        	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            //$scope.addAuditWindow.center().open();
+        $scope.OpenAddDeviationWindow = function($event){
+        	$scope.addDeviationWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
             $scope.doReset();
         	GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
             	
-            	$scope.addAuditWindow.center().open();
+            	$scope.addDeviationWindow.center().open();
         	});
         }
 
 
-        $scope.CloseAuditWindow  = function(){
-            $scope.addAuditWindow.close();
+        $scope.CloseAddDeviationWindow  = function(){
+            $scope.addDeviationWindow.close();
+            $scope.doReset();
+            if($scope.addjQueryValidator){
+            	$scope.addjQueryValidator.doReset();            
+        	}
         }
 
-        $scope.OpenEditAuditWindow = function(){
-			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
-            $scope.editAuditWindow.center().open();
+        $scope.OpenEditDeviationWindow = function(){
+			$scope.editDeviationWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editDeviationWindow.center().open();
             
         }
 
-        $scope.CloseEditAuditWindow = function(){
-            $scope.editAuditWindow.close();
+        $scope.CloseEditDeviationWindow = function(){
+            $scope.editDeviationWindow.close();
+            $scope.doReset();
+            if($scope.editjQueryValidator){
+            	$scope.editjQueryValidator.doReset();            
+        	}
         }
 
         $scope.doReset = function(){
@@ -242,13 +253,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
-		    	//$scope.deviation.roundId = $scope.defaultrounds.value;
-		    	//$scope.deviation.auditDistrictId = $scope.defaultdistricts.value;
-		    	//$scope.deviation.blockId = $scope.defaultblocks.value;
-		    	//$scope.deviation.vpId = $scope.defaultvillages.value;
-
-		    	//$scope.deviation.roundStartDate = '2015-12-25';
-		    	//$scope.deviation.roundEndDate = '2015-12-25';
 		    	
 		    	$scope.deviation.createdBy = $rootScope.sessionConfig.userId;
 
@@ -262,18 +266,18 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
-						$scope.CloseAuditWindow();
+						$scope.CloseAddDeviationWindow();
 				        $scope.doReset();
 			  		}else{
 				  		notify({
-				            messageTemplate: '<span>Unable to add audit!</span>',
+				            messageTemplate: '<span>Unable to add deviation!</span>',
 				            position: $rootScope.appConfig.notifyConfig.position,
 				            scope:$scope
 				        });
 			  		}
 				}).error(function(error,status){
 			  		notify({
-			            messageTemplate: '<span>Unable to add audit!</span>',
+			            messageTemplate: '<span>Unable to add deviation!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });
@@ -281,76 +285,103 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 	    	}
 	    }
 
-	    $scope.Delete = function(data){
-	    	$scope.delData = angular.copy($scope.defaultOptions);
-	    	$scope.delData.id = data.id;
-	    	$scope.delData.status = false;
+	    $scope.OnDelete = function(data){
+	    	$scope.editdeviation = {
+				  	id : data.id,
+					status : false,
+					roundId : data.roundId,
+					createdBy : data.createdBy,
+					auditId : data.auditId,
+					modifiedBy : data.modifiedBy,
+					blockName : data.blockName,
+					nmroverWritingCorrectionsAmt : data.nmroverWritingCorrectionsAmt,
+					estimatesNotProducedForAuditCount : data.estimatesNotProducedForAuditCount,
+					worksTakenUpWithoutGbApprovalCount : data.worksTakenUpWithoutGbApprovalCount,
+					noneAdoptionOfScheduleRateAmt : data.noneAdoptionOfScheduleRateAmt,
+					nmroverWritingCorrectionsCount : data.nmroverWritingCorrectionsCount,
+					worksTakenUpWithoutGbApprovalAmt : data.worksTakenUpWithoutGbApprovalAmt,
+					noneAdoptionOfScheduleRateCount : data.noneAdoptionOfScheduleRateCount,
+					wagesPaidExcessMBooksValueCount : data.wagesPaidExcessMBooksValueCount,
+					wagesPaidWithoutRecordMesurementAmt : data.wagesPaidWithoutRecordMesurementAmt,
+					estimatesNotProducedForAuditAmt : data.estimatesNotProducedForAuditAmt,
+					wagesPaidWithoutRecordMesurementCount : data.wagesPaidWithoutRecordMesurementCount,
+					mbooksNotProducedForAuditAmt : data.mbooksNotProducedForAuditAmt,
+					diffOnlineNMRPhysicalNMRAmt : data.diffOnlineNMRPhysicalNMRAmt,
+					wagesPaidExcessMBooksValueAmt : data.wagesPaidExcessMBooksValueAmt,
+					wagesPaymentFromSchemeCount : data.wagesPaymentFromSchemeCount,
+					wagesPaidWorkersWithoutJcCount : data.wagesPaidWorkersWithoutJcCount,
+					variationsBetweenNMRRegisterCount : data.variationsBetweenNMRRegisterCount,
+					nmrnotProducedForAuditCount : data.nmrnotProducedForAuditCount,
+					diffOnlineNMRPhysicalNMRCount : data.diffOnlineNMRPhysicalNMRCount,
+					variationsBetweenNMRRegisterAmt : data.variationsBetweenNMRRegisterAmt,
+					inEligibleWorkersIncludeUnder18Count : data.inEligibleWorkersIncludeUnder18Count,
+					inEligibleWorkersIncludeUnder18Amt : data.inEligibleWorkersIncludeUnder18Amt,
+					mbooksNotProducedForAuditCount : data.mbooksNotProducedForAuditCount,
+					auditDistrictId : data.auditDistrictId,
+					wagesPaymentFromSchemeAmt : data.wagesPaymentFromSchemeAmt,
+					amountMoreThanNMRFTOCount : data.amountMoreThanNMRFTOCount,
+					amountMoreThanNMRFTOAmt : data.amountMoreThanNMRFTOAmt,
+					jcMisusedByOthersCount : data.jcMisusedByOthersCount,
+					tsnotProducedForAuditCount : data.tsnotProducedForAuditCount,
+					asnotProducedForAuditAmt : data.asnotProducedForAuditAmt,
+					jcMisusedByOthersAmt : data.jcMisusedByOthersAmt,
+					shortageMeasurementsAmt : data.shortageMeasurementsAmt,
+					nmrnotProducedForAuditAmt : data.nmrnotProducedForAuditAmt,
+					shortageMeasurementsCount : data.shortageMeasurementsCount,
+					asnotProducedForAuditCount : data.asnotProducedForAuditCount,
+					tsnotProducedForAuditAmt : data.tsnotProducedForAuditAmt,
+					createdDate : data.createdDate,
+					wagesPaidWorkersWithoutJcAmt : data.wagesPaidWorkersWithoutJcAmt,
+					modifiedByName : data.modifiedByName,
+					roundDescription : data.roundDescription,
+					createdByName : data.createdByName,
+					financialYear : data.financialYear,
+					financialDescription : data.financialDescription,
+					districtName : data.districtName,
+					modifiedDate : data.modifiedDate,
+					roundEndDate : data.roundEndDate,
+					roundStartDate : data.roundStartDate,
+					roundName : data.roundName,
+					vpName : data.vpName,
+					blockId : data.blockId,
+					vpId : data.vpId
+	    	};
+	    	DoUpdate();
+	    }
 
-	    	$scope.delData.modifiedBy = $rootScope.sessionConfig.userId;
-
-		    	var responseText = hlcommitteefactory.doUpdateData($scope.delData);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to delete deviation!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+	    	var responseText = deviationfactory.doUpdateData($scope.editdeviation);
+			responseText.success(function(result){
+				if(result.status){
 			  		notify({
-			            messageTemplate: '<span>Unable to delete deviation!.</span>',
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditDeviationWindow();
+			        $scope.doReset();
+		  		}else{
+			  		notify({
+			            messageTemplate: '<span>Unable to update deviation!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });	
-				});	
-
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update deviation!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });	
+			});	    	
 	    }
 
 	    $scope.Update = function(){
 			if($scope.editjQueryValidator.doValidate()){
-		    	//$scope.editmisappropriation.roundid = $scope.editdefaultrounds.value;
-		    	//$scope.editmisappropriation.districtid = $scope.editdefaultdistricts.value;
-		    	//$scope.editmisappropriation.blockid = $scope.editdefaultblocks.value;
-		    	//$scope.editmisappropriation.panchayatid = $scope.editdefaultvillages.value;
 		    	$scope.editdeviation.modifiedBy = $rootScope.sessionConfig.userId;
-
-		    	var responseText = deviationfactory.doUpdateData($scope.editdeviation);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update audit!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
-			  		notify({
-			            messageTemplate: '<span>Unable to update audit!.</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });	
-				});	 
+		    	DoUpdate();
 			}
 	    }
 
@@ -451,18 +482,50 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 					blockId : data.blockId,
 					vpId : data.vpId
 	    	};
-	    	$scope.OpenEditAuditWindow();
+	    	$scope.OpenEditDeviationWindow();
 	    }
 
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "auditId", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "roundName", title:'Round', editable : false  },
-		        		{ field: "roundStartDate", title:'Start Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundStartDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "roundEndDate", title:'End Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundEndDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "districtName", title : "District", editable : false},
-		        		{ field: "blockName", title : "Block", editable : false },
-		        		{ field: "vpName", title : "Village", editable : false},
+		        		{ field: "jcMisusedByOthersCount",width: '130px', title:'Job Cards Mis-Used By Others No'},
+		        		{ field: "jcMisusedByOthersAmt",width: '130px', title:'Job Cards Mis-Used By Others Amt'},
+		        		{ field: "wagesPaidWorkersWithoutJcCount",width: '130px', title:'Wages Paid To Workers Without Job Cards No'},
+		        		{ field: "wagesPaidWorkersWithoutJcAmt",width: '130px', title : "Wages Paid To Workers Without Job Cards Amt"},
+		        		{ field: "wagesPaidWithoutRecordMesurementCount",width: '130px', title : "Wages Paid Without Recording Measurements No"},
+		        		{ field: "wagesPaidWithoutRecordMesurementAmt",width: '130px', title : "Wages Paid Without Recording Measurements Amt"},
+		        		{ field: "wagesPaidExcessMBooksValueCount",width: '130px', title : "Wages Paid In Excess Of M-Book Value No"},
+		        		{ field: "wagesPaidExcessMBooksValueAmt",width: '130px', title : "Wages Paid In Excess Of M-Book Value Amt"},
+		        		{ field: "variationsBetweenNMRRegisterCount",width: '130px', title : "Variations In Signatures Between NMR & Register-I No"},
+		        		{ field: "variationsBetweenNMRRegisterAmt",width: '130px', title : "Variations In Signatures Between NMR & Register I Amt"},
+		        		{ field: "nmroverWritingCorrectionsCount",width: '130px', title : "NMR Over Writing Corrections No"},
+		        		{ field: "nmroverWritingCorrectionsAmt",width: '130px', title:'NMR Over Writing Corrections Amt'},
+		        		{ field: "inEligibleWorkersIncludeUnder18Count",width: '130px', title:'Ineligible Workers Including Under 18 Years No'},
+		        		{ field: "inEligibleWorkersIncludeUnder18Amt",width: '130px', title:'Ineligible Workers Including Under 18 Years Amt'},
+		        		{ field: "diffOnlineNMRPhysicalNMRCount",width: '130px', title : "Difference Between Online NMR & Physical NMR No"},
+		        		{ field: "diffOnlineNMRPhysicalNMRAmt",width: '130px', title : "Difference Between Online NMR & Physical NMR Amt"},
+		        		{ field: "wagesPaymentFromSchemeCount",width: '130px', title : "WSF Payment From Scheme Amount No"},
+		        		{ field: "wagesPaymentFromSchemeAmt",width: '130px', title : "WSF Payment From Scheme Amount"},
+		        		{ field: "amountMoreThanNMRFTOCount",width: '130px', title : "Amount More Than NMR In FTO No"},
+		        		{ field: "amountMoreThanNMRFTOAmt",width: '130px', title : "Amount More Than NMR In FTO Amt"},
+		        		{ field: "nmrnotProducedForAuditCount",width: '130px', title : "NMRs Not Produced For Audit No"},
+		        		{ field: "nmrnotProducedForAuditAmt",width: '130px', title : "NMRs Not Produced For Audit Amt"},
+
+
+		        		{ field: "mbooksNotProducedForAuditCount",width: '130px', title:'M-Books Not Produced For Audit No'},
+		        		{ field: "mbooksNotProducedForAuditAmt",width: '130px', title:'M-Books Not Produced For Audit Amt'},
+		        		{ field: "shortageMeasurementsCount",width: '130px', title:'hortage In Measurements No'},
+		        		{ field: "shortageMeasurementsAmt",width: '130px', title : "Shortage In Measurements Amt"},
+		        		{ field: "worksTakenUpWithoutGbApprovalCount",width: '130px', title : "Works Taken Up Without Grama Sabha Approval No"},
+		        		{ field: "worksTakenUpWithoutGbApprovalAmt",width: '130px', title : "Works Taken Up Without Grama Sabha Approval Amt"},
+		        		{ field: "estimatesNotProducedForAuditCount",width: '130px', title : "Estimates Not Produced For Audit No"},
+		        		{ field: "estimatesNotProducedForAuditAmt",width: '130px', title : "Estimates Not Produced For Audit Amt"},
+		        		{ field: "asnotProducedForAuditCount",width: '130px', title : "AS Not Produced For Audit No"},
+		        		{ field: "asnotProducedForAuditAmt",width: '130px', title : "AS not produced for Audit Amt"},
+		        		{ field: "tsnotProducedForAuditCount",width: '130px', title : "TS Not Produced For Audit No"},
+		        		{ field: "tsnotProducedForAuditAmt",width: '130px', title:'TS Not Produced For Audit Amt'},
+		        		{ field: "noneAdoptionOfScheduleRateCount",width: '130px', title:'n Adoption Of Schedule Of Rate No'},
+		        		{ field: "noneAdoptionOfScheduleRateAmt",width: '130px', title:'Non Adoption Of Schedule Of Rate Amt'},
 		        		{
  							title : "",
 		                    width: '30px',

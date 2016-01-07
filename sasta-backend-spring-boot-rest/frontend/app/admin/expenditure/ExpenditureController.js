@@ -43,6 +43,8 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
         $scope.kaddWindowOptions = {
             content: 'admin/expenditure/add.html',
             title: $scope.modelDialogTitle.AddAuditTitle,
+            width : '800px',
+            height:'400px',
             iframe: false,
             draggable: true,
             modal: true,
@@ -69,6 +71,8 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
             content: 'admin/expenditure/edit.html',
             title: $scope.modelDialogTitle.EditAuditTitle,
             iframe: false,
+            width : '800px',
+            height:'400px',            
             draggable: true,
             modal: true,
             resizable: false,
@@ -100,6 +104,8 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 
         $scope.CloseAuditWindow  = function(){
             $scope.addAuditWindow.close();
+            $scope.doReset();
+            $scope.addjQueryValidator.doReset();
         }
 
         $scope.OpenEditAuditWindow = function(){
@@ -109,6 +115,8 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 
         $scope.CloseEditAuditWindow = function(){
             $scope.editAuditWindow.close();
+			$scope.doReset();
+            $scope.editjQueryValidator.doReset();            
         }
 
         $scope.doReset = function(){
@@ -191,14 +199,6 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
-		    	//$scope.expenditure.roundId = $scope.defaultrounds.value;
-		    	//$scope.expenditure.auditDistrictId = $scope.defaultdistricts.value;
-		    	//$scope.expenditure.blockId = $scope.defaultblocks.value;
-		    	//$scope.expenditure.vpId = $scope.defaultvillages.value;
-
-		    	//$scope.expenditure.startdate = '2015-12-25';
-		    	//$scope.expenditure.enddate = '2015-12-25';
-		    	//$scope.expenditure.gramasabhadate = '2015-12-25';
 		    	$scope.expenditure.createdBy = $rootScope.sessionConfig.userId;
 
 		    	var responseText = expenditurefactory.doSubmitData($scope.expenditure);
@@ -212,7 +212,6 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
 						$scope.CloseAuditWindow();
-				        $scope.doReset();
 			  		}else{
 				  		notify({
 				            messageTemplate: '<span>Unable to add audit!</span>',
@@ -230,121 +229,129 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 	    	}
 	    }
 
-	    $scope.Delete = function(data){
-	    	$scope.delData = angular.copy($scope.defaultOptions);
-	    	$scope.delData.id = data.id;
-	    	$scope.delData.status = false;
+	    $scope.OnDelete = function(data){
+	    	$scope.editexpenditure = {
+				id : data.id,
+				stationary : data.stationary,
+				others : data.others,
+				createdByName : data.createdByName,
+				modifiedByName : data.modifiedByName,
+				createdDate : data.createdDate,
+				auditDistrictId : data.auditDistrictId,
+				modifiedDate : data.modifiedDate,
+				financialDescription : data.financialDescription,
+				financialYear : data.financialYear,
+				status : false,
+				roundDescription : data.roundDescription,
+				districtName : data.districtName,
+				roundStartDate : data.roundStartDate,
+				roundEndDate : data.roundEndDate,
+				appReceivedCount : data.appReceivedCount,
+				attendedAppCount : data.attendedAppCount,
+				refreshmentCharges : data.refreshmentCharges,
+				selectedVrpCount : data.selectedVrpCount,
+				photographyCharges : data.photographyCharges,
+				paidedAmount : data.paidedAmount,
+				visitedVillageCount : data.visitedVillageCount,
+				videosCharges : data.videosCharges,
+				createdBy : data.createdBy,
+				roundId : data.roundId,
+				roundName : data.roundName,
+				vpName : data.vpName,
+				modifiedBy : data.modifiedBy,
+				blockName : data.blockName,
+				auditId : data.auditId,
+				blockId : data.blockId,
+				vpId : data.vpId,
+				ppleafLets : data.ppleafLets
 
-	    	$scope.delData.modifiedBy = $rootScope.sessionConfig.userId;
-
-		    	var responseText = hlcommitteefactory.doUpdateData($scope.delData);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to delete editexpenditure!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
-			  		notify({
-			            messageTemplate: '<span>Unable to delete editexpenditure!.</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });	
-				});	
-
+	    	};
+	    	DoUpdate();
 	    }
 
 
-	    $scope.Update = function(){
-			if($scope.editjQueryValidator.doValidate()){
-		    	//$scope.editexpenditure.roundId = 1;// $scope.editdefaultrounds.value;
-		    	//$scope.editexpenditure.auditDistrictId =1;// $scope.editdefaultdistricts.value;
-		    	//$scope.editexpenditure.blockId =1;// $scope.editdefaultblocks.value;
-		    	//$scope.editexpenditure.vpId =1;// $scope.editdefaultvillages.value;
-		    	//$scope.editexpenditure.createdDate=null;
-		    	//$scope.editexpenditure.modifiedDate=null;
-		    	//$scope.editexpenditure.roundStartDate=null;
-		    	//$scope.editexpenditure.roundEndDate=null;
-				$scope.editexpenditure.modifiedBy = $rootScope.sessionConfig.userId;
-				
-		    	var responseText = expenditurefactory.doUpdateData($scope.editexpenditure);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update audit!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+	    	var responseText = expenditurefactory.doUpdateData($scope.editexpenditure);
+			responseText.success(function(result){
+				if(result.status){
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditAuditWindow();
+			        $scope.doReset();
+		  		}else{
 			  		notify({
 			            messageTemplate: '<span>Unable to update audit!.</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });	
-				});	 
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update audit!.</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });	
+			});
+	    }
+
+	    $scope.Update = function(){
+			if($scope.editjQueryValidator.doValidate()){
+				$scope.editexpenditure.modifiedBy = $rootScope.sessionConfig.userId;
+				DoUpdate();
 			}
 	    }
 
 	    $scope.EditData = function(data){
+
 	    	var r = jQuery.map( $scope.rounds, function( n, i ) {
 				if(data.roundId === n.value)
 			  		return n;
-			});	  
+			});
+
 			if(r instanceof Array){
 				$scope.editdefaultrounds =  r[0];
 			}else{
 				$scope.editdefaultrounds = $scope.defaultrounds;
-			}	  
+			}
+
 			var d = jQuery.map( $scope.districts, function( n, i ) {
 				if(data.auditDistrictId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(d instanceof Array){
 				$scope.editdefaultdistricts =  d[0];
 			}else{
 				$scope.editdefaultdistricts = $scope.defaultdistricts;
-			}	  
+			}
+
 			var b = jQuery.map( $scope.blocks, function( n, i ) {
 				if(data.auditBlockId === n.value)
 			  		return n;
-			});	  
+			});
+
 			if(b instanceof Array){
 				$scope.editdefaultblocks =  b[0];
 			}else{
 				$scope.editdefaultblocks = $scope.defaultblocks;
-			}	   
+			}
+
 			var v = jQuery.map( $scope.villages, function( n, i ) {
 				if(data.villagePanchayatId === n.value)
 			  		return n;
-			});	  
+			});
+
 			if(v instanceof Array){
 				$scope.editdefaultvillages =  v[0];
 			}else{
 				$scope.editdefaultvillages = $scope.defaultvillages;
-			}	   	
+			}
+
 	    	$scope.editexpenditure = {
 				id : data.id,
 				stationary : data.stationary,
@@ -387,12 +394,18 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "id", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "roundName", title:'Round', editable : false  },
-		        		{ field: "roundStartDate", title:'Start Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundStartDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "roundEndDate", title:'End Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundEndDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "districtName", title : "District", editable : false},
-		        		{ field: "blockName", title : "Block", editable : false },
-		        		{ field: "vpName", title : "Village", editable : false},
+		        		{ field: "visitedVillageCount",width: '130px', title:'No Of Village Pts Visited By BRP'},
+		        		{ field: "appReceivedCount",width: '130px', title:'No Of Applications Received'},
+		        		{ field: "attendedAppCount",width: '130px', title:'No Of Applicants Attended Exam'},
+		        		{ field: "refreshmentCharges",width: '130px', title : "Refreshment Charges"},
+		        		{ field: "selectedVrpCount",width: '130px', title : "No Of  VRP's Selected"},
+		        		{ field: "paidedAmount",width: '130px', title : "Total Amount Paid To VRP's"},
+		        		{ field: "photographyCharges",width: '130px', title : "Photography Charges"},
+		        		{ field: "videosCharges",width: '130px', title : "Video Charges"},
+		        		{ field: "ppleafLets",width: '130px', title : "Publicity, Posters & Leaflets"},
+		        		{ field: "stationary",width: '90px', title : "Stationary"},
+		        		{ field: "others",width: '90px', title : "Others"},
+		        		{ title : "Total Exp",width: '80px', template: "#= ((paidedAmount||0) + (photographyCharges||0) + (videosCharges||0))#"},
 		        		{
  							title : "",
 		                    width: '30px',

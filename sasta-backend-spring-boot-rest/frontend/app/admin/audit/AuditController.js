@@ -96,13 +96,14 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    };
 
 	    $scope.OpenAuditWindow = function($event){
-	    	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-	    	
+	    	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");	    	
 	        $scope.addAuditWindow.center().open();
 	    }
 
 	    $scope.CloseAuditWindow  = function(){
 	        $scope.addAuditWindow.close();
+	        $scope.doReset();
+	        $scope.jQueryAddAuditValidator.doReset();
 	    }
 
 	    $scope.OpenEditAuditWindow = function(){
@@ -112,6 +113,8 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 
 	    $scope.CloseEditAuditWindow = function(){
 	        $scope.editAuditWindow.close();
+	        $scope.doReset();
+	        $scope.jQueryEditAuditValidator.doReset();
 	    }
 
 	    $scope.doReset = function(){
@@ -255,10 +258,6 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		       $scope.audit.auditDistrictId = $scope.defaultdistricts.value;
 		       $scope.audit.auditBlockId = $scope.defaultblocks.value;
 		       $scope.audit.villagePanchayatId = $scope.defaultvillages.value;
-
-		       //$scope.audit.startDate = '2015-12-25';
-		       //$scope.audit.endDate = '2015-12-25';
-		       //$scope.audit.gramaSabhaDate = '2015-12-25';
 		       $scope.audit.createdBy = $rootScope.sessionConfig.userId;
 
 		       var responseText = auditfactory.doSubmitData($scope.audit);
@@ -269,16 +268,15 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 			                position: $rootScope.appConfig.notifyConfig.position,
 			                scope:$scope
 			            });       
-			      // scope.grid is the widget reference
-			        $scope.grid.dataSource.read();
-			      $scope.CloseAuditWindow();
-			            $scope.doReset();
+			      	// scope.grid is the widget reference
+				       $scope.grid.dataSource.read();
+				       $scope.CloseAuditWindow();
 			       }else{
-			        notify({
+				        notify({
 			                messageTemplate: '<span>Unable to add audit!</span>',
 			                position: $rootScope.appConfig.notifyConfig.position,
 			                scope:$scope
-			            });
+				        });
 			       }
 			    }).error(function(error,status){
 			       notify({
@@ -288,6 +286,35 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 			           });
 			    });      
 	    	}
+		}
+
+		function DoUpdate(){
+	       var responseText = auditfactory.doUpdateData($scope.editaudit);
+		    responseText.success(function(result){
+		     if(result.status){
+		        notify({
+		                messageTemplate: '<span>'+result.data+'</span>',
+		                position: $rootScope.appConfig.notifyConfig.position,
+		                scope:$scope
+		            });       
+		      // scope.grid is the widget reference
+		        $scope.grid.dataSource.read();
+		      $scope.CloseEditAuditWindow();
+		            $scope.doReset();
+		       }else{
+		        notify({
+		                messageTemplate: '<span>Unable to update audit!.</span>',
+		                position: $rootScope.appConfig.notifyConfig.position,
+		                scope:$scope
+		            }); 
+		       }
+		    }).error(function(error,status){
+		       notify({
+		               messageTemplate: '<span>Unable to update audit!.</span>',
+		               position: $rootScope.appConfig.notifyConfig.position,
+		               scope:$scope
+		           }); 
+		    }); 			
 		}
 
 	    $scope.Update = function(){
@@ -300,33 +327,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		       $scope.editaudit.startDate = null;
 		       $scope.editaudit.endDate = null ;
 		       $scope.editaudit.modifiedBy = $rootScope.sessionConfig.userId;
-
-		       var responseText = auditfactory.doUpdateData($scope.editaudit);
-			    responseText.success(function(result){
-			     if(result.status){
-			        notify({
-			                messageTemplate: '<span>'+result.data+'</span>',
-			                position: $rootScope.appConfig.notifyConfig.position,
-			                scope:$scope
-			            });       
-			      // scope.grid is the widget reference
-			        $scope.grid.dataSource.read();
-			      $scope.CloseEditAuditWindow();
-			            $scope.doReset();
-			       }else{
-			        notify({
-			                messageTemplate: '<span>Unable to update audit!.</span>',
-			                position: $rootScope.appConfig.notifyConfig.position,
-			                scope:$scope
-			            }); 
-			       }
-			    }).error(function(error,status){
-			       notify({
-			               messageTemplate: '<span>Unable to update audit!.</span>',
-			               position: $rootScope.appConfig.notifyConfig.position,
-			               scope:$scope
-			           }); 
-			    });     
+		       DoUpdate();    
 			}
 	    }
 
@@ -337,12 +338,15 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
     	$scope.ExpenData = function(data){
 			$state.go('admin.expenditure',{aid:data.key});
     	}
+
     	$scope.DeviationData = function(data){
 			$state.go('admin.deviation',{aid:data.key});
     	}
+
     	$scope.GrievanceData = function(data){
 			$state.go('admin.grievance',{aid:data.key});
     	}
+
     	$scope.MissappropriationData = function(data){
 			$state.go('admin.misappropriation',{aid:data.key});
     	}
@@ -354,6 +358,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
     	$scope.HlcommitteeData = function(data){
 			$state.go('admin.hlcommittee',{aid:data.key});
     	}
+
 	    $scope.EditData = function(data){
 	    	$scope.editaudit = $scope.defaultOptions;
 	    	$scope.editdefaultblocks = $scope.defaultblocks;
@@ -438,8 +443,36 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 				key : data.key
 	    	};
 	    	$scope.OpenEditAuditWindow();
+	    }
 
-	    	
+	    $scope.OnDelete = function(data){
+	    	$scope.editaudit = {
+	    		auditId : data.auditId,
+	    		roundId : data.roundId,
+	    		auditDistrictId : data.auditDistrictId,
+	    		auditBlockId : data.auditBlockId,
+	    		villagePanchayatId : data.villagePanchayatId,
+				modifiedBy : $rootScope.sessionConfig.userId,
+				startDate : data.startDate,
+				endDate : data.endDate,
+				gramaSabhaDate : data.gramaSabhaDate,
+				status : false,
+				createdByName : data.createdByName,
+				modifiedByName : data.modifiedByName,
+				createdDate : data.createdDate	,
+				modifiedDate : data.modifiedDate	,
+				gramaSabhaDate : data.gramaSabhaDate,
+				financialDescription : data.financialDescription,
+				financialYear : data.financialYear,
+				roundDescription : data.roundDescription,
+				districtName : data.districtName,
+				createdBy : data.createdBy,
+				roundName : data.roundName,
+				vpName : data.vpName,
+				blockName : data.blockName,
+				key : data.key
+	    	};
+	    	DoUpdate();	    	
 	    }
 
 	    $scope.gridOptions = {
@@ -488,6 +521,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 				    "value": 0,
 				    "text": "Select"
 				};
+
 				if(result instanceof Array){
 					if(type==13){
 						$scope.rounds.push(defaultOptions);
@@ -536,7 +570,6 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	        	});
 			})
 			return deffered.promise();
-
 		}
 
 		GetLookupValues(13,''); 
@@ -551,24 +584,18 @@ app.factory('auditfactory',function($http,$q,$rootScope){
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 	var createbankUrl = '/audit/create';
 
-	service.getLookupValues = function(id,filter){
-		
-			return $http({
-            	method : 'GET',
-            	url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + filter
-        	});
-		
+	service.getLookupValues = function(id,filter){		
+		return $http({
+        	method : 'GET',
+        	url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + filter
+    	});
+    }
 
-	}
-
-	service.getAudit = function(roundId,districtId,blockId,panchayatId){
-		
-			return $http({
-            	method : 'GET',
-            	url : crudServiceBaseUrl + '/audit/doesexistaudit?rounid=' + roundId + '&districtid=' + districtId + '&blockid=' +  blockId + '&panchayatid=' + panchayatId
-        	});
-		
-
+	service.getAudit = function(roundId,districtId,blockId,panchayatId){		
+		return $http({
+        	method : 'GET',
+        	url : crudServiceBaseUrl + '/audit/doesexistaudit?rounid=' + roundId + '&districtid=' + districtId + '&blockid=' +  blockId + '&panchayatid=' + panchayatId
+    	});
 	}
 
 	service.doSubmitData = function(model){
@@ -591,8 +618,6 @@ app.factory('auditfactory',function($http,$q,$rootScope){
 		        "Content-Type": "application/json"
 		    }
         });
-	}	
-
+	}
 	return service;
-
 });

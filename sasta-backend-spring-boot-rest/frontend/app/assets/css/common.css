@@ -159,3 +159,8 @@ div.k-window{
 {
     display: none;
 }
+
+.k-grid-header th.k-header, .k-filter-row th{
+    word-wrap: break-word;
+    white-space: normal;
+}

@@ -1,144 +1,161 @@
-<section id="main-content" class="animated fadeInRight ng-scope">
-    <div class="row no-padding auto-margin">
-        <div class="col-md-12 col-lg-12 no-padding auto-margin">
-            <div class="row  no-padding auto-margin">
-                <div class="col-md-12  no-padding auto-margin">
-                    <div class="panel panel-default no-margin">
-                        <div class="panel-body no-padding auto-margin">
-                            <div class="row no-padding auto-margin">
-                                 <form class="form-horizontal" name="frmAddAuditExpenditure" id="frmAddAuditExpenditure">
-                                    <div class="form-group no-margin display-none">
-                                        <div>
-                                            <label for="selRounds"  class="label-adjust">Round</label>
-                                            <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin display-none">
-                                        <div>
-                                            <label for="selDistrict"  class="label-adjust">District</label>
-                                            <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
-                                            </select>
-                                        </div>                     
-                                    </div>     
-                                    <div class="form-group no-margin display-none">
-                                        <div>
-                                            <label for="selBlock"  class="label-adjust">Block</label>
-                                            <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
-                                            </select>
-                                        </div>                     
-                                    </div>     
-                                    <div class="form-group no-margin display-none">
-                                        <div>
-                                            <label for="selVillage"  class="label-adjust">Village</label>
-                                            <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">
-                                            </select>
-                                        </div>                     
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtStationary" class="label-adjust">Stationary</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtStationary" name="txtStationary"
-                                                   data-ng-model="expenditure.stationary" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtOthers" class="label-adjust">Others</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtOthers" name="txtOthers"
-                                                   data-ng-model="expenditure.others" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtVisitedillageCount" class="label-adjust">Visitied Village Count</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtVisitedillageCount" name="txtVisitedillageCount"
-                                                   data-ng-model="expenditure.visitedVillageCount" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtPhotographyCharge" class="label-adjust">Photography Charges</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtPhotographyCharge" name="txtPhotographyCharge"
-                                                   data-ng-model="expenditure.photographyCharges" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtSelectedVrpCount" class="label-adjust">Selected VRP Count</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtSelectedVrpCount" name="txtSelectedVrpCount"
-                                                   data-ng-model="expenditure.selectedVrpCount" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtVideoCharges" class="label-adjust">Video Charges</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtVideoCharges" name="txtVideoCharges"
-                                                   data-ng-model="expenditure.videosCharges" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtAttnedAppCount" class="label-adjust">Attened App Count</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtAttenedAppCount" name="txtAttenedAppCount"
-                                                   data-ng-model="expenditure.attendedAppCount" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtPaidAmount" class="label-adjust">Paid Amount</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtPaidAmount" name="txtPaidAmount"
-                                                   data-ng-model="expenditure.paidedAmount" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtRefreshmentCharges" class="label-adjust">Refreshment Charges </label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtRefreshmentCharges" name="txtRefreshmentCharges"
-                                                   data-ng-model="expenditure.refreshmentCharges" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtappReceivedCount" class="label-adjust">App Received Count</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtappReceivedCount" name="txtappReceivedCount"
-                                                   data-ng-model="expenditure.appReceivedCount" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtppleafLets" class="label-adjust">PP LeafLets</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required]" id="txtppleafLets" name="txtppleafLets"
-                                                   data-ng-model="expenditure.ppleafLets" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-                                </form>                           
-                            </div>                           
+<section id="main-content" class="animated fadeInRight">
+    <!-- pass in the variable if our form is valid or invalid -->
+    <form name="frmAddAuditExpenditure" id="frmAddAuditExpenditure">
+        <div class="row">
+            <div class="col-md-12  col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group no-margin display-none">
+                        <div>
+                            <label for="selRounds"  class="label-adjust">Round</label>
+                            <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
+                            </select>
                         </div>
-                        <div class="panel-body">
-                            <div class="row no-padding auto-margin">
-                                <div class="row no-padding auto-margin">
-                                    <div class="dialog-buttons dialog-footer text-right">        
-                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseaddBankWindow()">Cancel</button>
-                                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
-                                    </div>            
-                                </div>                             
-                            </div>
-                        </div>                        
+                    </div>
+
+                    <div class="form-group no-margin display-none">
+                        <div>
+                            <label for="selDistrict"  class="label-adjust">District</label>
+                            <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
+                            </select>
+                        </div>                     
+                    </div> 
+
+                    <div class="form-group no-margin display-none">
+                        <div>
+                            <label for="selBlock"  class="label-adjust">Block</label>
+                            <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
+                            </select>
+                        </div>                     
+                    </div>   
+
+                    <div class="form-group no-margin display-none">
+                        <div>
+                            <label for="selVillage"  class="label-adjust">Village</label>
+                            <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">
+                            </select>
+                        </div>                     
+                    </div>
+
+                    <!-- No Of Village Panchayats Visited By BRP -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtVisitedillageCount" class="label-adjust">No Of Village Panchayats Visited By BRP</label>
+                            <input type="number" class="k-input width-95 validate[required]" id="txtVisitedillageCount" name="txtVisitedillageCount"
+                                   data-ng-model="expenditure.visitedVillageCount" 
+                                  />
+                        </div>
+                    </div>
+
+                    <!-- No Of Applications Received -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtappReceivedCount" class="label-adjust">No Of Applications Received</label>
+                            <input type="number" class="k-input width-95  validate[required]" id="txtappReceivedCount" name="txtappReceivedCount"
+                                   data-ng-model="expenditure.appReceivedCount" 
+                                  />
+                        </div>
+                    </div>
+
+                    <!-- No Of Applicants Attended Exam -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtAttnedAppCount" class="label-adjust">No Of Applicants Attended Exam</label>
+                            <input type="number" class="k-input width-95 validate[required]" id="txtAttenedAppCount" name="txtAttenedAppCount"
+                                   data-ng-model="expenditure.attendedAppCount"
+                                  />
+                        </div>
+                    </div>
+
+                    <!-- Refreshment Charges -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtRefreshmentCharges" class="label-adjust">Refreshment Charges </label>
+                            <input type="number" class="k-input width-95  validate[required]" id="txtRefreshmentCharges" name="txtRefreshmentCharges"
+                                   data-ng-model="expenditure.refreshmentCharges"
+                                  />
+                        </div>
+                    </div>
+
+                    <!-- Selected VRP Count -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtSelectedVrpCount" class="label-adjust">No Of  VRP's Selected</label>
+                            <input type="number" class="k-input width-95 validate[required]" id="txtSelectedVrpCount" name="txtSelectedVrpCount"
+                                   data-ng-model="expenditure.selectedVrpCount" 
+                                  />
+                        </div>
+                    </div>
+
+                    <!-- Total Amount Paid To VRP's -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtPaidAmount" class="label-adjust">Total Amount Paid To VRP's</label>
+                            <input type="number" class="k-input width-95  validate[required]" id="txtPaidAmount" name="txtPaidAmount"
+                            data-ng-model="expenditure.paidedAmount"/>
+                        </div>
+                    </div>
+
+                    <!-- Photography charges -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtPhotographyCharge" class="label-adjust">Photography Charges</label>
+                            <input type="number" class="k-input width-95 validate[required]" id="txtPhotographyCharge" name="txtPhotographyCharge"
+                                   data-ng-model="expenditure.photographyCharges" ng-maxlength="50" 
+                                  />
+                        </div>
+                    </div>
+
+                    <!-- Video Charges -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtVideoCharges" class="label-adjust">Video Charges</label>
+                            <input type="number" class="k-input width-95 validate[required]" id="txtVideoCharges" name="txtVideoCharges"
+                                   data-ng-model="expenditure.videosCharges"
+                                  />
+                        </div>
+                    </div>
+
+                    <!-- Publicity, Posters & leaflets -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtppleafLets" class="label-adjust">Publicity, Posters & Leaflets</label>
+                            <input type="number" class="k-input width-95  validate[required]" id="txtppleafLets" name="txtppleafLets"
+                                   data-ng-model="expenditure.ppleafLets" ng-maxlength="50" 
+                                  />
+                        </div>
+                    </div>
+
+                    <!-- Stationary -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtStationary" class="label-adjust">Stationary</label>
+                            <input type="number" class="k-input width-95 validate[required]" id="txtStationary" name="txtStationary"
+                                   data-ng-model="expenditure.stationary"/>
+                        </div>
+                    </div>
+
+                    <!-- Others -->
+                    <div class="form-group no-margin">
+                        <div>
+                            <label for="txtOthers" class="label-adjust">Others</label>
+                            <input type="number" class="k-input width-95  validate[required]" id="txtOthers" name="txtOthers"
+                                   data-ng-model="expenditure.others"/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+             <div class="panel panel-default">
+                <div class="panel-body col-md-11">
+                    <div class="form-group no-margin text-right">
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseAuditWindow()">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
                     </div>
                 </div>
             </div>
+            </div>
         </div>
-    </div>
+    </form>    
 </section>

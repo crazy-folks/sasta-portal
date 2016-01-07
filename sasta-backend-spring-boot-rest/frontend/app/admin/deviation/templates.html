@@ -28,7 +28,7 @@
                           </div>
                           <div class="panel-body">
                           		<div>
-                          			<button type="button" class="btn btn-success btn-sm" ng-click="OpenAuditWindow();">Add</button>
+                          			<button type="button" class="btn btn-success btn-sm" ng-click="OpenAddDeviationWindow();">Add</button>
                           		</div>
               		 						<div kendo-grid="grid" k-options="gridOptions">
               								</div>
@@ -41,18 +41,18 @@
     </div>
 </section>
 
-<div kendo-window="addAuditWindow" k-options="kaddWindowOptions">
+<div kendo-window="addDeviationWindow" k-options="kaddWindowOptions">
   
 </div>
 
-<div kendo-window="editAuditWindow" k-options="keditWindowOptions">
+<div kendo-window="editDeviationWindow" k-options="keditWindowOptions">
   
 </div>
 <script id="toggle-template" type="text/x-kendo-template">
     <div class="icon-settings">
        <ul>
-            <li><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Bank</a></li>
-            <li><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Bank</a></li>
+            <li><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Deviation</a></li>
+            <li><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Deviation</a></li>
       </ul>    
     </div>
 </script>
