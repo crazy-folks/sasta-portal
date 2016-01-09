@@ -292,7 +292,7 @@ public class Grievances implements  CommonProperties{
         this.delay_wages_payment_count = delay_wages_payment_count;
     }
 
-    public BigDecimal getDelayWagesPaymentAmt() {
+        public BigDecimal getDelayWagesPaymentAmt() {
         return delay_wages_payment_amt;
     }
 

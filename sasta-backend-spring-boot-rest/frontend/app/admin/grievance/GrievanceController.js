@@ -6,8 +6,8 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 		
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
-	    	AddAuditTitle : "Add Grievance",
-	    	EditAuditTitle : "Edit Grievance"
+	    	AddAuditGrievanceTitle : "Add Grievance",
+	    	EditAuditGrievanceTitle : "Edit Grievance"
 	    };
 
 		$scope.rounds = [];
@@ -42,8 +42,10 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 
         $scope.kaddWindowOptions = {
             content: 'admin/grievance/add.html',
-            title: $scope.modelDialogTitle.AddAuditTitle,
+            title: $scope.modelDialogTitle.AddAuditGrievanceTitle,
             iframe: false,
+            width : '800px',
+            height:'400px',            
             draggable: true,
             modal: true,
             resizable: true,
@@ -54,21 +56,23 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
                 }
             },
             open : function() {
-		        $($scope.AddAuditFormName).validationEngine('attach', {
+		        $($scope.AddAuditGrievanceFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });         
-		        $scope.addjQueryValidator = new Validator($scope.AddAuditFormName); 
+		        $scope.addjQueryValidator = new Validator($scope.AddAuditGrievanceFormName); 
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddAuditGrievance';
-        $scope.EditAuditFormName = '#frmEditAuditGrievance';    
+        $scope.AddAuditGrievanceFormName = '#frmAddAuditGrievance';
+        $scope.EditAuditGrievanceFormName = '#frmEditAuditGrievance';    
 
         $scope.keditWindowOptions = {
             content: 'admin/grievance/edit.html',
-            title: $scope.modelDialogTitle.EditAuditTitle,
+            title: $scope.modelDialogTitle.EditAuditGrievanceTitle,
             iframe: false,
+            width : '800px',
+            height:'400px',
             draggable: true,
             modal: true,
             resizable: false,
@@ -79,35 +83,39 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
                 }
             },
             open : function(){
-		        $($scope.EditAuditFormName).validationEngine('attach', {
+		        $($scope.EditAuditGrievanceFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });		        
-		        $scope.editjQueryValidator = new Validator($scope.EditAuditFormName);            	
+		        $scope.editjQueryValidator = new Validator($scope.EditAuditGrievanceFormName);            	
             }
         };
 
-        $scope.OpenAuditWindow = function($event){
-        	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            //$scope.addAuditWindow.center().open();
-            $scope.doReset();
-        	GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
-            	
-            	$scope.addAuditWindow.center().open();
+        $scope.OpenAddAuditGrievanceWindow = function($event){
+        	$scope.AddAuditGrievanceWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+        	$scope.doReset();
+        	GetAudit(decodeURIComponent($location.search().aid)).done(function(result){            	
+            	$scope.AddAuditGrievanceWindow.center().open();
         	});
         }
 
-        $scope.CloseAuditWindow  = function(){
-            $scope.addAuditWindow.close();
+        $scope.CloseAddAuditGrievanceWindow  = function(){
+        	$scope.doReset();
+            $scope.AddAuditGrievanceWindow.close();
+            if($scope.addjQueryValidator)
+            	$scope.addjQueryValidator.doReset();
         }
 
-        $scope.OpenEditAuditWindow = function(){
-			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
-            $scope.editAuditWindow.center().open();
+        $scope.OpenEditAuditGrievanceWindow = function(){
+			$scope.EditAuditGrievanceWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.EditAuditGrievanceWindow.center().open();
         }
 
-        $scope.CloseEditAuditWindow = function(){
-            $scope.editAuditWindow.close();
+        $scope.CloseEditAuditGrievanceWindow = function(){
+        	$scope.doReset();
+            $scope.EditAuditGrievanceWindow.close();
+            if($scope.editjQueryValidator)
+            	$scope.editjQueryValidator.doReset();
         }
 
         $scope.doReset = function(){
@@ -251,13 +259,6 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
-		    	//$scope.grievance.roundId = $scope.defaultrounds.value;
-		    	//$scope.grievance.auditDistrictId = $scope.defaultdistricts.value;
-		    	//$scope.grievance.blockId = $scope.defaultblocks.value;
-		    	//$scope.grievance.vpId = $scope.defaultvillages.value;
-
-		    	//$scope.deviation.roundStartDate = '2015-12-25';
-		    	//$scope.deviation.roundEndDate = '2015-12-25';
 		    	
 		    	$scope.grievance.createdBy = $rootScope.sessionConfig.userId;
 
@@ -271,8 +272,7 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
-						$scope.CloseAuditWindow();
-				        $scope.doReset();
+						$scope.CloseAddAuditGrievanceWindow();
 			  		}else{
 				  		notify({
 				            messageTemplate: '<span>Unable to add audit!</span>',
@@ -290,194 +290,234 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 	    	}
 	    }
 
-	    $scope.Delete = function(data){
-	    	$scope.delData = angular.copy($scope.defaultOptions);
-	    	$scope.delData.id = data.id;
-	    	$scope.delData.status = false;
+	    $scope.OnDelete = function(data){
+	    	$scope.editgrievance = {
+		  		id : data.id,
+				others : data.others,
+				status : false,
+				roundId : data.roundId,
+				createdBy : data.createdBy,
+				auditId : data.auditId,
+				modifiedBy : data.modifiedBy,
+				blockName : data.blockName,
+				wagesNotPaidWorkersActuallyWorkedCount : data.wagesNotPaidWorkersActuallyWorkedCount,
+				transportAllowanceNotGivenCount : data.transportAllowanceNotGivenCount,
+				demandForIndividualBenefitScheme : data.demandForIndividualBenefitScheme,
+				totalReceivedGrievancesMeeting : data.totalReceivedGrievancesMeeting,
+				complaintsAgainstUnionOverseer : data.complaintsAgainstUnionOverseer,
+				complaintsAgainstVPSecretory : data.complaintsAgainstVPSecretory,
+				wagesDrawnLessThanActualNoDaysCount : data.wagesDrawnLessThanActualNoDaysCount,
+				wagesDrawnLessThanActualNoDaysAmt : data.wagesDrawnLessThanActualNoDaysAmt,
+				wagesNotPaidWorkersActuallyWorkedAmt : data.wagesNotPaidWorkersActuallyWorkedAmt,
+				noCompensationInjuredAtWorksiteAmt : data.noCompensationInjuredAtWorksiteAmt,
+				nonProvisionOfWorkSiteFacilities : data.nonProvisionOfWorkSiteFacilities,
+				noCompensationDeadAtWorksiteCount : data.noCompensationDeadAtWorksiteCount,
+				reqPaymentCompletedIHHLWorkCount : data.reqPaymentCompletedIHHLWorkCount,
+				fullEntitlementNotGivenCount : data.fullEntitlementNotGivenCount,
+				complaintsAgainstVPPresident : data.complaintsAgainstVPPresident,
+				complaintAgainstBankingCorrespondent : data.complaintAgainstBankingCorrespondent,
+				lessPaymentValueRecordedMBookAmt : data.lessPaymentValueRecordedMBookAmt,
+				transportAllowanceNotGivenAmt : data.transportAllowanceNotGivenAmt,
+				complaintsAgainstWorksiteFacilidator : data.complaintsAgainstWorksiteFacilidator,
+				lessPaymentValueRecordedMBookCount : data.lessPaymentValueRecordedMBookCount,
+				noCompensationDeadAtWorksiteAmt : data.noCompensationDeadAtWorksiteAmt,
+				reqPaymentCompletedIHHLWorkAmt : data.reqPaymentCompletedIHHLWorkAmt,
+				reqForConstructionCattleShelter : data.reqForConstructionCattleShelter,
+				noCompensationInjuredAtWorksiteCount : data.noCompensationInjuredAtWorksiteCount,
+				auditDistrictId : data.auditDistrictId,
+				totalReceivedGrievancesHF : data.totalReceivedGrievancesHF,
+				reqForNewJc : data.reqForNewJc,
+				reqForConstructionIAYHouse : data.reqForConstructionIAYHouse,
+				demandForLibraryBuilding : data.demandForLibraryBuilding,
+				reqForConstructionIHHL : data.reqForConstructionIHHL,
+				demandForWork : data.demandForWork,
+				reqForMoreThan100Days : data.reqForMoreThan100Days,
+				demandForPds : data.demandForPds,
+				demandForWagesIncrease : data.demandForWagesIncrease,
+				fullEntitlementNotGivenAmt : data.fullEntitlementNotGivenAmt,
+				oapnotProvidedWork : data.oapnotProvidedWork,
+				delayWagesPaymentCount : data.delayWagesPaymentCount,
+				oapnotProvidedJc : data.oapnotProvidedJc,
+				complaintsAgainstBDOVP : data.complaintsAgainstBDOVP,
+				demandForRenewelJc : data.demandForRenewelJc,
+				delayWagesPaymentAmt : data.delayWagesPaymentAmt,
+				createdDate : data.createdDate,
+				modifiedByName : data.modifiedByName,
+				roundDescription : data.roundDescription,
+				createdByName : data.createdByName,
+				financialYear : data.financialYear,
+				financialDescription : data.financialDescription,
+				districtName : data.districtName,
+				modifiedDate : data.modifiedDate,
+				roundEndDate : data.roundEndDate,
+				roundStartDate : data.roundStartDate,
+				roundName : data.roundName,
+				vpName : data.vpName,
+				blockId : data.blockId,
+				vpId : data.vpId
+	    	};
+	    	DoUpdate();	    	
+	    }
 
-	    	$scope.delData.modifiedBy = $rootScope.sessionConfig.userId;
-
-		    	var responseText = hlcommitteefactory.doUpdateData($scope.delData);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to delete grievance!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+	    	var responseText = grievancefactory.doUpdateData($scope.editgrievance);
+			responseText.success(function(result){
+				if(result.status){
 			  		notify({
-			            messageTemplate: '<span>Unable to delete grievance!.</span>',
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditAuditGrievanceWindow();				        
+		  		}else{
+			  		notify({
+			            messageTemplate: '<span>Unable to update audit Grievance!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });	
-				});	
-
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update audit Grievance!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });	
+			});
 	    }
 
 	    $scope.Update = function(){
 			if($scope.editjQueryValidator.doValidate()){
-		    	//$scope.editmisappropriation.roundid = $scope.editdefaultrounds.value;
-		    	//$scope.editmisappropriation.districtid = $scope.editdefaultdistricts.value;
-		    	//$scope.editmisappropriation.blockid = $scope.editdefaultblocks.value;
-		    	//$scope.editmisappropriation.panchayatid = $scope.editdefaultvillages.value;
-		    	$scope.editmisappropriation.modifiedBy = $rootScope.sessionConfig.userId;
-
-		    	var responseText = grievancefactory.doUpdateData($scope.editgrievance);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update audit!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
-			  		notify({
-			            messageTemplate: '<span>Unable to update audit!.</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });	
-				});	 
+		    	$scope.grievance.modifiedBy = $rootScope.sessionConfig.userId;
+		    	DoUpdate();
 			}
 	    }
 
 	    $scope.EditData = function(data){
 	    	var r = jQuery.map( $scope.rounds, function( n, i ) {
-				if(data.roundId === n.value)
+			
+			if(data.roundId === n.value)
 			  		return n;
-			});	  
+			});
+
 			if(r instanceof Array){
 				$scope.editdefaultrounds =  r[0];
 			}else{
 				$scope.editdefaultrounds = $scope.defaultrounds;
-			}	  
+			}
+
 			var d = jQuery.map( $scope.districts, function( n, i ) {
 				if(data.auditDistrictId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(d instanceof Array){
 				$scope.editdefaultdistricts =  d[0];
 			}else{
 				$scope.editdefaultdistricts = $scope.defaultdistricts;
-			}	  
+			}	
+
 			var b = jQuery.map( $scope.blocks, function( n, i ) {
 				if(data.auditBlockId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(b instanceof Array){
 				$scope.editdefaultblocks =  b[0];
 			}else{
 				$scope.editdefaultblocks = $scope.defaultblocks;
-			}	   
+			}
+
 			var v = jQuery.map( $scope.villages, function( n, i ) {
 				if(data.villagePanchayatId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(v instanceof Array){
 				$scope.editdefaultvillages =  v[0];
 			}else{
 				$scope.editdefaultvillages = $scope.defaultvillages;
-			}	   	
+			}	
+
 	    	$scope.editgrievance = {
-				  		id : data.id,
-						others : data.others,
-						status : data.status,
-						roundId : data.roundId,
-						createdBy : data.createdBy,
-						auditId : data.auditId,
-						modifiedBy : data.modifiedBy,
-						blockName : data.blockName,
-						wagesNotPaidWorkersActuallyWorkedCount : data.wagesNotPaidWorkersActuallyWorkedCount,
-						transportAllowanceNotGivenCount : data.transportAllowanceNotGivenCount,
-						demandForIndividualBenefitScheme : data.demandForIndividualBenefitScheme,
-						totalReceivedGrievancesMeeting : data.totalReceivedGrievancesMeeting,
-						complaintsAgainstUnionOverseer : data.complaintsAgainstUnionOverseer,
-						complaintsAgainstVPSecretory : data.complaintsAgainstVPSecretory,
-						wagesDrawnLessThanActualNoDaysCount : data.wagesDrawnLessThanActualNoDaysCount,
-						wagesDrawnLessThanActualNoDaysAmt : data.wagesDrawnLessThanActualNoDaysAmt,
-						wagesNotPaidWorkersActuallyWorkedAmt : data.wagesNotPaidWorkersActuallyWorkedAmt,
-						noCompensationInjuredAtWorksiteAmt : data.noCompensationInjuredAtWorksiteAmt,
-						nonProvisionOfWorkSiteFacilities : data.nonProvisionOfWorkSiteFacilities,
-						noCompensationDeadAtWorksiteCount : data.noCompensationDeadAtWorksiteCount,
-						reqPaymentCompletedIHHLWorkCount : data.reqPaymentCompletedIHHLWorkCount,
-						fullEntitlementNotGivenCount : data.fullEntitlementNotGivenCount,
-						complaintsAgainstVPPresident : data.complaintsAgainstVPPresident,
-						complaintAgainstBankingCorrespondent : data.complaintAgainstBankingCorrespondent,
-						lessPaymentValueRecordedMBookAmt : data.lessPaymentValueRecordedMBookAmt,
-						transportAllowanceNotGivenAmt : data.transportAllowanceNotGivenAmt,
-						complaintsAgainstWorksiteFacilidator : data.complaintsAgainstWorksiteFacilidator,
-						lessPaymentValueRecordedMBookCount : data.lessPaymentValueRecordedMBookCount,
-						noCompensationDeadAtWorksiteAmt : data.noCompensationDeadAtWorksiteAmt,
-						reqPaymentCompletedIHHLWorkAmt : data.reqPaymentCompletedIHHLWorkAmt,
-						reqForConstructionCattleShelter : data.reqForConstructionCattleShelter,
-						noCompensationInjuredAtWorksiteCount : data.noCompensationInjuredAtWorksiteCount,
-						auditDistrictId : data.auditDistrictId,
-						totalReceivedGrievancesHF : data.totalReceivedGrievancesHF,
-						reqForNewJc : data.reqForNewJc,
-						reqForConstructionIAYHouse : data.reqForConstructionIAYHouse,
-						demandForLibraryBuilding : data.demandForLibraryBuilding,
-						reqForConstructionIHHL : data.reqForConstructionIHHL,
-						demandForWork : data.demandForWork,
-						reqForMoreThan100Days : data.reqForMoreThan100Days,
-						demandForPds : data.demandForPds,
-						demandForWagesIncrease : data.demandForWagesIncrease,
-						fullEntitlementNotGivenAmt : data.fullEntitlementNotGivenAmt,
-						oapnotProvidedWork : data.oapnotProvidedWork,
-						delayWagesPaymentCount : data.delayWagesPaymentCount,
-						oapnotProvidedJc : data.oapnotProvidedJc,
-						complaintsAgainstBDOVP : data.complaintsAgainstBDOVP,
-						demandForRenewelJc : data.demandForRenewelJc,
-						delayWagesPaymentAmt : data.delayWagesPaymentAmt,
-						createdDate : data.createdDate,
-						modifiedByName : data.modifiedByName,
-						roundDescription : data.roundDescription,
-						createdByName : data.createdByName,
-						financialYear : data.financialYear,
-						financialDescription : data.financialDescription,
-						districtName : data.districtName,
-						modifiedDate : data.modifiedDate,
-						roundEndDate : data.roundEndDate,
-						roundStartDate : data.roundStartDate,
-						roundName : data.roundName,
-						vpName : data.vpName,
-						blockId : data.blockId,
-						vpId : data.vpId
+		  		id : data.id,
+				others : data.others,
+				status : data.status,
+				roundId : data.roundId,
+				createdBy : data.createdBy,
+				auditId : data.auditId,
+				modifiedBy : data.modifiedBy,
+				blockName : data.blockName,
+				wagesNotPaidWorkersActuallyWorkedCount : data.wagesNotPaidWorkersActuallyWorkedCount,
+				transportAllowanceNotGivenCount : data.transportAllowanceNotGivenCount,
+				demandForIndividualBenefitScheme : data.demandForIndividualBenefitScheme,
+				totalReceivedGrievancesMeeting : data.totalReceivedGrievancesMeeting,
+				complaintsAgainstUnionOverseer : data.complaintsAgainstUnionOverseer,
+				complaintsAgainstVPSecretory : data.complaintsAgainstVPSecretory,
+				wagesDrawnLessThanActualNoDaysCount : data.wagesDrawnLessThanActualNoDaysCount,
+				wagesDrawnLessThanActualNoDaysAmt : data.wagesDrawnLessThanActualNoDaysAmt,
+				wagesNotPaidWorkersActuallyWorkedAmt : data.wagesNotPaidWorkersActuallyWorkedAmt,
+				noCompensationInjuredAtWorksiteAmt : data.noCompensationInjuredAtWorksiteAmt,
+				nonProvisionOfWorkSiteFacilities : data.nonProvisionOfWorkSiteFacilities,
+				noCompensationDeadAtWorksiteCount : data.noCompensationDeadAtWorksiteCount,
+				reqPaymentCompletedIHHLWorkCount : data.reqPaymentCompletedIHHLWorkCount,
+				fullEntitlementNotGivenCount : data.fullEntitlementNotGivenCount,
+				complaintsAgainstVPPresident : data.complaintsAgainstVPPresident,
+				complaintAgainstBankingCorrespondent : data.complaintAgainstBankingCorrespondent,
+				lessPaymentValueRecordedMBookAmt : data.lessPaymentValueRecordedMBookAmt,
+				transportAllowanceNotGivenAmt : data.transportAllowanceNotGivenAmt,
+				complaintsAgainstWorksiteFacilidator : data.complaintsAgainstWorksiteFacilidator,
+				lessPaymentValueRecordedMBookCount : data.lessPaymentValueRecordedMBookCount,
+				noCompensationDeadAtWorksiteAmt : data.noCompensationDeadAtWorksiteAmt,
+				reqPaymentCompletedIHHLWorkAmt : data.reqPaymentCompletedIHHLWorkAmt,
+				reqForConstructionCattleShelter : data.reqForConstructionCattleShelter,
+				noCompensationInjuredAtWorksiteCount : data.noCompensationInjuredAtWorksiteCount,
+				auditDistrictId : data.auditDistrictId,
+				totalReceivedGrievancesHF : data.totalReceivedGrievancesHF,
+				reqForNewJc : data.reqForNewJc,
+				reqForConstructionIAYHouse : data.reqForConstructionIAYHouse,
+				demandForLibraryBuilding : data.demandForLibraryBuilding,
+				reqForConstructionIHHL : data.reqForConstructionIHHL,
+				demandForWork : data.demandForWork,
+				reqForMoreThan100Days : data.reqForMoreThan100Days,
+				demandForPds : data.demandForPds,
+				demandForWagesIncrease : data.demandForWagesIncrease,
+				fullEntitlementNotGivenAmt : data.fullEntitlementNotGivenAmt,
+				oapnotProvidedWork : data.oapnotProvidedWork,
+				delayWagesPaymentCount : data.delayWagesPaymentCount,
+				oapnotProvidedJc : data.oapnotProvidedJc,
+				complaintsAgainstBDOVP : data.complaintsAgainstBDOVP,
+				demandForRenewelJc : data.demandForRenewelJc,
+				delayWagesPaymentAmt : data.delayWagesPaymentAmt,
+				createdDate : data.createdDate,
+				modifiedByName : data.modifiedByName,
+				roundDescription : data.roundDescription,
+				createdByName : data.createdByName,
+				financialYear : data.financialYear,
+				financialDescription : data.financialDescription,
+				districtName : data.districtName,
+				modifiedDate : data.modifiedDate,
+				roundEndDate : data.roundEndDate,
+				roundStartDate : data.roundStartDate,
+				roundName : data.roundName,
+				vpName : data.vpName,
+				blockId : data.blockId,
+				vpId : data.vpId
 
 	    	};
-	    	$scope.OpenEditAuditWindow();
+	    	$scope.OpenEditAuditGrievanceWindow();
 	    }
 
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "auditId", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "roundName", title:'Round', editable : false  },
-		        		{ field: "roundStartDate", title:'Start Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundStartDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "roundEndDate", title:'End Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundEndDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "districtName", title : "District", editable : false},
-		        		{ field: "blockName", title : "Block", editable : false },
-		        		{ field: "vpName", title : "Village", editable : false},
+		        		{ field: "totalReceivedGrievancesHF", width:"130px", title:'Total No of Grievances received during Household Verification'},
+		        		{ field: "totalReceivedGrievancesMeeting", width:"130px", title:'Job Total No of grievances received during GS meeting'},
+		        		{ field: "reqForNewJc", width:"130px", title:'Request for New Job Card'},
+		        		{ field: "reqForMoreThan100Days", width:"130px", title : "Request for work for more than 100 days"},
+		        		{ field: "reqForConstructionIHHL", width:"130px", title : "Request for Constructions of IHHL"},
+		        		{ field: "reqForConstructionIAYHouse", width:"130px", title : "Request for Construction of IAY house"},
 		        		{
  							title : "",
 		                    width: '30px',

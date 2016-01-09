@@ -111,49 +111,48 @@ public class MgnRegaWorksServiceImpl implements MgnRegaWorksService{
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_mgnrega_works")
                 .declareParameters(
                         new SqlParameter("auditid", Types.BIGINT),
-                        new SqlParameter("totalworksexecuted", Types.INTEGER),
-                        new SqlParameter("completedworkcount", Types.INTEGER),
-                        new SqlParameter("pendingworkcount", Types.INTEGER),
-                        new SqlParameter("unskilledwagescomplworks", Types.INTEGER),
-                        new SqlParameter("skilledwagescomplworks", Types.INTEGER),
-                        new SqlParameter("Materialexpcomplworks", Types.INTEGER),
-                        new SqlParameter("administrativeexpcomplworks", Types.INTEGER),
-                        new SqlParameter("complworksevaluatedbySA", Types.INTEGER),
-                        new SqlParameter("Expincurredcomplworks", Types.INTEGER),
-                        new SqlParameter("complworksevaluatedSAteam", Types.INTEGER),
-                        new SqlParameter("ongoingworkscount", Types.INTEGER),
-                        new SqlParameter("unskilledwagesogworks", Types.INTEGER),
-                        new SqlParameter("skilledwagesogworks", Types.INTEGER),
-                        new SqlParameter("mgnregaworkscol", Types.VARCHAR),
-                        new SqlParameter("Materialexpoglworks", Types.INTEGER),
-                        new SqlParameter("administrativeexpogworks", Types.INTEGER),
-                        new SqlParameter("og_worksevaluatedbySA", Types.INTEGER),
-                        new SqlParameter("Expincurredogworks", Types.INTEGER),
-                        new SqlParameter("oglworksevaluatedSAteam", Types.INTEGER),
+                        new SqlParameter("totalworksexecutedduringFY", Types.INTEGER),
+                        new SqlParameter("noofworkscompleted", Types.INTEGER),
+                        new SqlParameter("noofpendingworks", Types.INTEGER),
+                        new SqlParameter("unskilledwagesforcompletedworks", Types.INTEGER),
+                        new SqlParameter("skilledwagesforcompletedworks", Types.INTEGER),
+                        new SqlParameter("materialexpforcompletedworks", Types.INTEGER),
+                        new SqlParameter("administrativeexpforcompletedworks", Types.INTEGER),
+                        new SqlParameter("noofcompletedworksevaluatedbySA", Types.INTEGER),
+                        new SqlParameter("expincurredforcompletedworks", Types.INTEGER),
+                        new SqlParameter("valueofcompletedworksevaluatedbySAteam", Types.INTEGER),
+                        new SqlParameter("noofongoingworks", Types.INTEGER),
+                        new SqlParameter("unskilledwagesforongoingworks", Types.INTEGER),
+                        new SqlParameter("skilledwagesforongoingworks", Types.INTEGER),
+                        new SqlParameter("materialexpforongoingworks", Types.INTEGER),
+                        new SqlParameter("administrativeexpforongoingworks", Types.INTEGER),
+                        new SqlParameter("noofongoingworksevaluatedbySAteam", Types.INTEGER),
+                        new SqlParameter("expincurredforongoingworks", Types.INTEGER),
+                        new SqlParameter("valueofongoingworksevaluatedbySAteam", Types.INTEGER),
                         new SqlParameter("createdby", Types.BIGINT),
+                        new SqlParameter("isactive", Types.BIT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
         inParamMap.put("auditid", mgn.getAuditId());
-        inParamMap.put("totalworksexecuted", mgn.getTotalWorksExecuted());
-        inParamMap.put("completedworkcount", mgn.getCompletedWorkCount());
-        inParamMap.put("pendingworkcount", mgn.getPendingWorkCount());
-        inParamMap.put("unskilledwagescomplworks", mgn.getUnskilledWagesComplWorks());
-        inParamMap.put("skilledwagescomplworks", mgn.getSkilledWagesComplWorks());
-        inParamMap.put("Materialexpcomplworks", mgn.getMaterialExpComplWorks());
-        inParamMap.put("administrativeexpcomplworks", mgn.getAdministrativeExpComplWorks());
-        inParamMap.put("complworksevaluatedbySA", mgn.getComplWorksEvaluatedBySA());
-        inParamMap.put("Expincurredcomplworks", mgn.getExpIncurredComplWorks());
-        inParamMap.put("complworksevaluatedSAteam", mgn.getComplWorksEvaluatedSATeam());
-        inParamMap.put("ongoingworkscount", mgn.getOnGoingWorksCount());
-        inParamMap.put("unskilledwagesogworks", mgn.getUnskilledWagesOgWorks());
-        inParamMap.put("skilledwagesogworks", mgn.getSkilledWagesOgWorks());
-        inParamMap.put("mgnregaworkscol", mgn.getMgnRegaWorksCol());
-        inParamMap.put("Materialexpoglworks", mgn.getMaterialExpOglWorks());
-        inParamMap.put("administrativeexpogworks", mgn.getAdministrativeExpOgWorks());
-        inParamMap.put("og_worksevaluatedbySA", mgn.getOgWorksEvaluatedBySA());
-        inParamMap.put("Expincurredogworks", mgn.getExpIncurredOgWorks());
-        inParamMap.put("oglworksevaluatedSAteam", mgn.getOglWorksEvaluatedSATeam());
+        inParamMap.put("totalworksexecutedduringFY", mgn.getTotalWorksExecutedDuringFY());
+        inParamMap.put("noofworkscompleted", mgn.getNoOfWorksCompleted());
+        inParamMap.put("noofpendingworks", mgn.getNoOfPendingWorks());
+        inParamMap.put("unskilledwagesforcompletedworks", mgn.getUnskilledWagesForCompletedWorks());
+        inParamMap.put("skilledwagesforcompletedworks", mgn.getSkilledWagesForCompletedWorks());
+        inParamMap.put("materialexpforcompletedworks", mgn.getMaterialExpForCompletedWorks());
+        inParamMap.put("administrativeexpforcompletedworks", mgn.getAdministrativeExpForCompletedWorks());
+        inParamMap.put("noofcompletedworksevaluatedbySA", mgn.getNoOfCompletedWorksEvaluatedBySA());
+        inParamMap.put("expincurredforcompletedworks", mgn.getExpIncurredForCompletedWorks());
+        inParamMap.put("valueofcompletedworksevaluatedbySAteam", mgn.getValueOfCompletedWorksEvaluatedBySATeam());
+        inParamMap.put("noofongoingworks", mgn.getNoOfOnGoingWorks());
+        inParamMap.put("unskilledwagesforongoingworks", mgn.getUnSkilledWagesForOnGoingWorks());
+        inParamMap.put("skilledwagesforongoingworks", mgn.getSkilledWagesForOnGoingWorks());
+        inParamMap.put("materialexpforongoingworks", mgn.getMaterialExpForOnGoingWorks());
+        inParamMap.put("administrativeexpforongoingworks", mgn.getAdministrativeExpForOnGoingWorks());
+        inParamMap.put("noofongoingworksevaluatedbySAteam", mgn.getNoOfOnGoingWorksEvaluatedBySATeam());
+        inParamMap.put("expincurredforongoingworks", mgn.getExpIncurredForOnGoingWorks());
+        inParamMap.put("valueofongoingworksevaluatedbySAteam", mgn.getValueOfOnGoingWorksEvaluatedBySATeam());
         inParamMap.put("createdby", mgn.getCreatedBy());
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
@@ -170,25 +169,24 @@ public class MgnRegaWorksServiceImpl implements MgnRegaWorksService{
                 .declareParameters(
                         new SqlParameter("mgnrega_work_id", Types.BIGINT),
                         new SqlParameter("auditid", Types.BIGINT),
-                        new SqlParameter("totalworksexecuted", Types.INTEGER),
-                        new SqlParameter("completedworkcount", Types.INTEGER),
-                        new SqlParameter("pendingworkcount", Types.INTEGER),
-                        new SqlParameter("unskilledwagescomplworks", Types.INTEGER),
-                        new SqlParameter("skilledwagescomplworks", Types.INTEGER),
-                        new SqlParameter("Materialexpcomplworks", Types.INTEGER),
-                        new SqlParameter("administrativeexpcomplworks", Types.INTEGER),
-                        new SqlParameter("complworksevaluatedbySA", Types.INTEGER),
-                        new SqlParameter("Expincurredcomplworks", Types.INTEGER),
-                        new SqlParameter("complworksevaluatedSAteam", Types.INTEGER),
-                        new SqlParameter("ongoingworkscount", Types.INTEGER),
-                        new SqlParameter("unskilledwagesogworks", Types.INTEGER),
-                        new SqlParameter("skilledwagesogworks", Types.INTEGER),
-                        new SqlParameter("mgnregaworkscol", Types.VARCHAR),
-                        new SqlParameter("Materialexpoglworks", Types.INTEGER),
-                        new SqlParameter("administrativeexpogworks", Types.INTEGER),
-                        new SqlParameter("og_worksevaluatedbySA", Types.INTEGER),
-                        new SqlParameter("Expincurredogworks", Types.INTEGER),
-                        new SqlParameter("oglworksevaluatedSAteam", Types.INTEGER),
+                        new SqlParameter("totalworksexecutedduringFY", Types.INTEGER),
+                        new SqlParameter("noofworkscompleted", Types.INTEGER),
+                        new SqlParameter("noofpendingworks", Types.INTEGER),
+                        new SqlParameter("unskilledwagesforcompletedworks", Types.INTEGER),
+                        new SqlParameter("skilledwagesforcompletedworks", Types.INTEGER),
+                        new SqlParameter("materialexpforcompletedworks", Types.INTEGER),
+                        new SqlParameter("administrativeexpforcompletedworks", Types.INTEGER),
+                        new SqlParameter("noofcompletedworksevaluatedbySA", Types.INTEGER),
+                        new SqlParameter("expincurredforcompletedworks", Types.INTEGER),
+                        new SqlParameter("valueofcompletedworksevaluatedbySAteam", Types.INTEGER),
+                        new SqlParameter("noofongoingworks", Types.INTEGER),
+                        new SqlParameter("unskilledwagesforongoingworks", Types.INTEGER),
+                        new SqlParameter("skilledwagesforongoingworks", Types.INTEGER),
+                        new SqlParameter("materialexpforongoingworks", Types.INTEGER),
+                        new SqlParameter("administrativeexpforongoingworks", Types.INTEGER),
+                        new SqlParameter("noofongoingworksevaluatedbySAteam", Types.INTEGER),
+                        new SqlParameter("expincurredforongoingworks", Types.INTEGER),
+                        new SqlParameter("valueofongoingworksevaluatedbySAteam", Types.INTEGER),
                         new SqlParameter("modifiedby", Types.BIGINT),
                         new SqlParameter("isactive", Types.BIT),
                         new SqlOutParameter("flag", Types.BIT)
@@ -196,25 +194,24 @@ public class MgnRegaWorksServiceImpl implements MgnRegaWorksService{
         Map<String, Object> inParamMap = new HashMap<String, Object>();
         inParamMap.put("mgnrega_work_id", mgn.getId());
         inParamMap.put("auditid", mgn.getAuditId());
-        inParamMap.put("totalworksexecuted", mgn.getTotalWorksExecuted());
-        inParamMap.put("completedworkcount", mgn.getCompletedWorkCount());
-        inParamMap.put("pendingworkcount", mgn.getPendingWorkCount());
-        inParamMap.put("unskilledwagescomplworks", mgn.getUnskilledWagesComplWorks());
-        inParamMap.put("skilledwagescomplworks", mgn.getSkilledWagesComplWorks());
-        inParamMap.put("Materialexpcomplworks", mgn.getMaterialExpComplWorks());
-        inParamMap.put("administrativeexpcomplworks", mgn.getAdministrativeExpComplWorks());
-        inParamMap.put("complworksevaluatedbySA", mgn.getComplWorksEvaluatedBySA());
-        inParamMap.put("Expincurredcomplworks", mgn.getExpIncurredComplWorks());
-        inParamMap.put("complworksevaluatedSAteam", mgn.getComplWorksEvaluatedSATeam());
-        inParamMap.put("ongoingworkscount", mgn.getOnGoingWorksCount());
-        inParamMap.put("unskilledwagesogworks", mgn.getUnskilledWagesOgWorks());
-        inParamMap.put("skilledwagesogworks", mgn.getSkilledWagesOgWorks());
-        inParamMap.put("mgnregaworkscol", mgn.getMgnRegaWorksCol());
-        inParamMap.put("Materialexpoglworks", mgn.getMaterialExpOglWorks());
-        inParamMap.put("administrativeexpogworks", mgn.getAdministrativeExpOgWorks());
-        inParamMap.put("og_worksevaluatedbySA", mgn.getOgWorksEvaluatedBySA());
-        inParamMap.put("Expincurredogworks", mgn.getExpIncurredOgWorks());
-        inParamMap.put("oglworksevaluatedSAteam", mgn.getOglWorksEvaluatedSATeam());
+        inParamMap.put("totalworksexecutedduringFY", mgn.getTotalWorksExecutedDuringFY());
+        inParamMap.put("noofworkscompleted", mgn.getNoOfWorksCompleted());
+        inParamMap.put("noofpendingworks", mgn.getNoOfPendingWorks());
+        inParamMap.put("unskilledwagesforcompletedworks", mgn.getUnskilledWagesForCompletedWorks());
+        inParamMap.put("skilledwagesforcompletedworks", mgn.getSkilledWagesForCompletedWorks());
+        inParamMap.put("materialexpforcompletedworks", mgn.getMaterialExpForCompletedWorks());
+        inParamMap.put("administrativeexpforcompletedworks", mgn.getAdministrativeExpForCompletedWorks());
+        inParamMap.put("noofcompletedworksevaluatedbySA", mgn.getNoOfCompletedWorksEvaluatedBySA());
+        inParamMap.put("expincurredforcompletedworks", mgn.getExpIncurredForCompletedWorks());
+        inParamMap.put("valueofcompletedworksevaluatedbySAteam", mgn.getValueOfCompletedWorksEvaluatedBySATeam());
+        inParamMap.put("noofongoingworks", mgn.getNoOfOnGoingWorks());
+        inParamMap.put("unskilledwagesforongoingworks", mgn.getUnSkilledWagesForOnGoingWorks());
+        inParamMap.put("skilledwagesforongoingworks", mgn.getSkilledWagesForOnGoingWorks());
+        inParamMap.put("materialexpforongoingworks", mgn.getMaterialExpForOnGoingWorks());
+        inParamMap.put("administrativeexpforongoingworks", mgn.getAdministrativeExpForOnGoingWorks());
+        inParamMap.put("noofongoingworksevaluatedbySAteam", mgn.getNoOfOnGoingWorksEvaluatedBySATeam());
+        inParamMap.put("expincurredforongoingworks", mgn.getExpIncurredForOnGoingWorks());
+        inParamMap.put("valueofongoingworksevaluatedbySAteam", mgn.getValueOfOnGoingWorksEvaluatedBySATeam());
         inParamMap.put("modifiedby", mgn.getModifiedBy());
         inParamMap.put("isactive", mgn.getStatus());
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
@@ -233,7 +230,7 @@ public class MgnRegaWorksServiceImpl implements MgnRegaWorksService{
 
     private MgnRegaWorks selectMgnRegaWorksData(Long id){
         List<MgnRegaWorks> o = new ArrayList<MgnRegaWorks>();
-        o = jdbcTemplate.query("call select_audit_expenditure_by_id(?)", new Object[]{id}, new MgnRegaWorksMapper());
+        o = jdbcTemplate.query("call select_mgnrega_works_by_id(?)", new Object[]{id}, new MgnRegaWorksMapper());
         if(o.size()==0)
             return null;
         else
@@ -260,25 +257,24 @@ public class MgnRegaWorksServiceImpl implements MgnRegaWorksService{
             o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
             o.setVpId(set.getInt("village_panchayat_id"));
             o.setVpName(StringUtils.trimToNull(set.getString("vp_name")));
-            o.setTotalWorksExecuted(set.getInt("tota_lworks_executed"));
-            o.setCompletedWorkCount(set.getInt("completed_work_count"));
-            o.setPendingWorkCount(set.getInt("pending_work_count"));
-            o.setUnskilledWagesComplWorks(set.getInt("unskilled_wages_compl_works"));
-            o.setSkilledWagesComplWorks(set.getInt("skilled_wages_compl_works"));
-            o.setMaterialExpComplWorks(set.getInt("material_exp_compl_works"));
-            o.setAdministrativeExpComplWorks(set.getInt("administrative_exp_compl_works"));
-            o.setComplWorksEvaluatedBySA(set.getInt("compl_works_evaluated_by_SA"));
-            o.setExpIncurredComplWorks(set.getInt("Exp_incurred_compl_works"));
-            o.setComplWorksEvaluatedSATeam(set.getInt("compl_works_evaluated_SA_team"));
-            o.setOnGoingWorksCount(set.getInt("on_going_works_count"));
-            o.setUnskilledWagesOgWorks(set.getInt("unskilled_wages_og_works"));
-            o.setSkilledWagesOgWorks(set.getInt("skilled_wages_og_works"));
-            o.setMgnRegaWorksCol(set.getString("mgnrega_workscol"));
-            o.setMaterialExpComplWorks(set.getInt("material_exp_ogl_works"));
-            o.setAdministrativeExpOgWorks(set.getInt("administrative_exp_og_works"));
-            o.setOgWorksEvaluatedBySA(set.getInt("og_works_evaluated_by_SA"));
-            o.setExpIncurredOgWorks(set.getInt("Exp_incurred_og_works"));
-            o.setOglWorksEvaluatedSATeam(set.getInt("ogl_works_evaluated_SA_team"));
+            o.setTotalWorksExecutedDuringFY(set.getInt("total_works_executed_during_FY"));
+            o.setNoOfWorksCompleted(set.getInt("no_of_works_completed"));
+            o.setNoOfPendingWorks(set.getInt("no_of_pending_works"));
+            o.setUnskilledWagesForCompletedWorks(set.getInt("unskilled_wages_for_completed_works"));
+            o.setSkilledWagesForCompletedWorks(set.getInt("skilled_wages_for_completed_works"));
+            o.setMaterialExpForCompletedWorks(set.getInt("material_exp_for_completed_works"));
+            o.setAdministrativeExpForCompletedWorks(set.getInt("administrative_exp_for_completed_works"));
+            o.setNoOfCompletedWorksEvaluatedBySA(set.getInt("no_of_completed_works_evaluated_by_SA"));
+            o.setExpIncurredForCompletedWorks(set.getInt("exp_incurred_for_completed_works"));
+            o.setValueOfCompletedWorksEvaluatedBySATeam(set.getInt("value_of_completed_works_evaluated_by_SA_team"));
+            o.setNoOfOnGoingWorks(set.getInt("no_of_on_going_works"));
+            o.setUnSkilledWagesForOnGoingWorks(set.getInt("unskilled_wages_for_on_going_works"));
+            o.setSkilledWagesForOnGoingWorks(set.getInt("skilled_wages_for_on_going_works"));
+            o.setMaterialExpForOnGoingWorks(set.getInt("material_exp_for_on_going_works"));
+            o.setAdministrativeExpForOnGoingWorks(set.getInt("administrative_exp_for_on_going_works"));
+            o.setNoOfOnGoingWorksEvaluatedBySATeam(set.getInt("no_of_on_going_works_evaluated_by_SA_team"));
+            o.setExpIncurredForOnGoingWorks(set.getInt("exp_incurred_for_on_going_works"));
+            o.setValueOfOnGoingWorksEvaluatedBySATeam(set.getInt("value_of_on_going_works_evaluated_by_SA_team"));
             o.setCreatedDate(set.getTimestamp("created_date"));
             o.setModifiedDate(set.getTimestamp("modified_date"));
             o.setCreatedBy(set.getLong("created_by"));

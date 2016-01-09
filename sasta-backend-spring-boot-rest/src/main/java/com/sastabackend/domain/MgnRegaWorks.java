@@ -18,25 +18,26 @@ public class MgnRegaWorks implements  CommonProperties{
     @Column(name = "id", nullable = false, updatable = false)
     private Long id;
     private Long audit_id;
-    private Integer tota_lworks_executed;
-    private Integer completed_work_count;
-    private Integer pending_work_count;
-    private Integer unskilled_wages_compl_works	;
-    private Integer skilled_wages_compl_works;
-    private Integer Material_exp_compl_works;
-    private Integer administrative_exp_compl_works;
-    private Integer compl_works_evaluated_by_SA;
-    private Integer Exp_incurred_compl_works;
-    private Integer compl_works_evaluated_SA_team;
-    private Integer on_going_works_count;
-    private Integer unskilled_wages_og_works;
-    private Integer skilled_wages_og_works;
-    private String mgnrega_workscol;
-    private Integer Material_exp_ogl_works;
-    private Integer administrative_exp_og_works;
-    private Integer og_works_evaluated_by_SA;
-    private Integer Exp_incurred_og_works;
-    private Integer ogl_works_evaluated_SA_team;
+
+    private Integer total_works_executed_during_FY;
+    private Integer no_of_works_completed;
+    private Integer no_of_pending_works;
+    private Integer unskilled_wages_for_completed_works;
+    private Integer skilled_wages_for_completed_works;
+    private Integer material_exp_for_completed_works;
+    private Integer administrative_exp_for_completed_works;
+    private Integer no_of_completed_works_evaluated_by_SA;
+    private Integer exp_incurred_for_completed_works;
+    private Integer value_of_completed_works_evaluated_by_SA_team;
+    private Integer no_of_on_going_works;
+    private Integer unskilled_wages_for_on_going_works;
+    private Integer skilled_wages_for_on_going_works;
+    private Integer material_exp_for_on_going_works;
+    private Integer administrative_exp_for_on_going_works;
+    private Integer no_of_on_going_works_evaluated_by_SA_team;
+    private Integer exp_incurred_for_on_going_works;
+    private Integer value_of_on_going_works_evaluated_by_SA_team;
+
     private java.sql.Timestamp created_date;
     private java.sql.Timestamp modified_date;
     private Long created_by;
@@ -71,163 +72,155 @@ public class MgnRegaWorks implements  CommonProperties{
     }
 
     public Long getAuditId() {
-        return audit_id;
+        return this.audit_id;
     }
 
     public void setAuditId(Long audit_id) {
         this.audit_id = audit_id;
     }
 
-    public Integer getTotalWorksExecuted() {
-        return tota_lworks_executed;
+    public Integer getTotalWorksExecutedDuringFY() {
+        return total_works_executed_during_FY;
     }
 
-    public void setTotalWorksExecuted(Integer tota_lworks_executed) {
-        this.tota_lworks_executed = tota_lworks_executed;
+    public void setTotalWorksExecutedDuringFY(Integer total_works_executed_during_FY) {
+        this.total_works_executed_during_FY = total_works_executed_during_FY;
     }
 
-    public Integer getCompletedWorkCount() {
-        return completed_work_count;
+    public Integer getNoOfWorksCompleted() {
+        return no_of_works_completed;
     }
 
-    public void setCompletedWorkCount(Integer completed_work_count) {
-        this.completed_work_count = completed_work_count;
+    public void setNoOfWorksCompleted(Integer no_of_works_completed) {
+        this.no_of_works_completed = no_of_works_completed;
     }
 
-    public Integer getPendingWorkCount() {
-        return pending_work_count;
+    public Integer getNoOfPendingWorks() {
+        return no_of_pending_works;
     }
 
-    public void setPendingWorkCount(Integer pending_work_count) {
-        this.pending_work_count = pending_work_count;
+    public void setNoOfPendingWorks(Integer no_of_pending_works) {
+        this.no_of_pending_works = no_of_pending_works;
     }
 
-    public Integer getUnskilledWagesComplWorks() {
-        return unskilled_wages_compl_works;
+    public Integer getUnskilledWagesForCompletedWorks() {
+        return unskilled_wages_for_completed_works;
     }
 
-    public void setUnskilledWagesComplWorks(Integer unskilled_wages_compl_works) {
-        this.unskilled_wages_compl_works = unskilled_wages_compl_works;
+    public void setUnskilledWagesForCompletedWorks(Integer unskilled_wages_for_completed_works) {
+        this.unskilled_wages_for_completed_works = unskilled_wages_for_completed_works;
     }
 
-    public Integer getSkilledWagesComplWorks() {
-        return skilled_wages_compl_works;
+    public Integer getSkilledWagesForCompletedWorks() {
+        return skilled_wages_for_completed_works;
     }
 
-    public void setSkilledWagesComplWorks(Integer skilled_wages_compl_works) {
-        this.skilled_wages_compl_works = skilled_wages_compl_works;
+    public void setSkilledWagesForCompletedWorks(Integer skilled_wages_for_completed_works) {
+        this.skilled_wages_for_completed_works = skilled_wages_for_completed_works;
     }
 
-    public Integer getMaterialExpComplWorks() {
-        return Material_exp_compl_works;
+    public Integer getMaterialExpForCompletedWorks() {
+        return material_exp_for_completed_works;
     }
 
-    public void setMaterialExpComplWorks(Integer material_exp_compl_works) {
-        this.Material_exp_compl_works = material_exp_compl_works;
+    public void setMaterialExpForCompletedWorks(Integer material_exp_for_completed_works) {
+        this.material_exp_for_completed_works = material_exp_for_completed_works;
     }
 
-    public Integer getAdministrativeExpComplWorks() {
-        return administrative_exp_compl_works;
+    public Integer getAdministrativeExpForCompletedWorks() {
+        return administrative_exp_for_completed_works;
     }
 
-    public void setAdministrativeExpComplWorks(Integer administrative_exp_compl_works) {
-        this.administrative_exp_compl_works = administrative_exp_compl_works;
+    public void setAdministrativeExpForCompletedWorks(Integer administrative_exp_for_completed_works) {
+        this.administrative_exp_for_completed_works = administrative_exp_for_completed_works;
     }
 
-    public Integer getComplWorksEvaluatedBySA() {
-        return compl_works_evaluated_by_SA;
+    public Integer getNoOfCompletedWorksEvaluatedBySA() {
+        return no_of_completed_works_evaluated_by_SA;
     }
 
-    public void setComplWorksEvaluatedBySA(Integer compl_works_evaluated_by_SA) {
-        this.compl_works_evaluated_by_SA = compl_works_evaluated_by_SA;
+    public void setNoOfCompletedWorksEvaluatedBySA(Integer no_of_completed_works_evaluated_by_SA) {
+        this.no_of_completed_works_evaluated_by_SA = no_of_completed_works_evaluated_by_SA;
     }
 
-    public Integer getExpIncurredComplWorks() {
-        return Exp_incurred_compl_works;
+    public Integer getExpIncurredForCompletedWorks() {
+        return exp_incurred_for_completed_works;
     }
 
-    public void setExpIncurredComplWorks(Integer exp_incurred_compl_works) {
-        Exp_incurred_compl_works = exp_incurred_compl_works;
+    public void setExpIncurredForCompletedWorks(Integer exp_incurred_for_completed_works) {
+        this.exp_incurred_for_completed_works = exp_incurred_for_completed_works;
     }
 
-    public Integer getComplWorksEvaluatedSATeam() {
-        return compl_works_evaluated_SA_team;
+    public Integer getValueOfCompletedWorksEvaluatedBySATeam() {
+        return value_of_completed_works_evaluated_by_SA_team;
     }
 
-    public void setComplWorksEvaluatedSATeam(Integer compl_works_evaluated_SA_team) {
-        this.compl_works_evaluated_SA_team = compl_works_evaluated_SA_team;
+    public void setValueOfCompletedWorksEvaluatedBySATeam(Integer value_of_completed_works_evaluated_by_SA_team) {
+        this.value_of_completed_works_evaluated_by_SA_team = value_of_completed_works_evaluated_by_SA_team;
     }
 
-    public Integer getOnGoingWorksCount() {
-        return on_going_works_count;
+    public Integer getNoOfOnGoingWorks() {
+        return no_of_on_going_works;
     }
 
-    public void setOnGoingWorksCount(Integer on_going_works_count) {
-        this.on_going_works_count = on_going_works_count;
+    public void setNoOfOnGoingWorks(Integer no_of_on_going_works) {
+        this.no_of_on_going_works = no_of_on_going_works;
     }
 
-    public Integer getUnskilledWagesOgWorks() {
-        return unskilled_wages_og_works;
+    public Integer getUnSkilledWagesForOnGoingWorks() {
+        return unskilled_wages_for_on_going_works;
     }
 
-    public void setUnskilledWagesOgWorks(Integer unskilled_wages_og_works) {
-        this.unskilled_wages_og_works = unskilled_wages_og_works;
+    public void setUnSkilledWagesForOnGoingWorks(Integer unskilled_wages_for_on_going_works) {
+        this.unskilled_wages_for_on_going_works = unskilled_wages_for_on_going_works;
     }
 
-    public Integer getSkilledWagesOgWorks() {
-        return skilled_wages_og_works;
+    public Integer getSkilledWagesForOnGoingWorks() {
+        return skilled_wages_for_on_going_works;
     }
 
-    public void setSkilledWagesOgWorks(Integer skilled_wages_og_works) {
-        this.skilled_wages_og_works = skilled_wages_og_works;
+    public void setSkilledWagesForOnGoingWorks(Integer skilled_wages_for_on_going_works) {
+        this.skilled_wages_for_on_going_works = skilled_wages_for_on_going_works;
     }
 
-    public String getMgnRegaWorksCol() {
-        return this.mgnrega_workscol;
+    public Integer getMaterialExpForOnGoingWorks() {
+        return material_exp_for_on_going_works;
     }
 
-    public void setMgnRegaWorksCol(String mgnrega_workscol) {
-        this.mgnrega_workscol = mgnrega_workscol;
+    public void setMaterialExpForOnGoingWorks(Integer material_exp_for_on_going_works) {
+        this.material_exp_for_on_going_works = material_exp_for_on_going_works;
     }
 
-    public Integer getMaterialExpOglWorks() {
-        return this.Material_exp_ogl_works;
+    public Integer getAdministrativeExpForOnGoingWorks() {
+        return administrative_exp_for_on_going_works;
     }
 
-    public void setMaterialExpOglWorks(Integer material_exp_ogl_works) {
-        this.Material_exp_ogl_works = material_exp_ogl_works;
+    public void setAdministrativeExpForOnGoingWorks(Integer administrative_exp_for_on_going_works) {
+        this.administrative_exp_for_on_going_works = administrative_exp_for_on_going_works;
     }
 
-    public Integer getAdministrativeExpOgWorks() {
-        return this.administrative_exp_og_works;
+    public Integer getNoOfOnGoingWorksEvaluatedBySATeam() {
+        return no_of_on_going_works_evaluated_by_SA_team;
     }
 
-    public void setAdministrativeExpOgWorks(Integer administrative_exp_og_works) {
-        this.administrative_exp_og_works = administrative_exp_og_works;
+    public void setNoOfOnGoingWorksEvaluatedBySATeam(Integer no_of_on_going_works_evaluated_by_SA_team) {
+        this.no_of_on_going_works_evaluated_by_SA_team = no_of_on_going_works_evaluated_by_SA_team;
     }
 
-    public Integer getOgWorksEvaluatedBySA() {
-        return og_works_evaluated_by_SA;
+    public Integer getExpIncurredForOnGoingWorks() {
+        return exp_incurred_for_on_going_works;
     }
 
-    public void setOgWorksEvaluatedBySA(Integer og_works_evaluated_by_SA) {
-        this.og_works_evaluated_by_SA = og_works_evaluated_by_SA;
+    public void setExpIncurredForOnGoingWorks(Integer exp_incurred_for_on_going_works) {
+        this.exp_incurred_for_on_going_works = exp_incurred_for_on_going_works;
     }
 
-    public Integer getExpIncurredOgWorks() {
-        return Exp_incurred_og_works;
+    public Integer getValueOfOnGoingWorksEvaluatedBySATeam() {
+        return value_of_on_going_works_evaluated_by_SA_team;
     }
 
-    public void setExpIncurredOgWorks(Integer exp_incurred_og_works) {
-        this.Exp_incurred_og_works = exp_incurred_og_works;
-    }
-
-    public Integer getOglWorksEvaluatedSATeam() {
-        return this.ogl_works_evaluated_SA_team;
-    }
-
-    public void setOglWorksEvaluatedSATeam(Integer ogl_works_evaluated_SA_team) {
-        this.ogl_works_evaluated_SA_team = ogl_works_evaluated_SA_team;
+    public void setValueOfOnGoingWorksEvaluatedBySATeam(Integer value_of_on_going_works_evaluated_by_SA_team) {
+        this.value_of_on_going_works_evaluated_by_SA_team = value_of_on_going_works_evaluated_by_SA_team;
     }
 
     @Override
@@ -404,31 +397,29 @@ public class MgnRegaWorks implements  CommonProperties{
         this.vp_name = vp_name;
     }
 
-
     @Override
     public String toString() {
         return "MgnRegaWorks{" +
                 "id=" + id +
                 ", audit_id=" + audit_id +
-                ", tota_lworks_executed=" + tota_lworks_executed +
-                ", completed_work_count=" + completed_work_count +
-                ", pending_work_count=" + pending_work_count +
-                ", unskilled_wages_compl_works=" + unskilled_wages_compl_works +
-                ", skilled_wages_compl_works=" + skilled_wages_compl_works +
-                ", Material_exp_compl_works=" + Material_exp_compl_works +
-                ", administrative_exp_compl_works=" + administrative_exp_compl_works +
-                ", compl_works_evaluated_by_SA=" + compl_works_evaluated_by_SA +
-                ", Exp_incurred_compl_works=" + Exp_incurred_compl_works +
-                ", compl_works_evaluated_SA_team=" + compl_works_evaluated_SA_team +
-                ", on_going_works_count=" + on_going_works_count +
-                ", unskilled_wages_og_works=" + unskilled_wages_og_works +
-                ", skilled_wages_og_works=" + skilled_wages_og_works +
-                ", mgnrega_workscol='" + mgnrega_workscol + '\'' +
-                ", Material_exp_ogl_works=" + Material_exp_ogl_works +
-                ", administrative_exp_og_works=" + administrative_exp_og_works +
-                ", og_works_evaluated_by_SA=" + og_works_evaluated_by_SA +
-                ", Exp_incurred_og_works=" + Exp_incurred_og_works +
-                ", ogl_works_evaluated_SA_team=" + ogl_works_evaluated_SA_team +
+                ", total_works_executed_during_FY=" + total_works_executed_during_FY +
+                ", no_of_works_completed=" + no_of_works_completed +
+                ", no_of_pending_works=" + no_of_pending_works +
+                ", unskilled_wages_for_completed_works=" + unskilled_wages_for_completed_works +
+                ", skilled_wages_for_completed_works=" + skilled_wages_for_completed_works +
+                ", material_exp_for_completed_works=" + material_exp_for_completed_works +
+                ", administrative_exp_for_completed_works=" + administrative_exp_for_completed_works +
+                ", no_of_completed_works_evaluated_by_SA=" + no_of_completed_works_evaluated_by_SA +
+                ", exp_incurred_for_completed_works=" + exp_incurred_for_completed_works +
+                ", value_of_completed_works_evaluated_by_SA_team=" + value_of_completed_works_evaluated_by_SA_team +
+                ", no_of_on_going_works=" + no_of_on_going_works +
+                ", unskilled_wages_for_on_going_works=" + unskilled_wages_for_on_going_works +
+                ", skilled_wages_for_on_going_works=" + skilled_wages_for_on_going_works +
+                ", material_exp_for_on_going_works=" + material_exp_for_on_going_works +
+                ", administrative_exp_for_on_going_works=" + administrative_exp_for_on_going_works +
+                ", no_of_on_going_works_evaluated_by_SA_team=" + no_of_on_going_works_evaluated_by_SA_team +
+                ", exp_incurred_for_on_going_works=" + exp_incurred_for_on_going_works +
+                ", value_of_on_going_works_evaluated_by_SA_team=" + value_of_on_going_works_evaluated_by_SA_team +
                 ", created_date=" + created_date +
                 ", modified_date=" + modified_date +
                 ", created_by=" + created_by +
