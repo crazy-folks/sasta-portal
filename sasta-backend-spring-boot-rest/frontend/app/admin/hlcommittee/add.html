@@ -1,156 +1,146 @@
-<section id="main-content" class="animated fadeInRight ng-scope">
-    <div class="row no-padding auto-margin">
-        <div class="col-md-12 col-lg-12 no-padding auto-margin">
-            <div class="row  no-padding auto-margin">
-                <div class="col-md-12  no-padding auto-margin">
-                    <div class="panel panel-default no-margin">
-                        <div class="panel-body no-padding auto-margin">
-                            <div class="row no-padding auto-margin">
-                                <form class="form-horizontal" name="frmAddAuditDeviation" id="frmAddAuditDeviation">
-                                    <div class="form-group no-margin display-none">
-                                        <div>
-                                            <label for="selRounds"  class="label-adjust">Round</label>
-                                            <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin display-none">
-                                        <div>
-                                            <label for="selDistrict"  class="label-adjust">District</label>
-                                            <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
-                                            </select>
-                                        </div>                     
-                                    </div>     
-                                    <div class="form-group no-margin display-none">
-                                        <div>
-                                            <label for="selBlock"  class="label-adjust">Block</label>
-                                            <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
-                                            </select>
-                                        </div>                     
-                                    </div>     
-                                    <div class="form-group no-margin display-none">
-                                        <div>
-                                            <label for="selVillage"  class="label-adjust">Village</label>
-                                            <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">
-                                            </select>
-                                        </div>                     
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txttotalWorksExecuted" class="label-adjust">Date of Joint Sitting</label>
-                                            <input type="text"  class="k-input width-95" id="txtstartDate" name="txtstartDate" kendo-date-picker="startDateObject" data-ng-model="mgnrega.totalWorksExecuted" k-options="dateOptions" k-on-change="startChange()"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txttotalParasCount" class="label-adjust">Total Paras No</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txttotalParasCount" name="txttotalParasCount"
-                                                   data-ng-model="hlcommittee.totalParasCount" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txttotalParasAmt" class="label-adjust">Total Paras Amount</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txttotalParasAmt" name="txttotalParasAmt"
-                                                   data-ng-model="hlcommittee.totalParasAmt" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtparaSettledDuringDSCount" class="label-adjust">Paras Settled during GS No</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtparaSettledDuringDSCount" name="txtparaSettledDuringDSCount"
-                                                   data-ng-model="hlcommittee.paraSettledDuringDSCount" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtparaSettledDuringDSAmt" class="label-adjust">Paras Settled during GS Amount</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtparaSettledDuringDSAmt" name="txtparaSettledDuringDSAmt"
-                                                   data-ng-model="hlcommittee.paraSettledDuringDSAmt" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtparaSettledDuringHLCCount" class="label-adjust">Paras settled in HLC No</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtparaSettledDuringHLCCount" name="txtparaSettledDuringHLCCount"
-                                                   data-ng-model="hlcommittee.paraSettledDuringHLCCount" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtparaSettledDuringHLCAmt" class="label-adjust">Paras settled in HLC Amount</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtparaSettledDuringHLCAmt" name="txtparaSettledDuringHLCAmt"
-                                                   data-ng-model="hlcommittee.paraSettledDuringHLCAmt" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtpendingParasCount" class="label-adjust">Pending Paras No</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtpendingParasCount" name="txtpendingParasCount"
-                                                   data-ng-model="hlcommittee.pendingParasCount" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtpendingParasAmt" class="label-adjust">Pending Paras Amount</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtpendingParasAmt" name="txtpendingParasAmt"
-                                                   data-ng-model="hlcommittee.pendingParasAmt" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtamountRecovered" class="label-adjust">Amount Recovered</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtamountRecovered" name="txtamountRecovered"
-                                                   data-ng-model="hlcommittee.amountRecovered" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group no-margin">
-                                        <div>
-                                            <label for="txtamountToBeRecovered" class="label-adjust">Amount to be Recovered</label>
-                                            <input type="text" class="form-control no-padding width-95 validate[required,custom[onlyNumberSp]]" id="txtamountToBeRecovered" name="txtamountToBeRecovered"
-                                                   data-ng-model="hlcommittee.amountToBeRecovered" ng-maxlength="50" 
-                                                  />
-                                        </div>
-                                    </div>
-
-
-
-
-
-                                </form>                           
-                            </div>                           
-                        </div>
-                        <div class="panel-body">
-                            <div class="row no-padding auto-margin">
-                                <div class="row no-padding auto-margin">
-                                    <div class="dialog-buttons dialog-footer text-right">        
-                                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseaddBankWindow()">Cancel</button>
-                                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
-                                    </div>            
-                                </div>                             
+<section id="main-content" class="animated fadeInRight">
+    <!-- pass in the variable if our form is valid or invalid -->
+    <form name="frmAddAuditHLC" id="frmAddAuditHLC">
+        <div class="row">
+            <div class="col-md-12  col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                       <div class="form-group no-margin display-none">
+                            <div>
+                                <label for="selRounds"  class="label-adjust">Round</label>
+                                <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
+                                </select>
                             </div>
-                        </div>                        
+                        </div>
+                        <div class="form-group no-margin display-none">
+                            <div>
+                                <label for="selDistrict"  class="label-adjust">District</label>
+                                <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
+                                </select>
+                            </div>                     
+                        </div>     
+                        <div class="form-group no-margin display-none">
+                            <div>
+                                <label for="selBlock"  class="label-adjust">Block</label>
+                                <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
+                                </select>
+                            </div>                     
+                        </div>     
+                        <div class="form-group no-margin display-none">
+                            <div>
+                                <label for="selVillage"  class="label-adjust">Village</label>
+                                <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">
+                                </select>
+                            </div>                     
+                        </div>
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txtdateOfJointSitting" class="label-adjust">Date of Joint Sitting</label>
+                                <input type="text"  class="k-input width-95 validate[required]" id="txtdateOfJointSitting" name="txtdateOfJointSitting" kendo-date-picker="startDateObject" data-ng-model="hlcommittee.dateOfJointSitting" k-options="dateOptions"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txttotalParasCount" class="label-adjust">Total Paras No</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txttotalParasCount" name="txttotalParasCount"
+                                       data-ng-model="hlcommittee.totalParasCount"  
+                                      />
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txttotalParasAmt" class="label-adjust">Total Paras Amount</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txttotalParasAmt" name="txttotalParasAmt"
+                                       data-ng-model="hlcommittee.totalParasAmt"  
+                                      />
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txtparaSettledDuringDSCount" class="label-adjust">Paras Settled during GS No</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txtparaSettledDuringDSCount" name="txtparaSettledDuringDSCount"
+                                       data-ng-model="hlcommittee.paraSettledDuringDSCount"  
+                                      />
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txtparaSettledDuringDSAmt" class="label-adjust">Paras Settled during GS Amount</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txtparaSettledDuringDSAmt" name="txtparaSettledDuringDSAmt"
+                                       data-ng-model="hlcommittee.paraSettledDuringDSAmt"  
+                                      />
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txtparaSettledDuringHLCCount" class="label-adjust">Paras settled in HLC No</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txtparaSettledDuringHLCCount" name="txtparaSettledDuringHLCCount"
+                                       data-ng-model="hlcommittee.paraSettledDuringHLCCount"  
+                                      />
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txtparaSettledDuringHLCAmt" class="label-adjust">Paras settled in HLC Amount</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txtparaSettledDuringHLCAmt" name="txtparaSettledDuringHLCAmt"
+                                       data-ng-model="hlcommittee.paraSettledDuringHLCAmt"  
+                                      />
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txtpendingParasCount" class="label-adjust">Pending Paras No</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txtpendingParasCount" name="txtpendingParasCount"
+                                       data-ng-model="hlcommittee.pendingParasCount"  
+                                      />
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txtpendingParasAmt" class="label-adjust">Pending Paras Amount</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txtpendingParasAmt" name="txtpendingParasAmt"
+                                       data-ng-model="hlcommittee.pendingParasAmt"  
+                                      />
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txtamountRecovered" class="label-adjust">Amount Recovered</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txtamountRecovered" name="txtamountRecovered"
+                                       data-ng-model="hlcommittee.amountRecovered"  
+                                      />
+                            </div>
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <div>
+                                <label for="txtamountToBeRecovered" class="label-adjust">Amount to be Recovered</label>
+                                <input type="number" class="k-input width-95 validate[required]" id="txtamountToBeRecovered" name="txtamountToBeRecovered"
+                                       data-ng-model="hlcommittee.amountToBeRecovered"  
+                                      />
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+             <div class="panel panel-default">
+                <div class="panel-body col-md-11">
+                    <div class="form-group no-margin text-right">
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseAddAuditHLCWindow()">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
                     </div>
                 </div>
             </div>
+            </div>
         </div>
-    </div>
+    </form>    
 </section>

@@ -43,9 +43,6 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		    "text": "Select"
 		};
 
-
-
-
 	    $scope.kaddWindowOptions = {
 	        content: 'admin/audit/add.html',
 	        title: $scope.modelDialogTitle.AddAuditTitle,
@@ -358,6 +355,10 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
     	$scope.HlcommitteeData = function(data){
 			$state.go('admin.hlcommittee',{aid:data.key});
     	}
+
+    	$scope.sgm = function(data){
+			$state.go('admin.sgm',{aid:data.key});
+    	}    	
 
 	    $scope.EditData = function(data){
 	    	$scope.editaudit = $scope.defaultOptions;

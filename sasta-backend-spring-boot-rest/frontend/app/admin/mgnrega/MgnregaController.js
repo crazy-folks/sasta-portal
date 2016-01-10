@@ -6,8 +6,8 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 		
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
-	    	AddAuditTitle : "Add mgnrega",
-	    	EditAuditTitle : "Edit mgnrega"
+	    	AddAuditMgnregaTitle : "Add Mgnrega",
+	    	EditAuditMgnregaTitle : "Edit Mgnrega"
 	    };
 
 		$scope.rounds = [];
@@ -42,7 +42,9 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 
         $scope.kaddWindowOptions = {
             content: 'admin/mgnrega/add.html',
-            title: $scope.modelDialogTitle.AddAuditTitle,
+            title: $scope.modelDialogTitle.AddAuditMgnregaTitle,
+            height:"400px",
+            width:"800px",            
             iframe: false,
             draggable: true,
             modal: true, 
@@ -54,20 +56,22 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
                 }
             },
             open : function() {
-		        $($scope.AddAuditFormName).validationEngine('attach', {
+		        $($scope.AddAuditMgnregaFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });         
-		        $scope.addjQueryValidator = new Validator($scope.AddAuditFormName); 
+		        $scope.addjQueryValidator = new Validator($scope.AddAuditMgnregaFormName); 
             }
         };
 
-        $scope.AddAuditFormName = '#frmAddAuditDeviation';
-        $scope.EditAuditFormName = '#frmEditAuditDeviation';    
+        $scope.AddAuditMgnregaFormName = '#frmAddAuditMgnrega';
+        $scope.EditAuditMgnregaFormName = '#frmEditAuditMgnrega';    
 
         $scope.keditWindowOptions = {
             content: 'admin/mgnrega/edit.html',
-            title: $scope.modelDialogTitle.EditAuditTitle,
+            title: $scope.modelDialogTitle.EditAuditMgnregaTitle,
+            height:"400px",
+            width:"800px",
             iframe: false,
             draggable: true,
             modal: true,
@@ -79,37 +83,40 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
                 }
             },
             open : function(){
-		        $($scope.EditAuditFormName).validationEngine('attach', {
+		        $($scope.EditAuditMgnregaFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });		        
-		        $scope.editjQueryValidator = new Validator($scope.EditAuditFormName);            	
+		        $scope.editjQueryValidator = new Validator($scope.EditAuditMgnregaFormName);            	
             }
         };
 
-        $scope.OpenAuditWindow = function($event){
-        	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            //$scope.addAuditWindow.center().open();
+        $scope.OpenAddAuditMgnregaWindow = function($event){
+        	$scope.AddAuditMgnregaWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
             $scope.doReset();
         	GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
-            	
-            	$scope.addAuditWindow.center().open();
+            	$scope.AddAuditMgnregaWindow.center().open();
         	});
         }
 
 
-        $scope.CloseAuditWindow  = function(){
-            $scope.addAuditWindow.close();
+        $scope.CloseAddAuditMgnregaWindow  = function(){
+            $scope.AddAuditMgnregaWindow.close();
+            if($scope.addjQueryValidator)
+            	$scope.addjQueryValidator.doReset();
+            $scope.doReset();
         }
 
-        $scope.OpenEditAuditWindow = function(){
-			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
-            $scope.editAuditWindow.center().open();
-            
+        $scope.OpenEditAuditMgnregaWindow = function(){
+			$scope.EditAuditMgnregaWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.EditAuditMgnregaWindow.center().open();            
         }
 
-        $scope.CloseEditAuditWindow = function(){
-            $scope.editAuditWindow.close();
+        $scope.CloseEditAuditMgnregaWindow  = function(){
+            $scope.EditAuditMgnregaWindow.close();
+            if($scope.editjQueryValidator)
+            	$scope.editjQueryValidator.doReset();
+            $scope.doReset();            
         }
 
         $scope.doReset = function(){
@@ -118,104 +125,93 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
         }
 
         $scope.defaultOptions = {
-			"id" : 0,
-			"status" : null,
-			"roundId" : null,
-			"vpName" : null,
-			"blockName" : null,
-			"auditId" : null,
-			"createdBy" : null,
-			"modifiedBy" : null,
-			"roundName" : null,
-			"blockId" : null,
-			"vpId" : null,
-			"financialYear" : null,
-			"createdByName" : null,
-			"modifiedByName" : null,
-			"modifiedDate" : null,
-			"roundDescription" : null,
-			"createdDate" : null,
-			"auditDistrictId" : null,
-			"financialDescription" : null,
-			"districtName" : null,
-			"roundEndDate" : null,
-			"roundStartDate" : null,
-			"totalWorksExecuted" : null,
-			"completedWorkCount" : null,
-			"materialExpOglWorks" : null,
-			"expIncurredOgWorks" : null,
-			"oglWorksEvaluatedSATeam" : null,
-			"pendingWorkCount" : null,
-			"unskilledWagesComplWorks" : null,
-			"unskilledWagesOgWorks" : null,
-			"onGoingWorksCount" : null,
-			"mgnRegaWorksCol" : null,
-			"ogWorksEvaluatedBySA" : null,
-			"expIncurredComplWorks" : null,
-			"materialExpComplWorks" : null,
-			"complWorksEvaluatedBySA" : null,
-			"skilledWagesComplWorks" : null,
-			"complWorksEvaluatedSATeam" : null,
-			"skilledWagesOgWorks" : null,
-			"administrativeExpOgWorks" : null,
-			"administrativeExpComplWorks" : null
-	    };
+		  "id": null,
+		  "createdBy": null,
+		  "modifiedBy": null,
+		  "auditId": null,
+		  "roundId": null,
+		  "roundName": null,
+		  "vpName": null,
+		  "blockName": null,
+		  "blockId": null,
+		  "vpId": null,
+		  "totalWorksExecutedDuringFY": null,
+		  "noOfWorksCompleted": null,
+		  "noOfPendingWorks": null,
+		  "noOfOnGoingWorks": null,
+		  "materialExpForOnGoingWorks": null,
+		  "expIncurredForOnGoingWorks": null,
+		  "auditDistrictId": null,
+		  "status": true,
+		  "unskilledWagesForCompletedWorks": null,
+		  "skilledWagesForCompletedWorks": null,
+		  "materialExpForCompletedWorks": null,
+		  "administrativeExpForCompletedWorks": null,
+		  "noOfCompletedWorksEvaluatedBySA": null,
+		  "expIncurredForCompletedWorks": null,
+		  "valueOfCompletedWorksEvaluatedBySATeam": null,
+		  "unSkilledWagesForOnGoingWorks": null,
+		  "skilledWagesForOnGoingWorks": null,
+		  "administrativeExpForOnGoingWorks": null,
+		  "noOfOnGoingWorksEvaluatedBySATeam": null,
+		  "valueOfOnGoingWorksEvaluatedBySATeam": null,
+		  "createdDate": null,
+		  "modifiedDate": null,
+		  "createdByName": null,
+		  "modifiedByName": null,
+		  "financialDescription": null,
+		  "financialYear": null,
+		  "roundDescription": null,
+		  "districtName": null,
+		  "roundStartDate": null,
+		  "roundEndDate": null
+		};
 
 	    $scope.mgnrega = {
-			"id" : null,
-			"status" : null,
-			"roundId" : null,
-			"vpName" : null,
-			"blockName" : null,
-			"auditId" : null,
-			"createdBy" : null,
-			"modifiedBy" : null,
-			"roundName" : null,
-			"blockId" : null,
-			"vpId" : null,
-			"financialYear" : null,
-			"createdByName" : null,
-			"modifiedByName" : null,
-			"modifiedDate" : null,
-			"roundDescription" : null,
-			"createdDate" : null,
-			"auditDistrictId" : null,
-			"financialDescription" : null,
-			"districtName" : null,
-			"roundEndDate" : null,
-			"roundStartDate" : null,
-			"totalWorksExecuted" : null,
-			"completedWorkCount" : null,
-			"materialExpOglWorks" : null,
-			"expIncurredOgWorks" : null,
-			"oglWorksEvaluatedSATeam" : null,
-			"pendingWorkCount" : null,
-			"unskilledWagesComplWorks" : null,
-			"unskilledWagesOgWorks" : null,
-			"onGoingWorksCount" : null,
-			"mgnRegaWorksCol" : null,
-			"ogWorksEvaluatedBySA" : null,
-			"expIncurredComplWorks" : null,
-			"materialExpComplWorks" : null,
-			"complWorksEvaluatedBySA" : null,
-			"skilledWagesComplWorks" : null,
-			"complWorksEvaluatedSATeam" : null,
-			"skilledWagesOgWorks" : null,
-			"administrativeExpOgWorks" : null,
-			"administrativeExpComplWorks" : null
-
-	    };
+		  "id": null,
+		  "createdBy": null,
+		  "modifiedBy": null,
+		  "auditId": null,
+		  "roundId": null,
+		  "roundName": null,
+		  "vpName": null,
+		  "blockName": null,
+		  "blockId": null,
+		  "vpId": null,
+		  "totalWorksExecutedDuringFY": null,
+		  "noOfWorksCompleted": null,
+		  "noOfPendingWorks": null,
+		  "noOfOnGoingWorks": null,
+		  "materialExpForOnGoingWorks": null,
+		  "expIncurredForOnGoingWorks": null,
+		  "auditDistrictId": null,
+		  "status": true,
+		  "unskilledWagesForCompletedWorks": null,
+		  "skilledWagesForCompletedWorks": null,
+		  "materialExpForCompletedWorks": null,
+		  "administrativeExpForCompletedWorks": null,
+		  "noOfCompletedWorksEvaluatedBySA": null,
+		  "expIncurredForCompletedWorks": null,
+		  "valueOfCompletedWorksEvaluatedBySATeam": null,
+		  "unSkilledWagesForOnGoingWorks": null,
+		  "skilledWagesForOnGoingWorks": null,
+		  "administrativeExpForOnGoingWorks": null,
+		  "noOfOnGoingWorksEvaluatedBySATeam": null,
+		  "valueOfOnGoingWorksEvaluatedBySATeam": null,
+		  "createdDate": null,
+		  "modifiedDate": null,
+		  "createdByName": null,
+		  "modifiedByName": null,
+		  "financialDescription": null,
+		  "financialYear": null,
+		  "roundDescription": null,
+		  "districtName": null,
+		  "roundStartDate": null,
+		  "roundEndDate": null
+		};
 
 	    $scope.Submit = function(){
-	    	if($scope.addjQueryValidator.doValidate()){
-		    	//$scope.deviation.roundId = $scope.defaultrounds.value;
-		    	//$scope.deviation.auditDistrictId = $scope.defaultdistricts.value;
-		    	//$scope.deviation.blockId = $scope.defaultblocks.value;
-		    	//$scope.deviation.vpId = $scope.defaultvillages.value;
-
-		    	//$scope.deviation.roundStartDate = '2015-12-25';
-		    	//$scope.deviation.roundEndDate = '2015-12-25';
-		    	
+	    	if($scope.addjQueryValidator.doValidate()){		    	
 		    	$scope.mgnrega.createdBy = $rootScope.sessionConfig.userId;
 
 		    	var responseText = mgnregafactory.doSubmitData($scope.mgnrega);
@@ -228,18 +224,17 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
-						$scope.CloseAuditWindow();
-				        $scope.doReset();
+						$scope.CloseAddAuditMgnregaWindow();
 			  		}else{
 				  		notify({
-				            messageTemplate: '<span>Unable to add audit!</span>',
+				            messageTemplate: '<span>Unable to add mgnrega!</span>',
 				            position: $rootScope.appConfig.notifyConfig.position,
 				            scope:$scope
 				        });
 			  		}
 				}).error(function(error,status){
 			  		notify({
-			            messageTemplate: '<span>Unable to add audit!</span>',
+			            messageTemplate: '<span>Unable to add mgnrega!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });
@@ -247,77 +242,84 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 	    	}
 	    }
 
-	    $scope.Delete = function(data){
-	    	$scope.delData = angular.copy($scope.defaultOptions);
-	    	$scope.delData.id = data.id;
-	    	$scope.delData.status = false;
+	    $scope.OnDelete = function(data){
+	    	$scope.editmgnrega = {
+				id:data.id,
+				createdBy:data.createdBy,
+				modifiedBy:data.modifiedBy,
+				auditId:data.auditId,
+				roundId:data.roundId,
+				roundName:data.roundName,
+				vpName:data.vpName,
+				blockName:data.blockName,
+				blockId:data.blockId,
+				vpId:data.vpId,
+				totalWorksExecutedDuringFY:data.totalWorksExecutedDuringFY,
+				noOfWorksCompleted:data.noOfWorksCompleted,
+				noOfPendingWorks:data.noOfPendingWorks,
+				noOfOnGoingWorks:data.noOfOnGoingWorks,
+				materialExpForOnGoingWorks:data.materialExpForOnGoingWorks,
+				expIncurredForOnGoingWorks:data.expIncurredForOnGoingWorks,
+				auditDistrictId:data.auditDistrictId,
+				status:false,
+				unskilledWagesForCompletedWorks:data.unskilledWagesForCompletedWorks,
+				skilledWagesForCompletedWorks:data.skilledWagesForCompletedWorks,
+				materialExpForCompletedWorks:data.materialExpForCompletedWorks,
+				administrativeExpForCompletedWorks:data.administrativeExpForCompletedWorks,
+				noOfCompletedWorksEvaluatedBySA:data.noOfCompletedWorksEvaluatedBySA,
+				expIncurredForCompletedWorks:data.expIncurredForCompletedWorks,
+				valueOfCompletedWorksEvaluatedBySATeam:data.valueOfCompletedWorksEvaluatedBySATeam,
+				unSkilledWagesForOnGoingWorks:data.unSkilledWagesForOnGoingWorks,
+				skilledWagesForOnGoingWorks:data.skilledWagesForOnGoingWorks,
+				administrativeExpForOnGoingWorks:data.administrativeExpForOnGoingWorks,
+				noOfOnGoingWorksEvaluatedBySATeam:data.noOfOnGoingWorksEvaluatedBySATeam,
+				valueOfOnGoingWorksEvaluatedBySATeam:data.valueOfOnGoingWorksEvaluatedBySATeam,
+				createdDate:data.createdDate,
+				modifiedDate:data.modifiedDate,
+				createdByName:data.createdByName,
+				modifiedByName:data.modifiedByName,
+				financialDescription:data.financialDescription,
+				financialYear:data.financialYear,
+				roundDescription:data.roundDescription,
+				districtName:data.districtName,
+				roundStartDate:data.roundStartDate,
+				roundEndDate:data.roundEndDate
+	    	};
+	    	DoUpdate();
+	    }
 
-	    	$scope.delData.modifiedBy = $rootScope.sessionConfig.userId;
-
-		    	var responseText = hlcommitteefactory.doUpdateData($scope.delData);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to delete mgnrega!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate(){
+	    	var responseText = mgnregafactory.doUpdateData($scope.editmgnrega);
+			responseText.success(function(result){
+				if(result.status){
 			  		notify({
-			            messageTemplate: '<span>Unable to delete mgnrega!.</span>',
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditAuditMgnregaWindow();
+		  		}else{
+			  		notify({
+			            messageTemplate: '<span>Unable to update mgnrega!.</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });	
-				});	
-
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update mgnrega!.</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });	
+			});	 	    	
 	    }
-
 
 	    $scope.Update = function(){
 			if($scope.editjQueryValidator.doValidate()){
-		    	//$scope.editmisappropriation.roundid = $scope.editdefaultrounds.value;
-		    	//$scope.editmisappropriation.districtid = $scope.editdefaultdistricts.value;
-		    	//$scope.editmisappropriation.blockid = $scope.editdefaultblocks.value;
-		    	//$scope.editmisappropriation.panchayatid = $scope.editdefaultvillages.value;
 		    	$scope.editmgnrega.modifiedBy = $rootScope.sessionConfig.userId;
-
-		    	var responseText = mgnregafactory.doUpdateData($scope.editmgnrega);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update audit!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
-			  		notify({
-			            messageTemplate: '<span>Unable to update audit!.</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });	
-				});	 
+		    	DoUpdate();
 			}
 	    }
 
@@ -326,93 +328,113 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 				if(data.roundId === n.value)
 			  		return n;
 			});	  
+
 			if(r instanceof Array){
 				$scope.editdefaultrounds =  r[0];
 			}else{
 				$scope.editdefaultrounds = $scope.defaultrounds;
-			}	  
+			}	
+
 			var d = jQuery.map( $scope.districts, function( n, i ) {
 				if(data.auditDistrictId === n.value)
 			  		return n;
-			});	  
+			});	 
+
 			if(d instanceof Array){
 				$scope.editdefaultdistricts =  d[0];
 			}else{
 				$scope.editdefaultdistricts = $scope.defaultdistricts;
-			}	  
+			}	
+
 			var b = jQuery.map( $scope.blocks, function( n, i ) {
 				if(data.auditBlockId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(b instanceof Array){
 				$scope.editdefaultblocks =  b[0];
 			}else{
 				$scope.editdefaultblocks = $scope.defaultblocks;
-			}	   
+			}	
+
 			var v = jQuery.map( $scope.villages, function( n, i ) {
 				if(data.villagePanchayatId === n.value)
 			  		return n;
-			});	  
+			});	 
+
 			if(v instanceof Array){
 				$scope.editdefaultvillages =  v[0];
 			}else{
 				$scope.editdefaultvillages = $scope.defaultvillages;
-			}	   	
+			}
+
 	    	$scope.editmgnrega = {
-					id : data.id,
-					status : data.status,
-					roundId : data.roundId,
-					vpName : data.vpName,
-					blockName : data.blockName,
-					auditId : data.auditId,
-					createdBy : data.createdBy,
-					modifiedBy : data.modifiedBy,
-					roundName : data.roundName,
-					blockId : data.blockId,
-					vpId : data.vpId,
-					financialYear : data.financialYear,
-					createdByName : data.createdByName,
-					modifiedByName : data.modifiedByName,
-					modifiedDate : data.modifiedDate,
-					roundDescription : data.roundDescription,
-					createdDate : data.createdDate,
-					auditDistrictId : data.auditDistrictId,
-					financialDescription : data.financialDescription,
-					districtName : data.districtName,
-					roundEndDate : data.roundEndDate,
-					roundStartDate : data.roundStartDate,
-					totalWorksExecuted : data.totalWorksExecuted,
-					completedWorkCount : data.completedWorkCount,
-					materialExpOglWorks : data.materialExpOglWorks,
-					expIncurredOgWorks : data.expIncurredOgWorks,
-					oglWorksEvaluatedSATeam : data.oglWorksEvaluatedSATeam,
-					pendingWorkCount : data.pendingWorkCount,
-					unskilledWagesComplWorks : data.unskilledWagesComplWorks,
-					unskilledWagesOgWorks : data.unskilledWagesOgWorks,
-					onGoingWorksCount : data.onGoingWorksCount,
-					mgnRegaWorksCol : data.mgnRegaWorksCol,
-					ogWorksEvaluatedBySA : data.ogWorksEvaluatedBySA,
-					expIncurredComplWorks : data.expIncurredComplWorks,
-					materialExpComplWorks : data.materialExpComplWorks,
-					complWorksEvaluatedBySA : data.complWorksEvaluatedBySA,
-					skilledWagesComplWorks : data.skilledWagesComplWorks,
-					complWorksEvaluatedSATeam : data.complWorksEvaluatedSATeam,
-					skilledWagesOgWorks : data.skilledWagesOgWorks,
-					administrativeExpOgWorks : data.administrativeExpOgWorks,
-					administrativeExpComplWorks : data.administrativeExpComplWorks
+				id:data.id,
+				createdBy:data.createdBy,
+				modifiedBy:data.modifiedBy,
+				auditId:data.auditId,
+				roundId:data.roundId,
+				roundName:data.roundName,
+				vpName:data.vpName,
+				blockName:data.blockName,
+				blockId:data.blockId,
+				vpId:data.vpId,
+				totalWorksExecutedDuringFY:data.totalWorksExecutedDuringFY,
+				noOfWorksCompleted:data.noOfWorksCompleted,
+				noOfPendingWorks:data.noOfPendingWorks,
+				noOfOnGoingWorks:data.noOfOnGoingWorks,
+				materialExpForOnGoingWorks:data.materialExpForOnGoingWorks,
+				expIncurredForOnGoingWorks:data.expIncurredForOnGoingWorks,
+				auditDistrictId:data.auditDistrictId,
+				status:data.status,
+				unskilledWagesForCompletedWorks:data.unskilledWagesForCompletedWorks,
+				skilledWagesForCompletedWorks:data.skilledWagesForCompletedWorks,
+				materialExpForCompletedWorks:data.materialExpForCompletedWorks,
+				administrativeExpForCompletedWorks:data.administrativeExpForCompletedWorks,
+				noOfCompletedWorksEvaluatedBySA:data.noOfCompletedWorksEvaluatedBySA,
+				expIncurredForCompletedWorks:data.expIncurredForCompletedWorks,
+				valueOfCompletedWorksEvaluatedBySATeam:data.valueOfCompletedWorksEvaluatedBySATeam,
+				unSkilledWagesForOnGoingWorks:data.unSkilledWagesForOnGoingWorks,
+				skilledWagesForOnGoingWorks:data.skilledWagesForOnGoingWorks,
+				administrativeExpForOnGoingWorks:data.administrativeExpForOnGoingWorks,
+				noOfOnGoingWorksEvaluatedBySATeam:data.noOfOnGoingWorksEvaluatedBySATeam,
+				valueOfOnGoingWorksEvaluatedBySATeam:data.valueOfOnGoingWorksEvaluatedBySATeam,
+				createdDate:data.createdDate,
+				modifiedDate:data.modifiedDate,
+				createdByName:data.createdByName,
+				modifiedByName:data.modifiedByName,
+				financialDescription:data.financialDescription,
+				financialYear:data.financialYear,
+				roundDescription:data.roundDescription,
+				districtName:data.districtName,
+				roundStartDate:data.roundStartDate,
+				roundEndDate:data.roundEndDate
 	    	};
-	    	$scope.OpenEditAuditWindow();
+	    	$scope.OpenEditAuditMgnregaWindow();
 	    }
 
 	    $scope.gridOptions = {
 	        columns: [ 
-		        		{ field: "auditId", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "roundName", title:'Round', editable : false  },
-		        		{ field: "roundStartDate", title:'Start Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundStartDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "roundEndDate", title:'End Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundEndDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "districtName", title : "District", editable : false},
-		        		{ field: "blockName", title : "Block", editable : false },
-		        		{ field: "vpName", title : "Village", editable : false},
+		        		{ field: "auditId", width:'130px', title:'Audit ID', hidden: true, editable : false },
+		        		{ field: "totalWorksExecutedDuringFY", width:'130px', title:'Total works executed during FY' },
+		        		{ field: "noOfWorksCompleted", width:'130px', title:'No. of  works Completed' },
+		        		{ field: "noOfPendingWorks", width:'130px', title:'No. of pending works'},
+		        		{ field: "unskilledWagesForCompletedWorks", width:'130px', title : "Unskilled wages for compl. works"},
+		        		{ field: "skilledWagesForCompletedWorks", width:'130px', title : "Skilled wages for compl. works" },
+		        		{ field: "materialExpForCompletedWorks", width:'130px', title : "Material exp for compl. works"},
+	        			{ field: "administrativeExpForCompletedWorks", width:'130px', title:'Administrative exp for compl. works' },
+		        		{ field: "noOfCompletedWorksEvaluatedBySA", width:'130px', title:'No. of compl. works evaluated by SA' },
+		        		{ field: "expIncurredForCompletedWorks", width:'130px', title:'Exp. incurred for compl. works'},
+		        		{ field: "valueOfCompletedWorksEvaluatedBySATeam", width:'130px', title : "Value of compl. works as evaluated by SA team"},
+		        		{ field: "noOfOnGoingWorks", width:'130px', title : "No of on-going works" },
+		        		{ field: "unSkilledWagesForOnGoingWorks", width:'130px', title : "Unskilled wages for on-going Works"},
+	        			{ field: "skilledWagesForOnGoingWorks", width:'130px', title:'Skilled wages for on-going  Works' },
+		        		{ field: "materialExpForOnGoingWorks", width:'130px', title:'Material Exp for on-going Works' },
+		        		{ field: "administrativeExpForOnGoingWorks", width:'130px', title:'Administrative Exp for ongoing. Works'},
+		        		{ field: "noOfOnGoingWorksEvaluatedBySATeam", width:'130px', title : "No. of on-going works evaluated by SA team"},
+		        		{ field: "expIncurredForOnGoingWorks", width:'130px', title : "Exp. incurred for on-going works" },
+		        		{ field: "valueOfOnGoingWorksEvaluatedBySATeam", width:'130px', title : "Value of on-going works evaluated by SA team"},
+
 		        		{
  							title : "",
 		                    width: '30px',

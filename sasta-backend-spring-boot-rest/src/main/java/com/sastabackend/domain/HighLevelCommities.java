@@ -18,6 +18,7 @@ public class HighLevelCommities implements CommonProperties{
     private Long id;
 
     private Long audit_id;
+    private java.sql.Date date_of_joint_sitting;
     private Integer total_paras_count;
     private java.math.BigDecimal total_paras_amt;
     private Integer  para_settled_during_DS_count;
@@ -67,6 +68,14 @@ public class HighLevelCommities implements CommonProperties{
 
     public void setAuditId(Long audit_id) {
         this.audit_id = audit_id;
+    }
+
+    public Date getDateOfJointSitting() {
+        return date_of_joint_sitting;
+    }
+
+    public void setDateOfJointSitting(Date date_of_joint_sitting) {
+        this.date_of_joint_sitting = date_of_joint_sitting;
     }
 
     public Integer getTotalParasCount() {

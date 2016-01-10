@@ -19,16 +19,16 @@ public class SpecialGramaSabha implements java.io.Serializable,CommonProperties{
     private Long id;
 
     private Long audit_id;
-    private java.math.BigDecimal total_population;
-    private java.math.BigDecimal total_families_in_vpts;
-    private java.math.BigDecimal no_of_families_registered;
-    private Long total_jcs_in_vpts;
-    private java.math.BigDecimal no_of_ppl_attented_sgs;
-    private String name_of_person_head_sgs;
-    private Long name_of_person_recorded_minutes;
-    private Long total_paras_placed_in_sgs;
-    private Long paras_setteled;
-    private java.math.BigDecimal amount_recovered_during_sgs;
+    private Integer total_population;
+    private Integer total_families_in_vpts;
+    private Integer no_of_families_registered;
+    private Integer total_jcs_in_vpts;
+    private Integer no_of_ppl_attented_sgs;
+    private Integer name_of_person_head_sgs;
+    private Integer name_of_person_recorded_minutes;
+    private Integer total_paras_placed_in_sgs;
+    private Integer paras_setteled;
+    private Integer amount_recovered_during_sgs;
     private Boolean sa_reports_uploaded;
     private Boolean atrs_uploaded;
 
@@ -73,83 +73,83 @@ public class SpecialGramaSabha implements java.io.Serializable,CommonProperties{
         this.audit_id = audit_id;
     }
 
-    public BigDecimal getTotalPopulation() {
+    public Integer getTotalPopulation() {
         return total_population;
     }
 
-    public void setTotalPopulation(BigDecimal total_population) {
+    public void setTotalPopulation(Integer total_population) {
         this.total_population = total_population;
     }
 
-    public BigDecimal getTotalFamiliesInVpts() {
+    public Integer getTotalFamiliesInVpts() {
         return total_families_in_vpts;
     }
 
-    public void setTotalFamiliesInVpts(BigDecimal total_families_in_vpts) {
+    public void setTotalFamiliesInVpts(Integer total_families_in_vpts) {
         this.total_families_in_vpts = total_families_in_vpts;
     }
 
-    public BigDecimal getNoOfFamiliesRegistered() {
+    public Integer getNoOfFamiliesRegistered() {
         return no_of_families_registered;
     }
 
-    public void setNoOfFamiliesRegistered(BigDecimal no_of_families_registered) {
+    public void setNoOfFamiliesRegistered(Integer no_of_families_registered) {
         this.no_of_families_registered = no_of_families_registered;
     }
 
-    public Long getTotalJcsInVpts() {
+    public Integer getTotalJcsInVpts() {
         return total_jcs_in_vpts;
     }
 
-    public void setTotalJcsInVpts(Long total_jcs_in_vpts) {
+    public void setTotalJcsInVpts(Integer total_jcs_in_vpts) {
         this.total_jcs_in_vpts = total_jcs_in_vpts;
     }
 
-    public BigDecimal getNoOfPplAttentedSgs() {
+    public Integer getNoOfPplAttentedSgs() {
         return no_of_ppl_attented_sgs;
     }
 
-    public void setNoOfPplAttentedSgs(BigDecimal no_of_ppl_attented_sgs) {
+    public void setNoOfPplAttentedSgs(Integer no_of_ppl_attented_sgs) {
         this.no_of_ppl_attented_sgs = no_of_ppl_attented_sgs;
     }
 
-    public String getNameOfPersonHeadSgs() {
+    public Integer getNameOfPersonHeadSgs() {
         return name_of_person_head_sgs;
     }
 
-    public void setNameOfPersonHeadSgs(String name_of_person_head_sgs) {
+    public void setNameOfPersonHeadSgs(Integer name_of_person_head_sgs) {
         this.name_of_person_head_sgs = name_of_person_head_sgs;
     }
 
-    public Long getNameOfPersonRecordedMinutes() {
+    public Integer getNameOfPersonRecordedMinutes() {
         return name_of_person_recorded_minutes;
     }
 
-    public void setNameOfPersonRecordedMinutes(Long name_of_person_recorded_minutes) {
+    public void setNameOfPersonRecordedMinutes(Integer name_of_person_recorded_minutes) {
         this.name_of_person_recorded_minutes = name_of_person_recorded_minutes;
     }
 
-    public Long getTotalParasPlacedInSgs() {
+    public Integer getTotalParasPlacedInSgs() {
         return total_paras_placed_in_sgs;
     }
 
-    public void setTotalParasPlacedInSgs(Long total_paras_placed_in_sgs) {
+    public void setTotalParasPlacedInSgs(Integer total_paras_placed_in_sgs) {
         this.total_paras_placed_in_sgs = total_paras_placed_in_sgs;
     }
 
-    public Long getParasSetteled() {
+    public Integer getParasSetteled() {
         return paras_setteled;
     }
 
-    public void setParasSetteled(Long paras_setteled) {
+    public void setParasSetteled(Integer paras_setteled) {
         this.paras_setteled = paras_setteled;
     }
 
-    public BigDecimal getAmountRecoveredDuringSgs() {
+    public Integer getAmountRecoveredDuringSgs() {
         return amount_recovered_during_sgs;
     }
 
-    public void setAmountRecoveredDuringSgs(BigDecimal amount_recovered_during_sgs) {
+    public void setAmountRecoveredDuringSgs(Integer amount_recovered_during_sgs) {
         this.amount_recovered_during_sgs = amount_recovered_during_sgs;
     }
 
@@ -319,7 +319,7 @@ public class SpecialGramaSabha implements java.io.Serializable,CommonProperties{
         this.block_id = block_id;
     }
 
-    public String getBlockNHame() {
+    public String getBlockName() {
         return block_name;
     }
 
@@ -341,5 +341,46 @@ public class SpecialGramaSabha implements java.io.Serializable,CommonProperties{
 
     public void setVpName(String vp_name) {
         this.vp_name = vp_name;
+    }
+
+
+    @Override
+    public String toString() {
+        return "SpecialGramaSabha{" +
+                "id=" + id +
+                ", audit_id=" + audit_id +
+                ", total_population=" + total_population +
+                ", total_families_in_vpts=" + total_families_in_vpts +
+                ", no_of_families_registered=" + no_of_families_registered +
+                ", total_jcs_in_vpts=" + total_jcs_in_vpts +
+                ", no_of_ppl_attented_sgs=" + no_of_ppl_attented_sgs +
+                ", name_of_person_head_sgs=" + name_of_person_head_sgs +
+                ", name_of_person_recorded_minutes=" + name_of_person_recorded_minutes +
+                ", total_paras_placed_in_sgs=" + total_paras_placed_in_sgs +
+                ", paras_setteled=" + paras_setteled +
+                ", amount_recovered_during_sgs=" + amount_recovered_during_sgs +
+                ", sa_reports_uploaded=" + sa_reports_uploaded +
+                ", atrs_uploaded=" + atrs_uploaded +
+                ", created_date=" + created_date +
+                ", modified_date=" + modified_date +
+                ", created_by=" + created_by +
+                ", modified_by=" + modified_by +
+                ", is_active=" + is_active +
+                ", created_by_Name='" + created_by_Name + '\'' +
+                ", modified_by_Name='" + modified_by_Name + '\'' +
+                ", round_id=" + round_id +
+                ", round_name='" + round_name + '\'' +
+                ", round_start_date=" + round_start_date +
+                ", round_end_date=" + round_end_date +
+                ", round_description='" + round_description + '\'' +
+                ", audit_district_id=" + audit_district_id +
+                ", district_name='" + district_name + '\'' +
+                ", financial_year='" + financial_year + '\'' +
+                ", financial_description='" + financial_description + '\'' +
+                ", block_id=" + block_id +
+                ", block_name='" + block_name + '\'' +
+                ", vp_id=" + vp_id +
+                ", vp_name='" + vp_name + '\'' +
+                '}';
     }
 }

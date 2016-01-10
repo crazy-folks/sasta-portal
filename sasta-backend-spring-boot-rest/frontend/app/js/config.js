@@ -266,6 +266,15 @@
             },
             controller : 'SearchController as SearchCtl'
         })
+        .state('admin.sgm', {
+            url: "/sgm?aid",
+            templateUrl: "admin/sgm/templates.html",
+            data: {
+                pageTitle: 'Audit Special Gram Shaba'
+            },
+            controller : 'SgmController as SgmCtl',
+            params: {aid: null}
+        })        
   
     /*$locationProvider.html5Mode({
       enabled: true
@@ -277,9 +286,9 @@ angular.module('sastaboard')
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
         // Local Environment
-        baseUrl: "http://localhost:8080/sasta-backend/api",
+        //baseUrl: "http://localhost:8080/sasta-backend/api",
         // Live Environment
-        //baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
+        baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
         //baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
         debug : true,
         environment : 'development',
@@ -287,7 +296,8 @@ angular.module('sastaboard')
             duration : 10000, // references : http://cgross.github.io/angular-notify/demo/
             position : "right" // ['center', 'left', 'right']
         },
-        adminPrefixUrl : 'admin.'
+        adminPrefixUrl : 'admin.',
+        authenticated : false
     })
     .value("sessionConfig", {})
     .run(['$rootScope', '$state','$templateCache','appConfig','sessionConfig','authfactory','storage','notify',
@@ -323,31 +333,38 @@ angular.module('sastaboard')
       );
 
       $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
-        var session  = storage.recall();
-        if($state.includes('admin') || (next.name.indexOf($rootScope.appConfig.adminPrefixUrl)>-1)){
-            var expire = kendo.parseDate(kendo.toString(session.expiredDate, "yyyy/MM/dd hh:mm:ss tt")); //new Date(session.expiredDate);
-            var now = new Date();
-            if( expire > now){
-                authfactory.doUpdateSession(session.sessionId).
-                done(function(result){
-                    if(result.status){
-                        storage.memorize(result.data)
-                    }
-                });
-            }else{
-                notify({
-                    messageTemplate: '<span>session timed out!.</span>',
-                    position: $rootScope.appConfig.notifyConfig.position,
-                    scope:$rootScope
-                });
-                event.preventDefault();
-                // $rootScope.$state.go('ui.index'); Which is not working well so we have to go with 
-                // Below method
-                $rootScope.$state.transitionTo('ui.index');
-            }
+        if($rootScope.appConfig.authenticated){
+            var session  = storage.recall();
+            if($state.includes('admin') || (next.name.indexOf($rootScope.appConfig.adminPrefixUrl)>-1)){
+                var expire = kendo.parseDate(kendo.toString(session.expiredDate, "yyyy/MM/dd hh:mm:ss tt")); //new Date(session.expiredDate);
+                var now = new Date();
+                if( expire > now){
+                    authfactory.doUpdateSession(session.sessionId).
+                    done(function(result){
+                        if(result.status){
+                            storage.memorize(result.data)
+                        }
+                    });
+                }else{
+                    notify({
+                        messageTemplate: '<span>session timed out!.</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$rootScope
+                    });
+                    event.preventDefault();
+                    // $rootScope.$state.go('ui.index'); Which is not working well so we have to go with 
+                    // Below method
+                    $rootScope.$state.transitionTo('ui.index');
+                }
+            }            
         }
       });
-    }]);
+
+    $rootScope.$on("$includeContentLoaded", function(event, templateName){
+        $rootScope.$emit('UNLOAD');
+    });
+
+}]);
 
 app.factory('noCacheInterceptor', function () {
     return {

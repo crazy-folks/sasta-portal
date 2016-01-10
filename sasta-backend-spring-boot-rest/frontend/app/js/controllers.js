@@ -2,7 +2,7 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     function($window,$scope,$rootScope,storage,notify,authfactory) {
     
 
-    $scope.authenticated = false;
+    $rootScope.appConfig.authenticated = false;
     $scope.sessionConfig = {};
     $scope.baseUrl = $rootScope.appConfig.baseUrl;
     var s = storage.recall();
@@ -10,7 +10,7 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
       if( s != null ){
         $rootScope.sessionConfig = s;
         $scope.sessionConfig = s;
-        $scope.authenticated = true;
+        $rootScope.appConfig.authenticated = true;
       }
     }
 
@@ -98,7 +98,7 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
         authfactory.doSignOut(session.sessionId).done(function(result){
             if(result.status){
                 storage.memorize([]);
-                $scope.authenticated = false;            
+                $rootScope.appConfig.authenticated = false;            
             }
             notify({
                 messageTemplate: '<span>'+result.data+'</span>',
@@ -121,7 +121,7 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
                  if(result.status){
                     storage.memorize(null);
                     storage.memorize(result.data);
-                    $scope.authenticated = true;
+                    $rootScope.appConfig.authenticated = true;
                     console.log($window.location.host);
                     $rootScope.sessionConfig = result.data;
                     $scope.sessionConfig = result.data;

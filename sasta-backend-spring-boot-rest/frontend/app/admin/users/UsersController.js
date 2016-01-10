@@ -260,8 +260,8 @@ app.factory('userfactory',function($http,$q,$rootScope){
     service.AddBasicUserDetails = function(model){
         return $http({
             method : 'POST',
-            url : crudServiceBaseUrl + '/user/add',
-            params : model,
+            url : crudServiceBaseUrl + '/user/create',
+            data : JSON.stringify(model),
             headers: {
                 "Content-Type": "application/json"
             }

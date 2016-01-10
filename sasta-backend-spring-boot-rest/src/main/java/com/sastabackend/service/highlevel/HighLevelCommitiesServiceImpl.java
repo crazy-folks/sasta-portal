@@ -113,6 +113,7 @@ public class HighLevelCommitiesServiceImpl implements  HighLevelCommitiesService
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_high_level_commities")
                 .declareParameters(
                         new SqlParameter("auditid", Types.BIGINT),
+                        new SqlParameter("dateofjointsitting",Types.DATE),
                         new SqlParameter("totalparascount",Types.INTEGER) ,
                         new SqlParameter("totalparasamt",Types.DECIMAL) ,
                         new SqlParameter("parasettledduringDScount",Types.INTEGER) ,
@@ -128,6 +129,7 @@ public class HighLevelCommitiesServiceImpl implements  HighLevelCommitiesService
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
         inParamMap.put("auditid", hl.getAuditId());
+        inParamMap.put("dateofjointsitting",hl.getDateOfJointSitting());
         inParamMap.put("totalparascount",hl.getTotalParasCount());
         inParamMap.put("totalparasamt",hl.getTotalParasAmt());
         inParamMap.put("parasettledduringDScount",hl.getParaSettledDuringDSCount());
@@ -154,6 +156,7 @@ public class HighLevelCommitiesServiceImpl implements  HighLevelCommitiesService
                 .declareParameters(
                         new SqlParameter("high_level_id", Types.BIGINT),
                         new SqlParameter("auditid", Types.BIGINT),
+                        new SqlParameter("dateofjointsitting",Types.DATE),
                         new SqlParameter("totalparascount",Types.INTEGER) ,
                         new SqlParameter("totalparasamt",Types.DECIMAL) ,
                         new SqlParameter("parasettledduringDScount",Types.INTEGER) ,
@@ -171,6 +174,7 @@ public class HighLevelCommitiesServiceImpl implements  HighLevelCommitiesService
         Map<String, Object> inParamMap = new HashMap<String, Object>();
         inParamMap.put("high_level_id", hl.getId());
         inParamMap.put("auditid", hl.getAuditId());
+        inParamMap.put("dateofjointsitting",hl.getDateOfJointSitting());
         inParamMap.put("totalparascount",hl.getTotalParasCount());
         inParamMap.put("totalparasamt",hl.getTotalParasAmt());
         inParamMap.put("parasettledduringDScount",hl.getParaSettledDuringDSCount());
@@ -226,6 +230,7 @@ public class HighLevelCommitiesServiceImpl implements  HighLevelCommitiesService
             o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
             o.setVpId(set.getInt("village_panchayat_id"));
             o.setVpName(StringUtils.trimToNull(set.getString("vp_name")));
+            o.setDateOfJointSitting(set.getDate("date_of_joint_sitting"));
             o.setTotalParasCount(set.getInt("total_paras_count"));
             o.setTotalParasAmt(set.getBigDecimal("total_paras_amt"));
             o.setParaSettledDuringDSCount(set.getInt("para_settled_during_DS_count"));

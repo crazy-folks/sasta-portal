@@ -1,13 +1,12 @@
 app.controller('MisappropriationController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','misappropriationfactory',
 	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,misappropriationfactory){
-
 		$scope.aufactory = misappropriationfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
-	    	AddAuditTitle : "Add Audit",
-	    	EditAuditTitle : "Edit Audit"
+	    	AddAuditMisappropriationTitle : "Add Audit Misappropriation",
+	    	EditAuditMisappropriationTitle : "Edit Audit Misappropriation"
 	    };
 
 		$scope.rounds = [];
@@ -42,7 +41,9 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 
         $scope.kaddWindowOptions = {
             content: 'admin/misappropriation/add.html',
-            title: $scope.modelDialogTitle.AddAuditTitle,
+            title: $scope.modelDialogTitle.AddAuditMisappropriationTitle,
+            height: '400px',
+            width: '800px',            
             iframe: false,
             draggable: true,
             modal: true,
@@ -67,7 +68,9 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 
         $scope.keditWindowOptions = {
             content: 'admin/misappropriation/edit.html',
-            title: $scope.modelDialogTitle.EditAuditTitle,
+            title: $scope.modelDialogTitle.EditAuditMisappropriationTitle,
+            height: '400px',
+            width: '800px',
             iframe: false,
             draggable: true,
             modal: true,
@@ -284,13 +287,6 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
-		    	//$scope.misappropriation.roundId = $scope.defaultrounds.value;
-		    	//$scope.misappropriation.auditDistrictId = $scope.defaultdistricts.value;
-		    	//$scope.misappropriation.blockId = $scope.defaultblocks.value;
-		    	//$scope.misappropriation.vpId = $scope.defaultvillages.value;
-
-		    	//$scope.misappropriation.roundStartDate = '2015-12-25';
-		    	//$scope.misappropriation.roundEndDate = '2015-12-25';
 		    	
 		    	$scope.misappropriation.createdBy = $rootScope.sessionConfig.userId;
 
@@ -308,14 +304,14 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 				        $scope.doReset();
 			  		}else{
 				  		notify({
-				            messageTemplate: '<span>Unable to add audit!</span>',
+				            messageTemplate: '<span>Unable to add misappropriation!</span>',
 				            position: $rootScope.appConfig.notifyConfig.position,
 				            scope:$scope
 				        });
 			  		}
 				}).error(function(error,status){
 			  		notify({
-			            messageTemplate: '<span>Unable to add audit!</span>',
+			            messageTemplate: '<span>Unable to add misappropriation!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });
@@ -323,75 +319,124 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 	    	}
 	    }
 
-	    $scope.Delete = function(data){
-	    	$scope.delData = angular.copy($scope.defaultOptions);
-	    	$scope.delData.id = data.id;
-	    	$scope.delData.status = false;
+	    $scope.OnDelete = function(data){
+	    	$scope.editmisappropriation = {
+			  	id: data.id,
+				createdByName: data.createdByName,
+				modifiedByName: data.modifiedByName,
+				createdDate: data.createdDate,
+				auditDistrictId: data.auditDistrictId,
+				modifiedDate: data.modifiedDate,
+				financialDescription: data.financialDescription,
+				financialYear: data.financialYear,
+				status: false,
+				misappropriationByVPTSecretoryCount: data.misappropriationByVPTSecretoryCount,
+				wagesCreditedWrongAccountsCount: data.wagesCreditedWrongAccountsCount,
+				misappropriationByVPTSecretoryAmt: data.misappropriationByVPTSecretoryAmt,
+				wagesDrawnMoreThanActualWorkingDayAmt: data.wagesDrawnMoreThanActualWorkingDayAmt,
+				missingMgnregaComponentGHAmt: data.missingMgnregaComponentGHAmt,
+				bogusEntriesFTOCorretingFluidAmt: data.bogusEntriesFTOCorretingFluidAmt,
+				missingMgnregaComponentIAYAmt: data.missingMgnregaComponentIAYAmt,
+				wagesCreditedWrongAccountsAmt: data.wagesCreditedWrongAccountsAmt,
+				missingMgnregaComponentGHCount: data.missingMgnregaComponentGHCount,
+				misappropriationByVPTPresidentCount: data.misappropriationByVPTPresidentCount,
+				misappropriationByVPTPresidentAmt: data.misappropriationByVPTPresidentAmt,
+				missingMgnregaComponentIAYCount: data.missingMgnregaComponentIAYCount,
+				wagesDisbursedPrevConstructedIHHLSCount: data.wagesDisbursedPrevConstructedIHHLSCount,
+				multipleJcIssuedWorkersCount: data.multipleJcIssuedWorkersCount,
+				wagesDisbursedPrevConstructedIHHLSAmt: data.wagesDisbursedPrevConstructedIHHLSAmt,
+				bogusEntriesFTOCorretingFluidCount: data.bogusEntriesFTOCorretingFluidCount,
+				wagesDrawnMoreThanActualWorkingDayCount: data.wagesDrawnMoreThanActualWorkingDayCount,
+				wagesNonExistentAmt: data.wagesNonExistentAmt,
+				wagesMigratedAmt: data.wagesMigratedAmt,
+				doubleWagessCount: data.doubleWagessCount,
+				wagedToDeadAmt: data.wagedToDeadAmt,
+				multipleJcIssuedWorkersAmt: data.multipleJcIssuedWorkersAmt,
+				doubleWagesAmt: data.doubleWagesAmt,
+				wagesPaidToNotWorkedAmt: data.wagesPaidToNotWorkedAmt,
+				doubleWagesWSFAmt: data.doubleWagesWSFAmt,
+				inclusionBogousFTOCount: data.inclusionBogousFTOCount,
+				roundDescription: data.roundDescription,
+				districtName: data.districtName,
+				wagesNonExistentCount: data.wagesNonExistentCount,
+				wagedToDeadCount: data.wagedToDeadCount,
+				wagesMigratedCount: data.wagesMigratedCount,
+				wagesPaidToNotWorkedCount: data.wagesPaidToNotWorkedCount,
+				doubleWagesWSFCount: data.doubleWagesWSFCount,
+				inclusionBogousFTOAmt: data.inclusionBogousFTOAmt,
+				wagesPaidSameAccCount: data.wagesPaidSameAccCount,
+				wagesPaidSameAccAmt: data.wagesPaidSameAccAmt,
+				missingTanksEriCount: data.missingTanksEriCount,
+				machineryUsedAmt: data.machineryUsedAmt,
+				missingPoultryAmt: data.missingPoultryAmt,
+				amountDrawnSameWorkAmt: data.amountDrawnSameWorkAmt,
+				missingRoadsCount: data.missingRoadsCount,
+				missingCattleShedAmt: data.missingCattleShedAmt,
+				missingCanalAmt: data.missingCanalAmt,
+				workDoneByContractorsCount: data.workDoneByContractorsCount,
+				missingCattleShedCount: data.missingCattleShedCount,
+				roundStartDate: data.roundStartDate,
+				missingTanksEriAmt: data.missingTanksEriAmt,
+				missingRoadsAmt: data.missingRoadsAmt,
+				amountDrawnSameWorkCount: data.amountDrawnSameWorkCount,
+				missingFarmPondAmt: data.missingFarmPondAmt,
+				missingIHHLSAmt: data.missingIHHLSAmt,
+				roundEndDate: data.roundEndDate,
+				missingGoatShedAmt: data.missingGoatShedAmt,
+				missingPoultryCount: data.missingPoultryCount,
+				missingIHHLSCount: data.missingIHHLSCount,
+				missingPlantationsAmt: data.missingPlantationsAmt,
+				workDoneByContractorsAmt: data.workDoneByContractorsAmt,
+				machineryUsedCount: data.machineryUsedCount,
+				missingPlantationsCount: data.missingPlantationsCount,
+				missingCanalCount: data.missingCanalCount,
+				missingFarmPondCount: data.missingFarmPondCount,
+				missingGoatShedCount: data.missingGoatShedCount,
+				createdBy: $rootScope.sessionConfig.userId,
+				roundId: data.roundId,
+				roundName: data.roundName,
+				vpName: data.vpName,
+				modifiedBy: $rootScope.sessionConfig.userId,
+				blockName: data.blockName,
+				auditId: data.auditId,
+				blockId: data.blockId,
+				vpId: data.vpId
+	    	};
+	    	 DoUpdate();    	
+	    }
 
-	    	$scope.delData.modifiedBy = $rootScope.sessionConfig.userId;
-
-		    	var responseText = hlcommitteefactory.doUpdateData($scope.delData);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to delete misappropriation!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
+	    function DoUpdate () {
+	    	var responseText = misappropriationfactory.doUpdateData($scope.editmisappropriation);
+			responseText.success(function(result){
+				if(result.status){
 			  		notify({
-			            messageTemplate: '<span>Unable to delete misappropriation!.</span>',
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditAuditWindow();
+			        $scope.doReset();
+		  		}else{
+			  		notify({
+			            messageTemplate: '<span>Unable to update misappropriation!.</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });	
-				});	
-
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update misappropriation!.</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });	
+			});	 
 	    }
 
 	    $scope.Update = function(){
 			if($scope.editjQueryValidator.doValidate()){
-		    	//$scope.editmisappropriation.roundid = $scope.editdefaultrounds.value;
-		    	//$scope.editmisappropriation.districtid = $scope.editdefaultdistricts.value;
-		    	//$scope.editmisappropriation.blockid = $scope.editdefaultblocks.value;
-		    	//$scope.editmisappropriation.panchayatid = $scope.editdefaultvillages.value;
-
-		    	var responseText = misappropriationfactory.doUpdateData($scope.editmisappropriation);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update audit!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
-			  		notify({
-			            messageTemplate: '<span>Unable to update audit!.</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });	
-				});	 
+				DoUpdate();
 			}
 	    }
 
@@ -433,86 +478,86 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 				$scope.editdefaultvillages = $scope.defaultvillages;
 			}	   	
 	    	$scope.editmisappropriation = {
-				  	id: data.id,
-					createdByName: data.createdByName,
-					modifiedByName: data.modifiedByName,
-					createdDate: data.createdDate,
-					auditDistrictId: data.auditDistrictId,
-					modifiedDate: data.modifiedDate,
-					financialDescription: data.financialDescription,
-					financialYear: data.financialYear,
-					status: data.status,
-					misappropriationByVPTSecretoryCount: data.misappropriationByVPTSecretoryCount,
-					wagesCreditedWrongAccountsCount: data.wagesCreditedWrongAccountsCount,
-					misappropriationByVPTSecretoryAmt: data.misappropriationByVPTSecretoryAmt,
-					wagesDrawnMoreThanActualWorkingDayAmt: data.wagesDrawnMoreThanActualWorkingDayAmt,
-					missingMgnregaComponentGHAmt: data.missingMgnregaComponentGHAmt,
-					bogusEntriesFTOCorretingFluidAmt: data.bogusEntriesFTOCorretingFluidAmt,
-					missingMgnregaComponentIAYAmt: data.missingMgnregaComponentIAYAmt,
-					wagesCreditedWrongAccountsAmt: data.wagesCreditedWrongAccountsAmt,
-					missingMgnregaComponentGHCount: data.missingMgnregaComponentGHCount,
-					misappropriationByVPTPresidentCount: data.misappropriationByVPTPresidentCount,
-					misappropriationByVPTPresidentAmt: data.misappropriationByVPTPresidentAmt,
-					missingMgnregaComponentIAYCount: data.missingMgnregaComponentIAYCount,
-					wagesDisbursedPrevConstructedIHHLSCount: data.wagesDisbursedPrevConstructedIHHLSCount,
-					multipleJcIssuedWorkersCount: data.multipleJcIssuedWorkersCount,
-					wagesDisbursedPrevConstructedIHHLSAmt: data.wagesDisbursedPrevConstructedIHHLSAmt,
-					bogusEntriesFTOCorretingFluidCount: data.bogusEntriesFTOCorretingFluidCount,
-					wagesDrawnMoreThanActualWorkingDayCount: data.wagesDrawnMoreThanActualWorkingDayCount,
-					wagesNonExistentAmt: data.wagesNonExistentAmt,
-					wagesMigratedAmt: data.wagesMigratedAmt,
-					doubleWagessCount: data.doubleWagessCount,
-					wagedToDeadAmt: data.wagedToDeadAmt,
-					multipleJcIssuedWorkersAmt: data.multipleJcIssuedWorkersAmt,
-					doubleWagesAmt: data.doubleWagesAmt,
-					wagesPaidToNotWorkedAmt: data.wagesPaidToNotWorkedAmt,
-					doubleWagesWSFAmt: data.doubleWagesWSFAmt,
-					inclusionBogousFTOCount: data.inclusionBogousFTOCount,
-					roundDescription: data.roundDescription,
-					districtName: data.districtName,
-					wagesNonExistentCount: data.wagesNonExistentCount,
-					wagedToDeadCount: data.wagedToDeadCount,
-					wagesMigratedCount: data.wagesMigratedCount,
-					wagesPaidToNotWorkedCount: data.wagesPaidToNotWorkedCount,
-					doubleWagesWSFCount: data.doubleWagesWSFCount,
-					inclusionBogousFTOAmt: data.inclusionBogousFTOAmt,
-					wagesPaidSameAccCount: data.wagesPaidSameAccCount,
-					wagesPaidSameAccAmt: data.wagesPaidSameAccAmt,
-					missingTanksEriCount: data.missingTanksEriCount,
-					machineryUsedAmt: data.machineryUsedAmt,
-					missingPoultryAmt: data.missingPoultryAmt,
-					amountDrawnSameWorkAmt: data.amountDrawnSameWorkAmt,
-					missingRoadsCount: data.missingRoadsCount,
-					missingCattleShedAmt: data.missingCattleShedAmt,
-					missingCanalAmt: data.missingCanalAmt,
-					workDoneByContractorsCount: data.workDoneByContractorsCount,
-					missingCattleShedCount: data.missingCattleShedCount,
-					roundStartDate: data.roundStartDate,
-					missingTanksEriAmt: data.missingTanksEriAmt,
-					missingRoadsAmt: data.missingRoadsAmt,
-					amountDrawnSameWorkCount: data.amountDrawnSameWorkCount,
-					missingFarmPondAmt: data.missingFarmPondAmt,
-					missingIHHLSAmt: data.missingIHHLSAmt,
-					roundEndDate: data.roundEndDate,
-					missingGoatShedAmt: data.missingGoatShedAmt,
-					missingPoultryCount: data.missingPoultryCount,
-					missingIHHLSCount: data.missingIHHLSCount,
-					missingPlantationsAmt: data.missingPlantationsAmt,
-					workDoneByContractorsAmt: data.workDoneByContractorsAmt,
-					machineryUsedCount: data.machineryUsedCount,
-					missingPlantationsCount: data.missingPlantationsCount,
-					missingCanalCount: data.missingCanalCount,
-					missingFarmPondCount: data.missingFarmPondCount,
-					missingGoatShedCount: data.missingGoatShedCount,
-					createdBy: data.createdBy,
-					roundId: data.roundId,
-					roundName: data.roundName,
-					vpName: data.vpName,
-					modifiedBy: data.modifiedBy,
-					blockName: data.blockName,
-					auditId: data.auditId,
-					blockId: data.blockId,
-					vpId: data.vpId
+			  	id: data.id,
+				createdByName: data.createdByName,
+				modifiedByName: data.modifiedByName,
+				createdDate: data.createdDate,
+				auditDistrictId: data.auditDistrictId,
+				modifiedDate: data.modifiedDate,
+				financialDescription: data.financialDescription,
+				financialYear: data.financialYear,
+				status: data.status,
+				misappropriationByVPTSecretoryCount: data.misappropriationByVPTSecretoryCount,
+				wagesCreditedWrongAccountsCount: data.wagesCreditedWrongAccountsCount,
+				misappropriationByVPTSecretoryAmt: data.misappropriationByVPTSecretoryAmt,
+				wagesDrawnMoreThanActualWorkingDayAmt: data.wagesDrawnMoreThanActualWorkingDayAmt,
+				missingMgnregaComponentGHAmt: data.missingMgnregaComponentGHAmt,
+				bogusEntriesFTOCorretingFluidAmt: data.bogusEntriesFTOCorretingFluidAmt,
+				missingMgnregaComponentIAYAmt: data.missingMgnregaComponentIAYAmt,
+				wagesCreditedWrongAccountsAmt: data.wagesCreditedWrongAccountsAmt,
+				missingMgnregaComponentGHCount: data.missingMgnregaComponentGHCount,
+				misappropriationByVPTPresidentCount: data.misappropriationByVPTPresidentCount,
+				misappropriationByVPTPresidentAmt: data.misappropriationByVPTPresidentAmt,
+				missingMgnregaComponentIAYCount: data.missingMgnregaComponentIAYCount,
+				wagesDisbursedPrevConstructedIHHLSCount: data.wagesDisbursedPrevConstructedIHHLSCount,
+				multipleJcIssuedWorkersCount: data.multipleJcIssuedWorkersCount,
+				wagesDisbursedPrevConstructedIHHLSAmt: data.wagesDisbursedPrevConstructedIHHLSAmt,
+				bogusEntriesFTOCorretingFluidCount: data.bogusEntriesFTOCorretingFluidCount,
+				wagesDrawnMoreThanActualWorkingDayCount: data.wagesDrawnMoreThanActualWorkingDayCount,
+				wagesNonExistentAmt: data.wagesNonExistentAmt,
+				wagesMigratedAmt: data.wagesMigratedAmt,
+				doubleWagessCount: data.doubleWagessCount,
+				wagedToDeadAmt: data.wagedToDeadAmt,
+				multipleJcIssuedWorkersAmt: data.multipleJcIssuedWorkersAmt,
+				doubleWagesAmt: data.doubleWagesAmt,
+				wagesPaidToNotWorkedAmt: data.wagesPaidToNotWorkedAmt,
+				doubleWagesWSFAmt: data.doubleWagesWSFAmt,
+				inclusionBogousFTOCount: data.inclusionBogousFTOCount,
+				roundDescription: data.roundDescription,
+				districtName: data.districtName,
+				wagesNonExistentCount: data.wagesNonExistentCount,
+				wagedToDeadCount: data.wagedToDeadCount,
+				wagesMigratedCount: data.wagesMigratedCount,
+				wagesPaidToNotWorkedCount: data.wagesPaidToNotWorkedCount,
+				doubleWagesWSFCount: data.doubleWagesWSFCount,
+				inclusionBogousFTOAmt: data.inclusionBogousFTOAmt,
+				wagesPaidSameAccCount: data.wagesPaidSameAccCount,
+				wagesPaidSameAccAmt: data.wagesPaidSameAccAmt,
+				missingTanksEriCount: data.missingTanksEriCount,
+				machineryUsedAmt: data.machineryUsedAmt,
+				missingPoultryAmt: data.missingPoultryAmt,
+				amountDrawnSameWorkAmt: data.amountDrawnSameWorkAmt,
+				missingRoadsCount: data.missingRoadsCount,
+				missingCattleShedAmt: data.missingCattleShedAmt,
+				missingCanalAmt: data.missingCanalAmt,
+				workDoneByContractorsCount: data.workDoneByContractorsCount,
+				missingCattleShedCount: data.missingCattleShedCount,
+				roundStartDate: data.roundStartDate,
+				missingTanksEriAmt: data.missingTanksEriAmt,
+				missingRoadsAmt: data.missingRoadsAmt,
+				amountDrawnSameWorkCount: data.amountDrawnSameWorkCount,
+				missingFarmPondAmt: data.missingFarmPondAmt,
+				missingIHHLSAmt: data.missingIHHLSAmt,
+				roundEndDate: data.roundEndDate,
+				missingGoatShedAmt: data.missingGoatShedAmt,
+				missingPoultryCount: data.missingPoultryCount,
+				missingIHHLSCount: data.missingIHHLSCount,
+				missingPlantationsAmt: data.missingPlantationsAmt,
+				workDoneByContractorsAmt: data.workDoneByContractorsAmt,
+				machineryUsedCount: data.machineryUsedCount,
+				missingPlantationsCount: data.missingPlantationsCount,
+				missingCanalCount: data.missingCanalCount,
+				missingFarmPondCount: data.missingFarmPondCount,
+				missingGoatShedCount: data.missingGoatShedCount,
+				createdBy: $rootScope.sessionConfig.userId,
+				roundId: data.roundId,
+				roundName: data.roundName,
+				vpName: data.vpName,
+				modifiedBy: $rootScope.sessionConfig.userId,
+				blockName: data.blockName,
+				auditId: data.auditId,
+				blockId: data.blockId,
+				vpId: data.vpId
 	    	};
 	    	$scope.OpenEditAuditWindow();
 	    }

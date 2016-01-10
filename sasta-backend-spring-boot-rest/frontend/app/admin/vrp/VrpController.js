@@ -1,5 +1,5 @@
-app.controller('VrpController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','vrpfactory',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,vrpfactory){
+app.controller('VrpController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','vrpfactory','$q',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,vrpfactory,$q){
 
 		$scope.aufactory = vrpfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
@@ -20,6 +20,26 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 		$scope.communities = [];
 		$scope.banks = [];
 		$scope.genders = [];
+
+		$scope.getVillagePanchayat = function(id){
+			id = id || '';
+			var returnValue  = '';
+			if(!id){
+				var dt = jQuery.map( $scope.villages, function( n, i ) {
+					if(id === n.value)
+				  		return n;
+				});	
+				if(dt.length>0){
+					returnValue = dt[0].text;
+				}
+			}
+			return returnValue;
+		}
+
+		$scope.defaultSelections = {
+		    "value": 0,
+		    "text": "Select"
+		};
 
 		// default selected rounds
 		$scope.defaultrounds = {
@@ -138,10 +158,16 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 	    	$scope.defaultpayments = defaultpayments;
 	    }
 
+	    $scope.OnVillageSelectedValue = function(defaultvillages){
+	    	$scope.defaultvillages = defaultvillages;
+	    }
+
 
         $scope.kaddWindowOptions = {
             content: 'admin/vrp/add.html',
             title: $scope.modelDialogTitle.AddAuditTitle,
+            width : '800px',
+            height:'400px',            
             iframe: false,
             draggable: true,
             modal: true,
@@ -153,11 +179,11 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
                 }
             },
             open : function() {
-		        $($scope.AddAuditFormName).validationEngine('attach', {
+		        $($scope.AddVrpFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });         
-		        $scope.add1jQueryValidator = new Validator($scope.AddAuditFormName); 
+		        $scope.add1jQueryValidator = new Validator($scope.AddVrpFormName); 
 
 		        //$scope.genders.push($scope.defaultgender);
             }
@@ -167,12 +193,14 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
         $scope.edit1jQueryValidator = null;
 
 
-        $scope.AddAuditFormName = '#frmaddbanks';
-        $scope.EditAuditFormName = '#frmaddbanks';    
+        $scope.AddVrpFormName = '#frmAddVrp';
+        $scope.EditVrpFormName = '#frmEditVrp';    
 
         $scope.keditWindowOptions = {
             content: 'admin/vrp/edit.html',
             title: $scope.modelDialogTitle.EditAuditTitle,
+            width : '800px',
+            height:'400px',            
             iframe: false,
             draggable: true,
             modal: true,
@@ -184,220 +212,244 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
                 }
             },
             open : function(){
-		        $($scope.EditAuditFormName).validationEngine('attach', {
+		        $($scope.EditVrpFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });		        
-		        $scope.edit1jQueryValidator = new Validator($scope.EditAuditFormName);            	
+		        $scope.edit1jQueryValidator = new Validator($scope.EditVrpFormName);            	
             }
         };
 
-        $scope.OpenAuditWindow = function($event){
-        	alert(decodeURIComponent($location.search().aid));
-        	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+        $scope.OpenAddVrpAuditWindow = function($event){
+        	$scope.AddVrpAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
             $scope.doReset();
-        	
-            GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
-            	GetLookupValues(14,$scope.vrp.auditBlockId);
-            	$scope.addAuditWindow.center().open();
-        	});
+            $scope.doFillLookup();
+        	$scope.AddVrpAuditWindow.center().open();
         }
 
-        $scope.CloseAuditWindow  = function(){
-            $scope.addAuditWindow.close();
+        $scope.CloseAddVrpAuditWindow  = function(){
+            $scope.AddVrpAuditWindow.close();
+            $scope.doReset();
+            if($scope.add1jQueryValidator)
+            	$scope.add1jQueryValidator.doReset();
         }
 
-        $scope.OpenEditAuditWindow = function(){
-        	alert($location.search().aid);
-			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin"); 
-			$scope.editAuditWindow.center().open();
-			      	
-            
+        $scope.OpenEditVrpAuditWindow = function(){
+			$scope.EditVrpAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin"); 
+			$scope.EditVrpAuditWindow.center().open();            
         }
 
-        $scope.CloseEditAuditWindow = function(){
-            $scope.editAuditWindow.close();
+        $scope.CloseEditVrpAuditWindow = function(){
+            $scope.EditVrpAuditWindow.close();
+            $scope.doReset();
+            if($scope.edit1jQueryValidator)
+            	$scope.edit1jQueryValidator.doReset();
+        }
+
+        $scope.doFillLookup = function(data)
+        {
+        	if(data != null)
+        		$scope.editvrp.villagePanchayatId = data.villagePanchayatId;
+
+    	    $q.when(true).then(function(value) {
+		        return GetAudit(decodeURIComponent($location.search().aid)); // Will be resolved (1)
+		    }).then(function(value) { 
+		    	$scope.villages = [];       
+		        return GetLookupValues(14,$scope.vrp.auditBlockId);
+		    }).then(function(value) {
+			       var vid = 0;
+			       if($scope.editvrp.villagePanchayatId != null)
+			       {
+			       		vid=$scope.editvrp.villagePanchayatId;
+			       }
+	        		var v = jQuery.map( $scope.villages, function( n, i ) {
+						if(vid === n.value)
+							return n;
+						
+					});	  
+					if(v instanceof Array){
+						$scope.defaultvillages =  v[0];
+					}else{
+						$scope.defaultvillages = $scope.defaultvillages;
+					}
+		    });
         }
 
         $scope.doReset = function(){
-        	$scope.vrp = angular.copy($scope.defaultOptions);
-        	$scope.editvrp =  angular.copy($scope.defaultOptions);
-        	$scope.defaultdistricts = [];
-        	$scope.defaultblocks = [];
-        	$scope.defaultvillages = [];
-        	$scope.defaultrounds = [];
-        	$scope.defaultgender = [];
-        	$scope.defaultqualifications=[];
-        	$scope.defaultpayments=[];
-        	$scope.defaultcommunities=[];
-        	$scope.defaultgrades=[];
 
-        	
+        	$scope.vrp = angular.copy($scope.defaultOptions);
+        	$scope.editvrp =  angular.copy($scope.defaultOptions);        	
+
+        	$scope.defaultdistricts = angular.copy($scope.defaultSelections);
+        	$scope.defaultblocks = angular.copy($scope.defaultSelections);
+        	//$scope.defaultvillages = [];
+        	$scope.defaultrounds = angular.copy($scope.defaultSelections);
+        	$scope.defaultgender = angular.copy($scope.defaultSelections);
+        	$scope.defaultqualifications= angular.copy($scope.defaultSelections);
+        	$scope.defaultpayments= angular.copy($scope.defaultSelections);
+        	$scope.defaultcommunities= angular.copy($scope.defaultSelections);
+        	$scope.defaultgrades= angular.copy($scope.defaultSelections);
+        	$scope.defaultvillages = angular.copy($scope.defaultSelections);
+        	$scope.villages = [];
 
 			var ba = jQuery.map( $scope.banks, function( n, i ) {
 				if(0 === n.value)
 			  		return n;
 			});	  
+
 			if(ba instanceof Array){
 				$scope.defaultbanks =  ba[0];
 			}else{
 				$scope.defaultbanks = $scope.defaultbanks;
 			}	   
+
 			var c = jQuery.map( $scope.communities, function( n, i ) {
 				if(0 === n.value)
 			  		return n;
 			});	  
+
 			if(c instanceof Array){
 				$scope.defaultcommunities =  c[0];
 			}else{
 				$scope.defaultcommunities = $scope.defaultcommunities;
 			}	 	
+
 			var q = jQuery.map( $scope.qualifications, function( n, i ) {
 				if(0 === n.value)
 			  		return n;
 			});	  
+
 			if(q instanceof Array){
 				$scope.defaultqualifications =  q[0];
 			}else{
 				$scope.defaultqualifications = $scope.defaultqualifications;
 			}
+
 			var g = jQuery.map( $scope.grades, function( n, i ) {
 				if(0 === n.value)
 			  		return n;
 			});	  
+
 			if(g instanceof Array){
 				$scope.defaultgrades =  g[0];
 			}else{
 				$scope.defaultgrades = $scope.defaultgrades;
 			}	
+
 			var p = jQuery.map( $scope.payments, function( n, i ) {
 				if(0 === n.value)
 			  		return n;
-			});	  
+			});	 
+
 			if(p instanceof Array){
 				$scope.defaultpayments =  p[0];
 			}else{
 				$scope.defaultpayments = $scope.defaultpayments;
 			}
-
-
-        	//$scope.villages=[];
-        	//$scope.districts=[];
-        	//$scope.rounds = [];
-        	//$scope.blocks=[];
-
         }
 
         $scope.defaultOptions = {
-	      		"id" : 0,
-				"name" : null,
-				"createdByName" : null,
-				"modifiedByName" : null,
-				"createdDate" : null,
-				"auditDistrictId" : null,
-				"auditBlockId" : null,
-				"villagePanchayatId" : null,
-				"modifiedDate" : null,
-				"status" : null,
-				"roundDescription" : null,
-				"roundStartDate" : null,
-				"roundEndDate" : null,
-				"qualificationId" : null,
-				"vrpGradeName" : null,
-				"auditDistrictName" : null,
-				"auditFinancialYear" : null,
-				"vrpQualificationName" : null,
-				"jobCardNumber" : null,
-				"auditBlockName" : null,
-				"vrpBankName" : null,
-				"contactNumber" : null,
-				"auditVpName" : null,
-				"auditFinancialDescription" : null,
-				"accountNumber" : null,
-				"vrpPanchayatName" : null,
-				"communityId" : null,
-				"guardianName" : null,
-				"vrpCommunityName" : null,
-				"createdBy" : null,
-				"roundId" : null,
-				"roundName" : null,
-				"modifiedBy" : null,
-				"auditId" : null,
-				"bankId" : null,
-				"genderId" : null,
-				"ifscCode" : null,
-				"active" : null,
-				"auditVpId" : null,
-				"payMode" : null,
-				"gradeId" : null,
-				"paidAmount" : null,
-				"totalDays" : null
+      		"id" : 0,
+			"name" : null,
+			"createdByName" : null,
+			"modifiedByName" : null,
+			"createdDate" : null,
+			"auditDistrictId" : null,
+			"auditBlockId" : null,
+			"villagePanchayatId" : null,
+			"modifiedDate" : null,
+			"status" : null,
+			"roundDescription" : null,
+			"roundStartDate" : null,
+			"roundEndDate" : null,
+			"qualificationId" : null,
+			"vrpGradeName" : null,
+			"auditDistrictName" : null,
+			"auditFinancialYear" : null,
+			"vrpQualificationName" : null,
+			"jobCardNumber" : null,
+			"auditBlockName" : null,
+			"vrpBankName" : null,
+			"contactNumber" : null,
+			"auditVpName" : null,
+			"auditFinancialDescription" : null,
+			"accountNumber" : null,
+			"vrpPanchayatName" : null,
+			"communityId" : null,
+			"guardianName" : null,
+			"vrpCommunityName" : null,
+			"createdBy" : null,
+			"roundId" : null,
+			"roundName" : null,
+			"modifiedBy" : null,
+			"auditId" : null,
+			"bankId" : null,
+			"genderId" : null,
+			"ifscCode" : null,
+			"active" : null,
+			"auditVpId" : null,
+			"payMode" : null,
+			"gradeId" : null,
+			"paidAmount" : null,
+			"totalDays" : null
 	    };
 
 	    $scope.vrp = {
-	      		"id" : 0,
-				"name" : null,
-				"createdByName" : null,
-				"modifiedByName" : null,
-				"createdDate" : null,
-				"auditDistrictId" : null,
-				"auditBlockId" : null,
-				"villagePanchayatId" : null,
-				"modifiedDate" : null,
-				"status" : null,
-				"roundDescription" : null,
-				"roundStartDate" : null,
-				"roundEndDate" : null,
-				"qualificationId" : null,
-				"vrpGradeName" : null,
-				"auditDistrictName" : null,
-				"auditFinancialYear" : null,
-				"vrpQualificationName" : null,
-				"jobCardNumber" : null,
-				"auditBlockName" : null,
-				"vrpBankName" : null,
-				"contactNumber" : null,
-				"auditVpName" : null,
-				"auditFinancialDescription" : null,
-				"accountNumber" : null,
-				"vrpPanchayatName" : null,
-				"communityId" : null,
-				"guardianName" : null,
-				"vrpCommunityName" : null,
-				"createdBy" : null,
-				"roundId" : null,
-				"roundName" : null,
-				"modifiedBy" : null,
-				"auditId" : null,
-				"bankId" : null,
-				"genderId" : null,
-				"ifscCode" : null,
-				"active" : null,
-				"auditVpId" : null,
-				"payMode" : null,
-				"gradeId" : null,
-				"paidAmount" : null,
-				"totalDays" : null
+      		"id" : 0,
+			"name" : null,
+			"createdByName" : null,
+			"modifiedByName" : null,
+			"createdDate" : null,
+			"auditDistrictId" : null,
+			"auditBlockId" : null,
+			"villagePanchayatId" : null,
+			"modifiedDate" : null,
+			"status" : null,
+			"roundDescription" : null,
+			"roundStartDate" : null,
+			"roundEndDate" : null,
+			"qualificationId" : null,
+			"vrpGradeName" : null,
+			"auditDistrictName" : null,
+			"auditFinancialYear" : null,
+			"vrpQualificationName" : null,
+			"jobCardNumber" : null,
+			"auditBlockName" : null,
+			"vrpBankName" : null,
+			"contactNumber" : null,
+			"auditVpName" : null,
+			"auditFinancialDescription" : null,
+			"accountNumber" : null,
+			"vrpPanchayatName" : null,
+			"communityId" : null,
+			"guardianName" : null,
+			"vrpCommunityName" : null,
+			"createdBy" : null,
+			"roundId" : null,
+			"roundName" : null,
+			"modifiedBy" : null,
+			"auditId" : null,
+			"bankId" : null,
+			"genderId" : null,
+			"ifscCode" : null,
+			"active" : null,
+			"auditVpId" : null,
+			"payMode" : null,
+			"gradeId" : null,
+			"paidAmount" : null,
+			"totalDays" : null
 	    };
 
 	    $scope.Submit = function(){
 	    	if($scope.add1jQueryValidator.doValidate()){
-		    	//$scope.vrp.roundId =1;// $scope.defaultrounds.value;
-		    	//$scope.vrp.auditDistrictId =1;// $scope.defaultdistricts.value;
-		    	//$scope.vrp.auditBlockId =1;// $scope.defaultblocks.value;
-		    	//$scope.vrp.villagePanchayatId =1;// $scope.defaultvillages.value;
-				//$scope.vrp.roundId =1;// $scope.defaultvillages.value;
+		    	$scope.vrp.villagePanchayatId = $scope.defaultvillages.value;
 				$scope.vrp.communityId = $scope.defaultcommunities.value;
-				//$scope.vrp.auditId=1;
 				$scope.vrp.genderId = $scope.defaultgender.value;
 				$scope.vrp.bankId = $scope.defaultbanks.value;
 				$scope.vrp.gradeId = $scope.defaultgrades.value;
 				$scope.vrp.payMode = $scope.defaultpayments.value;
 				$scope.vrp.qualificationId = $scope.defaultqualifications.value;
 
-		    	//$scope.vrp.startdate = '2015-12-25';
-		    	//$scope.vrp.enddate = '2015-12-25';
-		    	//$scope.vrp.gramasabhadate = '2015-12-25';
 		    	$scope.vrp.createdBy = $rootScope.sessionConfig.userId;
 
 		    	var responseText = vrpfactory.doSubmitData($scope.vrp);
@@ -410,18 +462,17 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
-						$scope.CloseAuditWindow();
-				        $scope.doReset();
+						$scope.CloseAddVrpAuditWindow();
 			  		}else{
 				  		notify({
-				            messageTemplate: '<span>Unable to add audit!</span>',
+				            messageTemplate: '<span>Unable to add VRP!</span>',
 				            position: $rootScope.appConfig.notifyConfig.position,
 				            scope:$scope
 				        });
 			  		}
 				}).error(function(error,status){
 			  		notify({
-			            messageTemplate: '<span>Unable to add audit!</span>',
+			            messageTemplate: '<span>Unable to add VRP!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });
@@ -429,142 +480,204 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 	    	}
 	    }
 
+	    $scope.OnDelete = function(data){
+	    	$scope.editvrp = {
+				id : data.id,
+				name : data.name,
+				createdByName : data.createdByName,
+				modifiedByName : data.modifiedByName,
+				createdDate : data.createdDate,
+				auditDistrictId : data.auditDistrictId,
+				auditBlockId : data.auditBlockId,
+				villagePanchayatId : data.villagePanchayatId,
+				modifiedDate : data.modifiedDate,
+				active : data.status,
+				roundDescription : data.roundDescription,
+				roundStartDate : data.roundStartDate,
+				roundEndDate : data.roundEndDate,
+				qualificationId : data.qualificationId,
+				vrpGradeName : data.vrpGradeName,
+				auditDistrictName : data.auditDistrictName,
+				auditFinancialYear : data.auditFinancialYear,
+				vrpQualificationName : data.vrpQualificationName,
+				jobCardNumber : data.jobCardNumber,
+				auditBlockName : data.auditBlockName,
+				vrpBankName : data.vrpBankName,
+				contactNumber : data.contactNumber,
+				auditVpName : data.auditVpName,
+				auditFinancialDescription : data.auditFinancialDescription,
+				accountNumber : data.accountNumber,
+				vrpPanchayatName : data.vrpPanchayatName,
+				communityId : data.communityId,
+				guardianName : data.guardianName,
+				vrpCommunityName : data.vrpCommunityName,
+				createdBy : data.createdBy,
+				roundId : data.roundId,
+				roundName : data.roundName,
+				modifiedBy : data.modifiedBy,
+				auditId : data.auditId,
+				bankId : data.bankId,
+				genderId : data.genderId,
+				ifscCode : data.ifscCode,
+				active : false,
+				auditVpId : data.auditVpId,
+				payMode : data.payMode,
+				gradeId : data.gradeId,
+				paidAmount : data.paidAmount,
+				totalDays : data.totalDays
+	    	};
+	    	DoUpdate();	
+	    }
+
+	    function DoUpdate(){
+	    	var responseText = vrpfactory.doUpdateData($scope.editvrp);
+			responseText.success(function(result){
+				if(result.status){
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });							
+					// scope.grid is the widget reference
+  					$scope.grid.dataSource.read();
+					$scope.CloseEditVrpAuditWindow();
+		  		}else{
+			  		notify({
+			            messageTemplate: '<span>Unable to update VRP!.</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });	
+		  		}
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to update VRP!.</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });	
+			});	 	    	
+	    }
+
 	    $scope.Update = function(){
 			if($scope.edit1jQueryValidator.doValidate()){
-		    	//$scope.editexpenditure.roundid = $scope.editdefaultrounds.value;
-		    	//$scope.editexpenditure.districtid = $scope.editdefaultdistricts.value;
-		    	//$scope.editexpenditure.blockid = $scope.editdefaultblocks.value;
-		    	//$scope.editexpenditure.panchayatid = $scope.editdefaultvillages.value;
-
-				//$scope.editvrp.roundId =1;// $scope.defaultrounds.value;
-		    	//$scope.editvrp.auditDistrictId =1;// $scope.defaultdistricts.value;
-		    	//$scope.editvrp.auditBlockId =1;// $scope.defaultblocks.value;
-		    	//$scope.editvrp.villagePanchayatId =1;// $scope.defaultvillages.value;
-				//$scope.editvrp.roundId =1;// $scope.defaultvillages.value;
+		    	$scope.editvrp.villagePanchayatId = $scope.defaultvillages.value;
 				$scope.editvrp.communityId = $scope.defaultcommunities.value;
 				$scope.editvrp.genderId = $scope.defaultgender.value;
 				$scope.editvrp.bankId = $scope.defaultbanks.value;
 				$scope.editvrp.gradeId = $scope.defaultgrades.value;
 				$scope.editvrp.payMode = $scope.defaultpayments.value;
 				$scope.editvrp.qualificationId = $scope.defaultqualifications.value;
-		    	var responseText = vrpfactory.doUpdateData($scope.editvrp);
-				responseText.success(function(result){
-					if(result.status){
-				  		notify({
-				            messageTemplate: '<span>'+result.data+'</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });							
-						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseEditAuditWindow();
-				        $scope.doReset();
-			  		}else{
-				  		notify({
-				            messageTemplate: '<span>Unable to update audit!.</span>',
-				            position: $rootScope.appConfig.notifyConfig.position,
-				            scope:$scope
-				        });	
-			  		}
-				}).error(function(error,status){
-			  		notify({
-			            messageTemplate: '<span>Unable to update audit!.</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });	
-				});	 
+				DoUpdate();
 			}
 	    }
 
 	    $scope.EditData = function(data){
+	    	$scope.doReset();
+	    	$scope.doFillLookup(data);
+	    		var v = jQuery.map( $scope.villages, function( n, i ) {
+					if(data.villagePanchayatId === n.value)
+				  		return n;
+				});
+
+				if(v instanceof Array){
+					$scope.defaultvillages =  v[0];
+				}else{
+					$scope.defaultvillages = $scope.defaultvillages;
+				}
+	    	
 	    	var r = jQuery.map( $scope.rounds, function( n, i ) {
 				if(data.roundId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(r instanceof Array){
 				$scope.defaultrounds =  r[0];
 			}else{
 				$scope.defaultrounds = $scope.defaultrounds;
-			}	  
+			}
+
 			var d = jQuery.map( $scope.districts, function( n, i ) {
 				if(data.auditDistrictId === n.value)
 			  		return n;
-			});	  
+			});
+
 			if(d instanceof Array){
 				$scope.defaultdistricts =  d[0];
 			}else{
 				$scope.defaultdistricts = $scope.defaultdistricts;
-			}	  
+			}
+
 			var b = jQuery.map( $scope.blocks, function( n, i ) {
 				if(data.auditBlockId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(b instanceof Array){
 				$scope.defaultblocks =  b[0];
 			}else{
 				$scope.defaultblocks = $scope.defaultblocks;
 			}	   
-			var v = jQuery.map( $scope.villages, function( n, i ) {
-				if(data.villagePanchayatId === n.value)
-			  		return n;
-			});	  
-			if(v instanceof Array){
-				$scope.defaultvillages =  v[0];
-			}else{
-				$scope.defaultvillages = $scope.defaultvillages;
-			}	
+				
 
 			var ba = jQuery.map( $scope.banks, function( n, i ) {
 				if(data.bankId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(ba instanceof Array){
 				$scope.defaultbanks =  ba[0];
 			}else{
 				$scope.defaultbanks = $scope.defaultbanks;
-			}	   
+			}	
+
 			var c = jQuery.map( $scope.communities, function( n, i ) {
 				if(data.communityId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(c instanceof Array){
 				$scope.defaultcommunities =  c[0];
 			}else{
 				$scope.defaultcommunities = $scope.defaultcommunities;
-			}	 	
+			}	
+
 			var q = jQuery.map( $scope.qualifications, function( n, i ) {
 				if(data.qualificationId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(q instanceof Array){
 				$scope.defaultqualifications =  q[0];
 			}else{
 				$scope.defaultqualifications = $scope.defaultqualifications;
 			}
+
 			var g = jQuery.map( $scope.grades, function( n, i ) {
 				if(data.gradeId === n.value)
 			  		return n;
-			});	  
+			});
+
 			if(g instanceof Array){
 				$scope.defaultgrades =  g[0];
 			}else{
 				$scope.defaultgrades = $scope.defaultgrades;
-			}	
+			}
+
 			var p = jQuery.map( $scope.payments, function( n, i ) {
 				if(data.payMode === n.value)
 			  		return n;
-			});	  
+			});
+
 			if(p instanceof Array){
 				$scope.defaultpayments =  p[0];
 			}else{
 				$scope.defaultpayments = $scope.defaultpayments;
-			}	
-			
+			}
 
 			var ge = jQuery.map( $scope.genders, function( n, i ) {
 				if(data.genderId === n.value)
 			  		return n;
-			});	  
+			});	
+
 			if(ge instanceof Array){
 				$scope.defaultgender =  ge[0];
 			}else{
@@ -572,63 +685,65 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 			}	
 
 	    	$scope.editvrp = {
-					id : data.id,
-					name : data.name,
-					createdByName : data.createdByName,
-					modifiedByName : data.modifiedByName,
-					createdDate : data.createdDate,
-					auditDistrictId : data.auditDistrictId,
-					auditBlockId : data.auditBlockId,
-					villagePanchayatId : data.villagePanchayatId,
-					modifiedDate : data.modifiedDate,
-					status : data.status,
-					roundDescription : data.roundDescription,
-					roundStartDate : data.roundStartDate,
-					roundEndDate : data.roundEndDate,
-					qualificationId : data.qualificationId,
-					vrpGradeName : data.vrpGradeName,
-					auditDistrictName : data.auditDistrictName,
-					auditFinancialYear : data.auditFinancialYear,
-					vrpQualificationName : data.vrpQualificationName,
-					jobCardNumber : data.jobCardNumber,
-					auditBlockName : data.auditBlockName,
-					vrpBankName : data.vrpBankName,
-					contactNumber : data.contactNumber,
-					auditVpName : data.auditVpName,
-					auditFinancialDescription : data.auditFinancialDescription,
-					accountNumber : data.accountNumber,
-					vrpPanchayatName : data.vrpPanchayatName,
-					communityId : data.communityId,
-					guardianName : data.guardianName,
-					vrpCommunityName : data.vrpCommunityName,
-					createdBy : data.createdBy,
-					roundId : data.roundId,
-					roundName : data.roundName,
-					modifiedBy : data.modifiedBy,
-					auditId : data.auditId,
-					bankId : data.bankId,
-					genderId : data.genderId,
-					ifscCode : data.ifscCode,
-					active : data.active,
-					auditVpId : data.auditVpId,
-					payMode : data.payMode,
-					gradeId : data.gradeId,
-					paidAmount : data.paidAmount,
-					totalDays : data.totalDays
-
+				id : data.id,
+				name : data.name,
+				createdByName : data.createdByName,
+				modifiedByName : data.modifiedByName,
+				createdDate : data.createdDate,
+				auditDistrictId : data.auditDistrictId,
+				auditBlockId : data.auditBlockId,
+				villagePanchayatId : data.villagePanchayatId,
+				modifiedDate : data.modifiedDate,
+				status : data.status,
+				roundDescription : data.roundDescription,
+				roundStartDate : data.roundStartDate,
+				roundEndDate : data.roundEndDate,
+				qualificationId : data.qualificationId,
+				vrpGradeName : data.vrpGradeName,
+				auditDistrictName : data.auditDistrictName,
+				auditFinancialYear : data.auditFinancialYear,
+				vrpQualificationName : data.vrpQualificationName,
+				jobCardNumber : data.jobCardNumber,
+				auditBlockName : data.auditBlockName,
+				vrpBankName : data.vrpBankName,
+				contactNumber : data.contactNumber,
+				auditVpName : data.auditVpName,
+				auditFinancialDescription : data.auditFinancialDescription,
+				accountNumber : data.accountNumber,
+				vrpPanchayatName : data.vrpPanchayatName,
+				communityId : data.communityId,
+				guardianName : data.guardianName,
+				vrpCommunityName : data.vrpCommunityName,
+				createdBy : data.createdBy,
+				roundId : data.roundId,
+				roundName : data.roundName,
+				modifiedBy : data.modifiedBy,
+				auditId : data.auditId,
+				bankId : data.bankId,
+				genderId : data.genderId,
+				ifscCode : data.ifscCode,
+				active : data.active,
+				auditVpId : data.auditVpId,
+				payMode : data.payMode,
+				gradeId : data.gradeId,
+				paidAmount : data.paidAmount,
+				totalDays : data.totalDays
 	    	};
-	    	$scope.OpenEditAuditWindow();
+	    	$scope.OpenEditVrpAuditWindow();
 	    }
 
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "id", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "roundName", title:'Round', editable : false  },
-		        		{ field: "roundStartDate", title:'Start Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundStartDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "roundEndDate", title:'End Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(roundEndDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "roundName", title : "District", editable : false},
-		        		{ field: "roundName", title : "Block", editable : false },
-		        		{ field: "roundName", title : "Village", editable : false},
+		        		{ field: "name", title:'Name'  },
+		        		{ field: "genderId", title:'Gender',template:"#=(((genderId||'')=='')?'':((genderId==1)?'Male':'Female'))#"},
+		        		{ field: "jobCardNumber", title : "Job Card Number"},
+		        		{ field: "guardianName", title : "Father / Husband Name"},
+		        		{ field: "contactNumber", title:'Contact No'},
+		        		{ field: "totalDays", title : "No. of days worked"},
+		        		{ field: "guardianName", title : "Amount Paid"},
+		        		{ field: "accountNumber", title:'A/c No.'},
+		        		{ field: "ifscCode", title : "IFS Code"},
 		        		{
  							title : "",
 		                    width: '30px',
@@ -660,16 +775,13 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 	    function GetAudit(id,type)
 	    {
 	    	var deffered = jQuery.Deferred();
-	    	vrpfactory.getAudit(id).success(function(result){
-	    		
-		    		$scope.vrp.auditId= result.data.auditId;
-		    		$scope.vrp.roundId =result.data.roundId;
-			    	$scope.vrp.auditDistrictId =result.data.auditDistrictId;
-			    	$scope.vrp.auditBlockId =result.data.auditBlockId;
-			    	$scope.vrp.villagePanchayatId =result.data.villagePanchayatId;
-					$scope.vrp.roundId =result.data.roundId;
-	    		
-				
+	    	vrpfactory.getAudit(id).success(function(result){	    		
+	    		$scope.vrp.auditId= result.data.auditId;
+	    		$scope.vrp.roundId =result.data.roundId;
+		    	$scope.vrp.auditDistrictId =result.data.districtId;
+		    	$scope.vrp.auditBlockId =result.data.blockId;
+		    	$scope.vrp.auditVpId =result.data.panchayatId;
+				$scope.vrp.roundId =result.data.roundId;
 		  		return deffered.resolve('Ok');
 			}).error(function(error,status){
 	  			notify({
@@ -679,11 +791,11 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 	        	});
 			})
 			return deffered.promise();
-
 	    }
 
-	    function GetLookupValues(type){
-	    	vrpfactory.getLookupValues(type).success(function(result){
+	    function GetLookupValues(type,id){
+	    	var deffered = jQuery.Deferred();
+	    	vrpfactory.getLookupValues(type,id).success(function(result){
 	    		var defaultOptions = {
 				    "value": 0,
 				    "text": "Select"
@@ -751,6 +863,7 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 			            scope:$scope
 		        	});
 		  		}
+		  		return deffered.resolve('Ok');
 			}).error(function(error,status){
 	  			notify({
 		            messageTemplate: '<span>Unable to read look up values!!!</span>',
@@ -758,6 +871,7 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 		            scope:$scope
 	        	});
 			})
+			return deffered.promise();
 		}
 
 		GetLookupValues(13); 
@@ -783,11 +897,21 @@ app.factory('vrpfactory',function($http,$q,$rootScope){
         });
 	}
 
-	service.getLookupValues = function(id){
-		return $http({
-            method : 'GET',
-            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=0'
-        });
+	service.getLookupValues = function(id,w){
+		if(w != undefined)
+		{
+			return $http({
+	            method : 'GET',
+	            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + w
+	        });
+		}
+		else
+		{
+			return $http({
+	            method : 'GET',
+	            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' 
+	        });
+		}
 	}
 
 

@@ -1,23 +1,19 @@
-app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','hlcommitteefactory',
-	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,hlcommitteefactory){
+app.controller('SgmController',['$http','$window','$scope','$rootScope','notify','$location','$state','storage','sgmfactory',
+	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,sgmfactory){
 
-		$scope.aufactory = hlcommitteefactory;
+		$scope.aufactory = sgmfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 		
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
-	    	AddAuditHLCTitle : "Add High Level Committee",
-	    	EditAuditHLCTitle : "Edit High Level Committee"
+	    	AddAuditTitle : "Add Special Grama Shaba",
+	    	EditAuditTitle : "Edit Special Grama Shaba"
 	    };
 
 		$scope.rounds = [];
 		$scope.districts = [];
 		$scope.blocks = [];
 		$scope.villages = [];
-
-		$scope.dateOptions = {
-		    format: 'yyyy-MM-dd'
-		};
 
 		// default selected rounds
 		$scope.defaultrounds = {
@@ -45,13 +41,13 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 
 
         $scope.kaddWindowOptions = {
-            content: 'admin/hlcommittee/add.html',
-            title: $scope.modelDialogTitle.AddAuditHLCTitle,
+            content: 'admin/sgm/add.html',
+            title: $scope.modelDialogTitle.AddAuditTitle,
             width : '800px',
             height:'400px',
             iframe: false,
             draggable: true,
-            modal: true, 
+            modal: true,
             resizable: true,
             visible: false,      
             animation: {
@@ -60,23 +56,23 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
                 }
             },
             open : function() {
-		        $($scope.AddAuditHLCFormName).validationEngine('attach', {
+		        $($scope.AddAuditFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });         
-		        $scope.addjQueryValidator = new Validator($scope.AddAuditHLCFormName); 
+		        $scope.addjQueryValidator = new Validator($scope.AddAuditFormName); 
             }
         };
 
-        $scope.AddAuditHLCFormName = '#frmAddAuditHLC';
-        $scope.EditAuditHLCFormName = '#frmEditAuditHLC';    
+        $scope.AddAuditFormName = '#frmAddAuditExpenditure';
+        $scope.EditAuditFormName = '#frmEditAuditExpenditure';    
 
         $scope.keditWindowOptions = {
-            content: 'admin/hlcommittee/edit.html',
-            title: $scope.modelDialogTitle.EditAuditHLCTitle,
+            content: 'admin/sgm/edit.html',
+            title: $scope.modelDialogTitle.EditAuditTitle,
+            iframe: false,
             width : '800px',
             height:'400px',            
-            iframe: false,
             draggable: true,
             modal: true,
             resizable: false,
@@ -87,125 +83,132 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
                 }
             },
             open : function(){
-		        $($scope.EditAuditHLCFormName).validationEngine('attach', {
+		        $($scope.EditAuditFormName).validationEngine('attach', {
 		            promptPosition: "topLeft",
 		            scroll: true
 		        });		        
-		        $scope.editjQueryValidator = new Validator($scope.EditAuditHLCFormName);            	
+		        $scope.editjQueryValidator = new Validator($scope.EditAuditFormName);            	
             }
         };
 
-        $scope.OpenAddAuditHLCWindow = function($event){
-        	$scope.AddAuditHLCWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+        $scope.OpenAuditWindow = function($event){
+        	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
+            
             $scope.doReset();
-        	GetAudit(decodeURIComponent($location.search().aid)).done(function(result){            	
-            	$scope.AddAuditHLCWindow.center().open();
+        	
+            GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
+            	
+            	$scope.addAuditWindow.center().open();
         	});
         }
 
-
-        $scope.CloseAddAuditHLCWindow  = function(){
-            $scope.AddAuditHLCWindow.close();
-            $scope.addjQueryValidator.doReset();
+        $scope.CloseAuditWindow  = function(){
+            $scope.addAuditWindow.close();
             $scope.doReset();
+            $scope.addjQueryValidator.doReset();
         }
 
-        $scope.OpenEditAuditHLCWindow = function(){
-			$scope.EditAuditHLCWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
-            $scope.EditAuditHLCWindow.center().open();
+        $scope.OpenEditAuditWindow = function(){
+			$scope.editAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");        	
+            $scope.editAuditWindow.center().open();
         }
 
-        $scope.CloseEditAuditHLCWindow = function(){
-            $scope.EditAuditHLCWindow.close();
-            $scope.editjQueryValidator.doReset();
-            $scope.doReset();            
+        $scope.CloseEditAuditWindow = function(){
+            $scope.editAuditWindow.close();
+			$scope.doReset();
+            $scope.editjQueryValidator.doReset();            
         }
 
         $scope.doReset = function(){
-        	$scope.hlcommittee = angular.copy($scope.defaultOptions);
-        	$scope.edithlcommittee =  angular.copy($scope.defaultOptions);
+        	$scope.sgm = angular.copy($scope.defaultOptions);
+        	$scope.editsgm =  angular.copy($scope.defaultOptions);
         }
 
         $scope.defaultOptions = {
-			"id" : null,
+	      "id" : null,
 			"status" : null,
-			"roundId" : null,
-			"vpName" : null,
-			"blockName" : null,
+			"nameOfPersonRecordedMinutes" : null,
 			"auditId" : null,
 			"createdBy" : null,
+			"roundId" : null,
 			"modifiedBy" : null,
-			"roundName" : null,
-			"blockId" : null,
-			"vpId" : null,
-			"financialYear" : null,
-			"createdByName" : null,
-			"modifiedByName" : null,
-			"modifiedDate" : null,
-			"roundDescription" : null,
 			"createdDate" : null,
 			"auditDistrictId" : null,
+			"amountRecoveredDuringSgs" : null,
+			"noOfFamiliesRegistered" : null,
+			"totalFamiliesInVpts" : null,
+			"parasSetteled" : null,
+			"saReportsUploaded" : null,
+			"nameOfPersonHeadSgs" : null,
+			"atrsUploaded" : null,
+			"totalParasPlacedInSgs" : null,
+			"totalPopulation" : null,
+			"totalJcsInVpts" : null,
+			"noOfPplAttentedSgs" : null,
+			"roundName" : null,
+			"vpName" : null,
+			"blockName" : null,
+			"blockId" : null,
+			"vpId" : null,
+			"modifiedByName" : null,
+			"createdByName" : null,
+			"modifiedDate" : null,
 			"financialDescription" : null,
 			"districtName" : null,
-			"roundEndDate" : null,
+			"financialYear" : null,
+			"roundDescription" : null,
 			"roundStartDate" : null,
-			"pendingParasCount" : null,
-			"amountToBeRecovered" : null,
-			"totalParasCount" : null,
-			"totalParasAmt" : null,
-			"paraSettledDuringDSAmt" : null,
-			"paraSettledDuringHLCCount" : null,
-			"paraSettledDuringHLCAmt" : null,
-			"amountRecovered" : null,
-			"paraSettledDuringDSCount" : null,
-			"pendingParasAmt" : null,
-			"dateOfJointSitting" : null
+			"roundEndDate" : null
 
 	    };
 
-	    $scope.hlcommittee = {
-			"id" : 0,
+	    $scope.sgm = {
+	      	"id" : 0,
 			"status" : null,
-			"roundId" : null,
-			"vpName" : null,
-			"blockName" : null,
+			"nameOfPersonRecordedMinutes" : null,
 			"auditId" : null,
 			"createdBy" : null,
+			"roundId" : null,
 			"modifiedBy" : null,
-			"roundName" : null,
-			"blockId" : null,
-			"vpId" : null,
-			"financialYear" : null,
-			"createdByName" : null,
-			"modifiedByName" : null,
-			"modifiedDate" : null,
-			"roundDescription" : null,
 			"createdDate" : null,
 			"auditDistrictId" : null,
+			"amountRecoveredDuringSgs" : null,
+			"noOfFamiliesRegistered" : null,
+			"totalFamiliesInVpts" : null,
+			"parasSetteled" : null,
+			"saReportsUploaded" : null,
+			"nameOfPersonHeadSgs" : null,
+			"atrsUploaded" : null,
+			"totalParasPlacedInSgs" : null,
+			"totalPopulation" : null,
+			"totalJcsInVpts" : null,
+			"noOfPplAttentedSgs" : null,
+			"roundName" : null,
+			"vpName" : null,
+			"blockName" : null,
+			"blockId" : null,
+			"vpId" : null,
+			"modifiedByName" : null,
+			"createdByName" : null,
+			"modifiedDate" : null,
 			"financialDescription" : null,
 			"districtName" : null,
-			"roundEndDate" : null,
+			"financialYear" : null,
+			"roundDescription" : null,
 			"roundStartDate" : null,
-			"pendingParasCount" : null,
-			"amountToBeRecovered" : null,
-			"totalParasCount" : null,
-			"totalParasAmt" : null,
-			"paraSettledDuringDSAmt" : null,
-			"paraSettledDuringHLCCount" : null,
-			"paraSettledDuringHLCAmt" : null,
-			"amountRecovered" : null,
-			"paraSettledDuringDSCount" : null,
-			"pendingParasAmt" : null,
-			"dateOfJointSitting" : null
+			"roundEndDate" : null
 
 	    };
 
 	    $scope.Submit = function(){
 	    	if($scope.addjQueryValidator.doValidate()){
+		    	$scope.sgm.createdBy = $rootScope.sessionConfig.userId;
+		    	//$scope.sgm.saReportsUploaded = true;
+		    	//$scope.sgm.atrsUploaded = true;
+		    	
+		    	
 
-		    	$scope.hlcommittee.createdBy = $rootScope.sessionConfig.userId;
-
-		    	var responseText = hlcommitteefactory.doSubmitData($scope.hlcommittee);
+		    	var responseText = sgmfactory.doSubmitData($scope.sgm);
 				responseText.success(function(result){
 					if(result.status){
 				  		notify({
@@ -215,17 +218,17 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
-						$scope.CloseAddAuditHLCWindow();
+						$scope.CloseAuditWindow();
 			  		}else{
 				  		notify({
-				            messageTemplate: '<span>Unable to add audit!</span>',
+				            messageTemplate: '<span>Unable to add Special Gram Shaba!</span>',
 				            position: $rootScope.appConfig.notifyConfig.position,
 				            scope:$scope
 				        });
 			  		}
 				}).error(function(error,status){
 			  		notify({
-			            messageTemplate: '<span>Unable to add audit!</span>',
+			            messageTemplate: '<span>Unable to add Special Gram Shaba!</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });
@@ -234,46 +237,54 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.edithlcommittee = {
+	    	$scope.editsgm = {
 				id : data.id,
 				status : false,
-				roundId : data.roundId,
-				vpName : data.vpName,
-				blockName : data.blockName,
+				nameOfPersonRecordedMinutes : data.nameOfPersonRecordedMinutes,
 				auditId : data.auditId,
 				createdBy : data.createdBy,
+				roundId : data.roundId,
 				modifiedBy : data.modifiedBy,
-				roundName : data.roundName,
-				blockId : data.blockId,
-				vpId : data.vpId,
-				financialYear : data.financialYear,
-				createdByName : data.createdByName,
-				modifiedByName : data.modifiedByName,
-				modifiedDate : data.modifiedDate,
-				roundDescription : data.roundDescription,
 				createdDate : data.createdDate,
 				auditDistrictId : data.auditDistrictId,
+				amountRecoveredDuringSgs : data.amountRecoveredDuringSgs,
+				noOfFamiliesRegistered : data.noOfFamiliesRegistered,
+				totalFamiliesInVpts : data.totalFamiliesInVpts,
+				parasSetteled : data.parasSetteled,
+				saReportsUploaded : data.saReportsUploaded,
+				nameOfPersonHeadSgs : data.nameOfPersonHeadSgs,
+				atrsUploaded : data.atrsUploaded,
+				totalParasPlacedInSgs : data.totalParasPlacedInSgs,
+				totalPopulation : data.totalPopulation,
+				totalJcsInVpts : data.totalJcsInVpts,
+				noOfPplAttentedSgs : data.noOfPplAttentedSgs,
+				roundName : data.roundName,
+				vpName : data.vpName,
+				blockName : data.blockName,
+				blockId : data.blockId,
+				vpId : data.vpId,
+				modifiedByName : data.modifiedByName,
+				createdByName : data.createdByName,
+				modifiedDate : data.modifiedDate,
 				financialDescription : data.financialDescription,
 				districtName : data.districtName,
-				roundEndDate : data.roundEndDate,
+				financialYear : data.financialYear,
+				roundDescription : data.roundDescription,
 				roundStartDate : data.roundStartDate,
-				pendingParasCount : data.pendingParasCount,
-				amountToBeRecovered : data.amountToBeRecovered,
-				totalParasCount : data.totalParasCount,
-				totalParasAmt : data.totalParasAmt,
-				paraSettledDuringDSAmt : data.paraSettledDuringDSAmt,
-				paraSettledDuringHLCCount : data.paraSettledDuringHLCCount,
-				paraSettledDuringHLCAmt : data.paraSettledDuringHLCAmt,
-				amountRecovered : data.amountRecovered,
-				paraSettledDuringDSCount : data.paraSettledDuringDSCount,
-				pendingParasAmt : data.pendingParasAmt,
-				dateOfJointSitting : data.dateOfJointSitting
+				roundEndDate : data.roundEndDate,
+
+
 	    	};
 	    	DoUpdate();
 	    }
 
+
 	    function DoUpdate(){
-	    	var responseText = hlcommitteefactory.doUpdateData($scope.edithlcommittee);
+	    	//$scope.editsgm.saReportsUploaded = true;
+		    //	$scope.editsgm.atrsUploaded = true;
+		    	
+	    	var responseText = sgmfactory.doUpdateData($scope.editsgm);
+
 			responseText.success(function(result){
 				if(result.status){
 			  		notify({
@@ -283,41 +294,43 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 			        });							
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
-					$scope.CloseEditAuditHLCWindow();
+					$scope.CloseEditAuditWindow();
+			        $scope.doReset();
 		  		}else{
 			  		notify({
-			            messageTemplate: '<span>Unable to update audit!.</span>',
+			            messageTemplate: '<span>Unable to update Special Gram Shaba!.</span>',
 			            position: $rootScope.appConfig.notifyConfig.position,
 			            scope:$scope
 			        });	
 		  		}
 			}).error(function(error,status){
 		  		notify({
-		            messageTemplate: '<span>Unable to update audit!.</span>',
+		            messageTemplate: '<span>Unable to update Special Gram Shaba!.</span>',
 		            position: $rootScope.appConfig.notifyConfig.position,
 		            scope:$scope
 		        });	
-			});	 	    	
+			});
 	    }
 
 	    $scope.Update = function(){
 			if($scope.editjQueryValidator.doValidate()){
-		    	$scope.edithlcommittee.modifiedBy = $rootScope.sessionConfig.userId;
-		    	DoUpdate();
+				$scope.editsgm.modifiedBy = $rootScope.sessionConfig.userId;
+				DoUpdate();
 			}
 	    }
 
 	    $scope.EditData = function(data){
+
 	    	var r = jQuery.map( $scope.rounds, function( n, i ) {
 				if(data.roundId === n.value)
 			  		return n;
-			});	
+			});
 
 			if(r instanceof Array){
 				$scope.editdefaultrounds =  r[0];
 			}else{
 				$scope.editdefaultrounds = $scope.defaultrounds;
-			}	
+			}
 
 			var d = jQuery.map( $scope.districts, function( n, i ) {
 				if(data.auditDistrictId === n.value)
@@ -328,18 +341,18 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 				$scope.editdefaultdistricts =  d[0];
 			}else{
 				$scope.editdefaultdistricts = $scope.defaultdistricts;
-			}	
+			}
 
 			var b = jQuery.map( $scope.blocks, function( n, i ) {
 				if(data.auditBlockId === n.value)
 			  		return n;
-			});	
+			});
 
 			if(b instanceof Array){
 				$scope.editdefaultblocks =  b[0];
 			}else{
 				$scope.editdefaultblocks = $scope.defaultblocks;
-			}	
+			}
 
 			var v = jQuery.map( $scope.villages, function( n, i ) {
 				if(data.villagePanchayatId === n.value)
@@ -352,58 +365,64 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 				$scope.editdefaultvillages = $scope.defaultvillages;
 			}
 
-	    	$scope.edithlcommittee = {
+	    	$scope.editsgm = {
 				id : data.id,
 				status : data.status,
-				roundId : data.roundId,
-				vpName : data.vpName,
-				blockName : data.blockName,
+				nameOfPersonRecordedMinutes : data.nameOfPersonRecordedMinutes,
 				auditId : data.auditId,
 				createdBy : data.createdBy,
+				roundId : data.roundId,
 				modifiedBy : data.modifiedBy,
-				roundName : data.roundName,
-				blockId : data.blockId,
-				vpId : data.vpId,
-				financialYear : data.financialYear,
-				createdByName : data.createdByName,
-				modifiedByName : data.modifiedByName,
-				modifiedDate : data.modifiedDate,
-				roundDescription : data.roundDescription,
 				createdDate : data.createdDate,
 				auditDistrictId : data.auditDistrictId,
+				amountRecoveredDuringSgs : data.amountRecoveredDuringSgs,
+				noOfFamiliesRegistered : data.noOfFamiliesRegistered,
+				totalFamiliesInVpts : data.totalFamiliesInVpts,
+				parasSetteled : data.parasSetteled,
+				saReportsUploaded : data.saReportsUploaded,
+				nameOfPersonHeadSgs : data.nameOfPersonHeadSgs,
+				atrsUploaded : data.atrsUploaded,
+				totalParasPlacedInSgs : data.totalParasPlacedInSgs,
+				totalPopulation : data.totalPopulation,
+				totalJcsInVpts : data.totalJcsInVpts,
+				noOfPplAttentedSgs : data.noOfPplAttentedSgs,
+				roundName : data.roundName,
+				vpName : data.vpName,
+				blockNHame : data.blockNHame,
+				blockId : data.blockId,
+				vpId : data.vpId,
+				modifiedByName : data.modifiedByName,
+				createdByName : data.createdByName,
+				modifiedDate : data.modifiedDate,
 				financialDescription : data.financialDescription,
 				districtName : data.districtName,
-				roundEndDate : data.roundEndDate,
+				financialYear : data.financialYear,
+				roundDescription : data.roundDescription,
 				roundStartDate : data.roundStartDate,
-				pendingParasCount : data.pendingParasCount,
-				amountToBeRecovered : data.amountToBeRecovered,
-				totalParasCount : data.totalParasCount,
-				totalParasAmt : data.totalParasAmt,
-				paraSettledDuringDSAmt : data.paraSettledDuringDSAmt,
-				paraSettledDuringHLCCount : data.paraSettledDuringHLCCount,
-				paraSettledDuringHLCAmt : data.paraSettledDuringHLCAmt,
-				amountRecovered : data.amountRecovered,
-				paraSettledDuringDSCount : data.paraSettledDuringDSCount,
-				pendingParasAmt : data.pendingParasAmt,
-				dateOfJointSitting : data.dateOfJointSitting
+				roundEndDate : data.roundEndDate,
+
+
 	    	};
-	    	$scope.OpenEditAuditHLCWindow();
+	    	$scope.OpenEditAuditWindow();
 	    }
 
 	    $scope.gridOptions = {
 	        columns: [ 
-		        		{ field: "auditId", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "dateOfJointSitting", title:'Date of Joint Sitting',template: "#= kendo.toString(kendo.parseDate(new Date(roundStartDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "totalParasCount", title:'Total Paras No' },
-		        		{ field: "totalParasAmt", title:'Total Paras Amount'},
-		        		{ field: "paraSettledDuringDSCount", title : "Paras Settled during GS No"},
-		        		{ field: "paraSettledDuringDSAmt", title : "Paras Settled during GS Amount"},
-		        		{ field: "paraSettledDuringHLCCount", title : "Paras settled in HLC No"},
-		        		{ field: "paraSettledDuringHLCAmt", title : "Paras settled in HLC Amount"},
-		        		{ field: "pendingParasCount", title : "Pending Paras No"},
-		        		{ field: "pendingParasAmt", title : "Pending Paras Amount"},
-		        		{ field: "amountRecovered", title : "Amount Recovered"},
-		        		{ field: "amountToBeRecovered", title : "Amount to be Recovered"},
+		        		{ field: "id", title:'Audit ID', hidden: true, editable : false },
+		        		{ field: "totalPopulation",width: '130px', title:'Total Population'},
+		        		{ field: "totalFamiliesInVpts",width: '130px', title:'Total no.of families in Village Pts'},
+		        		{ field: "noOfFamiliesRegistered",width: '130px', title:'No.of families registered'},
+		        		{ field: "totalJcsInVpts",width: '130px', title : "No.of JCs in Village panchayat"},
+		        		{ field: "noOfPplAttentedSgs",width: '130px', title:'No.of people attended SGS'},
+		        		{ field: "nameOfPersonHeadSgs",width: '130px', title:'Name of the person who headed in SGS'},
+		        		{ field: "nameOfPersonRecordedMinutes",width: '130px', title:'Name of the person who recorded SGS minutes'},
+		        		{ field: "totalParasPlacedInSgs",width: '130px', title : "Total no. of paras placed in SGS"},
+		        		{ field: "noOfPplAttentedSgs",width: '130px', title:'No.of people attended SGS'},
+
+		        		{ field: "parasSetteled",width: '130px', title:'Paras settled in SGS'},
+		        		{ field: "amountRecoveredDuringSgs",width: '130px', title:'Amount recovered during SGS'},
+		        		{ field: "saReportsUploaded",width: '130px', title : "SA reports uploaded in MGNREGA website",template:"#=((!saReportsUploaded)?'No':'Yes')#"},
+		        		{ field: "atrsUploaded",width: '130px', title : "ATRs uploaded in MGNREGA website",template:"#=((!atrsUploaded)?'No':'Yes')#"},
 		        		{
  							title : "",
 		                    width: '30px',
@@ -419,7 +438,7 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/highLevelcommities/getlist'
+				         url: $scope.crudServiceBaseUrl + '/specialgramasabha/getlist'
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)
@@ -432,15 +451,17 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 	        }
 	    }
 
-	    function GetAudit(id)
+	    function GetAudit(id,type)
 	    {
 	    	var deffered = jQuery.Deferred();
-			    	hlcommitteefactory.getAudit(id).success(function(result){
-		    		$scope.hlcommittee.auditId= result.data.auditId;
-		    		$scope.hlcommittee.roundId =result.data.roundId;
-			    	$scope.hlcommittee.auditDistrictId =result.data.auditDistrictId;
-			    	$scope.hlcommittee.blockId =result.data.auditBlockId;
-			    	$scope.hlcommittee.vpId =result.data.villagePanchayatId;
+	    	sgmfactory.getAudit(id).success(function(result){
+	    		
+
+		    		$scope.sgm.auditId= result.data.auditId;
+		    		$scope.sgm.roundId =result.data.roundId;
+			    	$scope.sgm.auditDistrictId =result.data.auditDistrictId;
+			    	$scope.sgm.blockId =result.data.auditBlockId;
+			    	$scope.sgm.vpId =result.data.villagePanchayatId;
 					
 	    		
 				
@@ -457,7 +478,7 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 	    }
 
 	    function GetLookupValues(type){
-	    	hlcommitteefactory.getLookupValues(type).success(function(result){
+	    	sgmfactory.getLookupValues(type).success(function(result){
 	    		var defaultOptions = {
 				    "value": 0,
 				    "text": "Select"
@@ -507,24 +528,17 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 			})
 		}
 
-		GetLookupValues(13); 
-		GetLookupValues(2); 
-		GetLookupValues(1); 
-		GetLookupValues(14); 
+		//GetLookupValues(13); 
+		//GetLookupValues(2); 
+		//GetLookupValues(1); 
+		//GetLookupValues(14); 
 }]);
 
-app.factory('hlcommitteefactory',function($http,$q,$rootScope){
+app.factory('sgmfactory',function($http,$q,$rootScope){
 
 	var service = {};
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-	var createbankUrl = '/highLevelcommities/create';
-
-	service.getAudit = function(id){
-		return $http({
-            method : 'GET',
-            url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id
-        });
-	}
+	var createbankUrl = '/specialgramasabha/create';
 
 	service.getLookupValues = function(id){
 		return $http({
@@ -533,22 +547,28 @@ app.factory('hlcommitteefactory',function($http,$q,$rootScope){
         });
 	}
 
+	service.getAudit = function(id){
+		return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id
+        });
+	}
+
 	service.doSubmitData = function(model){
 		return $http({
             method : 'POST',
             url : crudServiceBaseUrl + createbankUrl,
             data : JSON.stringify(model),
-            headers: {
-                "Content-Type": "application/json"
-            }
+		    headers: {
+		        "Content-Type": "application/json"
+		    }
         });
-		
 	}
 
 	service.doUpdateData = function(model){
 		return $http({
             method : 'POST',
-            url : crudServiceBaseUrl + '/highLevelcommities/update',
+            url : crudServiceBaseUrl + '/specialgramasabha/update',
             data : JSON.stringify(model),
 		    headers: {
 		        "Content-Type": "application/json"

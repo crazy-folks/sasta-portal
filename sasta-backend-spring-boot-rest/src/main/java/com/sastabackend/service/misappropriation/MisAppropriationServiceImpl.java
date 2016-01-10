@@ -313,7 +313,8 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
                         new SqlParameter("workdonebycontractorscount", Types.INTEGER),
                         new SqlParameter("workdonebycontractorsamt", Types.DECIMAL),
 
-                        new SqlParameter("createdby", Types.BIGINT),
+                        new SqlParameter("modifiedby", Types.BIGINT),
+						new SqlParameter("isactive", Types.BIT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();

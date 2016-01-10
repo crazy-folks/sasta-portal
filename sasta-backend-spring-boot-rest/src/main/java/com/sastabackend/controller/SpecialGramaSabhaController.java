@@ -30,19 +30,13 @@ public class SpecialGramaSabhaController {
     @ApiOperation(value = "Create Special Grama Sabha", response = ResponseModel.class, httpMethod = "POST")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseModel Add(@RequestBody final SpecialGramaSabha sp){
-        return specialgramasabhaService.Add(sp.getAuditId(),sp.getTotalPopulation(),sp.getTotalFamiliesInVpts(),
-                sp.getNoOfFamiliesRegistered(),sp.getTotalJcsInVpts(),sp.getNoOfPplAttentedSgs(),sp.getNameOfPersonHeadSgs(),
-                sp.getNameOfPersonRecordedMinutes(),sp.getTotalParasPlacedInSgs(),sp.getParasSetteled(),sp.getAmountRecoveredDuringSgs(),
-                sp.getSaReportsUploaded(),sp.getAtrsUploaded(),sp.getCreatedBy());
+        return specialgramasabhaService.Add(sp);
     }
 
     @ApiOperation(value = "Update Special Grama Sabha", response = ResponseModel.class, httpMethod = "POST")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseModel Update(@RequestBody final SpecialGramaSabha sp){
-        return specialgramasabhaService.Update(sp.getId(), sp.getAuditId(), sp.getTotalPopulation(), sp.getTotalFamiliesInVpts(),
-                sp.getNoOfFamiliesRegistered(), sp.getTotalJcsInVpts(), sp.getNoOfPplAttentedSgs(), sp.getNameOfPersonHeadSgs(),
-                sp.getNameOfPersonRecordedMinutes(), sp.getTotalParasPlacedInSgs(), sp.getParasSetteled(), sp.getAmountRecoveredDuringSgs(),
-                sp.getSaReportsUploaded(),sp.getAtrsUploaded(),sp.getModifiedBy(),sp.getStatus());
+        return specialgramasabhaService.Update(sp);
     }
 
 

@@ -78,23 +78,11 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
 
 
     @Override
-    public ResponseModel Add(Long auditid, BigDecimal totalpopulation, BigDecimal totalfamiliesinvpts,
-                             BigDecimal nooffamiliesregistered, Long totaljcsinvpts, BigDecimal noofpplattentedsgs,
-                             String nameofpersonheadsgs, Long nameofpersonrecordedminutes, Long totalparasplacedinsgs,
-                             Long parassetteled, BigDecimal amountrecoveredduringsgs, Boolean sareportsuploaded,
-                             Boolean atrsuploaded, Long createdby) {
-        LOGGER.debug("Creating  Special Grama Sabha : {}", auditid, totalpopulation, totalfamiliesinvpts,
-                nooffamiliesregistered, totaljcsinvpts, noofpplattentedsgs,
-                nameofpersonheadsgs, nameofpersonrecordedminutes, totalparasplacedinsgs,
-                parassetteled, amountrecoveredduringsgs, sareportsuploaded,
-                atrsuploaded, createdby);
+    public ResponseModel Add(SpecialGramaSabha sga) {
+        LOGGER.debug("Creating  Special Grama Sabha : {}",sga.toString());
         ResponseModel response = new ResponseModel<Boolean>();
         try{
-            boolean flag=  Create( auditid, totalpopulation, totalfamiliesinvpts,
-                    nooffamiliesregistered, totaljcsinvpts, noofpplattentedsgs,
-                    nameofpersonheadsgs, nameofpersonrecordedminutes, totalparasplacedinsgs,
-                    parassetteled, amountrecoveredduringsgs, sareportsuploaded,
-                    atrsuploaded, createdby);
+            boolean flag=  Create(sga);
             response.setStatus(flag);
             response.setData(flag == true ? " Special Grama Sabha Added Successfully!!" : "Unable to add Special Grama Sabha!!");
         }catch(Exception err){
@@ -104,27 +92,12 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
     }
 
     @Override
-    public ResponseModel Update(Long sp_grama_sabha_id, Long auditid, BigDecimal totalpopulation,
-                                BigDecimal totalfamiliesinvpts, BigDecimal nooffamiliesregistered,
-                                Long totaljcsinvpts, BigDecimal noofpplattentedsgs, String nameofpersonheadsgs,
-                                Long nameofpersonrecordedminutes, Long totalparasplacedinsgs, Long parassetteled,
-                                BigDecimal amountrecoveredduringsgs, Boolean sareportsuploaded, Boolean atrsuploaded,
-                                Long modifyby, Boolean isactive) {
-        LOGGER.debug("Creating  Special Grama Sabha : {}", sp_grama_sabha_id, auditid, totalpopulation,
-                totalfamiliesinvpts, nooffamiliesregistered,
-                totaljcsinvpts, noofpplattentedsgs, nameofpersonheadsgs,
-                nameofpersonrecordedminutes, totalparasplacedinsgs, parassetteled,
-                amountrecoveredduringsgs, sareportsuploaded, atrsuploaded,
-                modifyby, isactive);
+    public ResponseModel Update(SpecialGramaSabha sga) {
+        LOGGER.debug("Creating  Special Grama Sabha : {0}", sga.toString());
         ResponseModel response = null;
         try{
             response = new ResponseModel<Boolean>();
-            boolean flag = Modify(sp_grama_sabha_id, auditid, totalpopulation,
-                    totalfamiliesinvpts, nooffamiliesregistered,
-                    totaljcsinvpts, noofpplattentedsgs, nameofpersonheadsgs,
-                    nameofpersonrecordedminutes, totalparasplacedinsgs, parassetteled,
-                    amountrecoveredduringsgs, sareportsuploaded, atrsuploaded,
-                    modifyby, isactive);
+            boolean flag = Modify(sga);
             response.setStatus(flag);
             response.setData(flag == true ? "Special Grama Sabha Updated Successfully!!" : "Unable to update Special Grama Sabha!!");
         }catch(Exception err){
@@ -135,44 +108,40 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
     }
 
 
-    private boolean Create(Long auditid, BigDecimal totalpopulation, BigDecimal totalfamiliesinvpts,
-                           BigDecimal nooffamiliesregistered, Long totaljcsinvpts, BigDecimal noofpplattentedsgs,
-                           String nameofpersonheadsgs, Long nameofpersonrecordedminutes, Long totalparasplacedinsgs,
-                           Long parassetteled, BigDecimal amountrecoveredduringsgs, Boolean sareportsuploaded,
-                           Boolean atrsuploaded, Long createdby)  {
+    private boolean Create(SpecialGramaSabha sga)  {
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_special_grama_sabha")
                 .declareParameters(
                         new SqlParameter("auditid", Types.BIGINT),
-                        new SqlParameter("totalpopulation", Types.DECIMAL),
-                        new SqlParameter("totalfamiliesinvpts", Types.DECIMAL),
-                        new SqlParameter("nooffamiliesregistered", Types.DECIMAL),
-                        new SqlParameter("totaljcsinvpts", Types.BIGINT),
-                        new SqlParameter("noofpplattentedsgs", Types.DECIMAL),
-                        new SqlParameter("nameofpersonheadsgs", Types.VARCHAR),
-                        new SqlParameter("nameofpersonrecordedminutes", Types.BIGINT),
-                        new SqlParameter("totalparasplacedinsgs", Types.BIGINT),
-                        new SqlParameter("parassetteled", Types.BIGINT),
-                        new SqlParameter("amountrecoveredduringsgs", Types.DECIMAL),
+                        new SqlParameter("totalpopulation", Types.INTEGER),
+                        new SqlParameter("totalfamiliesinvpts", Types.INTEGER),
+                        new SqlParameter("nooffamiliesregistered", Types.INTEGER),
+                        new SqlParameter("totaljcsinvpts", Types.INTEGER),
+                        new SqlParameter("noofpplattentedsgs", Types.INTEGER),
+                        new SqlParameter("nameofpersonheadsgs", Types.INTEGER),
+                        new SqlParameter("nameofpersonrecordedminutes", Types.INTEGER),
+                        new SqlParameter("totalparasplacedinsgs", Types.INTEGER),
+                        new SqlParameter("parassetteled", Types.INTEGER),
+                        new SqlParameter("amountrecoveredduringsgs", Types.INTEGER),
                         new SqlParameter("sareportsuploaded", Types.BIT),
                         new SqlParameter("atrsuploaded", Types.BIT),
                         new SqlParameter("createdby", Types.BIGINT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
-        inParamMap.put("auditid", auditid);
-        inParamMap.put("totalpopulation", totalpopulation);
-        inParamMap.put("totalfamiliesinvpts", totalfamiliesinvpts);
-        inParamMap.put("nooffamiliesregistered", nooffamiliesregistered);
-        inParamMap.put("totaljcsinvpts", totaljcsinvpts);
-        inParamMap.put("noofpplattentedsgs", noofpplattentedsgs);
-        inParamMap.put("nameofpersonheadsgs", nameofpersonheadsgs);
-        inParamMap.put("nameofpersonrecordedminutes", nameofpersonrecordedminutes);
-        inParamMap.put("totalparasplacedinsgs", totalparasplacedinsgs);
-        inParamMap.put("parassetteled", parassetteled);
-        inParamMap.put("amountrecoveredduringsgs", amountrecoveredduringsgs);
-        inParamMap.put("sareportsuploaded", sareportsuploaded);
-        inParamMap.put("atrsuploaded", atrsuploaded);
-        inParamMap.put("createdby", createdby);
+        inParamMap.put("auditid", sga.getAuditId());
+        inParamMap.put("totalpopulation", sga.getTotalPopulation());
+        inParamMap.put("totalfamiliesinvpts", sga.getTotalFamiliesInVpts());
+        inParamMap.put("nooffamiliesregistered", sga.getNoOfFamiliesRegistered());
+        inParamMap.put("totaljcsinvpts", sga.getTotalJcsInVpts());
+        inParamMap.put("noofpplattentedsgs", sga.getNoOfPplAttentedSgs());
+        inParamMap.put("nameofpersonheadsgs", sga.getNameOfPersonHeadSgs());
+        inParamMap.put("nameofpersonrecordedminutes", sga.getNameOfPersonRecordedMinutes());
+        inParamMap.put("totalparasplacedinsgs", sga.getTotalParasPlacedInSgs());
+        inParamMap.put("parassetteled", sga.getParasSetteled());
+        inParamMap.put("amountrecoveredduringsgs", sga.getAmountRecoveredDuringSgs());
+        inParamMap.put("sareportsuploaded", sga.getSaReportsUploaded());
+        inParamMap.put("atrsuploaded", sga.getAtrsUploaded());
+        inParamMap.put("createdby", sga.getCreatedBy());
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
         Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
@@ -183,26 +152,21 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
     }
 
 
-    private boolean Modify(Long sp_grama_sabha_id, Long auditid, BigDecimal totalpopulation,
-                           BigDecimal totalfamiliesinvpts, BigDecimal nooffamiliesregistered,
-                           Long totaljcsinvpts, BigDecimal noofpplattentedsgs, String nameofpersonheadsgs,
-                           Long nameofpersonrecordedminutes, Long totalparasplacedinsgs, Long parassetteled,
-                           BigDecimal amountrecoveredduringsgs, Boolean sareportsuploaded, Boolean atrsuploaded,
-                           Long modifyby, Boolean isactive)  {
+    private boolean Modify(SpecialGramaSabha sga)  {
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_special_grama_sabha")
                 .declareParameters(
                         new SqlParameter("sp_grama_sabha_id", Types.BIGINT),
                         new SqlParameter("auditid", Types.BIGINT),
-                        new SqlParameter("totalpopulation", Types.DECIMAL),
-                        new SqlParameter("totalfamiliesinvpts", Types.DECIMAL),
-                        new SqlParameter("nooffamiliesregistered", Types.DECIMAL),
-                        new SqlParameter("totaljcsinvpts", Types.BIGINT),
-                        new SqlParameter("noofpplattentedsgs", Types.DECIMAL),
-                        new SqlParameter("nameofpersonheadsgs", Types.VARCHAR),
-                        new SqlParameter("nameofpersonrecordedminutes", Types.BIGINT),
-                        new SqlParameter("totalparasplacedinsgs", Types.BIGINT),
-                        new SqlParameter("parassetteled", Types.BIGINT),
-                        new SqlParameter("amountrecoveredduringsgs", Types.DECIMAL),
+                        new SqlParameter("totalpopulation", Types.INTEGER),
+                        new SqlParameter("totalfamiliesinvpts", Types.INTEGER),
+                        new SqlParameter("nooffamiliesregistered", Types.INTEGER),
+                        new SqlParameter("totaljcsinvpts", Types.INTEGER),
+                        new SqlParameter("noofpplattentedsgs", Types.INTEGER),
+                        new SqlParameter("nameofpersonheadsgs", Types.INTEGER),
+                        new SqlParameter("nameofpersonrecordedminutes", Types.INTEGER),
+                        new SqlParameter("totalparasplacedinsgs", Types.INTEGER),
+                        new SqlParameter("parassetteled", Types.INTEGER),
+                        new SqlParameter("amountrecoveredduringsgs", Types.INTEGER),
                         new SqlParameter("sareportsuploaded", Types.BIT),
                         new SqlParameter("atrsuploaded", Types.BIT),
                         new SqlParameter("modifyby", Types.BIGINT),
@@ -210,22 +174,22 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
                         new SqlOutParameter("flag", Types.BIT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
-        inParamMap.put("sp_grama_sabha_id", sp_grama_sabha_id);
-        inParamMap.put("auditid", auditid);
-        inParamMap.put("totalpopulation", totalpopulation);
-        inParamMap.put("totalfamiliesinvpts", totalfamiliesinvpts);
-        inParamMap.put("nooffamiliesregistered", nooffamiliesregistered);
-        inParamMap.put("totaljcsinvpts", totaljcsinvpts);
-        inParamMap.put("noofpplattentedsgs", noofpplattentedsgs);
-        inParamMap.put("nameofpersonheadsgs", nameofpersonheadsgs);
-        inParamMap.put("nameofpersonrecordedminutes", nameofpersonrecordedminutes);
-        inParamMap.put("totalparasplacedinsgs", totalparasplacedinsgs);
-        inParamMap.put("parassetteled", parassetteled);
-        inParamMap.put("amountrecoveredduringsgs", amountrecoveredduringsgs);
-        inParamMap.put("sareportsuploaded", sareportsuploaded);
-        inParamMap.put("atrsuploaded", atrsuploaded);
-        inParamMap.put("modifyby", modifyby);
-        inParamMap.put("isactive", isactive);
+        inParamMap.put("sp_grama_sabha_id", sga.getId());
+        inParamMap.put("auditid", sga.getAuditId());
+        inParamMap.put("totalpopulation", sga.getTotalPopulation());
+        inParamMap.put("totalfamiliesinvpts", sga.getTotalFamiliesInVpts());
+        inParamMap.put("nooffamiliesregistered", sga.getNoOfFamiliesRegistered());
+        inParamMap.put("totaljcsinvpts", sga.getTotalJcsInVpts());
+        inParamMap.put("noofpplattentedsgs", sga.getNoOfPplAttentedSgs());
+        inParamMap.put("nameofpersonheadsgs", sga.getNameOfPersonHeadSgs());
+        inParamMap.put("nameofpersonrecordedminutes", sga.getNameOfPersonRecordedMinutes());
+        inParamMap.put("totalparasplacedinsgs", sga.getTotalParasPlacedInSgs());
+        inParamMap.put("parassetteled", sga.getParasSetteled());
+        inParamMap.put("amountrecoveredduringsgs", sga.getAmountRecoveredDuringSgs());
+        inParamMap.put("sareportsuploaded", sga.getSaReportsUploaded());
+        inParamMap.put("atrsuploaded", sga.getAtrsUploaded());
+        inParamMap.put("modifyby", sga.getModifiedBy());
+        inParamMap.put("isactive", sga.getStatus());
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
         Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
@@ -269,16 +233,16 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
             o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
             o.setVpId(set.getInt("village_panchayat_id"));
             o.setVpName(StringUtils.trimToNull(set.getString("vp_name")));
-            o.setTotalPopulation(set.getBigDecimal("total_population"));
-            o.setTotalFamiliesInVpts(set.getBigDecimal("total_families_in_vpts"));
-            o.setNoOfFamiliesRegistered(set.getBigDecimal("no_of_families_registered"));
-            o.setTotalJcsInVpts(set.getLong("total_jcs_in_vpts"));
-            o.setNoOfPplAttentedSgs(set.getBigDecimal("no_of_ppl_attented_sgs"));
-            o.setNameOfPersonHeadSgs(set.getString("name_of_person_head_sgs"));
-            o.setNameOfPersonRecordedMinutes(set.getLong("name_of_person_recorded_minutes"));
-            o.setTotalParasPlacedInSgs(set.getLong("total_paras_placed_in_sgs"));
-            o.setParasSetteled(set.getLong("paras_setteled"));
-            o.setAmountRecoveredDuringSgs(set.getBigDecimal("amount_recovered_during_sgs"));
+            o.setTotalPopulation(set.getInt("total_population"));
+            o.setTotalFamiliesInVpts(set.getInt("total_families_in_vpts"));
+            o.setNoOfFamiliesRegistered(set.getInt("no_of_families_registered"));
+            o.setTotalJcsInVpts(set.getInt("total_jcs_in_vpts"));
+            o.setNoOfPplAttentedSgs(set.getInt("no_of_ppl_attented_sgs"));
+            o.setNameOfPersonHeadSgs(set.getInt("name_of_person_head_sgs"));
+            o.setNameOfPersonRecordedMinutes(set.getInt("name_of_person_recorded_minutes"));
+            o.setTotalParasPlacedInSgs(set.getInt("total_paras_placed_in_sgs"));
+            o.setParasSetteled(set.getInt("paras_setteled"));
+            o.setAmountRecoveredDuringSgs(set.getInt("amount_recovered_during_sgs"));
             o.setSaReportsUploaded(set.getBoolean("sa_reports_uploaded"));
             o.setAtrsUploaded(set.getBoolean("atrs_uploaded"));
             o.setCreatedDate(set.getTimestamp("created_date"));

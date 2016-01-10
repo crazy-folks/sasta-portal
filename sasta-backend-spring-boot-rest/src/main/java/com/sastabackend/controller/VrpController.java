@@ -46,7 +46,7 @@ public class VrpController {
                 vrp.getJobCardNumber(), vrp.getGuardianName(), vrp.getQualificationId(), vrp.getCommunityId(),
                 vrp.getContactNumber(), vrp.getTotalDays(), vrp.getPaidAmount(), vrp.getPayMode(),
                 vrp.getBankId(), vrp.getAccountNumber(), vrp.getIfscCode(), vrp.getGradeId(),
-                vrp.getModifiedBy(), vrp.getActive());
+                vrp.getModifiedBy(), vrp.getStatus());
     }
 
     @ApiOperation(value = "Read VRP details from server", response = ResponseModel.class, httpMethod = "GET")
