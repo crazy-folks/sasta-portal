@@ -3,7 +3,7 @@
     <div class="breadcrumb-wrapper hidden-xs">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
-            <li><a href="#/index">Dashboard</a>
+            <li><a ui-sref="admin.home">Dashboard</a>
             </li>
             <li>Masters</li>
             <li class="active">Audit Misappropriation Entries</li>
@@ -49,10 +49,10 @@
   
 </div>
 <script id="toggle-template" type="text/x-kendo-template">
-    <div class="icon-settings">
+    <div class="icon-settings" ng-mouseover="showContextMenu($event,grid);">
        <ul>
-            <li><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Misappropriation</a></li>
-            <li><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Misappropriation</a></li>
+            <li ng-show="sessionConfig.canWrite"><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Misappropriation</a></li>
+            <li ng-show="sessionConfig.canDelete"><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Misappropriation</a></li>
       </ul>    
     </div>
 </script>

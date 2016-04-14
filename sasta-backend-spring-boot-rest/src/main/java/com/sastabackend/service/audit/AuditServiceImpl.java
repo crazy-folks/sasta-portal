@@ -64,12 +64,12 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    public ResponseModel findAll() {
+    public ResponseModel findAll(Integer district,Integer block,Integer financial,Long userid) {
         LOGGER.debug("Reading Audit  : {}");
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<Audit>>();
-            response.setData(readList());
+            response.setData(readList(district,block,financial,userid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -223,8 +223,10 @@ public class AuditServiceImpl implements AuditService {
         else
             return false;
     }
-    private List<Rounds> readList(){
-        List<Rounds> list = jdbcTemplate.query("call select_audit_entires", new AuditMapper());
+    private List<Rounds> readList(Integer district,Integer block,Integer financial,Long userid){
+        //jdbcTemplate.query("call select_session(?)", new Object[]{session}, new SessionMapper());
+        List<Rounds> list = jdbcTemplate.query("call select_audit_entires(?,?,?,?)",
+                new Object[]{district,block,financial,userid}, new AuditMapper());
         return list;
     }
 
@@ -288,6 +290,7 @@ public class AuditServiceImpl implements AuditService {
             o.setEndDate(set.getDate("end_date"));
             o.setRoundDescription(StringUtils.trimToNull(set.getString("round_description")));
             o.setFinancialYear(StringUtils.trimToNull(set.getString("financial_year")));
+            o.setFinancialId(set.getInt("fy_id"));
             o.setFinancialDescription(StringUtils.trimToNull(set.getString("financial_description")));
             o.setGramaSabhaDate(set.getDate("grama_sabha_date"));
             o.setAuditDistrictId(set.getInt("audit_district_id"));

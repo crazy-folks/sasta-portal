@@ -3,7 +3,9 @@ app.controller('FinancialYearController',['$http','$window','$scope','$rootScope
 
 		$scope.financialyear = financialyearfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Action of clicking product name link.
 	    $scope.modelDialogTitle = {
 	    	AddFinancialYearTitle : "Add Financial Year",
@@ -124,6 +126,7 @@ app.controller('FinancialYearController',['$http','$window','$scope','$rootScope
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseFinancialYearWindow();
 				        $scope.doReset();
 			  		}else{
@@ -154,6 +157,7 @@ app.controller('FinancialYearController',['$http','$window','$scope','$rootScope
 			        });						
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditFinancialYearWindow();
 			        $scope.doReset();
 		  		}else{
@@ -191,15 +195,17 @@ app.controller('FinancialYearController',['$http','$window','$scope','$rootScope
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editfinancialyear = {
-	    		id : data.id,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				status: false
-	    	};
-	    	DoUpdate();    	
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editfinancialyear = {
+		    		id : data.id,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					status: false
+		    	};
+		    	DoUpdate();  
+	    	}
 	    }
 
 	    $scope.Cancel = function() {
@@ -232,7 +238,8 @@ app.controller('FinancialYearController',['$http','$window','$scope','$rootScope
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/financialyear/getlist'
+				         url: $scope.crudServiceBaseUrl + '/financialyear/getlist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

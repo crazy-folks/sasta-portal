@@ -1,6 +1,7 @@
 package com.sastabackend.service.expenditure;
 
 import com.sastabackend.domain.Expenditure;
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.repository.ExpenditureRepository;
 import org.apache.commons.lang.StringUtils;
@@ -63,12 +64,12 @@ public class ExpenditureServiceImpl implements ExpenditureService {
     }
 
     @Override
-    public ResponseModel findAll() {
+    public ResponseModel findAll(Long userid,Long auditid) {
         LOGGER.debug("Reading Expenditure  : {}");
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<Expenditure>>();
-            response.setData(readList());
+            response.setData(readList(userid, auditid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -128,7 +129,25 @@ public class ExpenditureServiceImpl implements ExpenditureService {
     }
 
 
-
+    /**
+     * Read All Expenditures based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Expenditures, If fail empty list
+     */
+    @Override
+    public ResponseModel getExpenditureReports(ReportsProperty prop){
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<Expenditure>>();
+            response.setData(readExpenditureReports(prop));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData("Unable to read expenditure report!".concat(err.getMessage()));
+            response.setStatus(false);
+        }
+        return response;
+    }
 
     private boolean Create(Long auditid, Integer visitedvillagecount, Integer appreceivedcount, Integer attendedappcount,
                            java.math.BigDecimal refreshmentcharges, Integer selectedvrpcount,
@@ -224,9 +243,14 @@ public class ExpenditureServiceImpl implements ExpenditureService {
         else
             return false;
     }
-    private List<Expenditure> readList(){
-        List<Expenditure> list = jdbcTemplate.query("call select_audit_expenditure", new ExpenditureMapper());
-        return list;
+    private List<Expenditure> readList(Long userid,Long auditid){
+        List<Expenditure> list =  new ArrayList();
+        try{
+           list = jdbcTemplate.query("call select_audit_expenditure(?,?)", new Object[]{userid, auditid}, new ExpenditureMapper()); 
+       }catch(Exception err){
+        // do nothing
+       }        
+       return list;
     }
 
     private Expenditure selectAuditData(Long id){
@@ -238,6 +262,82 @@ public class ExpenditureServiceImpl implements ExpenditureService {
             return o.get(0);
     }
 
+
+    /**
+     * Read All Expenditures based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Expenditures, If fail empty list
+     */
+    private List<Expenditure> readExpenditureReports(ReportsProperty prop){
+        List<Expenditure> o = new ArrayList<Expenditure>();
+        if(!prop.getIsConsolidate())
+            o = jdbcTemplate.query("call expenditure_reports(?,?,?,?,?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId(),prop.getDistrictId(),prop.getBlockId(),prop.getVillageId(),prop.getUserId()},
+                    new ExpenditureReportMapper());
+        else
+            o = jdbcTemplate.query("call expenditure_consolidate_reports(?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId()},
+                    new ExpenditureConsolidateReportMapper());
+            return o;
+    }
+
+    protected static final class ExpenditureConsolidateReportMapper implements RowMapper {
+
+        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            Expenditure o = new Expenditure();
+            o.setFinancialYear(set.getString("fy_name"));
+            o.setDistrictName(StringUtils.trimToNull(set.getString("district_name")));
+            o.setVisitedVillageCount(set.getInt("visited_village_count"));
+            o.setAppReceivedCount(set.getInt("app_received_count"));
+            o.setAttendedAppCount(set.getInt("attended_app_count"));
+            o.setRefreshmentCharges(set.getBigDecimal("refreshment_charges"));
+            o.setSelectedVrpCount(set.getInt("selected_vrp_count"));
+            o.setPaidedAmount(set.getBigDecimal("paided_amount"));
+            o.setPhotographyCharges(set.getBigDecimal("photography_charges"));
+            o.setVideosCharges(set.getBigDecimal("videos_charges"));
+            o.setPpleafLets(set.getBigDecimal("ppleaflets"));
+            o.setStationary(set.getBigDecimal("stationary"));
+            o.setOthers(set.getBigDecimal("others"));
+            LOGGER.debug("Expenditure  : {}", o.toString());
+            return o;
+        }
+    }
+
+    protected static final class ExpenditureReportMapper implements RowMapper {
+
+        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            Expenditure o = new Expenditure();
+            o.setId(set.getLong("id"));
+            o.setAuditId(set.getLong("audit_id"));
+            o.setFinancialYear(set.getString("fy_name"));
+            o.setRoundName(set.getString("round_name"));
+            o.setRoundStartDate(set.getDate("start_date"));
+            o.setRoundEndDate(set.getDate("end_date"));
+            o.setDistrictName(StringUtils.trimToNull(set.getString("district_name")));
+            o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
+            o.setVpName(StringUtils.trimToNull(set.getString("village_name")));
+            o.setVisitedVillageCount(set.getInt("visited_village_count"));
+            o.setAppReceivedCount(set.getInt("app_received_count"));
+            o.setAttendedAppCount(set.getInt("attended_app_count"));
+            o.setRefreshmentCharges(set.getBigDecimal("refreshment_charges"));
+            o.setSelectedVrpCount(set.getInt("selected_vrp_count"));
+            o.setPaidedAmount(set.getBigDecimal("paided_amount"));
+            o.setPhotographyCharges(set.getBigDecimal("photography_charges"));
+            o.setVideosCharges(set.getBigDecimal("videos_charges"));
+            o.setPpleafLets(set.getBigDecimal("ppleaflets"));
+            o.setStationary(set.getBigDecimal("stationary"));
+            o.setOthers(set.getBigDecimal("others"));
+            o.setCreatedDate(set.getTimestamp("created_date"));
+            o.setModifiedDate(set.getTimestamp("modified_date"));
+            o.setCreatedBy(set.getLong("created_by"));
+            o.setModifiedBy(set.getLong("modified_by"));
+            o.setStatus(set.getBoolean("is_active"));
+            LOGGER.debug("Expenditure  : {}", o.toString());
+            return o;
+        }
+    }
 
     protected static final class ExpenditureMapper implements RowMapper {
 

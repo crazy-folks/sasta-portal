@@ -3,7 +3,9 @@ app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope'
 
 		$scope.configsystemfactory = configsystemfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Action of clicking product name link.
 	    $scope.modelDialogTitle = {
 	    	AddConfigTitle : "Add Config System",
@@ -115,6 +117,7 @@ app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope'
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseAddConfigSystemWindow();
 				        $scope.doReset();
 			  		}else{
@@ -145,6 +148,7 @@ app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope'
 			        });								
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditConfigSystemWindow();
 			        $scope.doReset();
 		  		}else{
@@ -183,16 +187,18 @@ app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope'
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editconfigsystem = {
-	    		id : data.id,
-				createBy : $rootScope.sessionConfig.userId,
-				label: data.label || '',
-				createBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				value : data.value || '',
-				allowEdit: true
-	    	};
-	    	DoUpdate();
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editconfigsystem = {
+		    		id : data.id,
+					createBy : $rootScope.sessionConfig.userId,
+					label: data.label || '',
+					createBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					value : data.value || '',
+					allowEdit: true
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 	    $scope.gridOptions = {
@@ -222,7 +228,8 @@ app.controller('ConfigSystemController',['$http','$window','$scope','$rootScope'
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/configsystem/getlist'
+				         url: $scope.crudServiceBaseUrl + '/configsystem/getlist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

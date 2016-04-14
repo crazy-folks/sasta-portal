@@ -15,11 +15,18 @@ public class Session {
     private String screen_name;
     private String image_name;
     private Integer user_group_id;
+    private String loggedin_by;
+    private Boolean loggedin_as;
     private String employee_id;
     private Integer country_id;
     private Long reporting_id;
     private Integer allotted_district;
     private Integer allotted_block;
+    private Boolean can_read;
+    private Boolean can_write;
+    private Boolean can_delete;
+    private Boolean district_level_person;
+    private Boolean block_level_person;
 
     public Session(){}
 
@@ -87,6 +94,15 @@ public class Session {
         this.user_group_id = user_group_id;
     }
 
+
+    public String getLoggedInBy(){
+        return this.loggedin_by;
+    }
+
+    public void setLoggedInBy(String loggedin_by){
+        this.loggedin_by = loggedin_by;
+    }
+
     public String getEmployeeID(){
         return this.employee_id;
     }
@@ -127,20 +143,78 @@ public class Session {
         this.allotted_block = allotted_block;
     }
 
+
+    public Boolean getCanRead() {
+        return this.can_read;
+    }
+
+    public void setCanRead(Boolean can_read) {
+        this.can_read = can_read;
+    }
+
+    public Boolean getCanWrite() {
+        return this.can_write;
+    }
+
+    public void setCanWrite(Boolean can_write) {
+        this.can_write = can_write;
+    }
+
+    public Boolean getCanDelete() {
+        return this.can_delete;
+    }
+
+    public void setCanDelete(Boolean can_delete) {
+        this.can_delete = can_delete;
+    }
+
+    public Boolean getLoggedInAs() {
+        return this.loggedin_as;
+    }
+
+    public void setLoggedInAs(Boolean loggedin_as) {
+        this.loggedin_as = loggedin_as;
+    }    
+
+    public Boolean getIsDistrictLevelPerson() {
+        return this.district_level_person;
+    }
+
+    public void setIsDistrictLevelPerson(Boolean district_level_person) {
+        this.district_level_person = district_level_person;
+    }    
+
+    public Boolean getIsBlockLevelPerson() {
+        return this.block_level_person;
+    }
+
+    public void setIsBlockLevelPerson(Boolean block_level_person) {
+        this.block_level_person = block_level_person;
+    }    
+
     @Override
-    public String toString(){
-        return Objects.toStringHelper(this)
-                .add("session_id", session_id)
-                .add("user_id",user_id)
-                .add("create_date",create_date)
-                .add("expire_date",expire_date)
-                .add("user_full_name",user_full_name)
-                .add("screen_name",screen_name)
-                .add("image_name",image_name)
-                .add("user_group_id",user_group_id)
-                .add("employee_id",employee_id)
-                .add("country_id",country_id)
-                .add("reporting_id",reporting_id)
-                .toString();
+    public String toString() {
+        return "Session{" +
+                "session_id='" + session_id + '\'' +
+                ", user_id=" + user_id +
+                ", create_date='" + create_date + '\'' +
+                ", expire_date='" + expire_date + '\'' +
+                ", user_full_name='" + user_full_name + '\'' +
+                ", screen_name='" + screen_name + '\'' +
+                ", image_name='" + image_name + '\'' +
+                ", user_group_id=" + user_group_id +
+                ", loggedIn_By='" + loggedin_by + '\'' +
+                ", employee_id='" + employee_id + '\'' +
+                ", country_id=" + country_id +
+                ", reporting_id=" + reporting_id +
+                ", allotted_district=" + allotted_district +
+                ", allotted_block=" + allotted_block +
+                ", can_read=" + can_read +
+                ", can_write=" + can_write +
+                ", can_delete=" + can_delete +
+                ", can_delete=" + loggedin_as +
+                ", district_level_person=" + district_level_person +
+                ", block_level_person=" + block_level_person +
+                '}';
     }
 }

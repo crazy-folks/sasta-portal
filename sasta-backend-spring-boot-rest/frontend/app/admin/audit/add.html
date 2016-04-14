@@ -7,10 +7,19 @@
                         <div class="panel-body no-padding auto-margin">
                             <div class="row no-padding auto-margin">
                                 <form class="form-horizontal" name="frmAddAudit" id="frmAddAudit">
+
+                                    <div class="form-group no-margin">
+                                        <label for="ddlFy"  class="label-adjust">Financial Year</label>
+                                        <select name="ddlFy" class="k-input width-95 " ng-model="defaultfy" ng-options="obj.text for obj in fy track by obj.value" ng-change="OnFinancialYearSelectionChanged(defaultfy)">
+                                            <option value="">Choose Year</option>
+                                        </select> 
+                                    </div>
+
                                     <div class="form-group no-margin">
                                         <div>
                                             <label for="selRounds"  class="label-adjust">Round</label>
                                             <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" ng-change="OnRoundSelectedValue(defaultrounds)">
+                                                <option value="">Choose Round</option>
                                             </select>
                                         </div>
                                     </div>
@@ -26,6 +35,7 @@
                                         <div>
                                             <label for="selDistrict"  class="label-adjust">District</label>
                                             <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value" ng-change="OnDistrictsSelectedValue(defaultdistricts)">
+                                                <option value="">Choose District</option>
                                             </select>
                                         </div>                     
                                     </div>     
@@ -33,13 +43,15 @@
                                         <div>
                                             <label for="selBlock"  class="label-adjust">Block</label>
                                             <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value" ng-change="OnBlocksSelectedValue(defaultblocks)">
+                                                <option value="">Choose Block</option>
                                             </select>
                                         </div>                     
                                     </div>     
                                     <div class="form-group no-margin">
                                         <div>
-                                            <label for="selVillage"  class="label-adjust">Village</label>
+                                            <label for="selVillage"  class="label-adjust">Panchayat</label>
                                             <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value" ng-change="OnVillagesSelectedValue(defaultvillages)">
+                                                <option value="">Choose Panchayat</option>
                                             </select>
                                         </div>                     
                                     </div>
@@ -49,7 +61,7 @@
                         <div class="panel-body">
                             <div class="row no-padding auto-margin">
                                 <div class="row no-padding auto-margin">
-                                    <div class="dialog-buttons dialog-footer text-right">        
+                                    <div class="dialog-buttons dialog-footer text-right"> 
                                         <button type="button" class="btn btn-danger btn-sm" ng-click="CloseAuditWindow()">Cancel</button>
                                         <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
                                     </div>            

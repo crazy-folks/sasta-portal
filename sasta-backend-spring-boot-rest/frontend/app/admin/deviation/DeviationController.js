@@ -3,6 +3,8 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 
 		$scope.aufactory = deviationfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
 		
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
@@ -265,9 +267,10 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				            scope:$scope
 				        });							
 						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
-						$scope.CloseAddDeviationWindow();
-				        $scope.doReset();
+			      	   $scope.grid.dataSource.read();
+				       $scope.grid.dataSource.fetch();
+					   $scope.CloseAddDeviationWindow();
+				       $scope.doReset();
 			  		}else{
 				  		notify({
 				            messageTemplate: '<span>Unable to add deviation!</span>',
@@ -286,67 +289,69 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editdeviation = {
-				  	id : data.id,
-					status : false,
-					roundId : data.roundId,
-					createdBy : data.createdBy,
-					auditId : data.auditId,
-					modifiedBy : data.modifiedBy,
-					blockName : data.blockName,
-					nmroverWritingCorrectionsAmt : data.nmroverWritingCorrectionsAmt,
-					estimatesNotProducedForAuditCount : data.estimatesNotProducedForAuditCount,
-					worksTakenUpWithoutGbApprovalCount : data.worksTakenUpWithoutGbApprovalCount,
-					noneAdoptionOfScheduleRateAmt : data.noneAdoptionOfScheduleRateAmt,
-					nmroverWritingCorrectionsCount : data.nmroverWritingCorrectionsCount,
-					worksTakenUpWithoutGbApprovalAmt : data.worksTakenUpWithoutGbApprovalAmt,
-					noneAdoptionOfScheduleRateCount : data.noneAdoptionOfScheduleRateCount,
-					wagesPaidExcessMBooksValueCount : data.wagesPaidExcessMBooksValueCount,
-					wagesPaidWithoutRecordMesurementAmt : data.wagesPaidWithoutRecordMesurementAmt,
-					estimatesNotProducedForAuditAmt : data.estimatesNotProducedForAuditAmt,
-					wagesPaidWithoutRecordMesurementCount : data.wagesPaidWithoutRecordMesurementCount,
-					mbooksNotProducedForAuditAmt : data.mbooksNotProducedForAuditAmt,
-					diffOnlineNMRPhysicalNMRAmt : data.diffOnlineNMRPhysicalNMRAmt,
-					wagesPaidExcessMBooksValueAmt : data.wagesPaidExcessMBooksValueAmt,
-					wagesPaymentFromSchemeCount : data.wagesPaymentFromSchemeCount,
-					wagesPaidWorkersWithoutJcCount : data.wagesPaidWorkersWithoutJcCount,
-					variationsBetweenNMRRegisterCount : data.variationsBetweenNMRRegisterCount,
-					nmrnotProducedForAuditCount : data.nmrnotProducedForAuditCount,
-					diffOnlineNMRPhysicalNMRCount : data.diffOnlineNMRPhysicalNMRCount,
-					variationsBetweenNMRRegisterAmt : data.variationsBetweenNMRRegisterAmt,
-					inEligibleWorkersIncludeUnder18Count : data.inEligibleWorkersIncludeUnder18Count,
-					inEligibleWorkersIncludeUnder18Amt : data.inEligibleWorkersIncludeUnder18Amt,
-					mbooksNotProducedForAuditCount : data.mbooksNotProducedForAuditCount,
-					auditDistrictId : data.auditDistrictId,
-					wagesPaymentFromSchemeAmt : data.wagesPaymentFromSchemeAmt,
-					amountMoreThanNMRFTOCount : data.amountMoreThanNMRFTOCount,
-					amountMoreThanNMRFTOAmt : data.amountMoreThanNMRFTOAmt,
-					jcMisusedByOthersCount : data.jcMisusedByOthersCount,
-					tsnotProducedForAuditCount : data.tsnotProducedForAuditCount,
-					asnotProducedForAuditAmt : data.asnotProducedForAuditAmt,
-					jcMisusedByOthersAmt : data.jcMisusedByOthersAmt,
-					shortageMeasurementsAmt : data.shortageMeasurementsAmt,
-					nmrnotProducedForAuditAmt : data.nmrnotProducedForAuditAmt,
-					shortageMeasurementsCount : data.shortageMeasurementsCount,
-					asnotProducedForAuditCount : data.asnotProducedForAuditCount,
-					tsnotProducedForAuditAmt : data.tsnotProducedForAuditAmt,
-					createdDate : data.createdDate,
-					wagesPaidWorkersWithoutJcAmt : data.wagesPaidWorkersWithoutJcAmt,
-					modifiedByName : data.modifiedByName,
-					roundDescription : data.roundDescription,
-					createdByName : data.createdByName,
-					financialYear : data.financialYear,
-					financialDescription : data.financialDescription,
-					districtName : data.districtName,
-					modifiedDate : data.modifiedDate,
-					roundEndDate : data.roundEndDate,
-					roundStartDate : data.roundStartDate,
-					roundName : data.roundName,
-					vpName : data.vpName,
-					blockId : data.blockId,
-					vpId : data.vpId
-	    	};
-	    	DoUpdate();
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editdeviation = {
+					  	id : data.id,
+						status : false,
+						roundId : data.roundId,
+						createdBy : data.createdBy,
+						auditId : data.auditId,
+						modifiedBy : data.modifiedBy,
+						blockName : data.blockName,
+						nmroverWritingCorrectionsAmt : data.nmroverWritingCorrectionsAmt,
+						estimatesNotProducedForAuditCount : data.estimatesNotProducedForAuditCount,
+						worksTakenUpWithoutGbApprovalCount : data.worksTakenUpWithoutGbApprovalCount,
+						noneAdoptionOfScheduleRateAmt : data.noneAdoptionOfScheduleRateAmt,
+						nmroverWritingCorrectionsCount : data.nmroverWritingCorrectionsCount,
+						worksTakenUpWithoutGbApprovalAmt : data.worksTakenUpWithoutGbApprovalAmt,
+						noneAdoptionOfScheduleRateCount : data.noneAdoptionOfScheduleRateCount,
+						wagesPaidExcessMBooksValueCount : data.wagesPaidExcessMBooksValueCount,
+						wagesPaidWithoutRecordMesurementAmt : data.wagesPaidWithoutRecordMesurementAmt,
+						estimatesNotProducedForAuditAmt : data.estimatesNotProducedForAuditAmt,
+						wagesPaidWithoutRecordMesurementCount : data.wagesPaidWithoutRecordMesurementCount,
+						mbooksNotProducedForAuditAmt : data.mbooksNotProducedForAuditAmt,
+						diffOnlineNMRPhysicalNMRAmt : data.diffOnlineNMRPhysicalNMRAmt,
+						wagesPaidExcessMBooksValueAmt : data.wagesPaidExcessMBooksValueAmt,
+						wagesPaymentFromSchemeCount : data.wagesPaymentFromSchemeCount,
+						wagesPaidWorkersWithoutJcCount : data.wagesPaidWorkersWithoutJcCount,
+						variationsBetweenNMRRegisterCount : data.variationsBetweenNMRRegisterCount,
+						nmrnotProducedForAuditCount : data.nmrnotProducedForAuditCount,
+						diffOnlineNMRPhysicalNMRCount : data.diffOnlineNMRPhysicalNMRCount,
+						variationsBetweenNMRRegisterAmt : data.variationsBetweenNMRRegisterAmt,
+						inEligibleWorkersIncludeUnder18Count : data.inEligibleWorkersIncludeUnder18Count,
+						inEligibleWorkersIncludeUnder18Amt : data.inEligibleWorkersIncludeUnder18Amt,
+						mbooksNotProducedForAuditCount : data.mbooksNotProducedForAuditCount,
+						auditDistrictId : data.auditDistrictId,
+						wagesPaymentFromSchemeAmt : data.wagesPaymentFromSchemeAmt,
+						amountMoreThanNMRFTOCount : data.amountMoreThanNMRFTOCount,
+						amountMoreThanNMRFTOAmt : data.amountMoreThanNMRFTOAmt,
+						jcMisusedByOthersCount : data.jcMisusedByOthersCount,
+						tsnotProducedForAuditCount : data.tsnotProducedForAuditCount,
+						asnotProducedForAuditAmt : data.asnotProducedForAuditAmt,
+						jcMisusedByOthersAmt : data.jcMisusedByOthersAmt,
+						shortageMeasurementsAmt : data.shortageMeasurementsAmt,
+						nmrnotProducedForAuditAmt : data.nmrnotProducedForAuditAmt,
+						shortageMeasurementsCount : data.shortageMeasurementsCount,
+						asnotProducedForAuditCount : data.asnotProducedForAuditCount,
+						tsnotProducedForAuditAmt : data.tsnotProducedForAuditAmt,
+						createdDate : data.createdDate,
+						wagesPaidWorkersWithoutJcAmt : data.wagesPaidWorkersWithoutJcAmt,
+						modifiedByName : data.modifiedByName,
+						roundDescription : data.roundDescription,
+						createdByName : data.createdByName,
+						financialYear : data.financialYear,
+						financialDescription : data.financialDescription,
+						districtName : data.districtName,
+						modifiedDate : data.modifiedDate,
+						roundEndDate : data.roundEndDate,
+						roundStartDate : data.roundStartDate,
+						roundName : data.roundName,
+						vpName : data.vpName,
+						blockId : data.blockId,
+						vpId : data.vpId
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 	    function DoUpdate(){
@@ -359,7 +364,8 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 			            scope:$scope
 			        });							
 					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
+		      	    $scope.grid.dataSource.read();
+			        $scope.grid.dataSource.fetch();
 					$scope.CloseEditDeviationWindow();
 			        $scope.doReset();
 		  		}else{
@@ -487,45 +493,145 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 
 	    $scope.gridOptions = {
 	        columns: [ 
-		        		{ field: "auditId", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "jcMisusedByOthersCount",width: '130px', title:'Job Cards Mis-Used By Others No'},
-		        		{ field: "jcMisusedByOthersAmt",width: '130px', title:'Job Cards Mis-Used By Others Amt'},
-		        		{ field: "wagesPaidWorkersWithoutJcCount",width: '130px', title:'Wages Paid To Workers Without Job Cards No'},
-		        		{ field: "wagesPaidWorkersWithoutJcAmt",width: '130px', title : "Wages Paid To Workers Without Job Cards Amt"},
-		        		{ field: "wagesPaidWithoutRecordMesurementCount",width: '130px', title : "Wages Paid Without Recording Measurements No"},
-		        		{ field: "wagesPaidWithoutRecordMesurementAmt",width: '130px', title : "Wages Paid Without Recording Measurements Amt"},
-		        		{ field: "wagesPaidExcessMBooksValueCount",width: '130px', title : "Wages Paid In Excess Of M-Book Value No"},
-		        		{ field: "wagesPaidExcessMBooksValueAmt",width: '130px', title : "Wages Paid In Excess Of M-Book Value Amt"},
-		        		{ field: "variationsBetweenNMRRegisterCount",width: '130px', title : "Variations In Signatures Between NMR & Register-I No"},
-		        		{ field: "variationsBetweenNMRRegisterAmt",width: '130px', title : "Variations In Signatures Between NMR & Register I Amt"},
-		        		{ field: "nmroverWritingCorrectionsCount",width: '130px', title : "NMR Over Writing Corrections No"},
-		        		{ field: "nmroverWritingCorrectionsAmt",width: '130px', title:'NMR Over Writing Corrections Amt'},
-		        		{ field: "inEligibleWorkersIncludeUnder18Count",width: '130px', title:'Ineligible Workers Including Under 18 Years No'},
-		        		{ field: "inEligibleWorkersIncludeUnder18Amt",width: '130px', title:'Ineligible Workers Including Under 18 Years Amt'},
-		        		{ field: "diffOnlineNMRPhysicalNMRCount",width: '130px', title : "Difference Between Online NMR & Physical NMR No"},
-		        		{ field: "diffOnlineNMRPhysicalNMRAmt",width: '130px', title : "Difference Between Online NMR & Physical NMR Amt"},
-		        		{ field: "wagesPaymentFromSchemeCount",width: '130px', title : "WSF Payment From Scheme Amount No"},
-		        		{ field: "wagesPaymentFromSchemeAmt",width: '130px', title : "WSF Payment From Scheme Amount"},
-		        		{ field: "amountMoreThanNMRFTOCount",width: '130px', title : "Amount More Than NMR In FTO No"},
-		        		{ field: "amountMoreThanNMRFTOAmt",width: '130px', title : "Amount More Than NMR In FTO Amt"},
-		        		{ field: "nmrnotProducedForAuditCount",width: '130px', title : "NMRs Not Produced For Audit No"},
-		        		{ field: "nmrnotProducedForAuditAmt",width: '130px', title : "NMRs Not Produced For Audit Amt"},
-
-
-		        		{ field: "mbooksNotProducedForAuditCount",width: '130px', title:'M-Books Not Produced For Audit No'},
-		        		{ field: "mbooksNotProducedForAuditAmt",width: '130px', title:'M-Books Not Produced For Audit Amt'},
-		        		{ field: "shortageMeasurementsCount",width: '130px', title:'hortage In Measurements No'},
-		        		{ field: "shortageMeasurementsAmt",width: '130px', title : "Shortage In Measurements Amt"},
-		        		{ field: "worksTakenUpWithoutGbApprovalCount",width: '130px', title : "Works Taken Up Without Grama Sabha Approval No"},
-		        		{ field: "worksTakenUpWithoutGbApprovalAmt",width: '130px', title : "Works Taken Up Without Grama Sabha Approval Amt"},
-		        		{ field: "estimatesNotProducedForAuditCount",width: '130px', title : "Estimates Not Produced For Audit No"},
-		        		{ field: "estimatesNotProducedForAuditAmt",width: '130px', title : "Estimates Not Produced For Audit Amt"},
-		        		{ field: "asnotProducedForAuditCount",width: '130px', title : "AS Not Produced For Audit No"},
-		        		{ field: "asnotProducedForAuditAmt",width: '130px', title : "AS not produced for Audit Amt"},
-		        		{ field: "tsnotProducedForAuditCount",width: '130px', title : "TS Not Produced For Audit No"},
-		        		{ field: "tsnotProducedForAuditAmt",width: '130px', title:'TS Not Produced For Audit Amt'},
-		        		{ field: "noneAdoptionOfScheduleRateCount",width: '130px', title:'n Adoption Of Schedule Of Rate No'},
-		        		{ field: "noneAdoptionOfScheduleRateAmt",width: '130px', title:'Non Adoption Of Schedule Of Rate Amt'},
+		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
+		        		{ field: "financialYear", groupable:true,width: '130px', title:'FY'},
+		        		{ field: "roundName", groupable:true,width: '130px', title:'Round'},
+		        		{ field: "districtName", groupable:true,width: '130px', title:'District'},
+		        		{ field: "blockName", groupable:true,width: '130px', title:'Block'},
+		        		{ field: "vpName", groupable:true,width: '130px', title:'Panchayat'},
+		        		{
+		        			title : "JC Misused",
+		        			columns :[
+		        				{ field: "jcMisusedByOthersCount",headerTemplate: "No", title : "JC Misused No",width: '130px', groupable:false  },
+		        				{ field: "jcMisusedByOthersAmt",format: '{0:n0}', headerTemplate : "Amount", title : "JC Misused Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Payment witout JC",
+		        			columns :[
+		        				{ field: "wagesPaidWorkersWithoutJcCount",headerTemplate: "No", title : "Payment witout JC No",width: '130px', groupable:false  },
+		        				{ field: "wagesPaidWorkersWithoutJcAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Payment witout JC Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Wages paid without measurement",
+		        			columns :[
+		        				{ field: "wagesPaidWithoutRecordMesurementCount",headerTemplate: "No", title : "Wages paid without measurement No",width: '130px', groupable:false  },
+		        				{ field: "wagesPaidWithoutRecordMesurementAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages paid without measurement Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Wages paid in excess of M Book",
+		        			columns :[
+		        				{ field: "wagesPaidExcessMBooksValueCount",headerTemplate: "No", title : "Wages paid in excess of M Book No",width: '130px', groupable:false  },
+		        				{ field: "wagesPaidExcessMBooksValueAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages paid in excess of M Book Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Signature Variation NMR and Register I",
+		        			columns :[
+		        				{ field: "variationsBetweenNMRRegisterCount",headerTemplate: "No", title : "Signature Variation No",width: '130px', groupable:false  },
+		        				{ field: "variationsBetweenNMRRegisterAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Signature Variation Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "NMR Overwriting",
+		        			columns :[
+		        				{ field: "nmroverWritingCorrectionsCount",headerTemplate: "No", title : "NMR Overwriting No",width: '130px', groupable:false  },
+		        				{ field: "nmroverWritingCorrectionsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Overwriting Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Ineligible Workers",
+		        			columns :[
+		        				{ field: "inEligibleWorkersIncludeUnder18Count",headerTemplate: "No", title : "Ineligible Workers No",width: '130px', groupable:false  },
+		        				{ field: "inEligibleWorkersIncludeUnder18Amt",format: '{0:n0}', headerTemplate : "Amount", title : "Ineligible Workers Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Diff online NMR & Physical NMR",
+		        			columns :[
+		        				{ field: "diffOnlineNMRPhysicalNMRCount",headerTemplate: "No", title : "Diff online NMR & Physical NMR No",width: '130px', groupable:false  },
+		        				{ field: "diffOnlineNMRPhysicalNMRAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Diff online NMR & Physical NMR Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "WSF Payment from scheme amount",
+		        			columns :[
+		        				{ field: "wagesPaymentFromSchemeCount",headerTemplate: "No", title : "WSF Payment No",width: '130px', groupable:false  },
+		        				{ field: "wagesPaymentFromSchemeAmt",format: '{0:n0}', headerTemplate : "Amount", title : "WSF Payment Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "FTO Amount more than NMR",
+		        			columns :[
+		        				{ field: "amountMoreThanNMRFTOCount",headerTemplate: "No", title : "FTO NMR No",width: '130px', groupable:false  },
+		        				{ field: "amountMoreThanNMRFTOAmt",format: '{0:n0}', headerTemplate : "Amount", title : "FTO NMR Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "NMR Not Produced For Audit",
+		        			columns :[
+		        				{ field: "nmrnotProducedForAuditCount",headerTemplate: "No", title : "NMR Not Produced For Audit No",width: '130px', groupable:false  },
+		        				{ field: "nmrnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Not Produced For Audit Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "M Books Not Produced For Audit",
+		        			columns :[
+		        				{ field: "mbooksNotProducedForAuditCount",headerTemplate: "No", title : "M Books Not Produced For Audit No",width: '130px', groupable:false  },
+		        				{ field: "mbooksNotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "M Books Not Produced For Audit Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Shortage In Measurements",
+		        			columns :[
+		        				{ field: "shortageMeasurementsCount",headerTemplate: "No", title : "Shortage In Measurements No",width: '130px', groupable:false  },
+		        				{ field: "shortageMeasurementsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Shortage In Measurements Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Works without GS approval",
+		        			columns :[
+		        				{ field: "worksTakenUpWithoutGbApprovalCount",headerTemplate: "No", title : "Works without GS approval No",width: '130px', groupable:false  },
+		        				{ field: "worksTakenUpWithoutGbApprovalAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Works without GS approval Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Estimates Not Produced For Audit",
+		        			columns :[
+		        				{ field: "estimatesNotProducedForAuditCount",headerTemplate: "No", title : "Estimates Not Produced For Audit No",width: '130px', groupable:false  },
+		        				{ field: "estimatesNotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Estimates Not Produced For Audit Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "AS Not Produced For Audit",
+		        			columns :[
+		        				{ field: "asnotProducedForAuditCount",headerTemplate: "No", title : "AS Not Produced For Audit No",width: '130px', groupable:false  },
+		        				{ field: "asnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "AS Not Produced For Audit Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "TS Not Produced For Audit",
+		        			columns :[
+		        				{ field: "tsnotProducedForAuditCount",headerTemplate: "No", title : "TS Not Produced For Audit No",width: '130px', groupable:false  },
+		        				{ field: "tsnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "TS Not Produced For Audit Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Non Adoption Of Schedule Of Rate",
+		        			columns :[
+		        				{ field: "noneAdoptionOfScheduleRateCount",headerTemplate: "No", title : "Non Adoption Of Schedule No",width: '130px', groupable:false  },
+		        				{ field: "noneAdoptionOfScheduleRateAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Non Adoption Of Schedule Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
+		        		{
+		        			title : "Total",
+		        			columns :[
+		        				{ field: "totalCount",headerTemplate: "No", title : "Total Count",width: '130px', groupable:false  },
+		        				{ field: "totalAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Total Amount",width: '130px', groupable:false  },
+		        			]
+		        		},
 		        		{
  							title : "",
 		                    width: '30px',
@@ -535,13 +641,27 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,
+	        pageSize: 30,
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 20, 30],
+                messages: {
+                    refresh: "Refresh Deviations"
+                }
+            },	        
 	        dataSource: {
-	            pageSize: 5,
+	        	pageSize: 30,
 	            transport: {
 	                read: function (e) {
+	                	var baseUrl = $scope.crudServiceBaseUrl + 
+	                	'/deviation/getlist?key='+decodeURIComponent($location.search().aid);
+	                	if($.inArray($rootScope.sessionConfig.userGroupId, $rootScope.appConfig.blockLevelGroups)>-1){
+	                		baseUrl = baseUrl + '&userid='+$rootScope.sessionConfig.userId;
+	                	}	                	
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/deviation/getlist'
+				         url: baseUrl,
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)
@@ -550,7 +670,93 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 	                  error(function(data, status, headers, config) {
 	                  });
 	              }
-	           }
+	           },
+				schema:{
+                    model: {
+                        fields: {
+							  jcMisusedByOthersCount: { type: "number" },
+							  jcMisusedByOthersAmt: { type: "number" },
+							  wagesPaymentFromSchemeAmt: { type: "number" },
+							  amountMoreThanNMRFTOCount: { type: "number" },
+							  amountMoreThanNMRFTOAmt: { type: "number" },
+							  nmrnotProducedForAuditAmt: { type: "number" },
+							  shortageMeasurementsCount: { type: "number" },
+							  shortageMeasurementsAmt: { type: "number" },
+							  asnotProducedForAuditCount: { type: "number" },
+							  asnotProducedForAuditAmt: { type: "number" },
+							  tsnotProducedForAuditCount: { type: "number" },
+							  tsnotProducedForAuditAmt: { type: "number" },
+							  wagesPaidWorkersWithoutJcCount: { type: "number" },
+							  wagesPaidWithoutRecordMesurementCount: { type: "number" },
+							  wagesPaidWithoutRecordMesurementAmt: { type: "number" },
+							  wagesPaidExcessMBooksValueCount: { type: "number" },
+							  wagesPaidExcessMBooksValueAmt: { type: "number" },
+							  variationsBetweenNMRRegisterCount: { type: "number" },
+							  variationsBetweenNMRRegisterAmt: { type: "number" },
+							  nmroverWritingCorrectionsCount: { type: "number" },
+							  nmroverWritingCorrectionsAmt: { type: "number" },
+							  inEligibleWorkersIncludeUnder18Count: { type: "number" },
+							  inEligibleWorkersIncludeUnder18Amt: { type: "number" },
+							  diffOnlineNMRPhysicalNMRCount: { type: "number" },
+							  diffOnlineNMRPhysicalNMRAmt: { type: "number" },
+							  wagesPaymentFromSchemeCount: { type: "number" },
+							  nmrnotProducedForAuditCount: { type: "number" },
+							  mbooksNotProducedForAuditCount: { type: "number" },
+							  mbooksNotProducedForAuditAmt: { type: "number" },
+							  worksTakenUpWithoutGbApprovalCount: { type: "number" },
+							  worksTakenUpWithoutGbApprovalAmt: { type: "number" },
+							  estimatesNotProducedForAuditCount: { type: "number" },
+							  estimatesNotProducedForAuditAmt: { type: "number" },
+							  noneAdoptionOfScheduleRateCount: { type: "number" },
+							  noneAdoptionOfScheduleRateAmt: { type: "number" },
+							  wagesPaidWorkersWithoutJcAmt: { type: "number" }
+                        }
+                    },
+                    parse : function(d){
+				        $.each(d, function(idx, elem) {
+				        	/*Total Amount*/
+				            elem.totalAmount = (elem.jcMisusedByOthersAmt||0)+
+				            (elem.wagesPaymentFromSchemeAmt||0)+
+				            (elem.amountMoreThanNMRFTOAmt||0)+
+				            (elem.nmrnotProducedForAuditAmt||0)+
+				            (elem.shortageMeasurementsAmt||0)+
+				            (elem.asnotProducedForAuditAmt||0)+
+				            (elem.tsnotProducedForAuditAmt||0)+
+				            (elem.wagesPaidWithoutRecordMesurementAmt||0)+
+				            (elem.wagesPaidExcessMBooksValueAmt||0)+
+				            (elem.variationsBetweenNMRRegisterAmt||0)+
+				            (elem.nmroverWritingCorrectionsAmt||0)+
+				            (elem.inEligibleWorkersIncludeUnder18Amt||0)+
+				            (elem.diffOnlineNMRPhysicalNMRAmt||0)+
+				            (elem.mbooksNotProducedForAuditAmt||0)+
+				            (elem.worksTakenUpWithoutGbApprovalAmt||0)+
+				            (elem.estimatesNotProducedForAuditAmt||0)+
+				            (elem.noneAdoptionOfScheduleRateAmt||0)+
+				            (elem.wagesPaidWorkersWithoutJcAmt||0);
+				            /*Total Count*/
+				            elem.totalCount = (elem.jcMisusedByOthersCount||0)+
+				            (elem.amountMoreThanNMRFTOCount||0)+
+				            (elem.shortageMeasurementsCount||0)+
+				            (elem.asnotProducedForAuditCount||0)+
+				            (elem.tsnotProducedForAuditCount||0)+
+				            (elem.wagesPaidWorkersWithoutJcCount||0)+
+				            (elem.wagesPaidWithoutRecordMesurementCount||0)+
+				            (elem.wagesPaidExcessMBooksValueCount||0)+
+				            (elem.variationsBetweenNMRRegisterCount||0)+
+				            (elem.nmroverWritingCorrectionsCount||0)+
+				            (elem.inEligibleWorkersIncludeUnder18Count||0)+
+				            (elem.diffOnlineNMRPhysicalNMRCount||0)+
+				            (elem.wagesPaymentFromSchemeCount||0)+
+				            (elem.nmrnotProducedForAuditCount||0)+
+				            (elem.mbooksNotProducedForAuditCount||0)+
+				            (elem.worksTakenUpWithoutGbApprovalCount||0)+
+				            (elem.estimatesNotProducedForAuditCount||0)+
+				            (elem.noneAdoptionOfScheduleRateCount||0);
+
+				        });
+				        return d;                	
+                    }
+                }
 	        }
 	    }
 

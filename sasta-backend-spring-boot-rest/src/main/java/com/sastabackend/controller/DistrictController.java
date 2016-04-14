@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-
 /**
  * Created by SARVA on 08/Nov/2015.
  */

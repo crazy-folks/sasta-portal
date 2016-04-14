@@ -3,7 +3,9 @@ app.controller('EntityGroupsController',['$http','$window','$scope','$rootScope'
 
 		$scope.entitygroupsfactory = entitygroupsfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Action of clicking Add name link.
 	    $scope.modelDialogTitle = {
 	    	AddEntityGroupTitle : "Add User Groups",
@@ -121,6 +123,7 @@ app.controller('EntityGroupsController',['$http','$window','$scope','$rootScope'
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseAddEntityGroupsWindow();
 				        $scope.doReset();	
 			  		}else{
@@ -151,6 +154,7 @@ app.controller('EntityGroupsController',['$http','$window','$scope','$rootScope'
 			        });						
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditEntityGroupsWindow();
 			        $scope.doReset();
 		  		}else{
@@ -188,15 +192,17 @@ app.controller('EntityGroupsController',['$http','$window','$scope','$rootScope'
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editentitygroups = {
-	    		id : data.id,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				status: false
-	    	};
-	    	DoUpdate();	    	
+	    	if(confirm('Are you sure want to delete?')){
+	    		$scope.editentitygroups = {
+		    		id : data.id,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					status: false
+		    	};
+		    	DoUpdate();
+	    	}	
 	    }
 	    $scope.gridOptions = {
 	        columns: [ 
@@ -223,7 +229,8 @@ app.controller('EntityGroupsController',['$http','$window','$scope','$rootScope'
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/entitygroups/getlist'
+				         url: $scope.crudServiceBaseUrl + '/entitygroups/getlist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

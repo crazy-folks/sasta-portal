@@ -20,7 +20,8 @@ public enum LookupType {
     VillagePanchayats(14),
     Users(15),
     UserGroups(16),
-    None(17);
+    DistrictsVillagePanchayats(17),
+    None(18);
     int id;
 
     /**

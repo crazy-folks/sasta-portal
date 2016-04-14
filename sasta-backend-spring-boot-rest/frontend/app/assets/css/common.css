@@ -17,6 +17,9 @@ body{
 
 .table-cell {
     vertical-align: middle;
+    position: absolute;
+    top:25%;
+    left:35%;
 }
 .py4 {
     padding-top: 4rem;

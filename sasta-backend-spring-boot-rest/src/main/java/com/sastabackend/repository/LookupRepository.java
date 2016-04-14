@@ -34,25 +34,28 @@ public class LookupRepository {
         LookupType type = LookupType.GetValue(value);
         StringBuilder builder = new StringBuilder();
         StringBuilder where = new StringBuilder();
-        where.append(" where is_active=1 ");
+        where.append(" where is_active = 1 ");
         builder.append("select id as 'value',name as 'text' from ");
         switch(type){
             case AuditBlocks:
                 builder.append("audit_blocks");
                 if(!clause.isEmpty() && clause != null) {
-                    where.append(" and district_id = ".concat(clause));
+                    where.append(" and district_id in ( ".concat(clause));
+                    where.append(")");
                 }
                 break;
             case AuditDistricts:
                     builder.append("audit_district");
                     if(!clause.isEmpty() && clause != null) {
-                        where.append(" and audit_state_id =".concat(clause));
+                        where.append(" and audit_state_id in ( ".concat(clause));
+                        where.append(")");
                     }
                 break;
             case AuditStates:
                 builder.append("audit_state");
                 if(!clause.isEmpty() && clause != null) {
-                    where.append(" and country_id =".concat(clause));
+                    where.append(" and country_id in ( ".concat(clause));
+                    where.append(")");
                 }
                 break;
             case Bank:
@@ -83,7 +86,15 @@ public class LookupRepository {
                 builder.append("qualification");
                 break;
             case Rounds:
-                builder.append("rounds");
+                builder = new StringBuilder();
+                builder.append(" select rnd.id as 'value',concat(rnd.name,' (',fy.name,')') as 'text' from ");
+                builder.append(" rounds rnd ");
+                builder.append(" inner join financial_year fy on fy.id = rnd.reference_id ");
+                where = new StringBuilder("");
+                if(!clause.isEmpty()&& clause != null) {
+                    where.append(" where rnd.is_active = 1 and rnd.reference_id in ( ".concat(clause));
+                    where.append(")");
+                }
                 break;
             case VillagePanchayats:
                 builder.append("village_panchayats");
@@ -91,9 +102,25 @@ public class LookupRepository {
                     where.append(" and audit_block_id =".concat(clause));
                 }
                 break;
+            case DistrictsVillagePanchayats:
+                builder = new StringBuilder();
+                builder.append(" select vil.id as 'value',vil.name as 'text' from village_panchayats vil ");
+                builder.append(" inner join audit_blocks blk on blk.id = vil.audit_block_id ");
+                builder.append(" inner join audit_district dis on dis.id = blk.district_id ");
+                where = new StringBuilder("");
+                if(!clause.isEmpty()&& clause != null) {
+                    where.append(" where dis.id in( ".concat(clause));
+                    where.append(")");
+                }
+                break;
             case Users:
                 builder = new StringBuilder();
                 builder.append("select id as 'value',CONCAT(CONCAT(first_name, ' '),last_name) as 'text' from users");
+                where = new StringBuilder("");
+                if(!clause.isEmpty()&& clause != null) {
+                    where.append(" where is_active = 1 and allotted_district in ( ".concat(clause));
+                    where.append(")");
+                }
                 break;
             case UserGroups:
                 builder.append("entity_groups");
@@ -103,7 +130,7 @@ public class LookupRepository {
         }
         builder.append(" ");
         builder.append(where.toString());
-        LOGGER.debug("Builder Query :  " + builder.toString());
+        //LOGGER.debug("Builder Query :  " + builder.toString());
         return builder.toString();
     }
 

@@ -3,7 +3,9 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 
 		$scope.countriesfactory = countriesfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Action of clicking product name link.
 	    $scope.modelDialogTitle = {
 	    	AddCountriesTitle : "Add Countries",
@@ -127,6 +129,7 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseAddCountriesWindow();
 				        $scope.doReset();
 			  		}else{
@@ -157,6 +160,7 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 			        });							
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditCountriesWindow();
 			        $scope.doReset();
 		  		}else{
@@ -196,17 +200,19 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editcountries = {
-			    name: data.name,
-			    description: data.description,
-			    status: false,
-			    countryCode: data.countryCode,
-			    modifiedBy: $rootScope.sessionConfig.userId,
-			    createdBy: $rootScope.sessionConfig.userId,
-			    countryId: data.countryId,
-			    shortName: data.shortName
-	    	};
-	    	DoUpdate();
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editcountries = {
+				    name: data.name,
+				    description: data.description,
+				    status: false,
+				    countryCode: data.countryCode,
+				    modifiedBy: $rootScope.sessionConfig.userId,
+				    createdBy: $rootScope.sessionConfig.userId,
+				    countryId: data.countryId,
+				    shortName: data.shortName
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 	    $scope.gridOptions = {
@@ -236,7 +242,8 @@ app.controller('CountriesController',['$http','$window','$scope','$rootScope','n
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/countries/getlist'
+				         url: $scope.crudServiceBaseUrl + '/countries/getlist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

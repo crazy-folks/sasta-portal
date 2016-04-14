@@ -1,11 +1,9 @@
 package com.sastabackend.service.grievances;
 
-import com.sastabackend.domain.Deviation;
-import com.sastabackend.domain.Grievances;
-import com.sastabackend.domain.MgnRegaWorks;
-import com.sastabackend.domain.ResponseModel;
+import com.sastabackend.domain.*;
 import com.sastabackend.repository.GrievancesRepository;
 import com.sastabackend.repository.MgnRegaRepository;
+import com.sastabackend.util.BaseRowMapper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,12 +62,12 @@ public class GrievancesServicesImpl implements GrievancesServices {
     }
 
     @Override
-    public ResponseModel findAll() {
+    public ResponseModel findAll(Long userid,Long auditid) {
         LOGGER.debug("Reading Grievances  : {}");
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<Grievances>>();
-            response.setData(readList());
+            response.setData(readList(userid, auditid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -108,6 +106,25 @@ public class GrievancesServicesImpl implements GrievancesServices {
         return response;
     }
 
+    /**
+     * Read All Grievances based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Grievances, If fail empty list
+     */
+    @Override
+    public ResponseModel getGrievancesReports(ReportsProperty prop){
+        LOGGER.debug("Reading Grievances Reports  : {}");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<Grievances>>();
+            response.setData(readGrievancesReports(prop));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
 
     private boolean Create(Grievances dv)  {
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_grievences")
@@ -318,8 +335,8 @@ public class GrievancesServicesImpl implements GrievancesServices {
 
 
 
-    private List<Grievances> readList(){
-        List<Grievances> list = jdbcTemplate.query("call select_grievences", new GrievancesMapper());
+    private List<Grievances> readList(Long userid,Long auditid){
+        List<Grievances> list = jdbcTemplate.query("call select_grievences(?,?)", new Object[]{userid, auditid}, new GrievancesMapper());
         return list;
     }
 
@@ -330,6 +347,105 @@ public class GrievancesServicesImpl implements GrievancesServices {
             return null;
         else
             return o.get(0);
+    }
+
+    /**
+     * Read All Grievances based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Grievances, If fail empty list
+     */
+    private List<Grievances> readGrievancesReports(ReportsProperty prop){
+        List<Grievances> o = new ArrayList<Grievances>();
+        if(!prop.getIsConsolidate())
+            o = jdbcTemplate.query("call grievances_reports(?,?,?,?,?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId(),prop.getDistrictId(),prop.getBlockId(),prop.getVillageId(),prop.getUserId()},
+                    new GrievancesReportMapper());
+        else
+            o = jdbcTemplate.query("call grievances_consolidate_reports(?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId()},
+                    new GrievancesReportMapper());
+        return o;
+    }
+
+    protected static final class GrievancesReportMapper extends BaseRowMapper {
+
+        public Object mapRowImpl(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            Grievances o = new Grievances();
+            if(hasColumn("id"))
+                o.setId(set.getLong("id"));
+            if(hasColumn("audit_id"))
+                o.setAuditId(set.getLong("audit_id"));
+            if(hasColumn("fy_name"))
+                o.setFinancialYear(set.getString("fy_name"));
+            if(hasColumn("round_name"))
+                o.setRoundName(set.getString("round_name"));
+            if(hasColumn("start_date"))
+                o.setRoundStartDate(set.getDate("start_date"));
+            if(hasColumn("end_date"))
+                o.setRoundEndDate(set.getDate("end_date"));
+            if(hasColumn("district_name"))
+                o.setDistrictName(StringUtils.trimToNull(set.getString("district_name")));
+            if(hasColumn("block_name"))
+                o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
+            if(hasColumn("village_name"))
+                o.setVpName(StringUtils.trimToNull(set.getString("village_name")));
+            o.setTotalReceivedGrievancesHF(set.getInt("total_received_grievances_HF"));
+            o.setTotalReceivedGrievancesMeeting(set.getInt("total_received_grievances_meeting"));
+            o.setReqForNewJc(set.getInt("req_for_new_jc"));
+            o.setReqForMoreThan100Days(set.getInt("req_for_more_than_100_days"));
+            o.setReqForConstructionIHHL(set.getInt("req_for_construction_IHHL"));
+            o.setReqForConstructionIAYHouse(set.getInt("req_for_construction_IAY_house"));
+            o.setReqForConstructionCattleShelter(set.getInt("req_for_construction_cattle_shelter"));
+            o.setDemandForWork(set.getInt("demand_for_work"));
+            o.setDemandForRenewelJc(set.getInt("demand_for_renewel_jc"));
+            o.setDemandForIndividualBenefitScheme(set.getInt("demand_for_individual_benefit_scheme"));
+            o.setDemandForWagesIncrease(set.getInt("demand_for_wages_increase"));
+            o.setDemandForPds(set.getInt("demand_for_pds"));
+            o.setDemandForLibraryBuilding(set.getInt("demand_for_library_building"));
+            o.setNonProvisionOfWorkSiteFacilities(set.getInt("non_provision_of_work_site_facilities"));
+            o.setComplaintAgainstBankingCorrespondent(set.getInt("complaint_against_banking_correspondent"));
+            o.setOAPNotProvidedJc(set.getInt("OAP_not_provided_jc"));
+            o.setOAPNotProvidedWork(set.getInt("OAP_not_provided_work"));
+            o.setComplaintsAgainstWorksiteFacilidator(set.getInt("complaints_against_worksite_facilidator"));
+            o.setComplaintsAgainstVPPresident(set.getInt("complaints_against_VP_president"));
+            o.setComplaintsAgainstUnionOverseer(set.getInt("complaints_against_union_overseer"));
+            o.setComplaintsAgainstBDOVP(set.getInt("complaints_against_BDO_VP"));
+            o.setComplaintsAgainstVPSecretory(set.getInt("complaints_against_VP_secretory"));
+            o.setOthers(set.getInt("others"));
+            o.setDelayWagesPaymentCount(set.getInt("delay_wages_payment_count"));
+            o.setDelayWagesPaymentAmt(set.getBigDecimal("delay_wages_payment_amt"));
+            o.setFullEntitlementNotGivenCount(set.getInt("full_entitlement_not_given_count"));
+            o.setFullEntitlementNotGivenAmt(set.getBigDecimal("full_entitlement_not_given_amt"));
+            o.setLessPaymentValueRecordedMBookCount(set.getInt("less_payment_value_recorded_MBook_count"));
+            o.setLessPaymentValueRecordedMBookAmt(set.getBigDecimal("less_payment_value_recorded_MBook_amt"));
+            o.setWagesDrawnLessThanActualNoDaysCount(set.getInt("wages_drawn_less_than_actual_no_days_count"));
+            o.setWagesDrawnLessThanActualNoDaysAmt(set.getBigDecimal("wages_drawn_less_than_actual_no_days_amt"));
+            o.setWagesNotPaidWorkersActuallyWorkedCount(set.getInt("wages_not_paid_workers_actually_worked_count"));
+            o.setWagesNotPaidWorkersActuallyWorkedAmt(set.getBigDecimal("wages_not_paid_workers_actually_worked_amt"));
+            o.setTransportAllowanceNotGivenCount(set.getInt("transport_allowance_not_given_count"));
+            o.setTransportAllowanceNotGivenAmt(set.getBigDecimal("transport_allowance_not_given_amt"));
+            o.setNoCompensationInjuredAtWorksiteCount(set.getInt("no_compensation_injured_at_worksite_count"));
+            o.setNoCompensationInjuredAtWorksiteAmt(set.getBigDecimal("no_compensation_injured_at_worksite_amt"));
+            o.setNoCompensationDeadAtWorksiteCount(set.getInt("no_compensation_dead_at_worksite_count"));
+            o.setNoCompensationDeadAtWorksiteAmt(set.getBigDecimal("no_compensation_dead_at_worksite_amt"));
+            o.setReqPaymentCompletedIHHLWorkCount(set.getInt("req_payment_completed_IHHL_work_count"));
+            o.setReqPaymentCompletedIHHLWorkAmt(set.getBigDecimal("req_payment_completed_IHHL_work_amt"));
+            if(hasColumn("created_date"))
+                o.setCreatedDate(set.getTimestamp("created_date"));
+            if(hasColumn("modified_date"))
+                o.setModifiedDate(set.getTimestamp("modified_date"));
+            if(hasColumn("created_by"))
+                o.setCreatedBy(set.getLong("created_by"));
+            if(hasColumn("modified_by"))
+                o.setModifiedBy(set.getLong("modified_by"));
+            //o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            //o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
+            if(hasColumn("is_active"))
+                o.setStatus(set.getBoolean("is_active"));
+            //LOGGER.debug("Grievances  : {}", o.toString());
+            return o;
+        }
     }
 
     protected static final class GrievancesMapper implements RowMapper {

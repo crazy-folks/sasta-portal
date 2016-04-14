@@ -3,7 +3,9 @@ app.controller('StatesController',['$http','$window','$scope','$rootScope','noti
 
 		$scope.statesfactory = statesfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
 	    	AddStateTitle : "Add States",
@@ -146,6 +148,7 @@ app.controller('StatesController',['$http','$window','$scope','$rootScope','noti
 				        });						
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseAddStatesWindow();
 				        $scope.doReset();
 			  		}else{
@@ -176,6 +179,7 @@ app.controller('StatesController',['$http','$window','$scope','$rootScope','noti
 			        });								
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditStatesWindow();
 			        $scope.doReset();
 		  		}else{
@@ -226,18 +230,20 @@ app.controller('StatesController',['$http','$window','$scope','$rootScope','noti
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editstates = {
-	    		countryId : data.countryId,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				stateId : data.stateId,
-				stateCode : data.stateCode,
-				shortName : data.shortName,
-				status: false
-	    	};
-	    	DoUpdate();		
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editstates = {
+		    		countryId : data.countryId,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					stateId : data.stateId,
+					stateCode : data.stateCode,
+					shortName : data.shortName,
+					status: false
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 	    $scope.gridOptions = {
@@ -266,7 +272,8 @@ app.controller('StatesController',['$http','$window','$scope','$rootScope','noti
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/states/getlist'
+				         url: $scope.crudServiceBaseUrl + '/states/getlist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

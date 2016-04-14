@@ -1,6 +1,7 @@
 package com.sastabackend.controller;
 
 import com.sastabackend.domain.Audit;
+import com.sastabackend.domain.AuditReq;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.service.audit.AuditService;
 import com.sastabackend.util.Constants;
@@ -12,14 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.sql.Date;
-
+import  com.sastabackend.util.TextUtil;
 /**
  * Created by SARVA on 09/Nov/2015.
  */
 @RestController
 @RequestMapping("/api/audit")
 public class AuditController {
-
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BankController.class);
     private final AuditService auditService;
@@ -45,10 +45,11 @@ public class AuditController {
                 ac.getAuditBlockId(), ac.getVillagePanchayatId(), ac.getModifiedBy(), ac.getStatus());
     }
 
-    @ApiOperation(value = "Read Audit List", response = ResponseModel.class, httpMethod = "GET")
-    @RequestMapping(value = "/getlist", method = RequestMethod.GET)
-    public ResponseModel getList() {
-        return auditService.findAll();
+    @ApiOperation(value = "Read Audit List", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/getlist", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseModel getList( @RequestBody AuditReq req ) {
+        return auditService.findAll(req.getDistrictId(),req.getBlockId(),req.getFinancialId(),req.getUserId());
     }
 
     @ApiOperation(value = "Read Audit Data by ID", response = ResponseModel.class, httpMethod = "GET")
@@ -71,7 +72,11 @@ public class AuditController {
         CryptoUtil crypt = new CryptoUtil();
         Long value = 0L;
         try {
-            value = Long.valueOf(crypt.decrypt(Constants.SALT_KEY,key)).longValue();
+            //LOGGER.debug("user id  : {}", userid);
+            //LOGGER.debug("key  : {}", key);    
+            key = TextUtil.DecodeString(key); 
+            //LOGGER.debug("key  : {}", key);        
+            value = Long.valueOf(key).longValue();
         }catch (Exception err){
             // do nothing
         }

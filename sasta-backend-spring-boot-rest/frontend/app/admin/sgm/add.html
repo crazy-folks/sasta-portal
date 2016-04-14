@@ -86,7 +86,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtnameOfPersonHeadSgs" class="label-adjust">Name of the person who headed in SGS</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtnameOfPersonHeadSgs" name="txtnameOfPersonHeadSgs"
+                            <input type="text" ng-maxlength="150"  class="k-input width-95 validate[required]" id="txtnameOfPersonHeadSgs" name="txtnameOfPersonHeadSgs"
                                    data-ng-model="sgm.nameOfPersonHeadSgs" 
                                   />
                         </div>
@@ -95,7 +95,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtnameOfPersonRecordedMinutes" class="label-adjust">Name of the person who recorded SGS minutes</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtnameOfPersonRecordedMinutes" name="txtnameOfPersonRecordedMinutes"
+                            <input type="text" ng-maxlength="150"  class="k-input width-95 validate[required]" id="txtnameOfPersonRecordedMinutes" name="txtnameOfPersonRecordedMinutes"
                                    data-ng-model="sgm.nameOfPersonRecordedMinutes" 
                                   />
                         </div>
@@ -143,11 +143,6 @@
                                   />
                         </div>
                     </div>
-
-
-                   
-                    
-
                 </div>
             </div>
 

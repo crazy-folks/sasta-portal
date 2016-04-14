@@ -617,6 +617,13 @@ function slidToggle(){
     };
 }
 
+function toggle(){
+     return function(scope, elem, attrs) {
+        scope.$on('event:toggle', function() {
+            elem.slideToggle();
+        });
+    };   
+}
 
 /*
  * Pass functions to module
@@ -650,4 +657,5 @@ angular
     .directive('toggleSettings', toggleSettings)
     .directive('switchTheme', switchTheme)
     .directive('cardFlip', cardFlip)
+    .directive('toggle',toggle)
     

@@ -65,6 +65,7 @@ package com.sastabackend.domain;
         private String vrp_community_name;
         private String vrp_bank_name;
         private String vrp_grade_name;
+        private String pay_mode_name;
 
         public VrpDetails(){}
 
@@ -424,6 +425,14 @@ package com.sastabackend.domain;
 
         public void setVrpGradeName(String vrp_grade_name) {
             this.vrp_grade_name = vrp_grade_name;
+        }
+
+        public String getPayModeName() {
+            return pay_mode_name;
+        }
+
+        public void setPayModeName(String pay_mode_name) {
+            this.pay_mode_name = pay_mode_name;
         }
 
     @Override

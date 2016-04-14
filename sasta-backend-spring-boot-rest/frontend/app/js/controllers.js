@@ -53,7 +53,6 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     }
 
     /* Sign in code start */
-
     $scope.vm = {
         userName : '',
         password : ''
@@ -148,7 +147,7 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     }
 
     $scope.checkChangePwdjQueryValidator = null;
-    $scope.ChangePasswordFormName = "#frmChangePassword"
+    $scope.ChangePasswordFormName = "#frmChangePassword";
 
     $scope.CloseChangePasswordWindow = function(){
         $scope.changePasswordWindow.close();
@@ -183,26 +182,30 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     };
 
     $scope.kchangePasswordWindowOptions = {
-            content: 'admin/profile/changepassword.html',
-            title: "Change Password",
-            iframe: false,
-            draggable: true,
-            modal: true,
-            resizable: true,
-            visible: false,      
-            animation: {
-                close: {
-                    effects: "fade:out"
-                }
-            },
-            open : function() {
-                $($scope.ChangePasswordFormName).validationEngine('attach', {
-                    promptPosition: "topLeft",
-                    scroll: true
-                });         
-                $scope.checkChangePwdjQueryValidator = new Validator($scope.ChangePasswordFormName); 
+        content: 'admin/profile/changepassword.html',
+        title: "Change Password",
+        iframe: false,
+        draggable: true,
+        modal: true,
+        resizable: true,
+        visible: false,      
+        animation: {
+            close: {
+                effects: "fade:out"
             }
-        };
+        },
+        open : function() {
+            $($scope.ChangePasswordFormName).validationEngine('attach', {
+                promptPosition: "topLeft",
+                scroll: true
+            });         
+            $scope.checkChangePwdjQueryValidator = new Validator($scope.ChangePasswordFormName); 
+        }
+    };
+
+    $scope.toggle = function() {
+        $scope.$broadcast('event:toggle');
+    }
 
 }]);
 
@@ -461,5 +464,31 @@ var Util = {
             }
         }
         return obj;
-    }
+    },
+    showContextMenu : function (e,grid) {
+            var offset = {
+              top: e.pageY,
+              left: e.pageX
+            },
+              bottom = $(window).scrollTop() + $(window).height(),
+              right = $(window).scrollLeft() + $(window).width(),
+              height = $(e.target).height(),
+              width = $(e.target).width(),
+              targetOffset = $(grid.element).offset();
+              var position ={
+                top : (offset.top-targetOffset.top)-$(e.target).find("ul").height(),
+                'z-index':999001,
+                left : (offset.left - targetOffset.left)-130
+              };
+
+            if (position.top + height > bottom) {
+              position.top -= height;
+            }
+
+            if (position.left + width > right) {
+              position.left -= width;
+            }         
+            $(e.target).find("ul").css(position).show();
+            e.preventDefault();
+      }    
 }

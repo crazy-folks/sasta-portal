@@ -49,13 +49,13 @@
 		                        <!-- EMAIL -->
 		                        <div class="form-group">
 		                            <label for="email">Email*</label>
-		                            <input type="email" name="email" class="k-input width-95 validate[required,custom[email]]" ng-model="user.email">
+		                            <input type="email" autocomplete="off" name="email" class="k-input width-95 validate[required,custom[email]]" ng-model="user.email">
 		                        </div>
 
 		                        <!-- EMAIL -->
 		                        <div class="form-group">
 		                            <label>Password*</label>
-		                            <input type="password" name="password" class="k-input width-95 validate[required]" ng-model="user.password">
+		                            <input type="password" autocomplete="off" name="password" class="k-input width-95 validate[required]" ng-model="user.password">
 		                        </div>
 		                        <!-- Gender -->
 	                            <div class="form-group">
@@ -130,29 +130,29 @@
 
 		                        <!-- REPORTING TO -->
 	                            <div class="form-group">
-	                            	<label for="selReportingTo">Reporting To*</label>
-					                <select name="selReportingTo" id="selReportingTo" class="k-input width-95 validate[required]" ng-model="defaultReportingTo" ng-options="obj.text for obj in reportingto track by obj.value" >
+	                            	<label for="selReportingTo">Reporting To</label>
+					                <select name="selReportingTo" id="selReportingTo" class="k-input width-95" ng-model="defaultReportingTo" ng-options="obj.text for obj in reportingto track by obj.value" >
 					                </select>	                                	
 	                            </div>
 
 		                        <!-- ALLOTTED DISTRICT -->
 	                            <div class="form-group">
-	                            	<label for="selAllottedDistrict">Allotted District*</label>
-					                <select name="selAllottedDistrict" id="selAllottedDistrict" class="k-input width-95 validate[required]" ng-model="defaultDistricts" ng-options="obj.text for obj in allotteddistricts track by obj.value" >
+	                            	<label for="selAllottedDistrict">Allotted District</label>
+					                <select name="selAllottedDistrict" id="selAllottedDistrict" class="k-input width-95" ng-model="defaultDistricts" ng-options="obj.text for obj in allotteddistricts track by obj.value" >
 					                </select>	                                	
 	                            </div>
 
 		                        <!-- ALLOTTED BLOCK -->
 	                            <div class="form-group">
-	                            	<label for="selAllottedBlock">Allotted Block*</label>
-					                <select name="selAllottedBlock" id="selAllottedBlock" class="k-input width-95 validate[required]" ng-model="defaultBlocks" ng-options="obj.text for obj in allottedblocks track by obj.value" >
+	                            	<label for="selAllottedBlock">Allotted Block</label>
+					                <select name="selAllottedBlock" id="selAllottedBlock" class="k-input width-95" ng-model="defaultBlocks" ng-options="obj.text for obj in allottedblocks track by obj.value" >
 					                </select>	                                	
 	                            </div>	   
 
 		                        <!-- Recruitement Type -->
 	                            <div class="form-group">
-	                            	<label for="selRecruitementType">Recruitement Type*</label>
-					                <select name="selRecruitementType" id="selRecruitementType" class="k-input width-95 validate[required]" ng-model="defaultRecruitementType" ng-options="obj.text for obj in recruitementType track by obj.value" >		                
+	                            	<label for="selRecruitementType">Recruitement Type</label>
+					                <select name="selRecruitementType" id="selRecruitementType" class="k-input width-95" ng-model="defaultRecruitementType" ng-options="obj.text for obj in recruitementType track by obj.value" >		                
 					                </select>	                                	
 	                            </div>
 			                </div>

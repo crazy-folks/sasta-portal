@@ -1,5 +1,6 @@
 package com.sastabackend.service.expenditure;
 
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 
 /**
@@ -7,7 +8,8 @@ import com.sastabackend.domain.ResponseModel;
  */
 public interface ExpenditureService {
     ResponseModel findOne(Long id);
-    ResponseModel findAll();
+    ResponseModel findAll(Long userid,Long auditid);
+    ResponseModel getExpenditureReports(ReportsProperty prop);
     ResponseModel Add(Long auditid, Integer visitedvillagecount, Integer appreceivedcount, Integer attendedappcount,
                       java.math.BigDecimal refreshmentcharges, Integer selectedvrpcount,
                       java.math.BigDecimal paidedamount, java.math.BigDecimal photographycharges,

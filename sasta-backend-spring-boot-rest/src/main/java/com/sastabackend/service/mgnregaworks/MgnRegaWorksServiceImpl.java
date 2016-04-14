@@ -2,9 +2,11 @@ package com.sastabackend.service.mgnregaworks;
 
 import com.sastabackend.domain.Expenditure;
 import com.sastabackend.domain.MgnRegaWorks;
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.repository.ExpenditureRepository;
 import com.sastabackend.repository.MgnRegaRepository;
+import com.sastabackend.util.BaseRowMapper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,12 +65,12 @@ public class MgnRegaWorksServiceImpl implements MgnRegaWorksService{
     }
 
     @Override
-    public ResponseModel findAll() {
+    public ResponseModel findAll(Long userid,Long auditid) {
         LOGGER.debug("Reading MgnRegaWorks  : {}");
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<MgnRegaWorks>>();
-            response.setData(readList());
+            response.setData(readList(userid, auditid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -100,6 +102,26 @@ public class MgnRegaWorksServiceImpl implements MgnRegaWorksService{
             boolean flag = Modify(mgn);
             response.setStatus(flag);
             response.setData(flag == true ? "MgnRegaWorks Updated Successfully!!" : "Unable to update MgnRegaWorks!!");
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * Read All MgnRegaWorks based on end user search criteria
+     * @param prop
+     * @return - Success - List Of MgnRegaWorks, If fail empty list
+     */
+    @Override
+    public ResponseModel getMgnRegaWorksReports(ReportsProperty prop){
+        LOGGER.debug("Reading MgnRegaWorks  : {}");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<MgnRegaWorks>>();
+            response.setData(readMgnRegaWorksReports(prop));
+            response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
             response.setData(err.getMessage());
@@ -223,8 +245,8 @@ public class MgnRegaWorksServiceImpl implements MgnRegaWorksService{
             return false;
     }
 
-    private List<MgnRegaWorks> readList(){
-        List<MgnRegaWorks> list = jdbcTemplate.query("call select_mgnrega_works", new MgnRegaWorksMapper());
+    private List<MgnRegaWorks> readList(Long userid,Long auditid){
+        List<MgnRegaWorks> list = jdbcTemplate.query("call select_mgnrega_works(?,?)", new Object[]{userid,auditid}, new MgnRegaWorksMapper());
         return list;
     }
 
@@ -235,6 +257,82 @@ public class MgnRegaWorksServiceImpl implements MgnRegaWorksService{
             return null;
         else
             return o.get(0);
+    }
+
+    /**
+     * Read All MgnRegaWorks based on end user search criteria
+     * @param prop
+     * @return - Success - List Of MgnRegaWorks, If fail empty list
+     */
+    private List<MgnRegaWorks> readMgnRegaWorksReports(ReportsProperty prop){
+        List<MgnRegaWorks> o = new ArrayList<MgnRegaWorks>();
+        if(!prop.getIsConsolidate())
+            o = jdbcTemplate.query("call mgnrega_works_reports(?,?,?,?,?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId(),prop.getDistrictId(),prop.getBlockId(),prop.getVillageId(),prop.getUserId()},
+                    new MgnRegaWorksReportsMapper());
+        else
+            o = jdbcTemplate.query("call mgnrega_works_consolidate_reports(?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId()},
+                    new MgnRegaWorksReportsMapper());
+        return o;
+    }
+
+    protected static final class MgnRegaWorksReportsMapper extends BaseRowMapper {
+
+        public Object mapRowImpl(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            MgnRegaWorks o = new MgnRegaWorks();
+            if(hasColumn("id"))
+                o.setId(set.getLong("id"));
+            if(hasColumn("audit_id"))
+                o.setAuditId(set.getLong("audit_id"));
+            if(hasColumn("fy_name"))
+                o.setFinancialYear(set.getString("fy_name"));
+            if(hasColumn("round_name"))
+                o.setRoundName(set.getString("round_name"));
+            if(hasColumn("start_date"))
+                o.setRoundStartDate(set.getDate("start_date"));
+            if(hasColumn("end_date"))
+                o.setRoundEndDate(set.getDate("end_date"));
+            if(hasColumn("district_name"))
+                o.setDistrictName(StringUtils.trimToNull(set.getString("district_name")));
+            if(hasColumn("block_name"))
+                o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
+            if(hasColumn("village_name"))
+                o.setVpName(StringUtils.trimToNull(set.getString("village_name")));
+            o.setTotalWorksExecutedDuringFY(set.getInt("total_works_executed_during_FY"));
+            o.setNoOfWorksCompleted(set.getInt("no_of_works_completed"));
+            o.setNoOfPendingWorks(set.getInt("no_of_pending_works"));
+            o.setUnskilledWagesForCompletedWorks(set.getInt("unskilled_wages_for_completed_works"));
+            o.setSkilledWagesForCompletedWorks(set.getInt("skilled_wages_for_completed_works"));
+            o.setMaterialExpForCompletedWorks(set.getInt("material_exp_for_completed_works"));
+            o.setAdministrativeExpForCompletedWorks(set.getInt("administrative_exp_for_completed_works"));
+            o.setNoOfCompletedWorksEvaluatedBySA(set.getInt("no_of_completed_works_evaluated_by_SA"));
+            o.setExpIncurredForCompletedWorks(set.getInt("exp_incurred_for_completed_works"));
+            o.setValueOfCompletedWorksEvaluatedBySATeam(set.getInt("value_of_completed_works_evaluated_by_SA_team"));
+            o.setNoOfOnGoingWorks(set.getInt("no_of_on_going_works"));
+            o.setUnSkilledWagesForOnGoingWorks(set.getInt("unskilled_wages_for_on_going_works"));
+            o.setSkilledWagesForOnGoingWorks(set.getInt("skilled_wages_for_on_going_works"));
+            o.setMaterialExpForOnGoingWorks(set.getInt("material_exp_for_on_going_works"));
+            o.setAdministrativeExpForOnGoingWorks(set.getInt("administrative_exp_for_on_going_works"));
+            o.setNoOfOnGoingWorksEvaluatedBySATeam(set.getInt("no_of_on_going_works_evaluated_by_SA_team"));
+            o.setExpIncurredForOnGoingWorks(set.getInt("exp_incurred_for_on_going_works"));
+            o.setValueOfOnGoingWorksEvaluatedBySATeam(set.getInt("value_of_on_going_works_evaluated_by_SA_team"));
+            if(hasColumn("created_date"))
+                o.setCreatedDate(set.getTimestamp("created_date"));
+            if(hasColumn("modified_date"))
+                o.setModifiedDate(set.getTimestamp("modified_date"));
+            if(hasColumn("created_by"))
+                o.setCreatedBy(set.getLong("created_by"));
+            if(hasColumn("modified_by"))
+                o.setModifiedBy(set.getLong("modified_by"));
+            //o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            //o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
+            if(hasColumn("is_active"))
+                o.setStatus(set.getBoolean("is_active"));
+            //LOGGER.debug("MGNREGA  : {}", o.toString());
+            return o;
+        }
     }
 
     protected static final class MgnRegaWorksMapper implements RowMapper {

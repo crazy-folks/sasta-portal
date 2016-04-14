@@ -3,7 +3,9 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 
 		$scope.districtsfactory = districtsfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Action of clicking product name link.
 	    $scope.modelDialogTitle = {
 	    	AddDistrictsTitle : "Add Districts",
@@ -140,6 +142,7 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseAddDistrictsWindow();
 				        $scope.doReset();
 			  		}else{
@@ -170,7 +173,7 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 				        });								
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
-	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseEditDistrictsWindow();
 				        $scope.doReset();
 			  		}else{
@@ -223,18 +226,20 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editdistricts = {
-	    		districtID : data.districtID,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				auditStateId : data.auditStateId,
-				districtCode : data.districtCode,
-				shortName : data.shortName,
-				status: false
-	    	};
-	    	DoUpdate();	    	
+	    	if(confirm('Are you sure want to delete?')){
+	    		$scope.editdistricts = {
+		    		districtID : data.districtID,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					auditStateId : data.auditStateId,
+					districtCode : data.districtCode,
+					shortName : data.shortName,
+					status: false
+		    	};
+		    	DoUpdate();	  
+	    	}
 	    }
 
 	    $scope.gridOptions = {
@@ -263,7 +268,8 @@ app.controller('DistrictsController',['$http','$window','$scope','$rootScope','n
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/districts/getlist'
+				         url: $scope.crudServiceBaseUrl + '/districts/getlist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

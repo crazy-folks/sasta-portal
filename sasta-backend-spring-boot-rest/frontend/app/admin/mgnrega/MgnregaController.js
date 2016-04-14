@@ -3,7 +3,9 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 
 		$scope.aufactory = mgnregafactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
 	    	AddAuditMgnregaTitle : "Add Mgnrega",
@@ -223,7 +225,8 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 				            scope:$scope
 				        });							
 						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
+			      	    $scope.grid.dataSource.read();
+				        $scope.grid.dataSource.fetch();
 						$scope.CloseAddAuditMgnregaWindow();
 			  		}else{
 				  		notify({
@@ -243,49 +246,51 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editmgnrega = {
-				id:data.id,
-				createdBy:data.createdBy,
-				modifiedBy:data.modifiedBy,
-				auditId:data.auditId,
-				roundId:data.roundId,
-				roundName:data.roundName,
-				vpName:data.vpName,
-				blockName:data.blockName,
-				blockId:data.blockId,
-				vpId:data.vpId,
-				totalWorksExecutedDuringFY:data.totalWorksExecutedDuringFY,
-				noOfWorksCompleted:data.noOfWorksCompleted,
-				noOfPendingWorks:data.noOfPendingWorks,
-				noOfOnGoingWorks:data.noOfOnGoingWorks,
-				materialExpForOnGoingWorks:data.materialExpForOnGoingWorks,
-				expIncurredForOnGoingWorks:data.expIncurredForOnGoingWorks,
-				auditDistrictId:data.auditDistrictId,
-				status:false,
-				unskilledWagesForCompletedWorks:data.unskilledWagesForCompletedWorks,
-				skilledWagesForCompletedWorks:data.skilledWagesForCompletedWorks,
-				materialExpForCompletedWorks:data.materialExpForCompletedWorks,
-				administrativeExpForCompletedWorks:data.administrativeExpForCompletedWorks,
-				noOfCompletedWorksEvaluatedBySA:data.noOfCompletedWorksEvaluatedBySA,
-				expIncurredForCompletedWorks:data.expIncurredForCompletedWorks,
-				valueOfCompletedWorksEvaluatedBySATeam:data.valueOfCompletedWorksEvaluatedBySATeam,
-				unSkilledWagesForOnGoingWorks:data.unSkilledWagesForOnGoingWorks,
-				skilledWagesForOnGoingWorks:data.skilledWagesForOnGoingWorks,
-				administrativeExpForOnGoingWorks:data.administrativeExpForOnGoingWorks,
-				noOfOnGoingWorksEvaluatedBySATeam:data.noOfOnGoingWorksEvaluatedBySATeam,
-				valueOfOnGoingWorksEvaluatedBySATeam:data.valueOfOnGoingWorksEvaluatedBySATeam,
-				createdDate:data.createdDate,
-				modifiedDate:data.modifiedDate,
-				createdByName:data.createdByName,
-				modifiedByName:data.modifiedByName,
-				financialDescription:data.financialDescription,
-				financialYear:data.financialYear,
-				roundDescription:data.roundDescription,
-				districtName:data.districtName,
-				roundStartDate:data.roundStartDate,
-				roundEndDate:data.roundEndDate
-	    	};
-	    	DoUpdate();
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editmgnrega = {
+					id:data.id,
+					createdBy:data.createdBy,
+					modifiedBy:data.modifiedBy,
+					auditId:data.auditId,
+					roundId:data.roundId,
+					roundName:data.roundName,
+					vpName:data.vpName,
+					blockName:data.blockName,
+					blockId:data.blockId,
+					vpId:data.vpId,
+					totalWorksExecutedDuringFY:data.totalWorksExecutedDuringFY,
+					noOfWorksCompleted:data.noOfWorksCompleted,
+					noOfPendingWorks:data.noOfPendingWorks,
+					noOfOnGoingWorks:data.noOfOnGoingWorks,
+					materialExpForOnGoingWorks:data.materialExpForOnGoingWorks,
+					expIncurredForOnGoingWorks:data.expIncurredForOnGoingWorks,
+					auditDistrictId:data.auditDistrictId,
+					status:false,
+					unskilledWagesForCompletedWorks:data.unskilledWagesForCompletedWorks,
+					skilledWagesForCompletedWorks:data.skilledWagesForCompletedWorks,
+					materialExpForCompletedWorks:data.materialExpForCompletedWorks,
+					administrativeExpForCompletedWorks:data.administrativeExpForCompletedWorks,
+					noOfCompletedWorksEvaluatedBySA:data.noOfCompletedWorksEvaluatedBySA,
+					expIncurredForCompletedWorks:data.expIncurredForCompletedWorks,
+					valueOfCompletedWorksEvaluatedBySATeam:data.valueOfCompletedWorksEvaluatedBySATeam,
+					unSkilledWagesForOnGoingWorks:data.unSkilledWagesForOnGoingWorks,
+					skilledWagesForOnGoingWorks:data.skilledWagesForOnGoingWorks,
+					administrativeExpForOnGoingWorks:data.administrativeExpForOnGoingWorks,
+					noOfOnGoingWorksEvaluatedBySATeam:data.noOfOnGoingWorksEvaluatedBySATeam,
+					valueOfOnGoingWorksEvaluatedBySATeam:data.valueOfOnGoingWorksEvaluatedBySATeam,
+					createdDate:data.createdDate,
+					modifiedDate:data.modifiedDate,
+					createdByName:data.createdByName,
+					modifiedByName:data.modifiedByName,
+					financialDescription:data.financialDescription,
+					financialYear:data.financialYear,
+					roundDescription:data.roundDescription,
+					districtName:data.districtName,
+					roundStartDate:data.roundStartDate,
+					roundEndDate:data.roundEndDate
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 	    function DoUpdate(){
@@ -298,7 +303,8 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 			            scope:$scope
 			        });							
 					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
+		      	    $scope.grid.dataSource.read();
+			        $scope.grid.dataSource.fetch();
 					$scope.CloseEditAuditMgnregaWindow();
 		  		}else{
 			  		notify({
@@ -415,27 +421,49 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 
 	    $scope.gridOptions = {
 	        columns: [ 
-		        		{ field: "auditId", width:'130px', title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "totalWorksExecutedDuringFY", width:'130px', title:'Total works executed during FY' },
-		        		{ field: "noOfWorksCompleted", width:'130px', title:'No. of  works Completed' },
-		        		{ field: "noOfPendingWorks", width:'130px', title:'No. of pending works'},
-		        		{ field: "unskilledWagesForCompletedWorks", width:'130px', title : "Unskilled wages for compl. works"},
-		        		{ field: "skilledWagesForCompletedWorks", width:'130px', title : "Skilled wages for compl. works" },
-		        		{ field: "materialExpForCompletedWorks", width:'130px', title : "Material exp for compl. works"},
-	        			{ field: "administrativeExpForCompletedWorks", width:'130px', title:'Administrative exp for compl. works' },
-		        		{ field: "noOfCompletedWorksEvaluatedBySA", width:'130px', title:'No. of compl. works evaluated by SA' },
-		        		{ field: "expIncurredForCompletedWorks", width:'130px', title:'Exp. incurred for compl. works'},
-		        		{ field: "valueOfCompletedWorksEvaluatedBySATeam", width:'130px', title : "Value of compl. works as evaluated by SA team"},
-		        		{ field: "noOfOnGoingWorks", width:'130px', title : "No of on-going works" },
-		        		{ field: "unSkilledWagesForOnGoingWorks", width:'130px', title : "Unskilled wages for on-going Works"},
-	        			{ field: "skilledWagesForOnGoingWorks", width:'130px', title:'Skilled wages for on-going  Works' },
-		        		{ field: "materialExpForOnGoingWorks", width:'130px', title:'Material Exp for on-going Works' },
-		        		{ field: "administrativeExpForOnGoingWorks", width:'130px', title:'Administrative Exp for ongoing. Works'},
-		        		{ field: "noOfOnGoingWorksEvaluatedBySATeam", width:'130px', title : "No. of on-going works evaluated by SA team"},
-		        		{ field: "expIncurredForOnGoingWorks", width:'130px', title : "Exp. incurred for on-going works" },
-		        		{ field: "valueOfOnGoingWorksEvaluatedBySATeam", width:'130px', title : "Value of on-going works evaluated by SA team"},
-
+        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
+		        		{ field: "financialYear", groupable:true,width: '130px', title:'FY'},
+		        		{ field: "roundName", groupable:true,width: '130px', title:'Round'},
+		        		{ field: "districtName", groupable:true,width: '130px', title:'District'},
+		        		{ field: "blockName", groupable:true,width: '130px', title:'Block'},
+		        		{ field: "vpName", groupable:true,width: '130px', title:'Panchayat'},
 		        		{
+		        			title : "Completed Works",
+		        			headerAttributes : {
+		        				style: "text-align: center;"
+		        			},
+		        			columns:[
+								{ field: "totalWorksExecutedDuringFY", groupable:false,width: '150px', title:'Total Works in FY'  },
+				        		{ field: "noOfWorksCompleted", groupable:false,width: '150px', title:'No. Completed'  },
+				        		{ field: "noOfPendingWorks", groupable:false,width: '150px', title:'No. Pending'  },
+				        		{ field: "unskilledWagesForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Unskilled Wages" },
+				        		{ field: "skilledWagesForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Skilled Wages" },
+				        		{ field: "materialExpForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Material Exp" },
+				        		{ field: "administrativeExpForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Admin Exp" },
+				        		{ field: "completedTotalEx",format: '{0:n0}', groupable:false,width: '150px', title : "Completed Total Ex" },
+				        		{ field: "noOfCompletedWorksEvaluatedBySA", groupable:false,width: '150px', title : "No. Evaluated"  },
+				        		{ field: "expIncurredForCompletedWorks", groupable:false,width: '150px', title : "Exp. Incurred"  },				        		
+				        		{ field: "valueOfCompletedWorksEvaluatedBySATeam", groupable:false,width: '150px', title : "Value By SA"  },
+				        		{ field: "completedDiffValue", groupable:false,width: '150px', title : "Completed Diff Value"  },
+		        			]
+		        		},{
+		        			title : "On Going Works",
+		        			headerAttributes : {
+		        				style: "text-align: center;"
+		        			},
+		        			columns:[
+								{ field: "noOfOnGoingWorks", groupable:false,width: '150px',title: "", title: "OnGoing Total Works", headerTemplate:'Total Works'  },
+				        		{ field: "unSkilledWagesForOnGoingWorks",format: '{0:n0}', groupable:false,width: '150px', title: "OnGoing Unskilled Wages", headerTemplate : "Unskilled Wages" },
+				        		{ field: "skilledWagesForOnGoingWorks",format: '{0:n0}', groupable:false,width: '150px', title: "OnGoing Skilled Wages", headerTemplate : "Skilled Wages" },
+				        		{ field: "materialExpForOnGoingWorks",format: '{0:n0}', groupable:false,width: '150px', title: "OnGoing Material Exp", headerTemplate : "Material Exp" },
+				        		{ field: "administrativeExpForOnGoingWorks",format: '{0:n0}', groupable:false,width: '150px', title: "OnGoing Admin Exp", headerTemplate : "Admin Exp" },
+				        		{ field: "onGoingTotalEx",format: '{0:n0}', groupable:false,width: '150px', title : "On Going Total Ex" },
+				        		{ field: "noOfOnGoingWorksEvaluatedBySATeam", groupable:false,width: '150px', title: "OnGoing No. Evaluated", headerTemplate : "No. Evaluated"  },
+				        		{ field: "expIncurredForOnGoingWorks", groupable:false,width: '150px', title: "OnGoing Exp. Incurred", headerTemplate : "Exp. Incurred"  },				        		
+				        		{ field: "valueOfOnGoingWorksEvaluatedBySATeam", groupable:false,width: '150px', title: "OnGoing Value By SA", headerTemplate : "Value By SA"  },
+				        		{ field: "onGoingDiffValue", groupable:false,width: '150px', title : "On Going Diff Value"  },
+		        			]
+		        		},{
  							title : "",
 		                    width: '30px',
 		                    template: kendo.template($("#toggle-template").html())
@@ -444,13 +472,27 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,
+	        pageSize: 30,
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 20, 30],
+                messages: {
+                    refresh: "Refresh MGNREGA Works"
+                }
+            },	        
 	        dataSource: {
-	            pageSize: 5,
+	            pageSize: 30,
 	            transport: {
 	                read: function (e) {
+	                	var baseUrl = $scope.crudServiceBaseUrl + 
+	                	'/mgnregaworks/getlist?key='+encodeURIComponent($location.search().aid);
+	                	if($.inArray($rootScope.sessionConfig.userGroupId, $rootScope.appConfig.blockLevelGroups)>-1){
+	                		baseUrl = baseUrl + '&userid='+$rootScope.sessionConfig.userId;
+	                	}	                	
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/mgnregaworks/getlist'
+				         url: baseUrl,
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)
@@ -459,7 +501,52 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 	                  error(function(data, status, headers, config) {
 	                  });
 	              }
-	           }
+	           },
+				schema:{
+                    model: {
+                        fields: {
+							unskilledWagesForCompletedWorks: { type: "number" },
+							skilledWagesForCompletedWorks: { type: "number" },
+							materialExpForCompletedWorks: { type: "number" },
+							administrativeExpForCompletedWorks: { type: "number" },
+							completedTotalEx : { type: "number" },
+							noOfCompletedWorksEvaluatedBySA: { type: "number" },
+							expIncurredForCompletedWorks: { type: "number" },
+							valueOfCompletedWorksEvaluatedBySATeam: { type: "number" },
+							completedDiffValue : { type: "number" },
+							unSkilledWagesForOnGoingWorks: { type: "number" },
+							skilledWagesForOnGoingWorks: { type: "number" },
+							administrativeExpForOnGoingWorks: { type: "number" },
+							onGoingTotalEx: { type: "number" },
+							noOfOnGoingWorksEvaluatedBySATeam: { type: "number" },
+							valueOfOnGoingWorksEvaluatedBySATeam: { type: "number" },
+							onGoingDiffValue: { type: "number" },
+							totalWorksExecutedDuringFY: { type: "number" },
+							noOfWorksCompleted: { type: "number" },
+							noOfPendingWorks: { type: "number" },
+							noOfOnGoingWorks: { type: "number" },
+							materialExpForOnGoingWorks: { type: "number" },
+							expIncurredForOnGoingWorks: { type: "number" }
+                        }
+                    },
+				    parse : function (d) {
+				        $.each(d, function(idx, elem) {
+				            elem.completedTotalEx = ((elem.unskilledWagesForCompletedWorks||0)+
+				            	(elem.skilledWagesForCompletedWorks||0)+
+				            	(elem.materialExpForCompletedWorks||0)+
+				            	(elem.administrativeExpForCompletedWorks||0));
+				            elem.completedDiffValue = ((elem.expIncurredForCompletedWorks||0)-
+				            	(elem.valueOfCompletedWorksEvaluatedBySATeam||0));
+				            elem.onGoingTotalEx = ((elem.unSkilledWagesForOnGoingWorks||0)+
+				            	(elem.skilledWagesForOnGoingWorks||0)+
+				            	(elem.administrativeExpForOnGoingWorks||0)+
+				            	(elem.materialExpForOnGoingWorks||0));
+				            elem.onGoingDiffValue = ((elem.expIncurredForOnGoingWorks||0)-
+				            	(elem.valueOfOnGoingWorksEvaluatedBySATeam||0));
+				        });
+				        return d;
+				    }
+                }
 	        }
 	    }
 

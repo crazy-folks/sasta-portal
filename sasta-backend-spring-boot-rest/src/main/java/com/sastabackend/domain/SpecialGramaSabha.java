@@ -24,8 +24,8 @@ public class SpecialGramaSabha implements java.io.Serializable,CommonProperties{
     private Integer no_of_families_registered;
     private Integer total_jcs_in_vpts;
     private Integer no_of_ppl_attented_sgs;
-    private Integer name_of_person_head_sgs;
-    private Integer name_of_person_recorded_minutes;
+    private String name_of_person_head_sgs;
+    private String name_of_person_recorded_minutes;
     private Integer total_paras_placed_in_sgs;
     private Integer paras_setteled;
     private Integer amount_recovered_during_sgs;
@@ -113,19 +113,19 @@ public class SpecialGramaSabha implements java.io.Serializable,CommonProperties{
         this.no_of_ppl_attented_sgs = no_of_ppl_attented_sgs;
     }
 
-    public Integer getNameOfPersonHeadSgs() {
+    public String getNameOfPersonHeadSgs() {
         return name_of_person_head_sgs;
     }
 
-    public void setNameOfPersonHeadSgs(Integer name_of_person_head_sgs) {
+    public void setNameOfPersonHeadSgs(String name_of_person_head_sgs) {
         this.name_of_person_head_sgs = name_of_person_head_sgs;
     }
 
-    public Integer getNameOfPersonRecordedMinutes() {
+    public String getNameOfPersonRecordedMinutes() {
         return name_of_person_recorded_minutes;
     }
 
-    public void setNameOfPersonRecordedMinutes(Integer name_of_person_recorded_minutes) {
+    public void setNameOfPersonRecordedMinutes(String name_of_person_recorded_minutes) {
         this.name_of_person_recorded_minutes = name_of_person_recorded_minutes;
     }
 

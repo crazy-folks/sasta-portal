@@ -4,7 +4,9 @@ app.controller('BloodGroupsController',['$http','$window','$scope','$rootScope',
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
         $scope.addbloodgroupformName = '#frmaddBloodGroup';
         $scope.editbloodgroupformName = '#frmeditBank'; 
-
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+		
 	    //Action of clicking product name link.
 	    $scope.callType = {};
         $scope.modelDialogTitle = {
@@ -118,7 +120,8 @@ app.controller('BloodGroupsController',['$http','$window','$scope','$rootScope',
 				            scope:$scope
 				        });								
 						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
+						$scope.grid.dataSource.read();
+						$scope.grid.dataSource.fetch();
 						$scope.CloseAddBloodGroupWindow();
 				        $scope.doReset();	  					
 			  		}else{
@@ -149,6 +152,7 @@ app.controller('BloodGroupsController',['$http','$window','$scope','$rootScope',
 			        });							
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditBloodGroupWindow();
 			        $scope.doReset();
 		  		}else{
@@ -186,15 +190,17 @@ app.controller('BloodGroupsController',['$http','$window','$scope','$rootScope',
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editbloodgroups = {
-	    		bloodGroupId : data.bloodGroupId,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				status: false
-	    	}	    	
-	    	DoUpdate();
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editbloodgroups = {
+		    		bloodGroupId : data.bloodGroupId,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					status: false
+		    	}	    	
+		    	DoUpdate();
+	    	}
 	    }
 
 	    $scope.gridOptions = {
@@ -223,7 +229,8 @@ app.controller('BloodGroupsController',['$http','$window','$scope','$rootScope',
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/bloodgroup/getlist'
+				         url: $scope.crudServiceBaseUrl + '/bloodgroup/getlist',
+				         cache:false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

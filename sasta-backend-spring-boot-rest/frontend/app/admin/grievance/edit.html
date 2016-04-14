@@ -51,7 +51,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txttotal" class="label-adjust">Total </label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txttotal" name="txttotal" ng-model="(+(editgrievance.totalReceivedGrievancesHF||0) + +(editgrievance.totalReceivedGrievancesMeeting||0))"  ng-readonly="true"/>
+                            <input type="number" class="k-input width-95 validate[required]" id="txttotal" name="txttotal" ng-model="EditItemHVGSTotal"  ng-readonly="true"/>
                         </div>
                     </div>
                     <div class="form-group no-margin">
@@ -322,7 +322,7 @@
                         <div>
                             <label for="txtnoCompensationDeadAtWorksiteCount" class="label-adjust">No Compensation For Injured At Worksite No</label>
                             <input type="number" class="k-input width-95 validate[required]" id="txtnoCompensationDeadAtWorksiteCount" name="txtnoCompensationDeadAtWorksiteCount"
-                                   data-ng-model="editgrievance.noCompensationDeadAtWorksiteCount"/>
+                                   data-ng-model="editgrievance.noCompensationInjuredAtWorksiteCount"/>
                         </div>
                     </div>
 
@@ -338,7 +338,7 @@
                         <div>
                             <label for="txtnoCompensationInjuredAtWorksiteCount" class="label-adjust">No Compensation For Death At Worksite No</label>
                             <input type="number" class="k-input width-95 validate[required]" id="txtnoCompensationInjuredAtWorksiteCount" name="txtnoCompensationInjuredAtWorksiteCount"
-                                   data-ng-model="editgrievance.noCompensationInjuredAtWorksiteCount"/>
+                                   data-ng-model="editgrievance.noCompensationDeadAtWorksiteCount"/>
                         </div>
                     </div>
 

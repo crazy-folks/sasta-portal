@@ -1,9 +1,11 @@
 package com.sastabackend.service.specialgramasabha;
 
 import com.sastabackend.domain.Expenditure;
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.SpecialGramaSabha;
 import com.sastabackend.repository.SpecialGramaSabhaRepository;
+import com.sastabackend.util.BaseRowMapper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,12 +64,12 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
     }
 
     @Override
-    public ResponseModel findAll() {
+    public ResponseModel findAll(Long userid,Long auditid) {
         LOGGER.debug("Reading Special Grama Sabha  : {}");
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<SpecialGramaSabha>>();
-            response.setData(readList());
+            response.setData(readList(userid, auditid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -107,6 +109,25 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
         return response;
     }
 
+    /**
+     * Read All Special Grama Sabha based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Special Grama Sabha, If fail empty list
+     */
+    @Override
+    public ResponseModel getSpecialGramaSabhaReports(ReportsProperty prop){
+        LOGGER.debug("Reading Special Grama Sabha  : {}");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<SpecialGramaSabha>>();
+            response.setData(readSpecialGramaSabhaReports(prop));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
 
     private boolean Create(SpecialGramaSabha sga)  {
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_special_grama_sabha")
@@ -117,8 +138,8 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
                         new SqlParameter("nooffamiliesregistered", Types.INTEGER),
                         new SqlParameter("totaljcsinvpts", Types.INTEGER),
                         new SqlParameter("noofpplattentedsgs", Types.INTEGER),
-                        new SqlParameter("nameofpersonheadsgs", Types.INTEGER),
-                        new SqlParameter("nameofpersonrecordedminutes", Types.INTEGER),
+                        new SqlParameter("nameofpersonheadsgs", Types.VARCHAR),
+                        new SqlParameter("nameofpersonrecordedminutes", Types.VARCHAR),
                         new SqlParameter("totalparasplacedinsgs", Types.INTEGER),
                         new SqlParameter("parassetteled", Types.INTEGER),
                         new SqlParameter("amountrecoveredduringsgs", Types.INTEGER),
@@ -162,8 +183,8 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
                         new SqlParameter("nooffamiliesregistered", Types.INTEGER),
                         new SqlParameter("totaljcsinvpts", Types.INTEGER),
                         new SqlParameter("noofpplattentedsgs", Types.INTEGER),
-                        new SqlParameter("nameofpersonheadsgs", Types.INTEGER),
-                        new SqlParameter("nameofpersonrecordedminutes", Types.INTEGER),
+                        new SqlParameter("nameofpersonheadsgs", Types.VARCHAR),
+                        new SqlParameter("nameofpersonrecordedminutes", Types.VARCHAR),
                         new SqlParameter("totalparasplacedinsgs", Types.INTEGER),
                         new SqlParameter("parassetteled", Types.INTEGER),
                         new SqlParameter("amountrecoveredduringsgs", Types.INTEGER),
@@ -198,8 +219,8 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
         else
             return false;
     }
-    private List<SpecialGramaSabha> readList(){
-        List<SpecialGramaSabha> list = jdbcTemplate.query("call select_special_grama_sabha", new SpecialGramaSabhaMapper());
+    private List<SpecialGramaSabha> readList(Long userid,Long auditid) {
+        List<SpecialGramaSabha> list = jdbcTemplate.query("call select_special_grama_sabha(?,?)", new Object[]{userid,auditid}, new SpecialGramaSabhaMapper());
         return list;
     }
 
@@ -210,6 +231,80 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
             return null;
         else
             return o.get(0);
+    }
+
+    /**
+     * Read All Special Grama Sabha based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Special Grama Sabha, If fail empty list
+     */
+    private  List<SpecialGramaSabha> readSpecialGramaSabhaReports(ReportsProperty prop){
+        List<SpecialGramaSabha> o = new ArrayList<SpecialGramaSabha>();
+        if(!prop.getIsConsolidate())
+            o = jdbcTemplate.query("call special_grama_sabha_reports(?,?,?,?,?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId(),prop.getDistrictId(),prop.getBlockId(),prop.getVillageId(),prop.getUserId()},
+                    new SpecialGramaSabhaReportsMapper());
+        else
+            o = jdbcTemplate.query("call special_grama_sabha_consolidate_reports(?,?)",
+                    new Object[]{prop.getReferenceId(), prop.getRoundId()},
+                    new SpecialGramaSabhaReportsMapper());
+            return o;
+    }
+
+    protected static final class SpecialGramaSabhaReportsMapper extends BaseRowMapper {
+
+        public Object mapRowImpl(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            SpecialGramaSabha o = new SpecialGramaSabha();
+            if(hasColumn("id"))
+                o.setId(set.getLong("id"));
+            if(hasColumn("audit_id"))
+                o.setAuditId(set.getLong("audit_id"));
+            if(hasColumn("fy_name"))
+                o.setFinancialYear(set.getString("fy_name"));
+            if(hasColumn("round_name"))
+                o.setRoundName(set.getString("round_name"));
+            if(hasColumn("start_date"))
+                o.setRoundStartDate(set.getDate("start_date"));
+            if(hasColumn("end_date"))
+                o.setRoundEndDate(set.getDate("end_date"));
+            if(hasColumn("district_name"))
+                o.setDistrictName(StringUtils.trimToNull(set.getString("district_name")));
+            if(hasColumn("block_name"))
+                o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
+            if(hasColumn("village_name"))
+                o.setVpName(StringUtils.trimToNull(set.getString("village_name")));
+            o.setTotalPopulation(set.getInt("total_population"));
+            o.setTotalFamiliesInVpts(set.getInt("total_families_in_vpts"));
+            o.setNoOfFamiliesRegistered(set.getInt("no_of_families_registered"));
+            o.setTotalJcsInVpts(set.getInt("total_jcs_in_vpts"));
+            o.setNoOfPplAttentedSgs(set.getInt("no_of_ppl_attented_sgs"));
+            if(hasColumn("name_of_person_head_sgs"))
+                o.setNameOfPersonHeadSgs(StringUtils.trimToNull(set.getString("name_of_person_head_sgs")));
+            if(hasColumn("name_of_person_recorded_minutes"))
+                o.setNameOfPersonRecordedMinutes(StringUtils.trimToNull(set.getString("name_of_person_recorded_minutes")));
+            o.setTotalParasPlacedInSgs(set.getInt("total_paras_placed_in_sgs"));
+            o.setParasSetteled(set.getInt("paras_setteled"));
+            o.setAmountRecoveredDuringSgs(set.getInt("amount_recovered_during_sgs"));
+            if(hasColumn("sa_reports_uploaded"))
+                o.setSaReportsUploaded(set.getBoolean("sa_reports_uploaded"));
+            if(hasColumn("atrs_uploaded"))
+                o.setAtrsUploaded(set.getBoolean("atrs_uploaded"));
+            if(hasColumn("created_date"))
+                o.setCreatedDate(set.getTimestamp("created_date"));
+            if(hasColumn("modified_date"))
+                o.setModifiedDate(set.getTimestamp("modified_date"));
+            if(hasColumn("created_by"))
+                o.setCreatedBy(set.getLong("created_by"));
+            if(hasColumn("modified_by"))
+                o.setModifiedBy(set.getLong("modified_by"));
+            //o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            //o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
+            if(hasColumn("is_active"))
+                o.setStatus(set.getBoolean("is_active"));
+            LOGGER.debug("Special Grama Sabha  : {}", o.toString());
+            return o;
+        }
     }
 
 
@@ -237,9 +332,9 @@ public class SpecialGramaSabhaServiceImpl implements SpecialGramaSabhaService {
             o.setTotalFamiliesInVpts(set.getInt("total_families_in_vpts"));
             o.setNoOfFamiliesRegistered(set.getInt("no_of_families_registered"));
             o.setTotalJcsInVpts(set.getInt("total_jcs_in_vpts"));
-            o.setNoOfPplAttentedSgs(set.getInt("no_of_ppl_attented_sgs"));
-            o.setNameOfPersonHeadSgs(set.getInt("name_of_person_head_sgs"));
-            o.setNameOfPersonRecordedMinutes(set.getInt("name_of_person_recorded_minutes"));
+            o.setNoOfPplAttentedSgs(set.getInt("no_of_ppl_attented_sgs"));            
+            o.setNameOfPersonHeadSgs(StringUtils.trimToNull(set.getString("name_of_person_head_sgs")));
+            o.setNameOfPersonRecordedMinutes(StringUtils.trimToNull(set.getString("name_of_person_recorded_minutes")));
             o.setTotalParasPlacedInSgs(set.getInt("total_paras_placed_in_sgs"));
             o.setParasSetteled(set.getInt("paras_setteled"));
             o.setAmountRecoveredDuringSgs(set.getInt("amount_recovered_during_sgs"));

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+import org.apache.commons.codec.binary.Base64;
 /**
  * Created by SARVA on 12/Nov/2015.
  */
@@ -35,5 +35,24 @@ public class TextUtil {
         }
         LOGGER.debug("Digest(in hex format):: " + sb.toString());
         return sb.toString();
+    }
+
+    public static String EncodeString(String origText)
+    {
+        // encode data on your side using BASE64
+        byte[] bytesEncoded = Base64.encodeBase64(origText.getBytes()); 
+        return new String(bytesEncoded);
+    }
+
+    public static String DecodeString(String encodedText)
+    {
+        // Decode data on other side, by processing encoded data
+        byte[] valueDecoded= Base64.decodeBase64(encodedText );
+        return new String(valueDecoded);
+    }
+
+    // returns package and class name
+    public static String getFullClassName(Class c) {
+        return  c.getName();
     }
 }

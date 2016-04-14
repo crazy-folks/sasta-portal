@@ -1,7 +1,6 @@
  function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider) {
-
-    //$httpProvider.interceptors.push('noCacheInterceptor');
-
+    
+    $httpProvider.defaults.cache = true;
     $urlRouterProvider.otherwise("/ui/index");
 
     $stateProvider
@@ -172,14 +171,6 @@
             },
             controller : 'VillagePanchayatController as vpCtl'
         })
-       .state('admin.addusers', {
-            url: "/addusers",
-            templateUrl: "admin/users/add.html",
-            data: {
-                pageTitle: 'Add User'
-            },
-            controller : 'UsersController as userCtl'
-        })
        .state('admin.profile', {
             url: "/profile",
             templateUrl: "admin/profile/profile.html",
@@ -187,8 +178,16 @@
                 pageTitle: 'Profile Information'
             },
             controller : 'ProfileController as ProfileCtl'
-        })  
-        .state('admin.audit', {
+        })
+        .state('entries', {
+            abstract: true,
+            url: "/entries",
+            templateUrl: "admin/adminlayout.html",
+            data: {
+                pageTitle: 'Home'
+            }
+        })
+        .state('entries.audit', {
             url: "/audit",
             templateUrl: "admin/audit/templates.html",
             data: {
@@ -196,7 +195,7 @@
             },
             controller : 'AuditController as AuditCtl'
         })   
-        .state('admin.expenditure', {
+        .state('entries.expenditure', {
             url: "/expenditure?aid",
             templateUrl: "admin/expenditure/templates.html",
             data: {
@@ -205,7 +204,7 @@
             controller : 'ExpenditureController as ExpenCtl',
             params: {aid: null}
         })  
-        .state('admin.misappropriation', {
+        .state('entries.misappropriation', {
             url: "/misappropriation?aid",
             templateUrl: "admin/misappropriation/templates.html",
             data: {
@@ -214,7 +213,7 @@
             controller : 'MisappropriationController as MisCtl',
             params: {aid: null}
         })  
-        .state('admin.vrp', {
+        .state('entries.vrp', {
             url: "/vrp?aid",
             templateUrl: "admin/vrp/templates.html",
             data: {
@@ -223,7 +222,7 @@
             controller : 'VrpController as VrpCtl',
             params: {aid: null}
         })  
-        .state('admin.deviation', {
+        .state('entries.deviation', {
             url: "/deviation?aid",
             templateUrl: "admin/deviation/templates.html",
             data: {
@@ -232,7 +231,7 @@
             controller : 'DeviationController as DevCtl',
             params: {aid: null}
         })  
-        .state('admin.grievance', {
+        .state('entries.grievance', {
             url: "/grievance?aid",
             templateUrl: "admin/grievance/templates.html",
             data: {
@@ -241,7 +240,7 @@
             controller : 'GrievanceController as GriCtl',
             params: {aid: null}
         })       
-        .state('admin.mgnrega', {
+        .state('entries.mgnrega', {
             url: "/mgnrega?aid",
             templateUrl: "admin/mgnrega/templates.html",
             data: {
@@ -250,7 +249,7 @@
             controller : 'MgnregaController as MgnCtl',
             params: {aid: null}
         })  
-        .state('admin.hlcommittee', {
+        .state('entries.hlcommittee', {
             url: "/hlcommitte?aid",
             templateUrl: "admin/hlcommittee/templates.html",
             data: {
@@ -258,15 +257,8 @@
             },
             controller : 'HLCommitteeController as HlcCtl',
             params: {aid: null}
-        }).state('admin.search', {
-            url: "/search",
-            templateUrl: "admin/search/templates.html",
-            data: {
-                pageTitle: 'User Search'
-            },
-            controller : 'SearchController as SearchCtl'
         })
-        .state('admin.sgm', {
+        .state('entries.sgm', {
             url: "/sgm?aid",
             templateUrl: "admin/sgm/templates.html",
             data: {
@@ -274,11 +266,95 @@
             },
             controller : 'SgmController as SgmCtl',
             params: {aid: null}
-        })        
-  
-    /*$locationProvider.html5Mode({
-      enabled: true
-    });*/
+        })
+        .state('users', {
+            abstract: true,
+            url: "/users",
+            templateUrl: "admin/adminlayout.html",
+            data: {
+                pageTitle: 'Home'
+            }
+        })
+       .state('users.addusers', {
+            url: "/addusers",
+            templateUrl: "admin/users/add.html",
+            data: {
+                pageTitle: 'Add User'
+            },
+            controller : 'UsersController as userCtl'
+        })
+        .state('users.search', {
+            url: "/search",
+            templateUrl: "admin/search/templates.html",
+            data: {
+                pageTitle: 'User Search'
+            },
+            controller : 'SearchController as SearchCtl'
+        })
+        .state('reports', {
+            abstract: true,
+            url: "/reports",
+            templateUrl: "admin/adminlayout.html",
+            data: {
+                pageTitle: 'Home'
+            }
+        })
+        .state('reports.expenditurereports', {
+            url: "/expenditurereports",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'Audit Expenditure Reports'
+            },
+            controller : 'ExpenditureReportController as expRptCtl'
+        })
+        .state('reports.grievancesreports', {
+            url: "/grievancesreports",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'Audit Grievances Reports'
+            },
+            controller : 'GrievanceReportController as grvRptCtl'
+        })
+        .state('reports.deviationsreports', {
+            url: "/deviationsreports",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'Deviations Reports'
+            },
+            controller : 'DeviationReportController as devRptCtl'
+        })
+        .state('reports.misappropriationsreports', {
+            url: "/misappropriationsreports",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'Mis-Appropriations Reports'
+            },
+            controller : 'MisAppropriationReportController as misRptCtl'
+        })
+        .state('reports.specialgramasabhareports', {
+            url: "/specialgramasabhareports",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'Special Grama Sabha Reports'
+            },
+            controller : 'SpgReportController as spgRptCtl'
+        })
+        .state('reports.mgnregaworks', {
+            url: "/mgnregaworks",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'MGNREGA works Reports'
+            },
+            controller : 'mgnregaReportController as mgnRptCtl'
+        })
+        .state('reports.vrpdetails', {
+            url: "/vrpdetails",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'VRP Details Reports'
+            },
+            controller : 'VrpReportController as vrpRptCtl'
+        })
 }
 angular.module('sastaboard')
     .config(['$locationProvider','$stateProvider', '$urlRouterProvider','$httpProvider',config])
@@ -286,9 +362,8 @@ angular.module('sastaboard')
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
         // Local Environment
-        //baseUrl: "http://localhost:8080/sasta-backend/api",
+         baseUrl: "http://localhost:8080/sasta-backend/api",
         // Live Environment
-        baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
         //baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
         debug : true,
         environment : 'development',
@@ -297,7 +372,30 @@ angular.module('sastaboard')
             position : "right" // ['center', 'left', 'right']
         },
         adminPrefixUrl : 'admin.',
-        authenticated : false
+        authenticated : false,
+        lookupTypes : {
+            Blocks : 1,
+            Districts : 2,
+            States : 3,
+            Bank : 4,
+            BloodGroups : 5,
+            Communities : 6,
+            Countries : 7,
+            Departments : 8 ,
+            FinancialYear : 9,
+            Grades : 10,
+            ImageTypes : 11,
+            Qualifications : 12,
+            Rounds : 13,
+            VillagePanchayats : 14 ,
+            Users : 15 ,
+            UserGroups : 16,
+            DistrictsVillagePanchayats : 17,
+            None : 18           
+        },
+        adminLevelGroups : [1,2,3,6,7],
+        blockLevelGroups :[5],
+        districtLevelGroups :[4]
     })
     .value("sessionConfig", {})
     .run(['$rootScope', '$state','$templateCache','appConfig','sessionConfig','authfactory','storage','notify',

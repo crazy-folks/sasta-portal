@@ -3,7 +3,9 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 
 		$scope.communitiesfactory = communitiesfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Action of clicking product name link.
         $scope.modelDialogTitle = {
             addCommunitiesTitle : "Add Communities",
@@ -119,6 +121,7 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseAddCommunitiesWindow();
 				        $scope.doReset();
 			  		}else{
@@ -150,6 +153,7 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 			        });							
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditCommunitiesWindow();
 			        $scope.doReset();
 		  		}else{
@@ -187,15 +191,17 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editcommunities = {
-	    		id : data.id,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				status: false
-	    	};
-	    	DoUpdate();
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editcommunities = {
+		    		id : data.id,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					status: false
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 	    $scope.gridOptions = {
@@ -223,7 +229,8 @@ app.controller('CommunitiesController',['$http','$window','$scope','$rootScope',
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/communities/getlist'
+				         url: $scope.crudServiceBaseUrl + '/communities/getlist',
+				         cache:false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

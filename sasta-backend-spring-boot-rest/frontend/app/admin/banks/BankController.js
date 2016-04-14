@@ -4,7 +4,9 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 		$scope.bkfactory = bankfactory;
 		$scope.banks = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+
 	    //Action of clicking product name link.
         $scope.modelDialogTitle = {
             addbankTitle : "Add Bank",
@@ -121,6 +123,7 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseaddBankWindow();
 				        $scope.doReset();						
 			  		}else{
@@ -151,6 +154,7 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 			        });						
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditBankWindow();
 			        $scope.doReset();	  					
 		  		}else{
@@ -188,15 +192,17 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 	    }
 	   
 	   	$scope.OnDelete = function(data){
-	    	$scope.editbank = {
-	    		bankId : data.bankId,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				status: false
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editbank = {
+		    		bankId : data.bankId,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					status: false
+		    	}
+		   		DoUpdate();
 	    	}
-	   		DoUpdate();
 	   	}
 
 		$scope.GenerateTools = function(){
@@ -233,7 +239,8 @@ app.controller('BankController',['$http','$window','$scope','$rootScope','notify
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/bank/getlist'
+				         url: $scope.crudServiceBaseUrl + '/bank/getlist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

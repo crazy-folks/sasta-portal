@@ -20,16 +20,7 @@
         $scope.reportingto = [];
         $scope.allotteddistricts = [];
         $scope.allottedblocks = [];
-        $scope.entityGroups = [{
-            "value": 0,
-            "text": "Select"
-        },{
-            "value": 1,
-            "text": "Admin"
-        },{
-            "value": 2,
-            "text": "Users"
-        }];
+        $scope.entityGroups = [];
 
         $scope.recruitementType = [{
             "value": 0,
@@ -166,10 +157,18 @@
             var response = userfactory.AddBasicUserDetails($scope.user);
             response.success(function(result){
                 if(result.status){
-                    $scope.$emit("ShowSuccess","Successfully added a user!");
+                    notify({
+                        messageTemplate: '<span>Successfully created a user!</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope
+                    });
                     $scope.Reset();
                 }else{
-                    $scope.$emit("ShowError","Unable to update states!");
+                    notify({
+                        messageTemplate: '<span>'+result.data+'</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope
+                    });
                 }
             }).error(function(error,status){
                 $scope.$emit("ShowError","Unable to update states!");
@@ -178,8 +177,22 @@
     };
 
     $scope.Reset = function(){
+
         $scope.jQueryValidator.doReset();
         $($scope.formName)[0].reset();
+        var defaultOptions = {
+            "value": 0,
+            "text": "Select"
+        };
+        $scope.defaultStates = angular.copy(defaultOptions);
+        $scope.defaultCountries = angular.copy(defaultOptions);        
+        $scope.defaultRecruitementType = angular.copy(defaultOptions);
+        $scope.defaultBlocks = angular.copy(defaultOptions);
+        $scope.defaultDistricts = angular.copy(defaultOptions);
+        $scope.defaultReportingTo = angular.copy(defaultOptions);
+        $scope.defaultDepartments = angular.copy(defaultOptions);
+        $scope.defaultEntityGroups = angular.copy(defaultOptions);
+        $scope.defaultGenders = angular.copy(defaultOptions);
     }
 
     function GetLookupValues(type){
@@ -219,6 +232,11 @@
                     for (var i=0; i<result.length; i++){
                         $scope.allotteddistricts.push(result[i]);
                     }                    
+                }else if(type === 16){//user groups
+                     $scope.entityGroups.push(defaultOptions);
+                    for (var i=0; i<result.length; i++){
+                        $scope.entityGroups.push(result[i]);
+                    }                    
                 }
             }else{
                 notify({
@@ -242,6 +260,7 @@
     GetLookupValues(3);
     GetLookupValues(1);
     GetLookupValues(7);
+    GetLookupValues(16); // Blocks
 }]);
 
 app.factory('userfactory',function($http,$q,$rootScope){

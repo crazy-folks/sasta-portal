@@ -76,7 +76,10 @@
         $scope.search.departmentId = $scope.defaultDepartments.value || null;
         $scope.search.isActive = $scope.defaultAcOptions.value;
         searchfactory.GetUsers($scope.search).success(function(result){
-                $scope.users = result.data;
+            $scope.dataSource = new kendo.data.DataSource({
+                data: result.data,
+                pageSize: 15
+            });
         }).error(function(error,status){
             notify({
                 messageTemplate: '<span>Unable to read user list!!!</span>',
@@ -152,7 +155,7 @@
     GetLookupValues(8); // Departments
     GetLookupValues(1); // Blocks
     GetLookupValues(16); // Blocks
-    $scope.SearchUsers();
+    //$scope.SearchUsers();
 }]);
 
 app.factory('searchfactory',function($http,$q,$rootScope){

@@ -4,7 +4,9 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 
 		$scope.villagefactory = villagefactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+		
 	    //Pop up Page Titles
 	    $scope.modelDialogTitle = {
 	    	AddVPTitle : "Add Village Panchayat",
@@ -140,6 +142,7 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseAddVpWindow();
 				        $scope.doReset();		  					
 			  		}else{
@@ -170,6 +173,7 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 				        });								
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseEditVpWindow();
 				        $scope.doReset();
 			  		}else{
@@ -219,17 +223,19 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editvillage = {
-	    		auditBlockId : data.auditBlockId,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				vpCode:data.vpCode,
-				id : data.id,
-				status: false
-	    	};
-	    	DoUpdate();	    	
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editvillage = {
+		    		auditBlockId : data.auditBlockId,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					vpCode:data.vpCode,
+					id : data.id,
+					status: false
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 	    $scope.gridOptions = {
@@ -259,7 +265,8 @@ app.controller('VillagePanchayatController',['$http','$window','$scope','$rootSc
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/vp/vplist'
+				         url: $scope.crudServiceBaseUrl + '/vp/vplist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

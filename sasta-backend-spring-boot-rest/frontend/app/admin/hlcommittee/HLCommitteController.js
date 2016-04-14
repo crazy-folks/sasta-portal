@@ -3,7 +3,9 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 
 		$scope.aufactory = hlcommitteefactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
 	    	AddAuditHLCTitle : "Add High Level Committee",
@@ -214,7 +216,8 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 				            scope:$scope
 				        });							
 						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
+			      	    $scope.grid.dataSource.read();
+				        $scope.grid.dataSource.fetch();
 						$scope.CloseAddAuditHLCWindow();
 			  		}else{
 				  		notify({
@@ -234,42 +237,44 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.edithlcommittee = {
-				id : data.id,
-				status : false,
-				roundId : data.roundId,
-				vpName : data.vpName,
-				blockName : data.blockName,
-				auditId : data.auditId,
-				createdBy : data.createdBy,
-				modifiedBy : data.modifiedBy,
-				roundName : data.roundName,
-				blockId : data.blockId,
-				vpId : data.vpId,
-				financialYear : data.financialYear,
-				createdByName : data.createdByName,
-				modifiedByName : data.modifiedByName,
-				modifiedDate : data.modifiedDate,
-				roundDescription : data.roundDescription,
-				createdDate : data.createdDate,
-				auditDistrictId : data.auditDistrictId,
-				financialDescription : data.financialDescription,
-				districtName : data.districtName,
-				roundEndDate : data.roundEndDate,
-				roundStartDate : data.roundStartDate,
-				pendingParasCount : data.pendingParasCount,
-				amountToBeRecovered : data.amountToBeRecovered,
-				totalParasCount : data.totalParasCount,
-				totalParasAmt : data.totalParasAmt,
-				paraSettledDuringDSAmt : data.paraSettledDuringDSAmt,
-				paraSettledDuringHLCCount : data.paraSettledDuringHLCCount,
-				paraSettledDuringHLCAmt : data.paraSettledDuringHLCAmt,
-				amountRecovered : data.amountRecovered,
-				paraSettledDuringDSCount : data.paraSettledDuringDSCount,
-				pendingParasAmt : data.pendingParasAmt,
-				dateOfJointSitting : data.dateOfJointSitting
-	    	};
-	    	DoUpdate();
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.edithlcommittee = {
+					id : data.id,
+					status : false,
+					roundId : data.roundId,
+					vpName : data.vpName,
+					blockName : data.blockName,
+					auditId : data.auditId,
+					createdBy : data.createdBy,
+					modifiedBy : data.modifiedBy,
+					roundName : data.roundName,
+					blockId : data.blockId,
+					vpId : data.vpId,
+					financialYear : data.financialYear,
+					createdByName : data.createdByName,
+					modifiedByName : data.modifiedByName,
+					modifiedDate : data.modifiedDate,
+					roundDescription : data.roundDescription,
+					createdDate : data.createdDate,
+					auditDistrictId : data.auditDistrictId,
+					financialDescription : data.financialDescription,
+					districtName : data.districtName,
+					roundEndDate : data.roundEndDate,
+					roundStartDate : data.roundStartDate,
+					pendingParasCount : data.pendingParasCount,
+					amountToBeRecovered : data.amountToBeRecovered,
+					totalParasCount : data.totalParasCount,
+					totalParasAmt : data.totalParasAmt,
+					paraSettledDuringDSAmt : data.paraSettledDuringDSAmt,
+					paraSettledDuringHLCCount : data.paraSettledDuringHLCCount,
+					paraSettledDuringHLCAmt : data.paraSettledDuringHLCAmt,
+					amountRecovered : data.amountRecovered,
+					paraSettledDuringDSCount : data.paraSettledDuringDSCount,
+					pendingParasAmt : data.pendingParasAmt,
+					dateOfJointSitting : data.dateOfJointSitting
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 	    function DoUpdate(){
@@ -282,7 +287,8 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 			            scope:$scope
 			        });							
 					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
+		      	    $scope.grid.dataSource.read();
+			        $scope.grid.dataSource.fetch();
 					$scope.CloseEditAuditHLCWindow();
 		  		}else{
 			  		notify({
@@ -413,13 +419,27 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,
+	        pageSize: 30,
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 20, 30],
+                messages: {
+                    refresh: "Refresh Grievances"
+                }
+            },	        
 	        dataSource: {
-	            pageSize: 5,
+	        	pageSize: 30,
 	            transport: {
 	                read: function (e) {
+	                	var baseUrl = $scope.crudServiceBaseUrl + 
+	                	'/highLevelcommities/getlist?key='+encodeURIComponent($location.search().aid);
+	                	if($.inArray($rootScope.sessionConfig.userGroupId, $rootScope.appConfig.blockLevelGroups)>-1){
+	                		baseUrl = baseUrl + '&userid='+$rootScope.sessionConfig.userId;
+	                	}	                	
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/highLevelcommities/getlist'
+				         url: baseUrl,
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

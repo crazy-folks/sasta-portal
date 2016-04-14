@@ -3,7 +3,9 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 
 		$scope.aufactory = auditfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+
 		$scope.dateOptions = {
 		    format: 'yyyy-MM-dd'
 		};
@@ -14,34 +16,32 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    	EditAuditTitle : "Edit Audit"
 	    };
 
+	    $scope.fy = [];
 		$scope.rounds = [];
 		$scope.districts = [];
 		$scope.blocks = [];
 		$scope.villages = [];
+		$scope.emptyLsit = [];
 
-		// default selected rounds
-		$scope.defaultrounds = {
+		$scope.defaultdpOptions = {
 		    "value": 0,
 		    "text": "Select"
 		};
 
-		// default selected rounds
-		$scope.defaultdistricts = {
-		    "value": 0,
-		    "text": "Select"
-		};
+		// default selected financial years
+		$scope.defaultfy = angular.copy($scope.defaultdpOptions);
 
 		// default selected rounds
-		$scope.defaultblocks = {
-		    "value": 0,
-		    "text": "Select"
-		};
+		$scope.defaultrounds = angular.copy($scope.defaultdpOptions);
 
 		// default selected rounds
-		$scope.defaultvillages = {
-		    "value": 0,
-		    "text": "Select"
-		};
+		$scope.defaultdistricts = angular.copy($scope.defaultdpOptions);
+
+		// default selected rounds
+		$scope.defaultblocks = angular.copy($scope.defaultdpOptions);
+
+		// default selected rounds
+		$scope.defaultvillages = angular.copy($scope.defaultdpOptions);
 
 	    $scope.kaddWindowOptions = {
 	        content: 'admin/audit/add.html',
@@ -93,14 +93,19 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    };
 
 	    $scope.OpenAuditWindow = function($event){
+			$scope.fy = angular.copy($scope.emptyLsit);
+			GetLookupValues($rootScope.appConfig.lookupTypes.FinancialYear)
+			.done(function(result){	
+				//$scope.defaultfy = angular.copy($scope.defaultdpOptions);			
+	    	});
 	    	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");	    	
 	        $scope.addAuditWindow.center().open();
 	    }
 
 	    $scope.CloseAuditWindow  = function(){
-	        $scope.addAuditWindow.close();
 	        $scope.doReset();
 	        $scope.jQueryAddAuditValidator.doReset();
+	        $scope.addAuditWindow.close();
 	    }
 
 	    $scope.OpenEditAuditWindow = function(){
@@ -117,58 +122,68 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    $scope.doReset = function(){
 	    	$scope.audit = angular.copy($scope.defaultOptions);
 	    	$scope.editaudit =  angular.copy($scope.defaultOptions);
-	    	$scope.defaultdistricts = [];
-	    	$scope.defaultblocks = [];
-	    	$scope.defaultvillages = [];
-	    	$scope.defaultrounds = [];
-	    	$scope.villages=[];
-	    	$scope.districts=[];
-	    	$scope.rounds = [];
-	    	$scope.blocks=[];
 
-	    	GetLookupValues(13,'').done(function(result){
-				var b = jQuery.map( $scope.rounds, function( n, i ) {
-					if(0 === n.value)
-				  		return n;
-				});
+			// default selected financial years
+			$scope.defaultfy = angular.copy($scope.defaultdpOptions);
 
-				if(b instanceof Array){
-					$scope.defaultrounds =  b[0];
-				}else{
-					$scope.defaultrounds = $scope.defaultrounds;
-				}		    		
-	    	}); 
+			// default selected rounds
+			$scope.defaultrounds = angular.copy($scope.defaultdpOptions);
 
-			GetLookupValues(2,'').done(function(result){
-				var b = jQuery.map( $scope.districts, function( n, i ) {
-					if(0 === n.value)
-				  		return n;
-				});
+			// default selected rounds
+			$scope.defaultdistricts = angular.copy($scope.defaultdpOptions);
 
-				if(b instanceof Array){
-					$scope.defaultdistricts =  b[0];
-				}else{
-					$scope.defaultdistricts = $scope.defaultdistricts;
-				}		    		
-	    	}); 
+			// default selected rounds
+			$scope.defaultblocks = angular.copy($scope.defaultdpOptions);
+
+			// default selected rounds
+			$scope.defaultvillages = angular.copy($scope.defaultdpOptions);
+
+	    	$scope.villages = angular.copy($scope.emptyLsit);
+	    	$scope.districts = angular.copy($scope.emptyLsit);
+	    	$scope.rounds = angular.copy($scope.emptyLsit);
+	    	$scope.blocks = angular.copy($scope.emptyLsit);
+	    	$scope.fy = angular.copy($scope.emptyLsit);
 	    }
 
-	    $scope.OnRoundSelectedValue = function(defaultrounds){
-	    	$scope.defaultrounds = defaultrounds;
-	    }
+		$scope.OnFinancialYearSelectionChanged = function(selection){
+			if(selection){
+				$scope.defaultfy = selection;
+				$scope.rounds = angular.copy($scope.emptyLsit);
+				GetLookupValues($rootScope.appConfig.lookupTypes.Rounds,
+					selection.value).done(function(result){
+					$scope.defaultrounds = angular.copy($scope.defaultdpOptions);
+		    	});				
+			}
+		}
+
+		$scope.OnRoundSelectedValue = function(selection){
+			if(selection){
+				$scope.defaultrounds = selection;
+				$scope.districts = angular.copy($scope.emptyLsit);
+				GetLookupValues($rootScope.appConfig.lookupTypes.Districts)
+				.done(function(result){
+					$scope.defaultdistricts = angular.copy($scope.defaultdpOptions);
+		    	});
+			}
+		}
 
 	    $scope.OnDistrictsSelectedValue = function(defaultdistricts){
-	    	$scope.blocks=[];
-	    	GetLookupValues(1,defaultdistricts.value).done(function(result){
-				$scope.defaultdistricts = defaultdistricts;
-	    	});
+	    	if(defaultdistricts){
+	    		$scope.defaultdistricts = defaultdistricts;
+		    	$scope.blocks = angular.copy($scope.emptyLsit);
+		    	GetLookupValues($rootScope.appConfig.lookupTypes.Blocks,
+		    		defaultdistricts.value).done(function(result){
+					$scope.defaultblocks = angular.copy($scope.defaultdpOptions);
+		    	});
+	    	}
 	    }
 
 	    $scope.OnBlocksSelectedValue = function(defaultblocks){
-	    	$scope.villages=[];
+	    	$scope.villages= angular.copy($scope.emptyLsit);
+	    	defaultblocks&&(($scope.defaultblocks = defaultblocks),
 	    	GetLookupValues(14,defaultblocks.value).done(function(result){
-	    		$scope.defaultblocks = defaultblocks;
-	    	});
+	    		$scope.defaultvillages = angular.copy($scope.defaultdpOptions);
+	    	}));
 	    }
 
 	    $scope.OnVillagesSelectedValue = function(defaultvillages){
@@ -181,16 +196,18 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 
 	    $scope.OnEditDistrictsSelectedValue = function(editdefaultdistricts){
 	    	$scope.blocks = [];
+	    	editdefaultdistricts&&(
 	    	GetLookupValues(1,editdefaultdistricts.value).done(function(result){
 	    		$scope.editdefaultdistricts = editdefaultdistricts;
-	    	});
+	    	}));
 	    }
 
 	    $scope.OnEditBlocksSelectedValue = function(editdefaultblocks){
 	    	$scope.villages=[];
+	    	editdefaultblocks&&(
 	    	GetLookupValues(14,editdefaultblocks.value).done(function(result){
 	    		$scope.editdefaultblocks = editdefaultblocks;
-	    	});
+	    	}));
 	    }
 
 	    $scope.OnEditVillagesSelectedValue = function(editdefaultvillages){
@@ -256,32 +273,51 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		       $scope.audit.auditBlockId = $scope.defaultblocks.value;
 		       $scope.audit.villagePanchayatId = $scope.defaultvillages.value;
 		       $scope.audit.createdBy = $rootScope.sessionConfig.userId;
-
-		       var responseText = auditfactory.doSubmitData($scope.audit);
-			    responseText.success(function(result){
-			     if(result.status){
-			        notify({
-			                messageTemplate: '<span>'+result.data+'</span>',
-			                position: $rootScope.appConfig.notifyConfig.position,
-			                scope:$scope
-			            });       
-			      	// scope.grid is the widget reference
-				       $scope.grid.dataSource.read();
-				       $scope.CloseAuditWindow();
-			       }else{
-				        notify({
-			                messageTemplate: '<span>Unable to add audit!</span>',
-			                position: $rootScope.appConfig.notifyConfig.position,
-			                scope:$scope
-				        });
-			       }
-			    }).error(function(error,status){
+		       var auditEntry = auditfactory.getAudit($scope.audit.roundId,$scope.audit.auditDistrictId,$scope.audit.auditBlockId,$scope.audit.villagePanchayatId);
+		       auditEntry.success(function(r){
+			       	if(r!=null){
+			       		if(!r.status){
+					       var responseText = auditfactory.doSubmitData($scope.audit);
+						    responseText.success(function(result){
+						     if(result.status){
+						        notify({
+						                messageTemplate: '<span>'+result.data+'</span>',
+						                position: $rootScope.appConfig.notifyConfig.position,
+						                scope:$scope
+						            });       
+						      	// scope.grid is the widget reference
+						      	   $scope.grid.dataSource.read();
+							       $scope.grid.dataSource.fetch();
+							       $scope.CloseAuditWindow();
+						       }else{
+							        notify({
+						                messageTemplate: '<span>Unable to add audit!</span>',
+						                position: $rootScope.appConfig.notifyConfig.position,
+						                scope:$scope
+							        });
+						       }
+						    }).error(function(error,status){
+							       notify({
+							               messageTemplate: '<span>Unable to process your request!</span>',
+							               position: $rootScope.appConfig.notifyConfig.position,
+							               scope:$scope
+							        });						    	
+						    });
+			       		}else{
+				       		notify({
+				               messageTemplate: '<span>'+r.data+'!</span>',
+				               position: $rootScope.appConfig.notifyConfig.position,
+				               scope:$scope
+				           });
+			       		}
+			       	}
+		       }).error(function(error,status){
 			       notify({
 			               messageTemplate: '<span>Unable to add audit!</span>',
 			               position: $rootScope.appConfig.notifyConfig.position,
 			               scope:$scope
-			           });
-			    });      
+			        });
+		       });      
 	    	}
 		}
 
@@ -296,6 +332,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		            });       
 		      // scope.grid is the widget reference
 		        $scope.grid.dataSource.read();
+				$scope.grid.dataSource.fetch();
 		      $scope.CloseEditAuditWindow();
 		            $scope.doReset();
 		       }else{
@@ -329,68 +366,88 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    }
 
     	$scope.VrpData = function(data){
-			$state.go('admin.vrp',{aid:data.key});
+			$state.go('entries.vrp',{aid:data.key});
     	}
 
     	$scope.ExpenData = function(data){
-			$state.go('admin.expenditure',{aid:data.key});
+			$state.go('entries.expenditure',{aid:data.key});
     	}
 
     	$scope.DeviationData = function(data){
-			$state.go('admin.deviation',{aid:data.key});
+			$state.go('entries.deviation',{aid:data.key});
     	}
 
     	$scope.GrievanceData = function(data){
-			$state.go('admin.grievance',{aid:data.key});
+			$state.go('entries.grievance',{aid:data.key});
     	}
 
     	$scope.MissappropriationData = function(data){
-			$state.go('admin.misappropriation',{aid:data.key});
+			$state.go('entries.misappropriation',{aid:data.key});
     	}
 
     	$scope.MgnregaData = function(data){
-			$state.go('admin.mgnrega',{aid:data.key});
+			$state.go('entries.mgnrega',{aid:data.key});
     	}
 
     	$scope.HlcommitteeData = function(data){
-			$state.go('admin.hlcommittee',{aid:data.key});
+			$state.go('entries.hlcommittee',{aid:data.key});
     	}
 
     	$scope.sgm = function(data){
-			$state.go('admin.sgm',{aid:data.key});
+			$state.go('entries.sgm',{aid:data.key});
     	}    	
 
 	    $scope.EditData = function(data){
-	    	$scope.editaudit = $scope.defaultOptions;
-	    	$scope.editdefaultblocks = $scope.defaultblocks;
-	    	$scope.editdefaultrounds = $scope.defaultrounds;
-	    	$scope.editdefaultdistricts = $scope.defaultdistricts;
-	    	$scope.editdefaultvillages = $scope.defaultvillages;
-	    	$scope.blocks = [];
-	    	
-	    	var r = jQuery.map( $scope.rounds, function( n, i ) {
-				if(data.roundId === n.value)
-			  		return n;
-			});
+	    	$scope.editaudit = angular.copy($scope.defaultOptions);
+	    	$scope.editdefaultblocks = angular.copy($scope.defaultdpOptions);;
+	    	$scope.editdefaultrounds = angular.copy($scope.defaultdpOptions);;
+	    	$scope.editdefaultdistricts = angular.copy($scope.defaultdpOptions);;
+	    	$scope.editdefaultvillages = angular.copy($scope.defaultdpOptions);;
+	    	$scope.editfy = angular.copy($scope.defaultdpOptions);;
+	    	$scope.blocks = [];	    	
 
-			if(r instanceof Array){
-				$scope.editdefaultrounds =  r[0];
-			}else{
-				$scope.editdefaultrounds = $scope.defaultrounds;
-			}	  
+  			GetLookupValues($rootScope.appConfig.lookupTypes.FinancialYear).done(function(result){
+		    	var r = jQuery.map( $scope.fy, function( n, i ) {
+					if(data.financialId === n.value)
+				  		return n;
+				});
+
+				if(r instanceof Array){
+					$scope.editfy =  r[0];
+				}else{
+					$scope.editfy = $scope.defaultfy;
+				}	  	    		
+	    	});
 			
-			var d = jQuery.map( $scope.districts, function( n, i ) {
-				if(data.auditDistrictId === n.value)
-			  		return n;
-			});	  
+  			GetLookupValues($rootScope.appConfig.lookupTypes.Rounds).done(function(result){
+		    	var r = jQuery.map( $scope.rounds, function( n, i ) {
+					if(data.roundId === n.value)
+				  		return n;
+				});
 
-			if(d instanceof Array){
-				$scope.editdefaultdistricts =  d[0];
-			}else{
-				$scope.editdefaultdistricts = $scope.defaultdistricts;
-			}	  
+				if(r instanceof Array){
+					$scope.editdefaultrounds =  r[0];
+				}else{
+					$scope.editdefaultrounds = $scope.defaultrounds;
+				}	  	    		
+	    	});
 
-			GetLookupValues(1,data.auditDistrictId).done(function(result){
+			GetLookupValues($rootScope.appConfig.lookupTypes.Districts).done(function(result){
+				var d = jQuery.map( $scope.districts, function( n, i ) {
+					if(data.auditDistrictId === n.value)
+				  		return n;
+				});	  
+
+				if(d instanceof Array){
+					$scope.editdefaultdistricts =  d[0];
+				}else{
+					$scope.editdefaultdistricts = $scope.defaultdistricts;
+				}			    		
+	    	});
+	   
+
+			GetLookupValues($rootScope.appConfig.lookupTypes.Blocks,
+				data.auditDistrictId).done(function(result){
 				var b = jQuery.map( $scope.blocks, function( n, i ) {
 					if(data.auditBlockId === n.value)
 				  		return n;
@@ -404,7 +461,8 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    	});
 	   
 
-			GetLookupValues(14,data.auditBlockId).done(function(result){
+			GetLookupValues($rootScope.appConfig.lookupTypes.VillagePanchayats,
+				data.auditBlockId).done(function(result){
 				var v = jQuery.map( $scope.villages, function( n, i ) {
 					if(data.villagePanchayatId === n.value)
 				  		return n;
@@ -447,46 +505,48 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editaudit = {
-	    		auditId : data.auditId,
-	    		roundId : data.roundId,
-	    		auditDistrictId : data.auditDistrictId,
-	    		auditBlockId : data.auditBlockId,
-	    		villagePanchayatId : data.villagePanchayatId,
-				modifiedBy : $rootScope.sessionConfig.userId,
-				startDate : data.startDate,
-				endDate : data.endDate,
-				gramaSabhaDate : data.gramaSabhaDate,
-				status : false,
-				createdByName : data.createdByName,
-				modifiedByName : data.modifiedByName,
-				createdDate : data.createdDate	,
-				modifiedDate : data.modifiedDate	,
-				gramaSabhaDate : data.gramaSabhaDate,
-				financialDescription : data.financialDescription,
-				financialYear : data.financialYear,
-				roundDescription : data.roundDescription,
-				districtName : data.districtName,
-				createdBy : data.createdBy,
-				roundName : data.roundName,
-				vpName : data.vpName,
-				blockName : data.blockName,
-				key : data.key
-	    	};
-	    	DoUpdate();	    	
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editaudit = {
+		    		auditId : data.auditId,
+		    		roundId : data.roundId,
+		    		auditDistrictId : data.auditDistrictId,
+		    		auditBlockId : data.auditBlockId,
+		    		villagePanchayatId : data.villagePanchayatId,
+					modifiedBy : $rootScope.sessionConfig.userId,
+					startDate : data.startDate,
+					endDate : data.endDate,
+					gramaSabhaDate : data.gramaSabhaDate,
+					status : false,
+					createdByName : data.createdByName,
+					modifiedByName : data.modifiedByName,
+					createdDate : data.createdDate	,
+					modifiedDate : data.modifiedDate	,
+					gramaSabhaDate : data.gramaSabhaDate,
+					financialDescription : data.financialDescription,
+					financialYear : data.financialYear,
+					roundDescription : data.roundDescription,
+					districtName : data.districtName,
+					createdBy : data.createdBy,
+					roundName : data.roundName,
+					vpName : data.vpName,
+					blockName : data.blockName,
+					key : data.key
+		    	};
+		    	DoUpdate();	  
+	    	}  	
 	    }
 
-	    $scope.gridOptions = {
+	    $scope.gridOptions = {    	
 	        columns: [ 
-		        		{ field: "auditId", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "roundName", title:'Round', editable : false  },
-		        		{ field: "gramaSabhaDate", title:'Grama Sabha Date', editable : false  },
-		        		{ field: "startDate", title:'Start Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(startDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "endDtate", title:'End Date',editable: false,template: "#= kendo.toString(kendo.parseDate(new Date(endDtate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-		        		{ field: "districtName", title : "District", editable : false},
-		        		{ field: "blockName", title : "Block", editable : false },
-		        		{ field: "vpName", title : "Village", editable : false},
-		        		//{ title : "", template: "<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"EditData(dataItem);\">Edit</button>&nbsp;<button type=\"button\" class=\"btn btn-danger btn-sm\" ng-click=\"Delet(dataItem);\">Delete</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"VrpData(dataItem);\">Vrp Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"ExpenData(dataItem);\">Expenditure Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"DeviationData(dataItem);\">Deviation Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"GrievanceData(dataItem);\">Grievance Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"MissappropriationData(dataItem);\">Misappropriation Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"MgnregaData(dataItem);\">Mgnrega Details</button>&nbsp;<button type=\"button\" class=\"btn btn-success btn-sm\" ng-click=\"HlcommitteeData(dataItem);\">High Level Committee</button>"   }
+		        		{ field: "auditId", title:'Audit ID', hidden: true },
+		        		{field : "financialYear",title:'FY'},
+		        		{ field: "roundName", title:'Round'},
+		        		{ field: "gramaSabhaDate", title:'GS Date',template: "#= kendo.toString(kendo.parseDate(new Date(gramaSabhaDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
+		        		{ field: "startDate", title:'St. Date',template: "#= kendo.toString(kendo.parseDate(new Date(startDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
+		        		{ field: "endDtate", title:'End Date',template: "#= kendo.toString(kendo.parseDate(new Date(endDtate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
+		        		{ field: "districtName", title : "District"},
+		        		{ field: "blockName", title : "Block" },
+		        		{ field: "vpName", title : "VP"},
 		        		{
  							title : "",
 		                    width: '30px',
@@ -496,13 +556,35 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,
+	        pageSize: 30,
+            autosync: true,
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 20, 30],
+                messages: {
+                    refresh: "Refresh Audit"
+                }
+            },	        
 	        dataSource: {
 	            pageSize: 30,
 	            transport: {
 	                read: function (e) {
+	                	var auditReq =  {
+						  "districtId":  null,
+						  "blockId":  null,
+						  "financialId": null,
+						  "userId": null
+						};
+	                	if($.inArray($rootScope.sessionConfig.userGroupId, $rootScope.appConfig.blockLevelGroups)>-1){	 
+							auditReq.userId =  $rootScope.sessionConfig.userId;       		
+	                	}else if($.inArray($rootScope.sessionConfig.userGroupId, $rootScope.appConfig.districtLevelGroups)>-1){
+							auditReq.districtId = $rootScope.sessionConfig.allottedDistrict;
+	                	}
 	                  $http({
-				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/audit/getlist'
+				         method: 'POST',
+				         url: $scope.crudServiceBaseUrl + '/audit/getlist',
+				         data : JSON.stringify(auditReq),
+				         cache: false			         
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)
@@ -518,43 +600,34 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    function GetLookupValues(type,id){
 	    	var deffered = jQuery.Deferred();
 	    	auditfactory.getLookupValues(type,id).success(function(result){
-	    		var defaultOptions = {
-				    "value": 0,
-				    "text": "Select"
-				};
 
 				if(result instanceof Array){
-					if(type==13){
-						$scope.rounds.push(defaultOptions);
+					if(type==$rootScope.appConfig.lookupTypes.Rounds){
 						for (var i=0; i<result.length; i++){
 						    $scope.rounds.push(result[i]);
 						}	
+					}else if(  type === $rootScope.appConfig.lookupTypes.FinancialYear ){
+						for (var i=0; i<result.length; i++)
+						    $scope.fy.push(result[i]);
 					}
-					else if(type==2)
+					else if(type==$rootScope.appConfig.lookupTypes.Districts)
 					{
-						$scope.districts.push(defaultOptions);
 						for (var i=0; i<result.length; i++){
 						    $scope.districts.push(result[i]);
 						}	
 					}
-					else if(type==1)
-					{
-						
-						$scope.blocks.push(defaultOptions);
+					else if(type==$rootScope.appConfig.lookupTypes.Blocks)
+					{						
 						for (var i=0; i<result.length; i++){
 						    $scope.blocks.push(result[i]);
-						}	
-						
+						}
 					}
-					else if(type==14)
+					else if(type==$rootScope.appConfig.lookupTypes.VillagePanchayats)
 					{
-						$scope.villages.push(defaultOptions);
 						for (var i=0; i<result.length; i++){
 						    $scope.villages.push(result[i]);
-						}	
-			  
-					}
-										
+						}
+					}										
 		  		}else{
 		  			notify({
 			            messageTemplate: '<span>Unable to read look up values!!!</span>',
@@ -572,11 +645,6 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 			})
 			return deffered.promise();
 		}
-
-		GetLookupValues(13,''); 
-		GetLookupValues(2,''); 
-		//GetLookupValues(1); 
-		//GetLookupValues(14); 
 }]);
 
 app.factory('auditfactory',function($http,$q,$rootScope){
@@ -585,10 +653,11 @@ app.factory('auditfactory',function($http,$q,$rootScope){
 	var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 	var createbankUrl = '/audit/create';
 
+
 	service.getLookupValues = function(id,filter){		
 		return $http({
         	method : 'GET',
-        	url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + filter
+        	url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + (filter?filter:'')
     	});
     }
 

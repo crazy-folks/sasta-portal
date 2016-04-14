@@ -49,7 +49,7 @@
   
 </div>
 <script id="toggle-template" type="text/x-kendo-template">
-    <div class="icon-settings">
+    <div class="icon-settings" ng-mouseover="showContextMenu($event,grid);">
        <ul>
             <li><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit State</a></li>
             <li><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete State</a></li>

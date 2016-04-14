@@ -617,7 +617,7 @@ public class UserServiceImpl implements UserService {
         o.setExpiredDate(StringUtils.trimToNull((String) simpleJdbcCallResult.get("expire_date")));
         o.setUserFullName(StringUtils.trimToNull((String) simpleJdbcCallResult.get("user_full_name")));
         o.setScreenName(StringUtils.trimToNull((String) simpleJdbcCallResult.get("screen_name")));
-        o.setEmployeeID(StringUtils.trimToNull((String) simpleJdbcCallResult.get("user_group_id")));
+        o.setUserGroupId((Integer) simpleJdbcCallResult.get("user_group_id"));
         o.setCountryId((Integer) simpleJdbcCallResult.get("employee_id"));
         o.setReportingId((Long) simpleJdbcCallResult.get("country_id"));
         o.setReportingId((Long) simpleJdbcCallResult.get("reporting_id"));
@@ -668,10 +668,18 @@ public class UserServiceImpl implements UserService {
             o.setUserFullName(StringUtils.trimToNull(set.getString("user_full_name")));
             o.setScreenName(StringUtils.trimToNull(set.getString("screen_name")));
             o.setEmployeeID(StringUtils.trimToNull(set.getString("employee_id")));
+            o.setUserGroupId(set.getInt("user_group_id"));
+            o.setLoggedInBy(StringUtils.trimToNull(set.getString("loggedin_by")));
             o.setCountryId(set.getInt("country_id"));
             o.setReportingId(set.getLong("reporting_id"));
             o.setAllottedBlock(set.getInt("allotted_block"));
             o.setAllottedDistrict(set.getInt("allotted_district"));
+            o.setCanRead(set.getBoolean("can_read"));
+            o.setCanWrite(set.getBoolean("can_modify"));
+            o.setCanDelete(set.getBoolean("can_delete"));
+            o.setLoggedInAs(set.getBoolean("loggedin_as"));
+            o.setIsDistrictLevelPerson(set.getBoolean("district_level_person"));
+            o.setIsBlockLevelPerson(set.getBoolean("block_level_person"));
             System.out.println(o.toString());
             return o;
         }

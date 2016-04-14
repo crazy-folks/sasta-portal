@@ -158,7 +158,15 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             };
             var resp = profilefactory.UploadProfileDescription(model);
             resp.success(function(result){
-                GetProfileInformation();
+                if(result.status){
+                    notify({
+                        messageTemplate: '<span>'+result.data+'</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope
+                    });                    
+                    GetProfileInformation();
+                    $scope.Close();
+                }
             }).error(function(error,status){
                 notify({
                     messageTemplate: error,

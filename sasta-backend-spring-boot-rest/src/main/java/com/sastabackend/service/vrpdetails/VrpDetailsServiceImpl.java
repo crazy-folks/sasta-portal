@@ -1,6 +1,7 @@
 package com.sastabackend.service.vrpdetails;
 
 import com.sastabackend.domain.Expenditure;
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.VrpDetails;
 import com.sastabackend.repository.VrpDetailsRepository;
@@ -64,12 +65,12 @@ public class VrpDetailsServiceImpl implements  VrpDetailsService {
     }
 
     @Override
-    public ResponseModel findAll() {
+    public ResponseModel findAll(Long userid,Long auditid) {
         LOGGER.debug("Reading VrpDetails  : {}");
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<VrpDetails>>();
-            response.setData(readList());
+            response.setData(readList(userid,auditid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -78,6 +79,20 @@ public class VrpDetailsServiceImpl implements  VrpDetailsService {
         return response;
     }
 
+    @Override
+    public ResponseModel getVrpReports(ReportsProperty prop){
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<VrpDetails>>();
+            response.setData(readVrpReports(prop));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData("Unable to read Vrp details report!".concat(err.getMessage()));
+            response.setStatus(false);
+        }
+        return response;        
+    }
 
     @Override
     public ResponseModel Add(Long auditid, String vrpname, Integer genderid, Integer villagepanchayatid, String jcno,
@@ -236,8 +251,8 @@ public class VrpDetailsServiceImpl implements  VrpDetailsService {
         else
             return false;
     }
-    private List<Expenditure> readList(){
-        List<Expenditure> list = jdbcTemplate.query("call select_vrp_details", new VrpDetailsMapper());
+    private List<Expenditure> readList(Long userid,Long auditid){
+        List<Expenditure> list = jdbcTemplate.query("call select_vrp_details(?,?)", new Object[]{userid,auditid}, new VrpDetailsMapper());
         return list;
     }
 
@@ -252,11 +267,67 @@ public class VrpDetailsServiceImpl implements  VrpDetailsService {
         }
     }
 
+    /**
+     * Read All Expenditures based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Expenditures, If fail empty list
+     */
+    private List<VrpDetails> readVrpReports(ReportsProperty prop){
+        List<VrpDetails> o = new ArrayList<VrpDetails>();
+            o = jdbcTemplate.query("call vrp_details_reports(?,?,?,?,?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId(),prop.getDistrictId(),prop.getBlockId(),prop.getVillageId(),prop.getUserId()},
+                    new VrpDetailsReportsMapper());
+        return o;
+    }
+
+
+    protected static final class VrpDetailsReportsMapper implements RowMapper {
+
+        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+            //System.out.println("Read Row :" + rowNo);
+            VrpDetails o = new VrpDetails();
+            o.setId(set.getLong("id"));
+            o.setAuditId(set.getLong("audit_id"));
+            o.setName(set.getString("name"));
+            o.setAuditFinancialYear(set.getString("financial_year"));
+            o.setRoundId(set.getLong("round_id"));
+            o.setRoundName(set.getString("round_name"));
+            o.setRoundStartDate(set.getDate("start_date"));
+            o.setRoundEndDate(set.getDate("end_date"));
+            o.setAuditDistrictId(set.getInt("audit_district_id"));
+            o.setAuditDistrictName(StringUtils.trimToNull(set.getString("district_name")));
+            o.setAuditBlockId(set.getInt("audit_block_id"));
+            o.setAuditBlockName(StringUtils.trimToNull(set.getString("block_name")));
+            o.setAuditVpId(set.getInt("audit_village_panchayat_id"));
+            o.setAuditVpName(StringUtils.trimToNull(set.getString("audit_vp_name")));
+            o.setGenderId(set.getInt("gender_id"));
+            o.setVillagePanchayatId(set.getInt("village_panchayat_id"));
+            o.setJobCardNumber(StringUtils.trimToNull(set.getString("jc_no")));
+            o.setGuardianName(StringUtils.trimToNull(set.getString("guardian_name")));
+            o.setQualificationId(set.getInt("qualification_id"));
+            o.setCommunityId(set.getInt("community_id"));
+            o.setContactNumber(StringUtils.trimToNull(set.getString("contact_no")));
+            o.setTotalDays(set.getInt("total_days"));
+            o.setPaidAmount(set.getBigDecimal("paid_amount"));
+            o.setPayMode(set.getInt("pay_mode"));
+            o.setBankId(set.getInt("bank_id"));
+            o.setAccountNumber(StringUtils.trimToNull(set.getString("acc_no")));
+            o.setIfscCode(StringUtils.trimToNull(set.getString("ifsc_code")));
+            o.setGradeId(set.getInt("grade_id"));
+            o.setVrpPanchayatName(StringUtils.trimToNull(set.getString("panchayat_name")));
+            o.setVrpQualificationName(StringUtils.trimToNull(set.getString("qualification_name")));
+            o.setVrpCommunityName(StringUtils.trimToNull(set.getString("community_name")));
+            o.setVrpBankName(StringUtils.trimToNull(set.getString("bank_name")));
+            o.setVrpGradeName(StringUtils.trimToNull(set.getString("grade_name")));
+            o.setPayModeName(StringUtils.trimToNull(set.getString("pay_mode_name")));
+            return o;
+        }
+    }
 
     protected static final class VrpDetailsMapper implements RowMapper {
 
         public Object mapRow(ResultSet set, int rowNo)throws SQLException {
-            System.out.println("Read Row :" + rowNo);
+            //System.out.println("Read Row :" + rowNo);
             VrpDetails o = new VrpDetails();
             o.setId(set.getLong("id"));
             o.setAuditId(set.getLong("audit_id"));
@@ -295,7 +366,14 @@ public class VrpDetailsServiceImpl implements  VrpDetailsService {
             o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
             o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
             o.setStatus(set.getBoolean("is_active"));
-            LOGGER.debug("VrpDetails  : {}", o.toString());
+            o.setStatus(set.getBoolean("is_active"));
+            o.setVrpPanchayatName(StringUtils.trimToNull(set.getString("panchayat_name")));
+            o.setVrpQualificationName(StringUtils.trimToNull(set.getString("qualification_name")));
+            o.setVrpCommunityName(StringUtils.trimToNull(set.getString("community_name")));
+            o.setVrpBankName(StringUtils.trimToNull(set.getString("bank_name")));
+            o.setVrpGradeName(StringUtils.trimToNull(set.getString("grade_name")));
+            o.setPayModeName(StringUtils.trimToNull(set.getString("pay_mode_name")));
+            //LOGGER.debug("VrpDetails  : {}", o.toString());
             return o;
         }
     }

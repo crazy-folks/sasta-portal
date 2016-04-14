@@ -2,8 +2,11 @@ package com.sastabackend.service.deviation;
 
 import com.sastabackend.domain.Deviation;
 import com.sastabackend.domain.MisAppropriation;
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.repository.DeviationRepository;
+import com.sastabackend.util.BaseRowMapper;
+import com.sastabackend.util.TextUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,12 +65,12 @@ public class DeviationServiceImpl implements DeviationService {
     }
 
     @Override
-    public ResponseModel findAll() {
+    public ResponseModel findAll(Long userid,Long auditid) {
         LOGGER.debug("Reading Deviation  : {}");
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<Deviation>>();
-            response.setData(readList());
+            response.setData(readList(userid, auditid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -99,6 +102,26 @@ public class DeviationServiceImpl implements DeviationService {
             boolean flag = Modify(dv);
             response.setStatus(flag);
             response.setData(flag == true ? "Deviation Updated Successfully!!" : "Unable to update Deviation!!");
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * Read All Deviation based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Deviation, If fail empty list
+     */
+    @Override
+    public ResponseModel getDeviationsReports(ReportsProperty prop){
+        LOGGER.debug("Reading Deviation  : {}");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<Deviation>>();
+            response.setData(readDeviationReports(prop));
+            response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
             response.setData(err.getMessage());
@@ -250,7 +273,7 @@ public class DeviationServiceImpl implements DeviationService {
         inParamMap.put("jcmisusedbyotherscount",dv.getJcMisusedByOthersCount());
         inParamMap.put("jcmisusedbyothersamt",dv.getJcMisusedByOthersAmt());
         inParamMap.put("wagespaidworkerswithoutjccount",dv.getWagesPaidWorkersWithoutJcCount());
-        inParamMap.put("wagespaidworkerswithoutjcamt",dv.getWagesPaidWorkersWithoutJcCount());
+        inParamMap.put("wagespaidworkerswithoutjcamt",dv.getWagesPaidWorkersWithoutJcAmt());
         inParamMap.put("wagespaidwithoutrecordmesurementcount",dv.getWagesPaidWithoutRecordMesurementCount());
         inParamMap.put("wagespaidwithoutrecordmesurementamt",dv.getWagesPaidWithoutRecordMesurementAmt());
         inParamMap.put("wagespaidexcessmbooksvaluecount",dv.getWagesPaidExcessMBooksValueCount());
@@ -294,8 +317,8 @@ public class DeviationServiceImpl implements DeviationService {
             return false;
     }
 
-    private List<Deviation> readList(){
-        List<Deviation> list = jdbcTemplate.query("call select_deviation", new DeviationMapper());
+    private List<Deviation> readList(Long userid,Long auditid){
+        List<Deviation> list = jdbcTemplate.query("call select_deviation(?,?)", new Object[]{userid,auditid}, new DeviationMapper());
         return list;
     }
 
@@ -306,6 +329,101 @@ public class DeviationServiceImpl implements DeviationService {
             return null;
         else
             return o.get(0);
+    }
+
+    /**
+     * Read All Deviation based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Deviation, If fail empty list
+     */
+    private List<Deviation> readDeviationReports(ReportsProperty prop){
+        List<Deviation> o = new ArrayList<Deviation>();
+        if(!prop.getIsConsolidate())
+            o = jdbcTemplate.query("call deviation_reports(?,?,?,?,?,?)",
+                    new Object[]{prop.getReferenceId(), prop.getRoundId(), prop.getDistrictId(), prop.getBlockId(), prop.getVillageId(), prop.getUserId()},
+                    new DeviationReportsMapper());
+        else
+            o = jdbcTemplate.query("call deviation_consolidate_reports(?,?)",
+                    new Object[]{prop.getReferenceId(), prop.getRoundId()},
+                    new DeviationReportsMapper());
+            return o;
+    }
+
+    protected static final class DeviationReportsMapper extends BaseRowMapper {
+
+        public Object mapRowImpl(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            Deviation o = new Deviation();
+            if(hasColumn("id"))
+                o.setId(set.getLong("id"));
+            if(hasColumn("audit_id"))
+                o.setAuditId(set.getLong("audit_id"));
+            if(hasColumn("fy_name"))
+                o.setFinancialYear(set.getString("fy_name"));
+            if(hasColumn("round_name"))
+                o.setRoundName(set.getString("round_name"));
+            if(hasColumn("start_date"))
+                o.setRoundStartDate(set.getDate("start_date"));
+            if(hasColumn("end_date"))
+            o.setRoundEndDate(set.getDate("end_date"));
+            if(hasColumn("district_name"))
+                o.setDistrictName(StringUtils.trimToNull(set.getString("district_name")));
+            if(hasColumn("block_name"))
+                o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
+            if(hasColumn("village_name"))
+                o.setVpName(StringUtils.trimToNull(set.getString("village_name")));
+            o.setJcMisusedByOthersCount(set.getInt("jc_misused_by_others_count"));
+            o.setJcMisusedByOthersAmt(set.getBigDecimal("jc_misused_by_others_amt"));
+            o.setWagesPaidWorkersWithoutJcCount(set.getInt("wages_paid_workers_without_jc_count"));
+            o.setWagesPaidWorkersWithoutJcAmt(set.getBigDecimal("wages_paid_workers_without_jc_amt"));
+            o.setWagesPaidWithoutRecordMesurementCount(set.getInt("wages_paid_without_record_mesurement_count"));
+            o.setWagesPaidWithoutRecordMesurementAmt(set.getBigDecimal("wages_paid_without_record_mesurement_amt"));
+            o.setWagesPaidExcessMBooksValueCount(set.getInt("wages_paid_excess_mbooks_value_count"));
+            o.setWagesPaidExcessMBooksValueAmt(set.getBigDecimal("wages_paid_excess_mbooks_value_amt"));
+            o.setVariationsBetweenNMRRegisterCount(set.getInt("variations_between_NMR_register_count"));
+            o.setVariationsBetweenNMRRegisterAmt(set.getBigDecimal("variations_between_NMR_register_amt"));
+            o.setNMROverWritingCorrectionsCount(set.getInt("NMR_overwriting_corrections_count"));
+            o.setNMROverWritingCorrectionsAmt(set.getBigDecimal("NMR_overwriting_corrections_amt"));
+            o.setInEligibleWorkersIncludeUnder18Count(set.getInt("ineligible_workers_include_under18_count"));
+            o.setInEligibleWorkersIncludeUnder18Amt(set.getBigDecimal("ineligible_workers_include_under18_amt"));
+            o.setDiffOnlineNMRPhysicalNMRCount(set.getInt("diff_onlineNMR_physicalNMR_count"));
+            o.setDiffOnlineNMRPhysicalNMRAmt(set.getBigDecimal("diff_onlineNMR_physicalNMR_amt"));
+            o.setWagesPaymentFromSchemeCount(set.getInt("wages_payment_from_scheme_count"));
+            o.setWagesPaymentFromSchemeAmt(set.getBigDecimal("wages_payment_from_scheme_amt"));
+            o.setAmountMoreThanNMRFTOCount(set.getInt("amount_morethan_NMR_FTO_count"));
+
+            o.setAmountMoreThanNMRFTOAmt(set.getBigDecimal("amount_morethan_NMR_FTO_amt"));
+            o.setNMRNotProducedForAuditCount(set.getInt("NMR_not_produced_for_audit_count"));
+            o.setNMRNotProducedForAuditAmt(set.getBigDecimal("NMR_not_produced_for_audit_amt"));
+            o.setMbooksNotProducedForAuditCount(set.getInt("mbooks_not_produced_for_audit_count"));
+            o.setMbooksNotProducedForAuditAmt(set.getBigDecimal("mbooks_not_produced_for_audit_amt"));
+            o.setShortageMeasurementsCount(set.getInt("shortage_measurements_count"));
+            o.setShortageMeasurementsAmt(set.getBigDecimal("shortage_measurements_amt"));
+            o.setWorksTakenUpWithoutGbApprovalCount(set.getInt("works_takenup_without_gb_approval_count"));
+            o.setWorksTakenUpWithoutGbApprovalAmt(set.getBigDecimal("works_takenup_without_gb_approval_amt"));
+            o.setEstimatesNotProducedForAuditCount(set.getInt("estimates_not_produced_for_audit_count"));
+            o.setEstimatesNotProducedForAuditAmt(set.getBigDecimal("estimates_not_produced_for_audit_amt"));
+            o.setASNotProducedForAuditCount(set.getInt("AS_not_produced_for_audit_count"));
+            o.setASNotProducedForAuditAmt(set.getBigDecimal("AS_not_produced_for_audit_amt"));
+            o.setTSNotProducedForAuditCount(set.getInt("TS_not_produced_for_audit_count"));
+            o.setTSNotProducedForAuditAmt(set.getBigDecimal("TS_not_produced_for_audit_amt"));
+            o.setNoneAdoptionOfScheduleRateCount(set.getInt("none_adoption_ofschedule_rate_count"));
+            o.setNoneAdoptionOfScheduleRateAmt(set.getBigDecimal("none_adoption_ofschedule_rate_amt"));
+            if(hasColumn("created_date"))
+                o.setCreatedDate(set.getTimestamp("created_date"));
+            if(hasColumn("modified_date"))
+                o.setModifiedDate(set.getTimestamp("modified_date"));
+            if(hasColumn("created_by"))
+                o.setCreatedBy(set.getLong("created_by"));
+            if(hasColumn("modified_by"))
+                o.setModifiedBy(set.getLong("modified_by"));
+            //o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            //o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
+            if(hasColumn("is_active"))
+                o.setStatus(set.getBoolean("is_active"));
+            //LOGGER.debug("Deviations  : {}", o.toString());
+            return o;
+        }
     }
 
     protected static final class DeviationMapper implements RowMapper {
@@ -372,7 +490,7 @@ public class DeviationServiceImpl implements DeviationService {
             o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
             o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
             o.setStatus(set.getBoolean("is_active"));
-            LOGGER.debug("Expenditure  : {}", o.toString());
+            LOGGER.debug("Deviations  : {}", o.toString());
             return o;
         }
     }

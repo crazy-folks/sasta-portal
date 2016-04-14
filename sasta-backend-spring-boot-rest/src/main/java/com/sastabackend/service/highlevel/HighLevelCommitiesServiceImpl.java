@@ -2,6 +2,7 @@ package com.sastabackend.service.highlevel;
 
 import com.sastabackend.domain.Grievances;
 import com.sastabackend.domain.HighLevelCommities;
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.repository.GrievancesRepository;
 import com.sastabackend.repository.HighLevelCommityRepository;
@@ -64,12 +65,12 @@ public class HighLevelCommitiesServiceImpl implements  HighLevelCommitiesService
     }
 
     @Override
-    public ResponseModel findAll() {
+    public ResponseModel findAll(Long userid,Long auditid) {
         LOGGER.debug("Reading High Level Commities   : {}");
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<HighLevelCommities>>();
-            response.setData(readList());
+            response.setData(readList(userid, auditid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -108,6 +109,25 @@ public class HighLevelCommitiesServiceImpl implements  HighLevelCommitiesService
         return response;
     }
 
+    /**
+     * Read All High Level Commities based on end user search criteria
+     * @param prop
+     * @return - Success - List Of High Level Commities, If fail empty list
+     */
+    @Override
+    public ResponseModel getHighLevelCommitiesReports(ReportsProperty prop){
+        LOGGER.debug("Reading High Level Commities   : {}");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<HighLevelCommities>>();
+            response.setData(readHighLevelCommitiesReports(prop));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
 
     private boolean Create(HighLevelCommities hl)  {
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_high_level_commities")
@@ -196,8 +216,8 @@ public class HighLevelCommitiesServiceImpl implements  HighLevelCommitiesService
             return false;
     }
 
-    private List<HighLevelCommities> readList(){
-        List<HighLevelCommities> list = jdbcTemplate.query("call select_high_level_commities", new HighLevelCommitiesMapper());
+    private List<HighLevelCommities> readList(Long userid,Long auditid){
+        List<HighLevelCommities> list = jdbcTemplate.query("call select_high_level_commities(?,?)", new Object[]{userid,auditid}, new HighLevelCommitiesMapper());
         return list;
     }
 
@@ -208,6 +228,56 @@ public class HighLevelCommitiesServiceImpl implements  HighLevelCommitiesService
             return null;
         else
             return o.get(0);
+    }
+
+    /**
+     * Read All High Level Commities based on end user search criteria
+     * @param prop
+     * @return - Success - List Of High Level Commities, If fail empty list
+     */
+    private List<HighLevelCommities> readHighLevelCommitiesReports(ReportsProperty prop){
+        List<HighLevelCommities> o = new ArrayList<HighLevelCommities>();
+        o = jdbcTemplate.query("call highlevelcommities_reports(?,?,?,?,?)",
+                new Object[]{prop.getReferenceId(),prop.getRoundId(),prop.getDistrictId(),prop.getBlockId(),prop.getVillageId()},
+                new HighLevelCommitiesReportsMapper());
+        return o;
+    }
+
+    protected static final class HighLevelCommitiesReportsMapper implements RowMapper {
+
+        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            HighLevelCommities o = new HighLevelCommities();
+            o.setId(set.getLong("id"));
+            o.setAuditId(set.getLong("audit_id"));
+            o.setFinancialYear(set.getString("fy_name"));
+            o.setRoundName(set.getString("round_name"));
+            o.setRoundStartDate(set.getDate("start_date"));
+            o.setRoundEndDate(set.getDate("end_date"));
+            o.setDistrictName(StringUtils.trimToNull(set.getString("district_name")));
+            o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
+            o.setVpName(StringUtils.trimToNull(set.getString("village_name")));
+            o.setDateOfJointSitting(set.getDate("date_of_joint_sitting"));
+            o.setTotalParasCount(set.getInt("total_paras_count"));
+            o.setTotalParasAmt(set.getBigDecimal("total_paras_amt"));
+            o.setParaSettledDuringDSCount(set.getInt("para_settled_during_DS_count"));
+            o.setParaSettledDuringDSAmt(set.getBigDecimal("para_settled_during_DS_amt"));
+            o.setParaSettledDuringHLCCount(set.getInt("para_settled_during_HLC_count"));
+            o.setParaSettledDuringHLCAmt(set.getBigDecimal("para_settled_during_HLC_amt"));
+            o.setPendingParasCount(set.getInt("pending_paras_count"));
+            o.setPendingParasAmt(set.getBigDecimal("pending_paras_amt"));
+            o.setAmountRecovered(set.getBigDecimal("amount_recovered"));
+            o.setAmountToBeRecovered(set.getBigDecimal("amount_to_be_recovered"));
+            o.setCreatedDate(set.getTimestamp("created_date"));
+            o.setModifiedDate(set.getTimestamp("modified_date"));
+            o.setCreatedBy(set.getLong("created_by"));
+            o.setModifiedBy(set.getLong("modified_by"));
+            o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
+            o.setStatus(set.getBoolean("is_active"));
+            LOGGER.debug("High Level Commities  : {}", o.toString());
+            return o;
+        }
     }
 
     protected static final class HighLevelCommitiesMapper implements RowMapper {

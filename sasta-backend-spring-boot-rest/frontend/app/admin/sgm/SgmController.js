@@ -3,7 +3,9 @@ app.controller('SgmController',['$http','$window','$scope','$rootScope','notify'
 
 		$scope.aufactory = sgmfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
 	    	AddAuditTitle : "Add Special Grama Shaba",
@@ -92,12 +94,9 @@ app.controller('SgmController',['$http','$window','$scope','$rootScope','notify'
         };
 
         $scope.OpenAuditWindow = function($event){
-        	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            
-            $scope.doReset();
-        	
-            GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
-            	
+        	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");            
+            $scope.doReset();        	
+            GetAudit(decodeURIComponent($location.search().aid)).done(function(result){            	
             	$scope.addAuditWindow.center().open();
         	});
         }
@@ -201,13 +200,17 @@ app.controller('SgmController',['$http','$window','$scope','$rootScope','notify'
 	    };
 
 	    $scope.Submit = function(){
+	    	$('#txtparasSetteled').validationEngine('showPrompt');
+	    	if(!($scope.sgm.parasSetteled <= $scope.sgm.totalParasPlacedInSgs)){
+	    		$('#txtparasSetteled').validationEngine(
+	    			'showPrompt', 'Settled para\'s should be less than or equal to placed para\'s!', 
+	    			'error'
+	    		);
+	    		return false;
+	    	}
+	    	$('#txtparasSetteled').validationEngine('showPrompt', 'This is an example', 'error');
 	    	if($scope.addjQueryValidator.doValidate()){
 		    	$scope.sgm.createdBy = $rootScope.sessionConfig.userId;
-		    	//$scope.sgm.saReportsUploaded = true;
-		    	//$scope.sgm.atrsUploaded = true;
-		    	
-		    	
-
 		    	var responseText = sgmfactory.doSubmitData($scope.sgm);
 				responseText.success(function(result){
 					if(result.status){
@@ -217,7 +220,8 @@ app.controller('SgmController',['$http','$window','$scope','$rootScope','notify'
 				            scope:$scope
 				        });							
 						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
+			      	    $scope.grid.dataSource.read();
+				        $scope.grid.dataSource.fetch();
 						$scope.CloseAuditWindow();
 			  		}else{
 				  		notify({
@@ -237,54 +241,50 @@ app.controller('SgmController',['$http','$window','$scope','$rootScope','notify'
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editsgm = {
-				id : data.id,
-				status : false,
-				nameOfPersonRecordedMinutes : data.nameOfPersonRecordedMinutes,
-				auditId : data.auditId,
-				createdBy : data.createdBy,
-				roundId : data.roundId,
-				modifiedBy : data.modifiedBy,
-				createdDate : data.createdDate,
-				auditDistrictId : data.auditDistrictId,
-				amountRecoveredDuringSgs : data.amountRecoveredDuringSgs,
-				noOfFamiliesRegistered : data.noOfFamiliesRegistered,
-				totalFamiliesInVpts : data.totalFamiliesInVpts,
-				parasSetteled : data.parasSetteled,
-				saReportsUploaded : data.saReportsUploaded,
-				nameOfPersonHeadSgs : data.nameOfPersonHeadSgs,
-				atrsUploaded : data.atrsUploaded,
-				totalParasPlacedInSgs : data.totalParasPlacedInSgs,
-				totalPopulation : data.totalPopulation,
-				totalJcsInVpts : data.totalJcsInVpts,
-				noOfPplAttentedSgs : data.noOfPplAttentedSgs,
-				roundName : data.roundName,
-				vpName : data.vpName,
-				blockName : data.blockName,
-				blockId : data.blockId,
-				vpId : data.vpId,
-				modifiedByName : data.modifiedByName,
-				createdByName : data.createdByName,
-				modifiedDate : data.modifiedDate,
-				financialDescription : data.financialDescription,
-				districtName : data.districtName,
-				financialYear : data.financialYear,
-				roundDescription : data.roundDescription,
-				roundStartDate : data.roundStartDate,
-				roundEndDate : data.roundEndDate,
-
-
-	    	};
-	    	DoUpdate();
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editsgm = {
+					id : data.id,
+					status : false,
+					nameOfPersonRecordedMinutes : data.nameOfPersonRecordedMinutes,
+					auditId : data.auditId,
+					createdBy : data.createdBy,
+					roundId : data.roundId,
+					modifiedBy : data.modifiedBy,
+					createdDate : data.createdDate,
+					auditDistrictId : data.auditDistrictId,
+					amountRecoveredDuringSgs : data.amountRecoveredDuringSgs,
+					noOfFamiliesRegistered : data.noOfFamiliesRegistered,
+					totalFamiliesInVpts : data.totalFamiliesInVpts,
+					parasSetteled : data.parasSetteled,
+					saReportsUploaded : data.saReportsUploaded,
+					nameOfPersonHeadSgs : data.nameOfPersonHeadSgs,
+					atrsUploaded : data.atrsUploaded,
+					totalParasPlacedInSgs : data.totalParasPlacedInSgs,
+					totalPopulation : data.totalPopulation,
+					totalJcsInVpts : data.totalJcsInVpts,
+					noOfPplAttentedSgs : data.noOfPplAttentedSgs,
+					roundName : data.roundName,
+					vpName : data.vpName,
+					blockName : data.blockName,
+					blockId : data.blockId,
+					vpId : data.vpId,
+					modifiedByName : data.modifiedByName,
+					createdByName : data.createdByName,
+					modifiedDate : data.modifiedDate,
+					financialDescription : data.financialDescription,
+					districtName : data.districtName,
+					financialYear : data.financialYear,
+					roundDescription : data.roundDescription,
+					roundStartDate : data.roundStartDate,
+					roundEndDate : data.roundEndDate
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 
-	    function DoUpdate(){
-	    	//$scope.editsgm.saReportsUploaded = true;
-		    //	$scope.editsgm.atrsUploaded = true;
-		    	
+	    function DoUpdate(){		    	
 	    	var responseText = sgmfactory.doUpdateData($scope.editsgm);
-
 			responseText.success(function(result){
 				if(result.status){
 			  		notify({
@@ -294,6 +294,7 @@ app.controller('SgmController',['$http','$window','$scope','$rootScope','notify'
 			        });							
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditAuditWindow();
 			        $scope.doReset();
 		  		}else{
@@ -320,12 +321,10 @@ app.controller('SgmController',['$http','$window','$scope','$rootScope','notify'
 	    }
 
 	    $scope.EditData = function(data){
-
 	    	var r = jQuery.map( $scope.rounds, function( n, i ) {
 				if(data.roundId === n.value)
 			  		return n;
 			});
-
 			if(r instanceof Array){
 				$scope.editdefaultrounds =  r[0];
 			}else{
@@ -399,9 +398,7 @@ app.controller('SgmController',['$http','$window','$scope','$rootScope','notify'
 				financialYear : data.financialYear,
 				roundDescription : data.roundDescription,
 				roundStartDate : data.roundStartDate,
-				roundEndDate : data.roundEndDate,
-
-
+				roundEndDate : data.roundEndDate
 	    	};
 	    	$scope.OpenEditAuditWindow();
 	    }
@@ -432,13 +429,27 @@ app.controller('SgmController',['$http','$window','$scope','$rootScope','notify'
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,
+	        pageSize: 30,
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 20, 30],
+                messages: {
+                    refresh: "Refresh Grievances"
+                }
+            },	        
 	        dataSource: {
-	            pageSize: 5,
+	            pageSize: 30,
 	            transport: {
 	                read: function (e) {
+	                	var baseUrl = $scope.crudServiceBaseUrl + 
+	                	'/specialgramasabha/getlist?key='+encodeURIComponent($location.search().aid);
+	                	if($.inArray($rootScope.sessionConfig.userGroupId, $rootScope.appConfig.blockLevelGroups)>-1){
+	                		baseUrl = baseUrl + '&userid='+$rootScope.sessionConfig.userId;
+	                	}
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/specialgramasabha/getlist'
+				         url: baseUrl,
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

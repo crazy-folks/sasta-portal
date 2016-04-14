@@ -9,7 +9,8 @@
                     <div class="form-group no-margin display-none">
                         <div>
                             <label for="selRounds"  class="label-adjust">Round</label>
-                            <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
+                            <select name="selRounds" class="k-input width-95 validate[required]" data-ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
+                                <option value="">Choose Round</option>
                             </select>
                         </div>
                     </div>
@@ -17,7 +18,8 @@
                     <div class="form-group no-margin display-none">
                         <div>
                             <label for="selDistrict"  class="label-adjust">District</label>
-                            <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
+                            <select name="selDistrict" class="k-input width-95 validate[required]" data-ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
+                                <option value="">Choose District</option>
                             </select>
                         </div>                     
                     </div>    
@@ -25,7 +27,8 @@
                     <div class="form-group no-margin display-none">
                         <div>
                             <label for="selBlock"  class="label-adjust">Block</label>
-                            <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
+                            <select name="selBlock" class="k-input width-95 validate[required]" data-ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
+                                <option value="">Choose Block</option>
                             </select>
                         </div>                     
                     </div>     
@@ -42,15 +45,17 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="selGender"  class="label-adjust">Male /Female</label>
-                            <select name="selGender" class="k-input width-95 validate[required]" ng-model="defaultgender" ng-options="obj.text for obj in genders track by obj.value" ng-change="OnGenderSelectedValue(defaultgender)">
+                            <select name="selGender" class="k-input width-95 validate[required]" data-ng-model="editdefaultgender" ng-options="obj.text for obj in genders track by obj.value" ng-change="OnEditGenderSelectedValue(editdefaultgender)">
+                                <option value="">Choose Gender</option>
                             </select>
                         </div>                     
                     </div>
 
                     <div class="form-group no-margin">
                         <div>
-                            <label for="selVillage"  class="label-adjust">Village</label>
-                            <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value" ng-change="OnVillageSelectedValue(defaultvillages)">
+                            <label for="selVillage"  class="label-adjust">Panchayats</label>
+                            <select name="selVillage" class="k-input width-95 validate[required]" data-ng-model="editdefaultvillages" ng-options="obj.text for obj in villages track by obj.value" ng-change="OnEditVillageSelectedValue(editdefaultvillages)">
+                                <option value="">Choose Panchayat</option>
                             </select>
                         </div>                     
                     </div>
@@ -74,7 +79,8 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="selQualifications"  class="label-adjust">Qualifications</label>
-                            <select name="selQualifications" class="k-input width-95 validate[required]" ng-model="defaultqualifications" ng-options="obj.text for obj in qualifications track by obj.value" ng-change="OnQualificationSelectedValue(defaultqualifications)">
+                            <select name="selQualifications" class="k-input width-95 validate[required]" data-ng-model="editdefaultqualifications" ng-options="obj.text for obj in qualifications track by obj.value" ng-change="OnEditQualificationSelectedValue(editdefaultqualifications)">
+                                <option value="">Choose Qualifications</option>
                             </select>
                         </div>                     
                     </div>
@@ -82,7 +88,8 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="selCommunities"  class="label-adjust">Community</label>
-                            <select name="selCommunities" class="k-input width-95 validate[required]" ng-model="defaultcommunities" ng-options="obj.text for obj in communities track by obj.value" ng-change="OnCommunitySelectedValue(defaultcommunities)">
+                            <select name="selCommunities" class="k-input width-95 validate[required]" data-ng-model="editdefaultcommunities" ng-options="obj.text for obj in communities track by obj.value" ng-change="OnEditCommunitySelectedValue(editdefaultcommunities)">
+                                <option value="">Choose Community</option>
                             </select>
                         </div>                     
                     </div>
@@ -99,9 +106,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtTotalDays" class="label-adjust">No. of days worked</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtTotalDays" name="txtTotalDays"
-                                   data-ng-model="editvrp.totalDays" 
-                                  />
+                            <input type="number" class="k-input width-95 validate[required]" id="txtTotalDays" name="txtTotalDays" data-ng-model="editvrp.totalDays"/>
                         </div>
                     </div>
 
@@ -117,7 +122,8 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="selPayments"  class="label-adjust">Amount Paid through</label>
-                            <select name="selPayments" class="k-input width-95 validate[required]" ng-model="defaultpayments" ng-options="obj.text for obj in payments track by obj.value" ng-change="OnPaymentSelectedValue(defaultpayments)">
+                            <select name="selPayments" class="k-input width-95 validate[required]" data-ng-model="editdefaultpayments" ng-options="obj.text for obj in payments track by obj.value" ng-change="OnEditPaymentSelectedValue(editdefaultpayments)">
+                                <option value="">Choose Mode</option>
                             </select>
                         </div>                     
                     </div>
@@ -125,7 +131,8 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="selBanks"  class="label-adjust">Bank name</label>
-                            <select name="selBanks" class="k-input width-95 validate[required]" ng-model="defaultbanks" ng-options="obj.text for obj in banks track by obj.value" ng-change="OnBankSelectedValue(defaultbanks)">
+                            <select ng-class="(defaultpayments.value !== 1) ? 'validate[required]' : ''" name="selBanks" class="k-input width-95" data-ng-model="editdefaultbanks" ng-options="obj.text for obj in banks track by obj.value" ng-change="OnEditBankSelectedValue(editdefaultbanks)" id="selBanks">
+                                <option value="">Choose Bank</option>
                             </select>
                         </div>                     
                     </div>
@@ -133,7 +140,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtaccountNumber" class="label-adjust">A/c No.</label>
-                            <input type="text" class="k-input width-95 validate[required]" id="accountNumber" name="accountNumber"
+                            <input  ng-class="(defaultpayments.value !== 1) ? 'validate[required]' : ''" type="text" class="k-input width-95" id="accountNumber" name="accountNumber"
                                    data-ng-model="editvrp.accountNumber" 
                                   />
                         </div>
@@ -142,7 +149,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtIFSCCode" class="label-adjust">IFS Code</label>
-                            <input type="text" class="k-input width-95 validate[required]" id="txtIFSCCode" name="txtIFSCCode"
+                            <input  ng-class="(defaultpayments.value !== 1) ? 'validate[required]' : ''" type="text" class="k-input width-95" id="txtIFSCCode" name="txtIFSCCode"
                                    data-ng-model="editvrp.ifscCode" 
                                   />
                         </div>
@@ -152,7 +159,8 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="selGrade"  class="label-adjust">Grade</label>
-                            <select name="selGrade" class="k-input width-95 validate[required]" ng-model="defaultgrades" ng-options="obj.text for obj in grades track by obj.value"  ng-change="OnGradeSelectedValue(defaultgrades)">
+                            <select name="selGrade" class="k-input width-95 validate[required]" data-ng-model="editdefaultgrades" ng-options="obj.text for obj in grades track by obj.value"  ng-change="OnEditGradeSelectedValue(editdefaultgrades)">
+                                <option value="">Choose Grade</option>
                             </select>
                         </div>                     
                     </div>

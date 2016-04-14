@@ -1,0 +1,103 @@
+<script src="http://kendo.cdn.telerik.com/2016.1.226/js/jszip.min.js"></script>
+<div class="pageheader">
+    <h1>{{reportTitle}}</h1>
+    <div class="breadcrumb-wrapper hidden-xs"> <span class="label">You are here:</span>
+        <ol class="breadcrumb">
+            <li><a ui-sref="admin.home">Dashboard</a> </li>
+            <li>Reports</li>
+            <li class="active">{{reportTitle}}</li>
+        </ol>
+    </div>
+</div>
+<section id="main-content" class="animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <!--button start-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{reportTitle}}</h3>
+                            <div class="actions pull-right"> <i data-fullscreen-widget class="fa fa-expand"></i> <i data-widget-toggle class="fa fa-chevron-down"></i> <i data-widget-close class="fa fa-times"></i> </div>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Search Criteria's</h3>
+                                            <div class="actions pull-right"> 
+                                                <i data-widget-toggle class="fa fa-chevron-down"></i>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <form class="form-horizontal search-criteria">
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label for="ddlFy"  class="label-adjust">Financial Year</label>
+                                                    <select name="ddlFy" class="k-input" k-ng-model="selectedFy" kendo-multi-select="multiSelectddlFy" k-options="selectFyOptions" multiple="multiple">
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label for="ddlRounds"  class="label-adjust">Rounds</label>
+                                                    <select name="ddlRounds" class="k-input" k-ng-model="selectedRounds" kendo-multi-select="multiSelectddlRounds" k-options="selectRoundOptions" multiple="multiple">
+                                                    </select> 
+                                                </div>
+
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label for="ddlDistricts"  class="label-adjust">Districts</label>
+                                                    <select ng-disabled="selectedIsConsolidateRpt" id="ddlDistricts" name="ddlDistricts" class="k-input" k-ng-model="selectedDistricts" kendo-multi-select="multiSelectddlDistricts" k-options="selectDistrictOptions" multiple="multiple">
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label for="ddlBlocks"  class="label-adjust">Blocks</label>
+                                                    <select ng-disabled="selectedIsConsolidateRpt" name="ddlBlocks" class="k-input" k-ng-model="selectedBlocks" kendo-multi-select="multiSelectddlBlocks" k-options="selectBlocksOptions" multiple="multiple">
+                                                    </select> 
+                                                </div>
+
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label for="ddlVps"  class="label-adjust">Panchayats</label>
+                                                    <select ng-disabled="selectedIsConsolidateRpt" name="ddlVps" class="k-input" k-ng-model="selectedVps" kendo-multi-select="multiSelectddlVps" k-options="selectPanchayatsOptions" multiple="multiple">
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label for="ddlUsers"  class="label-adjust">Users</label>
+                                                    <select ng-disabled="selectedIsConsolidateRpt" name="ddlUsers" class="k-input" k-ng-model="selectedusers" kendo-multi-select="multiSelectddlUsers" k-options="selectUsersOptions" multiple="multiple">
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div ng-hide="sessionConfig.isDistrictLevelPerson" class="col-md-4 form-group no-margin">
+                                                    <label for="chkboxIsconsolidatelbl"  class="label-adjust">Consolidate Report?</label>
+                                                    <input type="checkbox"
+                                                           ng-model="selectedIsConsolidateRpt"
+                                                           name="chkboxIsconsolidatelbl"
+                                                           id="chkboxIsconsolidatelbl"/>
+                                                </div> 
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label class="label-adjust">&nbsp;</label> 
+                                                    <button type="button" data-ng-click="OnReset()"  class="btn btn-danger btn-sm">Reset</button>
+                                                    <button type="button" class="btn btn-success btn-sm" ng-click="doSearch();">&#160;Search&#160;</button>
+                                                </div> 
+                                            </div>                                        
+                                            </form> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div kendo-grid="grid" k-options="gridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--button end-->
+        </div>
+    </div>
+</section>

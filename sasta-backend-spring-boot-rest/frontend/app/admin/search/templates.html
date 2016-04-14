@@ -136,67 +136,68 @@
 	                    </div>
 	                </div>
 	                <div class="panel-body">
-                        <div class="row no-padding auto-margin">
-					    	<div class="card col-md-3" card-flip ng-repeat="obj in users">
+	                	<div kendo-pager k-data-source="dataSource"></div>	
+                        <div class="row no-padding auto-margin" kendo-list-view  k-data-source="dataSource">
+					    	<div class="card col-md-3" card-flip k-template>
 						        <div class="front">
 									<div class="actions pull-right clear-both">
 				                        <i class="fa fa-times"></i>
 				                    </div>
 						            <span class="meta">
 			                            <span class="thumb">
-			                                <img style="height:120px;width:120px;" no-cache-src="{{obj.imageName}}" class="img-circle" alt="">
+			                                <img style="height:120px;width:120px;" no-cache-src="{{dataItem.imageName}}" class="img-circle" alt="">
 			                            </span>
-			                            <div class="text">{{obj.screenName}}</div>
-			                            <div class="text">{{obj.jobTitle}}</div>
+			                            <div class="text">{{dataItem.screenName}}</div>
+			                            <div class="text">{{dataItem.jobTitle}}</div>
 			                        </span>
 			                        <div>
 										<div class="lft-lbl">
 											<label>Mobile Number</label>
 										</div> 
 										<div  class="rht-lbl">
-											<label>{{obj.mobileNumber||'-'}}</label>
+											<label>{{dataItem.mobileNumber||'-'}}</label>
 										</div>		                        	
 
 										<div class="lft-lbl">
 											<label>Employee Id</label>
 										</div> 
 										<div  class="rht-lbl">
-											<label>{{obj.employeeId||'-'}}</label>
+											<label>{{dataItem.employeeId||'-'}}</label>
 										</div>			                        	
 
 										<div class="lft-lbl">
 											<label>Email</label>
 										</div> 
 										<div  class="rht-lbl">
-											<label>{{obj.email||'-'}}</label>
+											<label>{{dataItem.email||'-'}}</label>
 										</div>
 
 										<div class="lft-lbl">
 											<label>Skype Name</label>
 										</div> 
 										<div  class="rht-lbl">
-											<label>{{obj.skypeName||'-'}}</label>
+											<label>{{dataItem.skypeName||'-'}}</label>
 										</div>
 
 										<div class="lft-lbl">
 											<label>Date Of Joining</label>
 										</div> 
 										<div  class="rht-lbl">
-											<label>{{obj.dateOfJoining||'-'}}</label>
+											<label>{{dataItem.dateOfJoining||'-'}}</label>
 										</div>			                        	
 
 										<div class="lft-lbl">
 											<label>Address</label>
 										</div> 
 										<div  class="rht-lbl">
-											<label>{{obj.communicationAddress||'-'}}</label>
+											<label>{{dataItem.communicationAddress||'-'}}</label>
 										</div>			                        	
 
 										<div class="lft-lbl">
 											<label>Team Name</label>
 										</div> 
 										<div  class="rht-lbl">
-											<label>{{obj.teamName||'-'}}</label>
+											<label>{{dataItem.teamName||'-'}}</label>
 										</div>
 			                        </div>
 						        </div>
@@ -204,11 +205,12 @@
 						        <div class="back">
 						            <h3 class="first quickFlipCta">About Me</h3>
 						            <div >
-						            	{{obj.description}}
+						            	{{dataItem.description}}
 						            </div>
 						        </div>			    		
 					    	</div>
-                        </div> 		                	
+                        </div>
+                        <div kendo-pager k-data-source="dataSource"></div>		                	
 	                </div>
 	            </div>
 		    </div>

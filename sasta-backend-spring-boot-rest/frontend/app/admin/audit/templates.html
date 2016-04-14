@@ -1,72 +1,52 @@
 <div class="pageheader">
     <h1>Audit Entries</h1>
-    <div class="breadcrumb-wrapper hidden-xs">
-        <span class="label">You are here:</span>
+    <div class="breadcrumb-wrapper hidden-xs"> <span class="label">You are here:</span>
         <ol class="breadcrumb">
-            <li><a href="#/index">Dashboard</a>
-            </li>
+            <li><a ui-sref="admin.home">Dashboard</a> </li>
             <li>Masters</li>
             <li class="active">Audit Entries</li>
         </ol>
     </div>
 </div>
-
 <section id="main-content" class="animated fadeInRight">
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <!--button start-->
-                  <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                          <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
                             <h3 class="panel-title">Audit Entries</h3>
-                            <div class="actions pull-right">
-                            <i data-fullscreen-widget class="fa fa-expand"></i>
-                                <i data-widget-toggle class="fa fa-chevron-down"></i>
-                                <i data-widget-close class="fa fa-times"></i>
+                            <div class="actions pull-right"> <i data-fullscreen-widget class="fa fa-expand"></i> <i data-widget-toggle class="fa fa-chevron-down"></i> <i data-widget-close class="fa fa-times"></i> </div>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <button type="button" class="btn btn-success btn-sm" ng-click="OpenAuditWindow();">Add</button>
                             </div>
-                          </div>
-                          <div class="panel-body">
-                          		<div>
-                          			<button type="button" class="btn btn-success btn-sm" ng-click="OpenAuditWindow();">Add</button>
-                          		</div>
-              		 						<div kendo-grid="grid" k-options="gridOptions">
-              								</div>
-                          </div>
+                            <div kendo-grid="grid" k-options="gridOptions"> </div>
                         </div>
                     </div>
-                  </div>
+                </div>
+            </div>
             <!--button end-->
         </div>
     </div>
 </section>
-
-<div kendo-window="addAuditWindow" k-options="kaddWindowOptions">
-  
-</div>
-
-<div kendo-window="editAuditWindow" k-options="keditWindowOptions">
-  
-</div>
+<div kendo-window="addAuditWindow" k-options="kaddWindowOptions"> </div>
+<div kendo-window="editAuditWindow" k-options="keditWindowOptions"> </div>
 <script id="toggle-template" type="text/x-kendo-template">
-    <div class="icon-settings">
-       <ul>
-            <li><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit</a></li>
-            <li><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete</a></li>
-            <li><a href="javascript:void(0)"  ng-click="ExpenData(dataItem)">Expenditure</a></li>
-            <li><a href="javascript:void(0)"  ng-click="DeviationData(dataItem)">Deviation</a></li>
-            <li><a href="javascript:void(0)"  ng-click="GrievanceData(dataItem)">Grievances</a></li>
-            <li><a href="javascript:void(0)"  ng-click="MissappropriationData(dataItem)">Mis-Appropriation</a></li>
-            <li><a href="javascript:void(0)"  ng-click="VrpData(dataItem)">VRP</a></li>
-            <li><a href="javascript:void(0)"  ng-click="MgnregaData(dataItem)">MGNREGA</a></li>
-            <li><a href="javascript:void(0)"  ng-click="sgm(dataItem)">Grama Sabha</a></li>
-            <li><a href="javascript:void(0)"  ng-click="HlcommitteeData(dataItem)">HLC</a></li>
-      </ul>
+    <div class="icon-settings" ng-mouseover="showContextMenu($event,grid);">
+        <ul>
+            <li ng-show="sessionConfig.canWrite"><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit</a></li>
+            <li ng-show="sessionConfig.canDelete"><a href="javascript:void(0)" ng-click="OnDelete(dataItem)">Delete</a></li>
+            <li><a href="javascript:void(0)" ng-click="VrpData(dataItem)">VRP</a></li>
+            <li><a href="javascript:void(0)" ng-click="MgnregaData(dataItem)">MGNREGA</a></li>
+            <li><a href="javascript:void(0)" ng-click="ExpenData(dataItem)">Expenditure</a></li>
+            <li><a href="javascript:void(0)" ng-click="sgm(dataItem)">Grama Sabha</a></li>
+            <li><a href="javascript:void(0)" ng-click="MissappropriationData(dataItem)">Misappropriation</a></li>
+            <li><a href="javascript:void(0)" ng-click="DeviationData(dataItem)">Deviation</a></li>
+            <li><a href="javascript:void(0)" ng-click="GrievanceData(dataItem)">Grievances</a></li>
+            <li><a href="javascript:void(0)" ng-click="HlcommitteeData(dataItem)">HLC</a></li>
+        </ul>
     </div>
 </script>
-
-<style type="text/css" class="ng-scope">
-    .k-grid-content{
-        height: 300px;
-    }
-</style>

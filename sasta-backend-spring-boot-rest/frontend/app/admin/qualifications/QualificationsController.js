@@ -3,7 +3,9 @@ app.controller('QualificationsController',['$http','$window','$scope','$rootScop
 
 		$scope.qualifications = qualificationsfactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Popup Title.
 	    $scope.modelDialogTitle = {
 	    	AddQualificationTitle : "Add Qualifications",
@@ -121,6 +123,7 @@ app.controller('QualificationsController',['$http','$window','$scope','$rootScop
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseAddQualificationWindow();
 				        $scope.doReset();	
 			  		}else{
@@ -151,6 +154,7 @@ app.controller('QualificationsController',['$http','$window','$scope','$rootScop
 			        });							
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditQualificationWindow();
 			        $scope.doReset();
 		  		}else{
@@ -188,15 +192,17 @@ app.controller('QualificationsController',['$http','$window','$scope','$rootScop
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editqualifications = {
-	    		id : data.id,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				status: false
-	    	};
-	    	DoUpdate();    	
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editqualifications = {
+		    		id : data.id,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					status: false
+		    	};
+		    	DoUpdate(); 
+	    	}
 	    }
 	    $scope.Cancel = function() {
 	      $scope.closeThisDialog("close");

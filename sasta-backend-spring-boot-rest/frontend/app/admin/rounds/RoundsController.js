@@ -4,7 +4,9 @@ app.controller('RoundsController',['$http','$window','$scope','$rootScope','noti
 		$scope.roundsfactory = roundsfactory;
 		$scope.rounds = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
 	    	AddRoundsTitle : "Add Rounds",
@@ -188,6 +190,7 @@ app.controller('RoundsController',['$http','$window','$scope','$rootScope','noti
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 						$scope.CloseAddRoundWindow();
 				        $scope.doReset();
 			  		}else{
@@ -218,6 +221,7 @@ app.controller('RoundsController',['$http','$window','$scope','$rootScope','noti
 			        });							
 					// scope.grid is the widget reference
   					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditRoundWindow();
 			        $scope.doReset();	
 		  		}else{
@@ -268,18 +272,20 @@ app.controller('RoundsController',['$http','$window','$scope','$rootScope','noti
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editround = {
-	    		id : data.id,
-				createdBy : $rootScope.sessionConfig.userId,
-				description: data.description || '',
-				modifiedBy : $rootScope.sessionConfig.userId,
-				name : data.name,
-				referenceId : data.referenceId,
-			    startDate: data.startDate,
-			    endDate: data.endDate,				
-				status: false
-	    	};
-	    	DoUpdate();   	
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editround = {
+		    		id : data.id,
+					createdBy : $rootScope.sessionConfig.userId,
+					description: data.description || '',
+					modifiedBy : $rootScope.sessionConfig.userId,
+					name : data.name,
+					referenceId : data.referenceId,
+				    startDate: data.startDate,
+				    endDate: data.endDate,				
+					status: false
+		    	};
+		    	DoUpdate(); 
+	    	}
 	    }
 
 	    $scope.gridOptions = {
@@ -307,7 +313,8 @@ app.controller('RoundsController',['$http','$window','$scope','$rootScope','noti
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/rounds/getlist'
+				         url: $scope.crudServiceBaseUrl + '/rounds/getlist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

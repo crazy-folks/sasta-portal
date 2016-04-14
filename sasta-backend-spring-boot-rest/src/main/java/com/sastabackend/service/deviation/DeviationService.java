@@ -1,6 +1,7 @@
 package com.sastabackend.service.deviation;
 
 import com.sastabackend.domain.Deviation;
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 
 /**
@@ -8,7 +9,8 @@ import com.sastabackend.domain.ResponseModel;
  */
 public interface DeviationService {
     ResponseModel findOne(Long id);
-    ResponseModel findAll();
+    ResponseModel findAll(Long userid,Long auditid);
     ResponseModel Add(Deviation dv);
     ResponseModel Update(Deviation dv);
+    ResponseModel getDeviationsReports(ReportsProperty prop);
 }

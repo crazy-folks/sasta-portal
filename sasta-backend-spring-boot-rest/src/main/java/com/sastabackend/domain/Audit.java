@@ -3,6 +3,7 @@ package com.sastabackend.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sastabackend.util.Constants;
 import com.sastabackend.util.CryptoUtil;
+import  com.sastabackend.util.TextUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,9 +37,12 @@ public class Audit implements java.io.Serializable , CommonProperties{
     private String created_by_Name;
     private String modified_by_Name;
 
+    @JsonFormat(pattern="yyyy/MM/dd")
     private java.sql.Date round_start_date;
+    @JsonFormat(pattern="yyyy/MM/dd")
     private java.sql.Date round_end_state;
     private String round_description;
+    private Integer financial_id;
     private String financial_year;
     private String financial_description;
     private String district_name;
@@ -103,8 +107,8 @@ public class Audit implements java.io.Serializable , CommonProperties{
 
     public void setKey(String key) {
         try{
-            CryptoUtil crypt = new CryptoUtil();
-            key = crypt.encrypt(Constants.SALT_KEY,key);
+            //CryptoUtil crypt = new CryptoUtil();
+            key = TextUtil.EncodeString(key);//crypt.encrypt(Constants.SALT_KEY,key);
         }catch(Exception err){
             key = Constants.Empty;
         }
@@ -189,20 +193,20 @@ public class Audit implements java.io.Serializable , CommonProperties{
         this.modified_by_Name = modifiedByName;
     }
 
-    public Date getStartDate() {
+    public java.sql.Date getStartDate() {
         return round_start_date;
     }
 
-    public void setStartDate(Date start_date) {
-        this.round_start_date = round_start_date;
+    public void setStartDate(java.sql.Date start_date) {
+        this.round_start_date = start_date;
     }
 
-    public Date getEndDtate() {
+    public java.sql.Date getEndDtate() {
         return round_end_state;
     }
 
-    public void setEndDate(Date end_state) {
-        this.round_end_state = round_end_state;
+    public void setEndDate(java.sql.Date end_state) {
+        this.round_end_state = end_state;
     }
 
     public String getFinancialDescription() {
@@ -211,6 +215,14 @@ public class Audit implements java.io.Serializable , CommonProperties{
 
     public void setFinancialDescription(String financial_description) {
         this.financial_description = financial_description;
+    }
+
+    public Integer getFinancialId() {
+        return financial_id;
+    }
+
+    public void setFinancialId(Integer financial_id) {
+        this.financial_id = financial_id;
     }
 
     public String getFinancialYear() {
@@ -251,5 +263,34 @@ public class Audit implements java.io.Serializable , CommonProperties{
 
     public void setDistrictName(String district_name) {
         this.district_name = district_name;
+    }
+
+    @Override
+    public String toString() {
+        return "Audit{" +
+                "audit_id=" + audit_id +
+                ", round_id=" + round_id +
+                ", grama_sabha_date=" + grama_sabha_date +
+                ", audit_district_id=" + audit_district_id +
+                ", audit_block_id=" + audit_block_id +
+                ", village_panchayat_id=" + village_panchayat_id +
+                ", is_active=" + is_active +
+                ", key='" + key + '\'' +
+                ", created_date=" + created_date +
+                ", modified_date=" + modified_date +
+                ", created_by=" + created_by +
+                ", modifed_dy=" + modifed_dy +
+                ", created_by_Name='" + created_by_Name + '\'' +
+                ", modified_by_Name='" + modified_by_Name + '\'' +
+                ", round_start_date=" + round_start_date +
+                ", round_end_state=" + round_end_state +
+                ", round_description='" + round_description + '\'' +
+                ", financial_year='" + financial_year + '\'' +
+                ", financial_description='" + financial_description + '\'' +
+                ", district_name='" + district_name + '\'' +
+                ", block_name='" + block_name + '\'' +
+                ", vp_name='" + vp_name + '\'' +
+                ", round_name='" + round_name + '\'' +
+                '}';
     }
 }

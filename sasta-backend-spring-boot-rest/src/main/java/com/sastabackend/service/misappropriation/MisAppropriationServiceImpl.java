@@ -1,10 +1,8 @@
 package com.sastabackend.service.misappropriation;
 
-import com.sastabackend.domain.Expenditure;
-import com.sastabackend.domain.MgnRegaWorks;
-import com.sastabackend.domain.MisAppropriation;
-import com.sastabackend.domain.ResponseModel;
+import com.sastabackend.domain.*;
 import com.sastabackend.repository.MisAppropriationRepository;
+import com.sastabackend.util.BaseRowMapper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,12 +60,12 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
     }
 
     @Override
-    public ResponseModel findAll() {
+    public ResponseModel findAll(Long userid,Long auditid) {
         LOGGER.debug("Reading Mis Appropriation  : {}");
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<MisAppropriation>>();
-            response.setData(readList());
+            response.setData(readList(userid, auditid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -99,6 +97,26 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
             boolean flag = Modify(mis);
             response.setStatus(flag);
             response.setData(flag == true ? "MisAppropriation Updated Successfully!!" : "Unable to update MisAppropriation!!");
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * Read All Mis Appropriation based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Mis Appropriation, If fail empty list
+     */
+    @Override
+    public ResponseModel getMisAppropriationsReports(ReportsProperty prop){
+        LOGGER.debug("Reading Mis Appropriation  : {}");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<MisAppropriation>>();
+            response.setData(readMisAppropriationsReports(prop));
+            response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
             response.setData(err.getMessage());
@@ -391,8 +409,8 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
             return false;
     }
 
-    private List<MisAppropriation> readList(){
-        List<MisAppropriation> list = jdbcTemplate.query("call select_misappropriation", new MisAppropriationMapper());
+    private List<MisAppropriation> readList(Long userid,Long auditid){
+        List<MisAppropriation> list = jdbcTemplate.query("call select_misappropriation(?,?)", new Object[]{userid,auditid}, new MisAppropriationMapper());
         return list;
     }
 
@@ -404,6 +422,126 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
         else
             return o.get(0);
     }
+
+    /**
+     * Read All Mis Appropriation based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Mis Appropriation, If fail empty list
+     */
+    private List<MisAppropriation> readMisAppropriationsReports(ReportsProperty prop){
+        List<MisAppropriation> o = new ArrayList<MisAppropriation>();
+
+        if(!prop.getIsConsolidate())
+            o = jdbcTemplate.query("call misappropriation_reports(?,?,?,?,?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId(),prop.getDistrictId(),prop.getBlockId(),prop.getVillageId(),prop.getUserId()},
+                    new MisAppropriationReportsMapper());
+        else
+            o = jdbcTemplate.query("call misappropriation_consolidate_reports(?,?)",
+                    new Object[]{prop.getReferenceId(), prop.getRoundId()},
+                    new MisAppropriationReportsMapper());
+            return o;
+    }
+
+    protected static final class MisAppropriationReportsMapper extends BaseRowMapper {
+
+        public Object mapRowImpl(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            MisAppropriation o = new MisAppropriation();
+            if(hasColumn("id"))
+                o.setId(set.getLong("id"));
+            if(hasColumn("audit_id"))
+                o.setAuditId(set.getLong("audit_id"));
+            if(hasColumn("fy_name"))
+                o.setFinancialYear(set.getString("fy_name"));
+            if(hasColumn("round_name"))
+                o.setRoundName(set.getString("round_name"));
+            if(hasColumn("start_date"))
+                o.setRoundStartDate(set.getDate("start_date"));
+            if(hasColumn("end_date"))
+                o.setRoundEndDate(set.getDate("end_date"));
+            if(hasColumn("district_name"))
+                o.setDistrictName(StringUtils.trimToNull(set.getString("district_name")));
+            if(hasColumn("block_name"))
+                o.setBlockName(StringUtils.trimToNull(set.getString("block_name")));
+            if(hasColumn("village_name"))
+                o.setVpName(StringUtils.trimToNull(set.getString("village_name")));
+            o.setMultipleJcIssuedWorkersCount(set.getInt("multiple_jc_issued_workers_count"));
+            o.setMultipleJcIssuedWorkersAmt(set.getBigDecimal("multiple_jc_issued_workers_amt"));
+            o.setWagedToDeadCount(set.getInt("waged_to_dead_count"));
+            o.setWagedToDeadAmt(set.getBigDecimal("waged_to_dea_amtd"));
+            o.setWagesNonExistentCount(set.getInt("wages_nonexistent_count"));
+            o.setWagesNonExistentAmt(set.getBigDecimal("wages_nonexistent_amt"));
+            o.setWagesMigratedCount(set.getInt("wages_migrated_count"));
+            o.setWagesMigratedAmt(set.getBigDecimal("wages_migrated_amt"));
+            o.setWagesCreditedWrongAccountsCount(set.getInt("wages_credited_wrong_accounts_count"));
+            o.setWagesCreditedWrongAccountsAmt(set.getBigDecimal("wages_credited_wrong_accounts_amt"));
+            o.setDoubleWagessCount(set.getInt("double_wagess_count"));
+            o.setDoubleWagesAmt(set.getBigDecimal("double_wages_amt"));
+            o.setWagesPaidToNotWorkedCount(set.getInt("wages_paid_to_not_worked_count"));
+            o.setWagesPaidToNotWorkedAmt(set.getBigDecimal("wages_paid_to_not_worked_amt"));
+            o.setDoubleWagesWSFCount(set.getInt("double_wages_WSF_count"));
+            o.setDoubleWagesWSFAmt(set.getBigDecimal("double_wages_WSF_amt"));
+            o.setWagesPaidSameAccCount(set.getInt("wages_paid_same_acc_count"));
+            o.setWagesPaidSameAccAmt(set.getBigDecimal("wages_paid_same_acc_amt"));
+            o.setInclusionBogousFTOCount(set.getInt("inclusion_bogous_FTO_count"));
+
+            o.setInclusionBogousFTOAmt(set.getBigDecimal("inclusion_bogous_FTO_amt"));
+            o.setMissingTanksEriCount(set.getInt("missing_tanks_eri_count"));
+            o.setMissingTanksEriAmt(set.getBigDecimal("missing_tanks_eri_amt"));
+            o.setMissingCanalCount(set.getInt("missing_canal_count"));
+            o.setMissingCanalAmt(set.getBigDecimal("missing_canal_amt"));
+            o.setMissingRoadsCount(set.getInt("missing_roads_count"));
+            o.setMissingRoadsAmt(set.getBigDecimal("missing_roads_amt"));
+            o.setMissingPlantationsCount(set.getInt("missing_plantations_count"));
+            o.setMissingPlantationsAmt(set.getBigDecimal("missing_plantations_amt"));
+            o.setMissingIHHLSCount(set.getInt("missing_ihhls_count"));
+            o.setMissingIHHLSAmt(set.getBigDecimal("missing_ihhls_amt"));
+            o.setMissingFarmPondCount(set.getInt("missing_farm_pond_count"));
+            o.setMissingFarmPondAmt(set.getBigDecimal("missing_farm_pond_amt"));
+            o.setMissingCattleShedCount(set.getInt("missing_cattle_shed_count"));
+            o.setMissingCattleShedAmt(set.getBigDecimal("missing_cattle_shed_amt"));
+            o.setMissingGoatShedCount(set.getInt("missing_goat_shed_count"));
+            o.setMissingGoatShedAmt(set.getBigDecimal("missing_goat_shed_amt"));
+            o.setMissingPoultryCount(set.getInt("missing_poultry_count"));
+            o.setMissingPoultryAmt(set.getBigDecimal("missing_poultry_amt"));
+
+            o.setMissingMgnregaComponentIAYCount(set.getInt("missing_mgnrega_component_IAY_count"));
+            o.setMissingMgnregaComponentIAYAmt(set.getBigDecimal("missing_mgnrega_component_IAY_amt"));
+            o.setMissingMgnregaComponentGHCount(set.getInt("missing_mgnrega_component_GH_count"));
+            o.setMissingMgnregaComponentGHAmt(set.getBigDecimal("missing_mgnrega_component_GH_amt"));
+            o.setMisappropriationByVPTPresidentCount(set.getInt("misappropriation_by_VPT_president_count"));
+            o.setMisappropriationByVPTPresidentAmt(set.getBigDecimal("misappropriation_by_VPT_president_amt"));
+            o.setMisappropriationByVPTSecretoryCount(set.getInt("misappropriation_by_VPT_secretory_count"));
+            o.setMisappropriationByVPTSecretoryAmt(set.getBigDecimal("misappropriation_by_VPT_secretory_amt"));
+            o.setAmountDrawnSameWorkCount(set.getInt("amount_drawn_same_work_count"));
+            o.setAmountDrawnSameWorkAmt(set.getBigDecimal("amount_drawn_same_work_amt"));
+            o.setWagesDisbursedPrevConstructedIHHLSCount(set.getInt("wages_disbursed_prev_constructed_ihhls_count"));
+            o.setWagesDisbursedPrevConstructedIHHLSAmt(set.getBigDecimal("wages_disbursed_prev_constructed_ihhls_amt"));
+            o.setBogusEntriesFTOCorretingFluidCount(set.getInt("bogus_entries_FTO_correting_fluid_count"));
+            o.setBogusEntriesFTOCorretingFluidAmt(set.getBigDecimal("bogus_entries_FTO_correting_fluid_amt"));
+            o.setMachineryUsedCount(set.getInt("machinery_used_count"));
+            o.setMachineryUsedAmt(set.getBigDecimal("machinery_used_amt"));
+            o.setWagesDrawnMoreThanActualWorkingDayCount(set.getInt("wages_drawn_more_than_actual_working_day_count"));
+            o.setWagesDrawnMoreThanActualWorkingDayAmt(set.getBigDecimal("wages_drawn_more_than_actual_working_day_amt"));
+            o.setWorkDoneByContractorsCount(set.getInt("work_done_by_contractors_count"));
+            o.setWorkDoneByContractorsAmt(set.getBigDecimal("work_done_by_contractors_amt"));
+            if(hasColumn("created_date"))
+                o.setCreatedDate(set.getTimestamp("created_date"));
+            if(hasColumn("modified_date"))
+                o.setModifiedDate(set.getTimestamp("modified_date"));
+            if(hasColumn("created_by"))
+                o.setCreatedBy(set.getLong("created_by"));
+            if(hasColumn("modified_by"))
+                o.setModifiedBy(set.getLong("modified_by"));
+            //o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            //o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
+            if(hasColumn("is_active"))
+                o.setStatus(set.getBoolean("is_active"));
+            //LOGGER.debug("Mis Appropriation  : {}", o.toString());
+            return o;
+        }
+    }
+
 
     protected static final class MisAppropriationMapper implements RowMapper {
 

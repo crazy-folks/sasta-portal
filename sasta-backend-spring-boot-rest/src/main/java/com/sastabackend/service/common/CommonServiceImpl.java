@@ -103,7 +103,7 @@ public class CommonServiceImpl implements CommonService {
             o.setModifiedDate(set.getTimestamp("modified_date"));
             o.setCreateBy(set.getLong("created_by"));
             o.setModifyBy(set.getLong("modified_by"));
-            LOGGER.debug("Config System  : {}", o.toString());
+            //LOGGER.debug("Config System  : {}", o.toString());
             return o;
         }
     }

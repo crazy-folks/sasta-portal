@@ -5,7 +5,9 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 		$scope.blocksfactory = blocksfactory;
 		$scope.blocks = [];
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+		
 	    //Action of clicking product name link.
 	    $scope.modelDialogTitle = {
 	    	addblockTitle : "Add Blocks",
@@ -127,6 +129,7 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 				        });							
 						// scope.grid is the widget reference
 	  					$scope.grid.dataSource.read();
+	  					$scope.grid.dataSource.fetch();
 	  					$scope.CloseaddBlockWindow();
 	  					$scope.doReset(); 
 			  		}else{
@@ -157,7 +160,8 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 			            scope:$scope
 			        });							
 					// scope.grid is the widget reference
-					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.read();
+  					$scope.grid.dataSource.fetch();
 					$scope.CloseEditBlockWindow();
 					$scope.doReset();
 		  		}else{
@@ -215,20 +219,22 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 	    }
 
 	    $scope.OnDelete = function(data){
-			$scope.editblocks =	{
-				  "description": data.description || '',
-				  "createdDate": null,
-				  "blockID": data.blockID,
-				  "districtID": data.districtID,
-				  "isActive": false,
-				  "blockName": data.blockName,
-				  "createdBy": $rootScope.sessionConfig.userId,
-				  "modifiedBy": $rootScope.sessionConfig.userId,
-				  "modifiedDate": null,
-				  "createdByName": null,
-				  "modifiedByName": null
-			};
-	    	DoUpdate();	
+	    	if(confirm('Are you sure want to delete?')){
+				$scope.editblocks =	{
+					  "description": data.description || '',
+					  "createdDate": null,
+					  "blockID": data.blockID,
+					  "districtID": data.districtID,
+					  "isActive": false,
+					  "blockName": data.blockName,
+					  "createdBy": $rootScope.sessionConfig.userId,
+					  "modifiedBy": $rootScope.sessionConfig.userId,
+					  "modifiedDate": null,
+					  "createdByName": null,
+					  "modifiedByName": null
+				};
+		    	DoUpdate();	
+	    	}
 	    }
 
 	    $scope.gridOptions = {
@@ -257,7 +263,8 @@ app.controller('AuditBlocksController',['$http','$window','$scope','$rootScope',
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/block/getlist'
+				         url: $scope.crudServiceBaseUrl + '/block/getlist',
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)

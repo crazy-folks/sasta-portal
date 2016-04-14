@@ -379,7 +379,7 @@ Author:	Janxcode
 		/*---------------------------------------------------------------
 		[1.0 Tagline Box ]
 	---------------------------------------------------------------*/
-		
+		.flexslider .slides img {height:auto !important;}
 		.jx-tagline-box h3 {
 			font-size: 30px;
 		}
@@ -911,7 +911,7 @@ Author:	Janxcode
 		/*---------------------------------------------------------------
 			[1.0 Tagline Box ]
 		---------------------------------------------------------------*/
-			
+			.flexslider .slides img {height:auto !important;}
 			
 			.jx-tagline-box {
 				text-align: center;
@@ -1577,7 +1577,7 @@ Author:	Janxcode
 		/*---------------------------------------------------------------
 			[1.0 Tagline Box ]
 		---------------------------------------------------------------*/
-			
+			.flexslider .slides img {height:auto !important;}
 			.jx-tagline-box {
 				text-align: center;
 			}
@@ -2289,7 +2289,7 @@ Author:	Janxcode
 	/*---------------------------------------------------------------
 		[1.0 Tagline Box ]
 	---------------------------------------------------------------*/
-
+.flexslider .slides img {height:auto !important;}
 		.jx-tagline-box h3 {
 			font-size: 35px;
 		}
@@ -2666,7 +2666,7 @@ Author:	Janxcode
 	/*---------------------------------------------------------------
 		[1.0 Tagline Box ]
 	---------------------------------------------------------------*/
-		
+		.flexslider .slides img {height:auto !important;}
 		.jx-tagline-box h3 {
 			font-size: 30px;
 		}

@@ -80,7 +80,7 @@ module.exports = function (grunt) {
             },
             proxies: [
                 {
-                    context: '/sastabackend',
+                    context: '/sasta-backend',
                     host: 'localhost',
                     port: 8080,
                     changeOrigin: true
@@ -90,48 +90,6 @@ module.exports = function (grunt) {
                 options: {
                     open: true,
                     middleware: function (connect, options) {
-                    
-                    /*
-                        if (!Array.isArray(options.base)) {
-                            options.base = [options.base];
-                        }
-
-                        // Setup the proxy
-                        var middlewares = [
-                         function(req, res, next) {
-                              res.setHeader('Access-Control-Allow-Origin', '*');
-                              res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-                              res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-                              // don't just call next() return it
-                              return next();
-                        },     
-                        require('grunt-connect-proxy/lib/utils').proxyRequest];
-
-                        // Serve static files.
-                        options.base.forEach(function(base) {
-                            middlewares.push(connect.static(base));
-                        });
-                       
-                        // Make directory browse-able.
-                        var directory = options.directory || options.base[options.base.length - 1];
-                        middlewares.push(connect.directory(directory));
-
-                        options.base.forEach(function(base) {
-                            // Serve static files.
-                            middlewares.push(connect.static(base));
-                        });
-
-                        middlewares.push(connect.static('.tmp'));
-                        middlewares.push(connect().use(
-                                        '/bower_components',
-                                        connect.static('./bower_components')
-                                    ));
-                       // middlewares.push(connect.static(require('path').resolve(appConfig.app)));
-                        middlewares.push(connect.static(appConfig.app));
-
-                        return middlewares;
-                         */
                         return [
                             proxySnippet,                
                             connect.static('.tmp'),
@@ -289,17 +247,17 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     src: '**/*.js',
-                    dest: '<%= yeoman.dist %>/scripts',
-                    cwd: '<%= yeoman.app %>/scripts'
+                    dest: '<%= yeoman.dist %>/js',
+                    cwd: '<%= yeoman.app %>/js'
                 }]
             },
             options: {
                 mangle:false
             },
         },
-        // concat: {
-        //   dist: {}
-        // },
+         concat: {
+           dist: {}
+         },
 
         imagemin: {
             dist: {

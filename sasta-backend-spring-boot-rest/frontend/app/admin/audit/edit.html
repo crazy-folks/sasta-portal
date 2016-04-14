@@ -3,10 +3,19 @@
 </div>
 <form class="form-horizontal" name="frmEditAudit" id="frmEditAudit" novalidate>
     <div class="dialog-message dialog-body">
+
+        <div class="form-group no-margin">
+            <label for="ddlFy"  class="label-adjust">Financial Year</label>
+            <select name="ddlFy" class="k-input width-95 " ng-model="editfy" ng-options="obj.text for obj in fy track by obj.value" ng-change="OnFinancialYearSelectionChanged(editfy)">
+                <option value="">Choose Year</option>
+            </select> 
+        </div>
+
         <div class="form-group no-margin">
             <div>
                 <label for="selRounds"  class="label-adjust">Round</label>
-                <select name="selRounds" class="k-input width-95 validate[required]" ng-model="editdefaultrounds" ng-options="obj.text for obj in rounds track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" ng-change="OnEditRoundSelectedValue(editdefaultrounds)">
+                <select name="selRounds" class="k-input width-95 validate[required]" ng-model="editdefaultrounds" ng-options="obj.text for obj in rounds track by obj.value" ng-focus="setDrag(true)" ng-change="OnEditRoundSelectedValue(editdefaultrounds)">
+                    <option value="">Choose Round</option>
                 </select>
             </div>
         </div>
@@ -22,6 +31,7 @@
             <div>
                 <label for="selDistrict"  class="label-adjust">District</label>
                 <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="editdefaultdistricts" ng-options="obj.text for obj in districts track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" ng-change="OnEditDistrictsSelectedValue(editdefaultdistricts)">
+                    <option value="">Choose District</option>
                 </select>
             </div>                     
         </div>     
@@ -29,13 +39,15 @@
             <div>
                 <label for="selBlock"  class="label-adjust">Block</label>
                 <select name="selBlock" class="k-input width-95 validate[required]" ng-model="editdefaultblocks" ng-options="obj.text for obj in blocks track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)"ng-change="OnEditBlocksSelectedValue(editdefaultblocks)">
+                    <option value="">Choose Block</option>
                 </select>
             </div>                     
         </div>     
         <div class="form-group no-margin">
             <div>
-                <label for="selVillage"  class="label-adjust">Village</label>
+                <label for="selVillage"  class="label-adjust">Panchayat</label>
                 <select name="selVillage" class="k-input width-95 validate[required]" ng-model="editdefaultvillages" ng-options="obj.text for obj in villages track by obj.value" ng-focus="setDrag(true)" ng-blur="setDrag(false)" ng-change="OnEditVillagesSelectedValue(editdefaultvillages)">
+                    <option value="">Choose Panchayat</option>
                 </select>
             </div>                     
         </div>         

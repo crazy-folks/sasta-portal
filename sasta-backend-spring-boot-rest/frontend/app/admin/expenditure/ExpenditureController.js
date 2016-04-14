@@ -3,7 +3,9 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 
 		$scope.aufactory = expenditurefactory;
 		$scope.crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
-		
+		/* show  Context menu*/
+		$scope.showContextMenu = Util.showContextMenu;
+				
 	    //Popup Titles
 	    $scope.modelDialogTitle = {
 	    	AddAuditTitle : "Add Expenditure",
@@ -38,7 +40,6 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 		    "value": 0,
 		    "text": "Select"
 		};
-
 
         $scope.kaddWindowOptions = {
             content: 'admin/expenditure/add.html',
@@ -93,11 +94,8 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 
         $scope.OpenAuditWindow = function($event){
         	$scope.addAuditWindow.wrapper.addClass("col-md-12 col-lg-12 no-padding auto-margin");
-            
             $scope.doReset();
-        	
             GetAudit(decodeURIComponent($location.search().aid)).done(function(result){
-            	
             	$scope.addAuditWindow.center().open();
         	});
         }
@@ -194,7 +192,6 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 			"blockId" :  null,
 			"vpId" :  null,
 			"ppleafLets" :  null
-
 	    };
 
 	    $scope.Submit = function(){
@@ -210,7 +207,8 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 				            scope:$scope
 				        });							
 						// scope.grid is the widget reference
-	  					$scope.grid.dataSource.read();
+			      	   $scope.grid.dataSource.read();
+				       $scope.grid.dataSource.fetch();
 						$scope.CloseAuditWindow();
 			  		}else{
 				  		notify({
@@ -230,43 +228,45 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 	    }
 
 	    $scope.OnDelete = function(data){
-	    	$scope.editexpenditure = {
-				id : data.id,
-				stationary : data.stationary,
-				others : data.others,
-				createdByName : data.createdByName,
-				modifiedByName : data.modifiedByName,
-				createdDate : data.createdDate,
-				auditDistrictId : data.auditDistrictId,
-				modifiedDate : data.modifiedDate,
-				financialDescription : data.financialDescription,
-				financialYear : data.financialYear,
-				status : false,
-				roundDescription : data.roundDescription,
-				districtName : data.districtName,
-				roundStartDate : data.roundStartDate,
-				roundEndDate : data.roundEndDate,
-				appReceivedCount : data.appReceivedCount,
-				attendedAppCount : data.attendedAppCount,
-				refreshmentCharges : data.refreshmentCharges,
-				selectedVrpCount : data.selectedVrpCount,
-				photographyCharges : data.photographyCharges,
-				paidedAmount : data.paidedAmount,
-				visitedVillageCount : data.visitedVillageCount,
-				videosCharges : data.videosCharges,
-				createdBy : data.createdBy,
-				roundId : data.roundId,
-				roundName : data.roundName,
-				vpName : data.vpName,
-				modifiedBy : data.modifiedBy,
-				blockName : data.blockName,
-				auditId : data.auditId,
-				blockId : data.blockId,
-				vpId : data.vpId,
-				ppleafLets : data.ppleafLets
+	    	if(confirm('Are you sure want to delete?')){
+		    	$scope.editexpenditure = {
+					id : data.id,
+					stationary : data.stationary,
+					others : data.others,
+					createdByName : data.createdByName,
+					modifiedByName : data.modifiedByName,
+					createdDate : data.createdDate,
+					auditDistrictId : data.auditDistrictId,
+					modifiedDate : data.modifiedDate,
+					financialDescription : data.financialDescription,
+					financialYear : data.financialYear,
+					status : false,
+					roundDescription : data.roundDescription,
+					districtName : data.districtName,
+					roundStartDate : data.roundStartDate,
+					roundEndDate : data.roundEndDate,
+					appReceivedCount : data.appReceivedCount,
+					attendedAppCount : data.attendedAppCount,
+					refreshmentCharges : data.refreshmentCharges,
+					selectedVrpCount : data.selectedVrpCount,
+					photographyCharges : data.photographyCharges,
+					paidedAmount : data.paidedAmount,
+					visitedVillageCount : data.visitedVillageCount,
+					videosCharges : data.videosCharges,
+					createdBy : data.createdBy,
+					roundId : data.roundId,
+					roundName : data.roundName,
+					vpName : data.vpName,
+					modifiedBy : data.modifiedBy,
+					blockName : data.blockName,
+					auditId : data.auditId,
+					blockId : data.blockId,
+					vpId : data.vpId,
+					ppleafLets : data.ppleafLets
 
-	    	};
-	    	DoUpdate();
+		    	};
+		    	DoUpdate();
+	    	}
 	    }
 
 
@@ -280,7 +280,8 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 			            scope:$scope
 			        });							
 					// scope.grid is the widget reference
-  					$scope.grid.dataSource.read();
+		      	    $scope.grid.dataSource.read();
+			        $scope.grid.dataSource.fetch();
 					$scope.CloseEditAuditWindow();
 			        $scope.doReset();
 		  		}else{
@@ -393,19 +394,30 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 
 	    $scope.gridOptions = {
 	        columns: [ 
-		        		{ field: "id", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "visitedVillageCount",width: '130px', title:'No Of Village Pts Visited By BRP'},
-		        		{ field: "appReceivedCount",width: '130px', title:'No Of Applications Received'},
-		        		{ field: "attendedAppCount",width: '130px', title:'No Of Applicants Attended Exam'},
-		        		{ field: "refreshmentCharges",width: '130px', title : "Refreshment Charges"},
-		        		{ field: "selectedVrpCount",width: '130px', title : "No Of  VRP's Selected"},
-		        		{ field: "paidedAmount",width: '130px', title : "Total Amount Paid To VRP's"},
-		        		{ field: "photographyCharges",width: '130px', title : "Photography Charges"},
-		        		{ field: "videosCharges",width: '130px', title : "Video Charges"},
-		        		{ field: "ppleafLets",width: '130px', title : "Publicity, Posters & Leaflets"},
-		        		{ field: "stationary",width: '90px', title : "Stationary"},
-		        		{ field: "others",width: '90px', title : "Others"},
-		        		{ title : "Total Exp",width: '80px', template: "#= ((paidedAmount||0) + (photographyCharges||0) + (videosCharges||0))#"},
+		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
+		        		{ field: "financialYear", groupable:true,width: '130px', title:'FY'},
+		        		{ field: "roundName", groupable:true,width: '130px', title:'Round'},
+		        		{ field: "districtName", groupable:true,width: '130px', title:'District'},
+		        		{ field: "blockName", groupable:true,width: '130px', title:'Block'},
+		        		{ field: "vpName", groupable:true,width: '130px', title:'Panchayat'},
+		        		{ field: "visitedVillageCount", groupable:false,width: '130px', title:'VP Visited'},
+		        		{ field: "appReceivedCount", groupable:false,width: '130px', title:'Applications'},
+		        		{ field: "attendedAppCount", groupable:false,width: '130px', title:'Attended Exam'},
+		        		{ field: "refreshmentCharges",format: '{0:n0}', groupable:false,width: '130px', title : "Refreshment"},
+		        		{ field: "selectedVrpCount", groupable:false,width: '130px', title : "VRP's Selected"},
+		        		{ field: "paidedAmount",format: '{0:n0}', groupable:false,width: '180px', title : "Amount Paid To VRP's"},
+		        		{ field: "photographyCharges",format: '{0:n0}', groupable:false,width: '130px', title : "Photography" },
+		        		{ field: "videosCharges",format: '{0:n0}', groupable:false,width: '130px', title : "Video"},
+		        		{ field: "ppleafLets",format: '{0:n0}', groupable:false,width: '130px', title : "Publicity"},
+		        		{ field: "stationary",format: '{0:n0}', groupable:false,width: '110px', title : "Stationary"},
+		        		{ field: "others",format: '{0:n0}', groupable:false,width: '90px', title : "Others"},
+		        		{ 
+		        			title : "Total Exp", 
+		        			groupable:false,
+		        			width: '150px',
+		        			format: '{0:n0}',
+		        			field : 'Total'
+		        		},		        		
 		        		{
  							title : "",
 		                    width: '30px',
@@ -415,13 +427,27 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,
+	        pageSize: 30,
+            pageable: {
+                refresh: true,
+                pageSizes: [5, 10, 20, 30],
+                messages: {
+                    refresh: "Refresh Expenditures"
+                }
+            },
 	        dataSource: {
-	            pageSize: 5,
+	        	pageSize: 30,
 	            transport: {
 	                read: function (e) {
+	                	var baseUrl = $scope.crudServiceBaseUrl + 
+	                	'/expenditure/getlist?key='+encodeURIComponent($location.search().aid);
+	                	if($.inArray($rootScope.sessionConfig.userGroupId, $rootScope.appConfig.blockLevelGroups)>-1){
+	                		baseUrl = baseUrl + '&userid='+$rootScope.sessionConfig.userId;
+	                	}	                	
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/expenditure/getlist'
+				         url: baseUrl,
+				         cache : false
 				      }).
 	                  success(function(data, status, headers, config) {
 	                  	if(data.status)
@@ -430,24 +456,47 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 	                  error(function(data, status, headers, config) {
 	                  });
 	              }
-	           }
+	           },
+				schema:{
+                    model: {
+                        fields: {
+                            visitedVillageCount: { type: "number" },
+                            appReceivedCount: { type: "number" },
+                            attendedAppCount: { type: "number" },
+                            refreshmentCharges: { type: "number" },
+                            selectedVrpCount: { type: "number" },
+                            paidedAmount: { type: "number" },
+                            photographyCharges: { type: "number" },
+                            videosCharges: { type: "number" },
+                            ppleafLets: { type: "number" },
+                            stationary: { type: "number" },
+                            others: { type: "number" }
+                        }
+                    },
+				    parse : function (d) {
+				        $.each(d, function(idx, elem) {
+				            elem.Total = (elem.refreshmentCharges||0) +
+				             (elem.paidedAmount||0)+
+				             (elem.photographyCharges||0)+
+				             (elem.videosCharges||0)+
+				             (elem.ppleafLets||0)+
+				             (elem.stationary||0)+
+				             (elem.others||0);
+				        });
+				        return d;
+				    }
+                }
 	        }
 	    }
 
-	    function GetAudit(id,type)
-	    {
+	    function GetAudit(id,type){
 	    	var deffered = jQuery.Deferred();
 	    	expenditurefactory.getAudit(id).success(function(result){
-	    		
-
 		    		$scope.expenditure.auditId= result.data.auditId;
 		    		$scope.expenditure.roundId =result.data.roundId;
 			    	$scope.expenditure.auditDistrictId =result.data.auditDistrictId;
 			    	$scope.expenditure.blockId =result.data.auditBlockId;
 			    	$scope.expenditure.vpId =result.data.villagePanchayatId;
-					
-	    		
-				
 		  		return deffered.resolve('Ok');
 			}).error(function(error,status){
 	  			notify({
@@ -457,7 +506,6 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 	        	});
 			})
 			return deffered.promise();
-
 	    }
 
 	    function GetLookupValues(type){
