@@ -361,7 +361,7 @@ angular.module('sastaboard')
     .constant("appConfig", {
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
-        // Local Environment
+        // Local Environment For Curl Ref : http://www.codingpedia.org/ama/how-to-test-a-rest-api-from-command-line-with-curl/
          baseUrl: "http://localhost:8080/sasta-backend/api",
         debug : true,
         environment : 'development',
