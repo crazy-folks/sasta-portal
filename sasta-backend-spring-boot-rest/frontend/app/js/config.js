@@ -363,8 +363,6 @@ angular.module('sastaboard')
         appVersion: "1.0",
         // Local Environment
          baseUrl: "http://localhost:8080/sasta-backend/api",
-        // Live Environment
-        //baseUrl: "http://123.63.83.34:8080/sasta-backend/api",
         debug : true,
         environment : 'development',
         notifyConfig : {
