@@ -57,7 +57,8 @@
             templateUrl: "admin/views/index.html",
             data: {
                 pageTitle: 'Home'
-            }
+            },
+            controller : 'DasboardController as dashboardCtl'
         })
         .state('admin.banks', {
             url: "/banks",

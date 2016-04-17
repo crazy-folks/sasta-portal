@@ -398,7 +398,7 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 		        			title : "Amount Drawn twice same work",
 		        			columns :[
 		        				{ field: "amountDrawnSameWorkCount",headerTemplate: "No", title : "Amount Drawn twice No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "amountDrawnSameWorkAmt",format: '{0:n0}', headerTemplate : "Amount", title : " Amount Drawn twice Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "amountDrawnSameWorkAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Amount Drawn twice Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
 		        			title : "Wages to old IHHLs",

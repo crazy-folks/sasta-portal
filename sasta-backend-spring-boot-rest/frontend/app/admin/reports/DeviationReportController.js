@@ -7,7 +7,9 @@ app.controller('DeviationReportController',['$http','$window','$scope','$rootSco
 		  "roundId": null,
 		  "districtId": null,
 		  "blockId": null,
-		  "villageId": null
+		  "villageId": null,
+		  "isConsolidate": false,
+		  "userId":null
 		};
 
 		$scope.reportTitle = "Deviations Report";

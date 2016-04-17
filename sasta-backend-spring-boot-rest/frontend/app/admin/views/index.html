@@ -9,5 +9,86 @@
     </div>
 </div>
 <section id="main-content" class="animated fadeInRight">
+    <div class="row" ng-show="sessionConfig.loggedInAs">
+        <div class="col-md-12 col-lg-12">
+            <!--button start-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{pageTitle}}</h3>
+                            <div class="actions pull-right">
+	                            <i data-fullscreen-widget class="fa fa-expand"></i>
+	                            <i data-widget-toggle class="fa fa-chevron-down"></i>
+	                            <i data-widget-close class="fa fa-times"></i> 
+                            </div>
+                        </div>
+                        <div class="panel-body">
 
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Search Criteria's</h3>
+                                            <div class="actions pull-right"> 
+                                                <i data-widget-toggle class="fa fa-chevron-down"></i>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <form class="form-horizontal search-criteria">
+
+                                            <div class="col-md-12">
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label for="ddlFy"  class="label-adjust">Financial Year</label>
+                                                    <select name="ddlFy" class="k-input" k-ng-model="selectedFy" kendo-multi-select="multiSelectddlFy" k-options="selectFyOptions" multiple="multiple">
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label for="ddlRounds"  class="label-adjust">Rounds</label>
+                                                    <select name="ddlRounds" class="k-input" k-ng-model="selectedRounds" kendo-multi-select="multiSelectddlRounds" k-options="selectRoundOptions" multiple="multiple">
+                                                    </select> 
+                                                </div>
+                                                <div class="col-md-4 form-group no-margin">
+			                                            <label for="selreport"  class="label-adjust">Report</label>
+			                                            <select name="selreport" class="k-input width-95 validate[required]" ng-model="defaultreports" ng-options="obj.text for obj in reports track by obj.value">
+			                                                <option value="">Choose Report</option>
+			                                            </select>                                                
+                                                </div>
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label class="label-adjust">&nbsp;</label> 
+                                                    <button type="button" data-ng-click="OnReset()"  class="btn btn-danger btn-sm">Reset</button>
+                                                    <button type="button" class="btn btn-success btn-sm" ng-click="doSearch();">&#160;Submit&#160;</button>
+                                                </div>                                                
+                                            </div>                                    
+                                            </form> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						    <div class="demo-section k-content wide">
+						        <div id="chart" style="width: 1200px; height: 1200px"></div>
+						    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--button end-->
+        </div>
+    </div>
 </section>
+
+ <!--       <script type="text/kendo" id="sharedTemplate">
+            <table>
+                #for (var i = 0; i < points.length; i++) { #
+                <tr>
+                    <td>
+                        <div style='background:#:points[i].color#;width:10px;height:10px;display:inline-block;'></div> #:points[i].series.name#                    
+         						</td>
+            				<td>
+                        #:points[i].value#
+          					</td>
+          			</tr>
+                # } #
+          </table>
+        </script>-->

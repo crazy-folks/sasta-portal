@@ -4660,6 +4660,7 @@ background: linear-gradient(to bottom,  rgb(161,168,175) 0%,rgb(136,145,154) 100
 select[disabled],input[disabled] {
   background-color: #ECECEC;
 }
+.no-border{padding: 0 !important;}
 .k-grid tr:hover {
     background-color: #428bca !important;
 }
