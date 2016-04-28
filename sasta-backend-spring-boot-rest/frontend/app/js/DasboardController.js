@@ -39,11 +39,23 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 		    "text": "Select"
 		};
 
+		$scope.chartsType = [{
+		    "value": 'area',
+		    "text": "Area"
+		},{
+		    "value": 'column',
+		    "text": "Column"
+		},{ // "line", column area donut 
+		    "value": 'line',
+		    "text": "Line"
+		}];
+
 		$scope.searchReq =  angular.copy($scope.defaultSearchReq);
 		$scope.selectedFy = [];
 		$scope.selectedRounds = [];
 		// default selected rounds
 		$scope.defaultreports = angular.copy($scope.defaultdpOptions);
+		$scope.defaultchartsType = angular.copy($scope.defaultdpOptions);
 
         $scope.selectFyOptions = {
             placeholder: "Select Year...",
@@ -102,7 +114,50 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 			$scope.selectedFy = [];
 			$scope.selectedRounds = [];
 			$scope.searchReq =  angular.copy($scope.defaultSearchReq);
+			$scope.defaultchartsType = angular.copy($scope.defaultdpOptions);
 		}
+
+		function mm(val) {
+			return val * 2.8347;
+		}
+
+		$scope.generatePdf = function(selector,filename){
+            var extension = 'pdf';
+            var timeStamp = new Date().getTime();
+            !filename ?
+                (filename = [timeStamp,extension].join('.')) :
+                (!filename.endsWith(extension) ?
+                    (filename = [filename,([timeStamp,extension].join('.'))].join('')):
+                    (filename=filename.insert(filename,filename.indexOf('.'),timeStamp)));
+            (selector && ($(selector).length>0)) ?
+            kendo.drawing.drawDOM($(selector))
+             .then(function(group) {
+		          var PAGE_RECT = new kendo.geometry.Rect(
+		            [0, 0], [mm(210 - 20), mm(297 - 20)]
+		          );
+
+		          var content = new kendo.drawing.Group();
+		          content.append(group);
+
+		          kendo.drawing.fit(content, PAGE_RECT)
+
+		          return kendo.drawing.exportPDF(content,{
+		            paperSize: "A4",
+		            margin: "1cm"
+		          });
+		        }).done(function(data) {
+			          kendo.saveAs({
+			            dataURI: data,
+			            fileName: filename,
+			            proxyURL: "http://demos.telerik.com/kendo-ui/service/export"
+			          });		        	
+	                //kendo.drawing.pdf.saveAs(data, filename);
+	            }):logger.error('Unable to find the selector from current partial view. Please ensure that you are passing valid selector for generate pdf!');
+        }
+
+        $scope.OnClick = function(){
+        	$scope.generatePdf($("#chart"),'Chart');
+        }
 
         $scope.doSearch = function(){
 			$scope.searchReq = {
@@ -114,6 +169,10 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 			  "isConsolidate": true,
 			  "userId": null
 			};
+			var chartType = 'area';
+			if($scope.defaultchartsType.value !== 0){
+				chartType = $scope.defaultchartsType.value;
+			}
 			if($scope.defaultreports.value === 1){
 				dashboardfactory.GetMgnregaworks($scope.searchReq).then(function(resp){
 					var series = [];
@@ -144,7 +203,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 						series[11].data.push(obj.valueOfOnGoingWorksEvaluatedBySATeam);
 					});
 					console.log(series);
-					createChart(series,categories,'MGNREGA Works Charts');
+					createChart(series,categories,'MGNREGA Works Charts',chartType);
 				},function(status,error){
 
 				});
@@ -173,7 +232,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 						series[6].data.push(obj.others);
 					});
 					console.log(series);
-					createChart(series,categories,'Expenditures Charts');
+					createChart(series,categories,'Expenditures Charts',chartType);
 				},function(status,error){
 
 				});
@@ -201,7 +260,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 						series[6].data.push(obj.parasSetteled);
 					});
 					console.log(series);
-					createChart(series,categories,'Special Grama Sabha Charts');
+					createChart(series,categories,'Special Grama Sabha Charts',chartType);
 				},function(status,error){
 
 				});				
@@ -258,7 +317,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 						series[28].data.push(obj.wagesDrawnMoreThanActualWorkingDayAmt);						
 					});
 					console.log(series);
-					createChart(series,categories,'Deviation Charts');
+					createChart(series,categories,'Deviation Charts',chartType);
 				},function(status,error){
 
 				});
@@ -301,7 +360,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 						series[17].data.push(obj.wagesPaidWorkersWithoutJcAmt);
 					});
 					console.log(series);
-					createChart(series,categories,'Deviation Charts');
+					createChart(series,categories,'Deviation Charts',chartType);
 				},function(status,error){
 
 				});
@@ -332,7 +391,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 						series[8].data.push(obj.reqPaymentCompletedIHHLWorkAmt);
 					});
 					console.log(series);
-					createChart(series,categories,'Grievances Charts');
+					createChart(series,categories,'Grievances Charts',chartType);
 				},function(status,error){
 
 				});
@@ -342,13 +401,13 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
         var drawing = kendo.drawing;
         var geometry = kendo.geometry;
 
-        function createChart(s,c,chartTitle) {
+        function createChart(s,c,chartTitle,chartType) {
             $("#chart").kendoChart({
             	dataSource : s,
-            	theme: "BlueOpal",
+            	theme: "Material",//BlueOpal
                 title: {
-                    text: chartTitle
-                },                
+                    text: chartTitle.toLocaleUpperCase()
+                },
                 legend: {
                     position: "bottom",
                     //orientation: "vertical",
@@ -357,10 +416,12 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
                     },
 			        offsetX: 20,
 			        offsetY: 15,
-			        visible : false                    
+			        visible : true                    
                 },
                 seriesDefaults: {
-                    type: "column",
+                    /*type: "line", column area donut 
+                    style: "smooth" , */              	
+                    type: chartType,
                     stack: true,
                     highlight: {
                         toggle: function (e) {
@@ -371,7 +432,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
                             var visual = e.visual;
                             var opacity = e.show ? 0.8 : 1;
 
-                            visual.opacity(opacity);
+                            visual&&visual.opacity(opacity);
                         }
                     },
                     visual: function (e) {
@@ -505,7 +566,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
         function createLegendItem(e) {
             var color = e.options.markers.background;
             var labelColor = e.options.labels.color;
-            var rect = new geometry.Rect([0, 0], [120, 50]);
+            var rect = new geometry.Rect([0, 0], [300, 50]);
             var layout = new drawing.Layout(rect, {
                 spacing: 1,
                 alignItems: "center"

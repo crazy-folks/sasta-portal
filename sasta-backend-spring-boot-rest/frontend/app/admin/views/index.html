@@ -24,7 +24,8 @@
                             </div>
                         </div>
                         <div class="panel-body">
-
+                        <script src="http://kendo.cdn.telerik.com/2016.1.412/js/pako_deflate.min.js"></script>
+                        <script src="http://kendo.cdn.telerik.com/2016.1.412/js/jszip.min.js"></script>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="panel panel-default">
@@ -36,7 +37,6 @@
                                         </div>
                                         <div class="panel-body">
                                             <form class="form-horizontal search-criteria">
-
                                             <div class="col-md-12">
                                                 <div class="col-md-4 form-group no-margin">
                                                     <label for="ddlFy"  class="label-adjust">Financial Year</label>
@@ -53,14 +53,23 @@
 			                                            <label for="selreport"  class="label-adjust">Report</label>
 			                                            <select name="selreport" class="k-input width-95 validate[required]" ng-model="defaultreports" ng-options="obj.text for obj in reports track by obj.value">
 			                                                <option value="">Choose Report</option>
-			                                            </select>                                                
-                                                </div>
+			                                            </select>                                      
+                                                </div>                                              
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-4 form-group no-margin">
+                                                        <label for="selreport"  class="label-adjust">Chart Type</label>
+                                                        <select name="selreport" class="k-input width-95 validate[required]" ng-model="defaultchartsType" ng-options="obj.text for obj in chartsType track by obj.value">
+                                                            <option value="">Choose Chart Type</option>
+                                                        </select>                                      
+                                                </div>                                               
                                                 <div class="col-md-4 form-group no-margin">
                                                     <label class="label-adjust">&nbsp;</label> 
                                                     <button type="button" data-ng-click="OnReset()"  class="btn btn-danger btn-sm">Reset</button>
                                                     <button type="button" class="btn btn-success btn-sm" ng-click="doSearch();">&#160;Submit&#160;</button>
-                                                </div>                                                
-                                            </div>                                    
+                                                    <button class='btn btn-success btn-sm' ng-click="OnClick()">EXPORT CHART AS PDF</button>
+                                                </div>                                              
+                                            </div>
                                             </form> 
                                         </div>
                                     </div>
