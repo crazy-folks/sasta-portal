@@ -356,6 +356,16 @@
             },
             controller : 'VrpReportController as vrpRptCtl'
         })
+         .state('entries.recovery', {
+            url: "/recovery",
+            templateUrl: "admin/recovery/templates.html",
+            data: {
+                pageTitle: 'Recovery Details'
+            },
+            controller : 'RecoveryController as recoveryCtl'
+        })
+
+        
 }
 angular.module('sastaboard')
     .config(['$locationProvider','$stateProvider', '$urlRouterProvider','$httpProvider',config])
@@ -363,7 +373,8 @@ angular.module('sastaboard')
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
         // Local Environment For Curl Ref : http://www.codingpedia.org/ama/how-to-test-a-rest-api-from-command-line-with-curl/
-         baseUrl: "http://localhost:8080/sasta-backend/api",
+         //baseUrl: "http://localhost:8080/sasta-backend/api",
+         baseUrl: "http://192.168.1.37:8080/sasta-backend/api",
         debug : true,
         environment : 'development',
         notifyConfig : {

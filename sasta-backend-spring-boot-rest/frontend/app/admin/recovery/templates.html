@@ -1,0 +1,38 @@
+<section id="main-content" class="animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <!--button start-->
+            <div class="row">
+                <div class="col-md-12">
+                <ul>
+                    <li ng-repeat="elemnt in questionelemnt">
+                        <div>
+                            <div style="display:inline"> <span>
+                            
+                                 
+                                 <input type="number" ng-model="elemnt.actualAmount"  placeholder="Actual Amount" ng-pattern="onlyNumbers"/>
+                                 <input type="number" ng-model="elemnt.payAmount" placeholder="Pay Amount"  ng-pattern="onlyNumbers" />
+                                 <input type="number" ng-model="elemnt.description" placeholder="Description" nnumeric-only />
+                               
+                            </span>
+
+                            </div> <span ng-hide="elemnt.length == 1">
+                            
+                             <button ng-click="questionelemnt.splice($index, 1)">Remove</button>
+                           
+                        </span>
+
+                        </div>
+                        <hr/>
+                    </li>
+                    <li>
+                        <button ng-click="addFormField($event)">Add</button>
+                    </li>
+                </ul>
+                 <button ng-click="showitems()">Submit</button>   
+                 <div id="displayitems" style="visibility:hidden;">{{questionelemnt}}</div>
+            </div>
+            <!--button end-->
+        </div>
+    </div>
+</section>
