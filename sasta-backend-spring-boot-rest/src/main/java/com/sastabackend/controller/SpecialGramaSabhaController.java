@@ -1,12 +1,9 @@
 package com.sastabackend.controller;
 
-import com.sastabackend.domain.Expenditure;
 import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.SpecialGramaSabha;
-import com.sastabackend.service.expenditure.ExpenditureService;
 import com.sastabackend.service.specialgramasabha.SpecialGramaSabhaService;
-import com.sastabackend.util.Constants;
 import com.sastabackend.util.CryptoUtil;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

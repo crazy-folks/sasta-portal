@@ -119,11 +119,11 @@ public class Recovery  implements java.io.Serializable , CommonProperties{
         this.setteled_paras_count = setteled_paras_count;
     }
 
-    public BigDecimal getSettledParasAmount() {
+    public BigDecimal getSetteledParasAmount() {
         return settled_paras_amt;
     }
 
-    public void setSettledParasAmount(BigDecimal settled_paras_amt) {
+    public void setSetteledParasAmount(BigDecimal settled_paras_amt) {
         this.settled_paras_amt = settled_paras_amt;
     }
 

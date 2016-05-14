@@ -12,14 +12,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.inject.Inject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by SARVA on 14/May/2016.
@@ -72,17 +80,128 @@ public class RecoveryServiceImpl implements RecoveryService {
 
     @Override
     public ResponseModel Add(Recovery rc) {
-        return null;
+        LOGGER.debug("Creating  Recovery : {}",rc.toString());
+        ResponseModel response = new ResponseModel<Boolean>();
+        try{
+            boolean flag=  Create(rc);
+            response.setStatus(flag);
+            response.setData(flag == true ? " Recovery Added Successfully!!" : "Unable to add Recovery!!");
+        }catch(Exception err){
+            response.setData(err.getMessage());
+        }
+        return response;
     }
 
     @Override
     public ResponseModel Update(Recovery rc) {
-        return null;
+        LOGGER.debug("Updating  Recovery : {0}", rc.toString());
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<Boolean>();
+            boolean flag = Modify(rc);
+            response.setStatus(flag);
+            response.setData(flag == true ? "Recovery Updated Successfully!!" : "Unable to update Recovery!!");
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
     }
+
+    private boolean Create(Recovery rc)  {
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_recovery")
+                .declareParameters(
+                        new SqlParameter("auditid", Types.BIGINT),
+                        new SqlParameter("parascount", Types.INTEGER),
+                        new SqlParameter("parasamt", Types.DECIMAL),
+                        new SqlParameter("settledparasgscount", Types.INTEGER),
+                        new SqlParameter("settledparasgsamt", Types.DECIMAL),
+                        new SqlParameter("recoveredamt", Types.DECIMAL),
+                        new SqlParameter("setteledparascount", Types.VARCHAR),
+                        new SqlParameter("settledparasamt", Types.DECIMAL),
+                        new SqlParameter("pendingparascount", Types.INTEGER),
+                        new SqlParameter("pendingparasamt", Types.DECIMAL),
+                        new SqlParameter("createdby", Types.BIGINT),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("auditid", rc.getAuditId());
+        inParamMap.put("parascount", rc.getParasCount());
+        inParamMap.put("parasamt", rc.getParasAmount());
+        inParamMap.put("settledparasgscount", rc.getSettledParasGsCount());
+        inParamMap.put("settledparasgsamt", rc.getSetteledParasAmount());
+        inParamMap.put("recoveredamt", rc.getRecoveredAmount());
+        inParamMap.put("setteledparascount", rc.getSetteledParasCount());
+        inParamMap.put("settledparasamt", rc.getSetteledParasAmount());
+        inParamMap.put("pendingparascount", rc.getPendingParasCount());
+        inParamMap.put("pendingparasamt", rc.getPendingParasAmount());
+        inParamMap.put("createdby", rc.getCreatedBy());
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
+
+    private boolean Modify(Recovery rc)  {
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_special_grama_sabha")
+                .declareParameters(
+                        new SqlParameter("recoveryid", Types.BIGINT),
+                        new SqlParameter("auditid", Types.BIGINT),
+                        new SqlParameter("auditid", Types.BIGINT),
+                        new SqlParameter("parascount", Types.INTEGER),
+                        new SqlParameter("parasamt", Types.DECIMAL),
+                        new SqlParameter("settledparasgscount", Types.INTEGER),
+                        new SqlParameter("settledparasgsamt", Types.DECIMAL),
+                        new SqlParameter("recoveredamt", Types.DECIMAL),
+                        new SqlParameter("setteledparascount", Types.VARCHAR),
+                        new SqlParameter("settledparasamt", Types.DECIMAL),
+                        new SqlParameter("pendingparascount", Types.INTEGER),
+                        new SqlParameter("pendingparasamt", Types.DECIMAL),
+                        new SqlParameter("modifyby", Types.BIGINT),
+                        new SqlParameter("isactive", Types.BIT),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("recoveryid", rc.getId());
+        inParamMap.put("auditid", rc.getAuditId());
+        inParamMap.put("parascount", rc.getParasCount());
+        inParamMap.put("parasamt", rc.getParasAmount());
+        inParamMap.put("settledparasgscount", rc.getSettledParasGsCount());
+        inParamMap.put("settledparasgsamt", rc.getSetteledParasAmount());
+        inParamMap.put("recoveredamt", rc.getRecoveredAmount());
+        inParamMap.put("setteledparascount", rc.getSetteledParasCount());
+        inParamMap.put("settledparasamt", rc.getSetteledParasAmount());
+        inParamMap.put("pendingparascount", rc.getPendingParasCount());
+        inParamMap.put("pendingparasamt", rc.getPendingParasAmount());
+        inParamMap.put("modifyby", rc.getModifiedBy());
+        inParamMap.put("isactive", rc.getStatus());
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
 
     @Override
     public ResponseModel getRecoveryReports(ReportsProperty prop) {
-        return null;
+        LOGGER.debug("Reading Recovery  : {}");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<Recovery>>();
+            response.setData(readRecoveryReports(prop));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
     }
 
     private Recovery selectRecoveryData(Long id){
@@ -105,14 +224,14 @@ public class RecoveryServiceImpl implements RecoveryService {
      * @param prop
      * @return - Success - List Of Special Grama Sabha, If fail empty list
      */
-    private  List<Recovery> readSpecialGramaSabhaReports(ReportsProperty prop){
+    private  List<Recovery> readRecoveryReports(ReportsProperty prop){
         List<Recovery> o = new ArrayList<Recovery>();
         if(!prop.getIsConsolidate())
-            o = jdbcTemplate.query("call special_grama_sabha_reports(?,?,?,?,?,?)",
+            o = jdbcTemplate.query("call recovery_reports(?,?,?,?,?,?)",
                     new Object[]{prop.getReferenceId(),prop.getRoundId(),prop.getDistrictId(),prop.getBlockId(),prop.getVillageId(),prop.getUserId()},
                     new RecoveryReportsMapper());
         else
-            o = jdbcTemplate.query("call special_grama_sabha_consolidate_reports(?,?)",
+            o = jdbcTemplate.query("call recovery_consolidate_reports(?,?)",
                     new Object[]{prop.getReferenceId(), prop.getRoundId()},
                     new RecoveryReportsMapper());
         return o;
@@ -147,7 +266,7 @@ public class RecoveryServiceImpl implements RecoveryService {
             o.setSettledParasGsAmount(set.getBigDecimal("settled_paras_gs_amt"));
             o.setRecoveredAmount(set.getBigDecimal("recovered_amt"));
             o.setSetteledParasCount(set.getInt("setteled_paras_count"));
-            o.setSettledParasAmount(set.getBigDecimal("settled_paras_amt"));
+            o.setSetteledParasAmount(set.getBigDecimal("settled_paras_amt"));
             o.setPendingParasCount(set.getInt("pending_paras_count"));
             o.setPendingParasAmount(set.getBigDecimal("pending_paras_amt"));
             if(hasColumn("created_date"))
@@ -191,7 +310,7 @@ public class RecoveryServiceImpl implements RecoveryService {
             o.setSettledParasGsAmount(set.getBigDecimal("settled_paras_gs_amt"));
             o.setRecoveredAmount(set.getBigDecimal("recovered_amt"));
             o.setSetteledParasCount(set.getInt("setteled_paras_count"));
-            o.setSettledParasAmount(set.getBigDecimal("settled_paras_amt"));
+            o.setSetteledParasAmount(set.getBigDecimal("settled_paras_amt"));
             o.setPendingParasCount(set.getInt("pending_paras_count"));
             o.setPendingParasAmount(set.getBigDecimal("pending_paras_amt"));
             o.setCreatedDate(set.getTimestamp("created_date"));
