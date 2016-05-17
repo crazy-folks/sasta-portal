@@ -1,0 +1,76 @@
+<section id="main-content" class="animated fadeInRight">
+    <!-- pass in the variable if our form is valid or invalid -->
+    <form name="frmAddRecovery" id="frmAddRecovery">
+        <div class="row">
+            <div class="col-md-12  col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="form-group no-margin display-none">
+                        <div>
+                            <label for="selRounds"  class="label-adjust">Round</label>
+                            <select name="selRounds" class="k-input width-95 validate[required]" ng-model="defaultrounds" ng-options="obj.text for obj in rounds track by obj.value" >
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group no-margin display-none">
+                        <div>
+                            <label for="selDistrict"  class="label-adjust">District</label>
+                            <select name="selDistrict" class="k-input width-95 validate[required]" ng-model="defaultdistricts" ng-options="obj.text for obj in districts track by obj.value">
+                            </select>
+                        </div>                     
+                    </div> 
+
+                    <div class="form-group no-margin display-none">
+                        <div>
+                            <label for="selBlock"  class="label-adjust">Block</label>
+                            <select name="selBlock" class="k-input width-95 validate[required]" ng-model="defaultblocks" ng-options="obj.text for obj in blocks track by obj.value">
+                            </select>
+                        </div>                     
+                    </div>   
+
+                    <div class="form-group no-margin display-none">
+                        <div>
+                            <label for="selVillage"  class="label-adjust">Village</label>
+                            <select name="selVillage" class="k-input width-95 validate[required]" ng-model="defaultvillages" ng-options="obj.text for obj in villages track by obj.value">
+                            </select>
+                        </div>                     
+                    </div>
+                    <div class="col-md-10  col-lg-10">
+                        <div class="col-md-10  col-lg-10" ng-repeat="item in arr">
+                            <div class="rec-check">
+                                <input type="checkbox">
+                            </div>
+                            <div class="paid-amount">
+                                <input ng-model="item.actualAmount" placeholder="Actual Amount" type="text" class="k-input">
+                            </div>
+                            <div class="paid-amount">
+                                <input ng-model="item.paidedAmount" placeholder="Paided Amount"  type="text" class="k-input">
+                            </div> 
+                            <div class="paid-amount">
+                                <input  ng-model="item.description"  placeholder="Description"  type="text" class="k-input">
+                            </div>
+                            <div class="actions pull-right">
+                                <i class="fa fa-chevron-up" ng-click="moveUp(item)"></i>
+                                <i class="fa fa-chevron-down" ng-click="moveDown(item)"></i>
+                                <i class="fa fa-times" ng-click="delete(item)"></i>
+                                </div>                       
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="panel panel-default">
+                <div class="panel-body col-md-11">
+                    <div class="form-group no-margin text-right">
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="addItem()">Add</button>
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseRecoveryWindow()">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </form>    
+</section>
