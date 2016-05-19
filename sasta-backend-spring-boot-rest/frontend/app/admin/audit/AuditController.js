@@ -397,6 +397,10 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 			$state.go('entries.sgm',{aid:data.key});
     	}    	
 
+    	$scope.recovery = function(data){
+			$state.go('entries.recovery',{aid:data.key});
+    	}  
+
 	    $scope.EditData = function(data){
 	    	$scope.editaudit = angular.copy($scope.defaultOptions);
 	    	$scope.editdefaultblocks = angular.copy($scope.defaultdpOptions);;

@@ -1,5 +1,6 @@
 package com.sastabackend.controller;
 
+import com.sastabackend.domain.DetailedRecovery;
 import com.sastabackend.domain.Recovery;
 import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by SARVA on 15/May/2016.
@@ -72,6 +74,25 @@ public class RecoveryController {
     @RequestMapping(value = "/recoveryreports", method = RequestMethod.POST)
     public ResponseModel getRecoveryReports(@RequestBody ReportsProperty prop) {
         return recoveryService.getRecoveryReports(prop);
+    }
+
+    @ApiOperation(value = "Read Detailed Recovery List", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/getdetailedrecoverylist", method = RequestMethod.GET)
+    public ResponseModel getDetailedRecoveryList(@RequestParam("id") Long id) {
+        LOGGER.debug("Reading  : {}", id);
+        return recoveryService.GetDetailedRecoveryDetails(id);
+    }
+
+    @ApiOperation(value = "Create Detailed Recovery", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/createdetailedrecoverylist", method = RequestMethod.POST)
+    public ResponseModel AddDetailedRecovery(@RequestBody final List<DetailedRecovery> dr){
+        return recoveryService.InsertDetailedRecoveryDetails(dr);
+    }
+
+    @ApiOperation(value = "Update Detailed Recovery", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/updatedetailedrecoverylist", method = RequestMethod.POST)
+    public ResponseModel UpdateDetailedRecovery(@RequestBody final List<DetailedRecovery> dr){
+        return recoveryService.UpdateDetailedRecoveryDetails(dr);
     }
 
 }

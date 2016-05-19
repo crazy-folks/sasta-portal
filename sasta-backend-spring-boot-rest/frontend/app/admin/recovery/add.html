@@ -40,13 +40,13 @@
                     <div class="col-md-10  col-lg-10">
                         <div class="col-md-10  col-lg-10" ng-repeat="item in arr">
                             <div class="rec-check">
-                                <input type="checkbox">
+                                <input type="checkbox" ng-model="item.checked" />
                             </div>
                             <div class="paid-amount">
-                                <input ng-model="item.actualAmount" placeholder="Actual Amount" type="text" class="k-input">
+                                <input ng-model="item.actualAmount" placeholder="Actual Amount" type="text" class="k-input validate[required,custom[integer]]">
                             </div>
                             <div class="paid-amount">
-                                <input ng-model="item.paidedAmount" placeholder="Paided Amount"  type="text" class="k-input">
+                                <input ng-model="item.recoveredAmount" placeholder="Recovered Amount"  type="text" class="k-input validate[required,custom[integer],max[{{item.actualAmount}}]]">
                             </div> 
                             <div class="paid-amount">
                                 <input  ng-model="item.description"  placeholder="Description"  type="text" class="k-input">
@@ -57,6 +57,19 @@
                                 <i class="fa fa-times" ng-click="delete(item)"></i>
                                 </div>                       
                             </div>
+                    </div>
+                    <div class="col-md-10  col-lg-10">
+                        <fieldset class="col-md-4">
+                            <legend>Options</legend>
+                            <label for="radioafterGramaSabha">
+                                <input ng-model="recoveredType" class="validate[required] radio" type="radio" name="group0" id="radioafterGramaSabha" value="1" />
+                                <label>In Grama Sabha</label>
+                            </label>
+                            <label for="radiobeforeGramaSabha">
+                                <input class="validate[required] radio" type="radio" id="radiobeforeGramaSabha" ng-model="recoveredType" name="group0" value="0" />
+                                <label>After Grama Sabha</label>
+                            </label>                             
+                        </fieldset>                       
                     </div>
                 </div>
             </div>

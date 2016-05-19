@@ -15,40 +15,52 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
       $scope.AddRecoveryFormName = '#frmAddRecovery';
       $scope.EditRecoveryFormName = '#frmEditRecovery';         
 
+      $scope.recoveredType = 0;
+
 	    var counter = 0;
 
         $scope.arr = [{
-            id : counter,
-            check:'',             
-            actualAmount: '',
-            paidedAmount: '',
-            description: '',
-            ammountSetteled: ''          
+          "id": null,
+          "description": "",
+          "recoveredAmount": null,
+          "displayOrder": null,
+          "actualAmount": null,
+          "recoveryType": null,
+          "createdDate": null,
+          "status": true,
+          "modifiedDate": null,
+          "createdByName": null,
+          "modifiedByName": null,
+          "paidedTypeText": null,
+          "recoveryTypeText": null,
+          "createdBy": $rootScope.sessionConfig.userId,
+          "modifiedBy": $rootScope.sessionConfig.userId,
+          "recoveryId": null,
+          "paidedType": null,
+          checked : false
         }];
 
         $scope.addItem = function(){
           $scope.arr.push({
-             id : counter,
-            check:'',             
-            actualAmount: '',
-            paidedAmount: '',
-            description: '',
-            ammountSetteled: ''           
+            "id": null,
+            "description": "",
+            "recoveredAmount": null,
+            "displayOrder": null,
+            "actualAmount": null,
+            "recoveryType": null,
+            "createdDate": null,
+            "status": true,
+            "modifiedDate": null,
+            "createdByName": null,
+            "modifiedByName": null,
+            "paidedTypeText": null,
+            "recoveryTypeText": null,
+            "createdBy": $rootScope.sessionConfig.userId,
+            "modifiedBy": $rootScope.sessionConfig.userId,
+            "recoveryId": null,
+            "paidedType": null,
+            checked : false
           });
-        }
-
-         $scope.addFormField = function ($event) {
-            counter++;
-            $scope.questionelemnt.push({
-                 id: counter, 
-                 check:'',        
-                 actualAmount: '',
-                 payPayment: '',
-                 description: '', 
-                 ammountSetteled:'',      
-                 inline: true
-            });
-            $event.preventDefault();
         }
 
         $scope.kaddWindowOptions = {
@@ -146,7 +158,103 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
           //$scope.editsgm =  angular.copy($scope.defaultOptions);
         }
 
+        $scope.Submit = function(){
+          if($scope.addjQueryValidator.doValidate()){debugger;
+            var list = angular.copy($scope.arr);
+            var model = angular.copy($scope.defaultOptions);
 
+            angular.forEach(list,function(item,key){     
+              item.paidedType = false;         
+              if(item.checked)
+                  item.recoveryType = $scope.recoveredType;
+              else
+                item.recoveryType =  !$scope.recoveredType;
+
+              if(item.actualAmount === item.recoveredAmount)
+                item.paidedType = true;
+            });
+
+            model.settledParasGsCount = model.parasCount = 0;
+            angular.forEach(list,function(item,key){       
+              if(item.checked && (parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))){
+                model.recoveredAmount =  parseFloat(model.recoveredAmount||0) + parseFloat(item.recoveredAmount||0);
+                model.settledParasGsAmount = parseFloat(model.settledParasGsAmount||0) + parseFloat(item.actualAmount||0);
+                model.settledParasGsCount++;
+
+                model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
+                model.setteledParasCount++;
+
+              }
+              if(item.checked && (parseFloat(item.actualAmount||0) < parseFloat(item.recoveredAmount||0))){
+                model.recoveredAmount = parseFloat(model.recoveredAmount) + parseFloat(item.recoveredAmount||0);
+                model.settledParasGsAmount += parseFloat(item.actualAmount);
+                model.settledParasGsCount++;
+              }
+              else{
+                model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
+                model.pendingParasCount++;
+              }
+              model.parasAmount = parseFloat(model.parasAmount||0) + parseFloat(item.actualAmount||0);
+              model.parasCount++;
+            });
+            model.auditId = $scope.recovery.auditId;
+            var deffered = recoveryfactory.doSubmitData(model);
+            deffered.success(function(r){
+              debugger;
+              var promise = recoveryfactory.CreateDetailedRecoverData(list);
+              promise.success(function(r){
+                if(r!=null){
+                  if(!r.status){
+                   var responseText = auditfactory.doSubmitData($scope.audit);
+                  responseText.success(function(result){
+                   if(result.status){
+                      notify({
+                              messageTemplate: '<span>'+result.data+'</span>',
+                              position: $rootScope.appConfig.notifyConfig.position,
+                              scope:$scope
+                          });       
+                      // scope.grid is the widget reference
+                       $scope.grid.dataSource.read();
+                       $scope.grid.dataSource.fetch();
+                       $scope.CloseAuditWindow();
+                     }else{
+                        notify({
+                              messageTemplate: '<span>Unable to add detailed Recovery!!</span>',
+                              position: $rootScope.appConfig.notifyConfig.position,
+                              scope:$scope
+                        });
+                     }
+                  }).error(function(error,status){
+                       notify({
+                               messageTemplate: '<span>Unable to process your request!</span>',
+                               position: $rootScope.appConfig.notifyConfig.position,
+                               scope:$scope
+                        });                 
+                  });
+                  }else{
+                    notify({
+                         messageTemplate: '<span>'+r.data+'!</span>',
+                         position: $rootScope.appConfig.notifyConfig.position,
+                         scope:$scope
+                     });
+                  }
+                }
+              }).error(function(error,status){
+               notify({
+                       messageTemplate: '<span>Unable to add detailed Recovery!!</span>',
+                       position: $rootScope.appConfig.notifyConfig.position,
+                       scope:$scope
+                });
+              });               
+            }).error(function(error,status){
+             notify({
+                     messageTemplate: '<span>Unable to add recovery!!</span>',
+                     position: $rootScope.appConfig.notifyConfig.position,
+                     scope:$scope
+              });
+           });  
+          }
+        }
 
 		 
         $scope.defaultOptions = {
@@ -154,20 +262,20 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
           "status": true,
           "auditDistrictId": null,
           "roundId": null,
-          "createdBy": null,
           "auditId": null,
-          "modifiedBy": null,
+          "createdBy": $rootScope.sessionConfig.userId,
+          "modifiedBy": $rootScope.sessionConfig.userId,
           "blockId": null,
           "blockName": "",
           "isActive": true,
-          "parasCount": null,
-          "pendingParasCount": null,
-          "parasAmount": null,
-          "settledParasGsCount": null,
-          "setteledParasAmount": null,
-          "recoveredAmount": null,
-          "setteledParasCount": null,
-          "pendingParasAmount": null,
+          "parasCount": 0,
+          "pendingParasCount": 0,
+          "parasAmount": 0,
+          "settledParasGsCount": 0,
+          "setteledParasAmount": 0,
+          "recoveredAmount": 0,
+          "setteledParasCount": 0,
+          "pendingParasAmount": 0,
           "createdDate": null,
           "roundName": "",
           "vpName": "",
@@ -181,7 +289,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
           "districtName": "",
           "roundStartDate": "",
           "roundEndDate": "",
-          "settledParasGsAmount": null
+          "settledParasGsAmount": 0
         };
 
       $scope.gridOptions = {
@@ -310,11 +418,23 @@ app.factory('recoveryfactory',function($http,$q,$rootScope){
             method : 'POST',
             url : crudServiceBaseUrl + createbankUrl,
             data : JSON.stringify(model),
-        headers: {
-            "Content-Type": "application/json"
-        }
+          headers: {
+              "Content-Type": "application/json"
+          }
         });
   }
+
+  service.CreateDetailedRecoverData = function(model){
+    return $http({
+            method : 'POST',
+            url : crudServiceBaseUrl + '/recovery/createdetailedrecoverylist',
+            data : JSON.stringify(model),
+          headers: {
+              "Content-Type": "application/json"
+          }
+        });
+  }
+
 
   service.doUpdateData = function(model){
     return $http({

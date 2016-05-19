@@ -1,9 +1,6 @@
 package com.sastabackend.service.recovery;
 
-import com.sastabackend.domain.Recovery;
-import com.sastabackend.domain.ReportsProperty;
-import com.sastabackend.domain.ResponseModel;
-import com.sastabackend.domain.SpecialGramaSabha;
+import com.sastabackend.domain.*;
 import com.sastabackend.repository.RecoveryRepository;
 import com.sastabackend.util.BaseRowMapper;
 import org.apache.commons.lang.StringUtils;
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -204,6 +202,130 @@ public class RecoveryServiceImpl implements RecoveryService {
         return response;
     }
 
+    @Override
+    public ResponseModel GetDetailedRecoveryDetails(Long id) {
+        LOGGER.debug("Reading Detailed Recovery  : {}");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<DetailedRecovery>>();
+            response.setData(readDetailedRecoveryList(id));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    private List<DetailedRecovery> readDetailedRecoveryList(Long id) {
+        List<DetailedRecovery> list = jdbcTemplate.query("call select_detailed_recovery_by_id(?)", new Object[]{id}, new DetailedRecoveryMapper());
+        return list;
+    }
+
+    @Override
+    public ResponseModel InsertDetailedRecoveryDetails(List<DetailedRecovery> list) {
+        ResponseModel response = new ResponseModel<Boolean>();
+        try{
+            Integer counter = 0;
+            for (DetailedRecovery dr : list){
+                boolean flag =  CreateDetailedRecovery(dr);
+                if(flag)
+                    counter++;
+            }
+            response.setStatus(true);
+            response.setData(Integer.toString(counter).concat(" Items Successfully Added!!"));
+        }catch(Exception err){
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    private boolean CreateDetailedRecovery(DetailedRecovery dr)  {
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_detailed_recovery")
+                .declareParameters(
+                        new SqlParameter("recoveryid", Types.BIGINT),
+                        new SqlParameter("displayorder", Types.INTEGER),
+                        new SqlParameter("actualamt", Types.DECIMAL),
+                        new SqlParameter("recoveredamt", Types.DECIMAL),
+                        new SqlParameter("recoverydescription", Types.VARCHAR),
+                        new SqlParameter("paidedtype", Types.BOOLEAN),
+                        new SqlParameter("recoverytype", Types.BOOLEAN),
+                        new SqlParameter("createdby", Types.BIGINT),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("recoveryid", dr.getRecoveryId());
+        inParamMap.put("displayorder", dr.getDisplayOrder());
+        inParamMap.put("actualamt", dr.getActualAmount());
+        inParamMap.put("recoveredamt", dr.getRecoveredAmount());
+        inParamMap.put("recoverydescription", dr.getDescription());
+        inParamMap.put("paidedtype", dr.getPaidedType());
+        inParamMap.put("recoverytype", dr.getRecoveryType());
+        inParamMap.put("createdby", dr.getCreatedBy());
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
+
+    @Override
+    public ResponseModel UpdateDetailedRecoveryDetails(List<DetailedRecovery> list) {
+        ResponseModel response = new ResponseModel<Boolean>();
+        try{
+            Integer counter = 0;
+            for (DetailedRecovery dr : list){
+                boolean flag =  UpdateDetailedRecovery(dr);
+                if(flag)
+                    counter++;
+            }
+            response.setStatus(true);
+            response.setData(Integer.toString(counter).concat(" Items Successfully Updated!!"));
+        }catch(Exception err){
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    private boolean UpdateDetailedRecovery(DetailedRecovery dr)  {
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_detailed_recovery")
+                .declareParameters(
+                        new SqlParameter("detailedrecoveryid", Types.BIGINT),
+                        new SqlParameter("recoveryid", Types.BIGINT),
+                        new SqlParameter("displayorder", Types.INTEGER),
+                        new SqlParameter("actualamt", Types.DECIMAL),
+                        new SqlParameter("recoveredamt", Types.DECIMAL),
+                        new SqlParameter("recoverydescription", Types.VARCHAR),
+                        new SqlParameter("paidedtype", Types.BOOLEAN),
+                        new SqlParameter("recoverytype", Types.BOOLEAN),
+                        new SqlParameter("modifyby", Types.BIGINT),
+                        new SqlParameter("isactive", Types.BIT),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("detailedrecoveryid", dr.getId());
+        inParamMap.put("recoveryid", dr.getRecoveryId());
+        inParamMap.put("displayorder", dr.getDisplayOrder());
+        inParamMap.put("actualamt", dr.getActualAmount());
+        inParamMap.put("recoveredamt", dr.getRecoveredAmount());
+        inParamMap.put("recoverydescription", dr.getDescription());
+        inParamMap.put("paidedtype", dr.getPaidedType());
+        inParamMap.put("recoverytype", dr.getRecoveryType());
+        inParamMap.put("modifyby", dr.getModifiedBy());
+        inParamMap.put("isactive", dr.getStatus());
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
+
     private Recovery selectRecoveryData(Long id){
         List<Recovery> o = new ArrayList<Recovery>();
         o = jdbcTemplate.query("call select_recovery_id(?)", new Object[]{id}, new RecoveryMapper());
@@ -279,6 +401,33 @@ public class RecoveryServiceImpl implements RecoveryService {
                 o.setModifiedBy(set.getLong("modified_by"));
             if(hasColumn("is_active"))
                 o.setStatus(set.getBoolean("is_active"));
+            LOGGER.debug("Recovery  : {}", o.toString());
+            return o;
+        }
+    }
+
+    protected static final class DetailedRecoveryMapper implements RowMapper {
+
+        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            DetailedRecovery o = new DetailedRecovery();
+            o.setId(set.getLong("id"));
+            o.setRecoveryId(set.getLong("recovery_id"));
+            o.setDisplayOrder(set.getInt("display_order"));
+            o.setActualAmount(set.getBigDecimal("actual_amt"));
+            o.setRecoveredAmount(set.getBigDecimal("recovered_amt"));
+            o.setDescription(StringUtils.trimToNull(set.getString("description")));
+            o.setPaidedType(set.getBoolean("paided_type"));
+            o.setPaidedTypeText(StringUtils.trimToNull(set.getString("paided_type_text")));
+            o.setRecoveryType(set.getBoolean("recovery_type"));
+            o.setRecoveryTypeText(StringUtils.trimToNull(set.getString("recovery_type_text")));
+            o.setCreatedDate(set.getTimestamp("created_date"));
+            o.setModifiedDate(set.getTimestamp("modified_date"));
+            o.setCreatedBy(set.getLong("created_by"));
+            o.setModifiedBy(set.getLong("modified_by"));
+            o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
+            o.setStatus(set.getBoolean("is_active"));
             LOGGER.debug("Recovery  : {}", o.toString());
             return o;
         }
