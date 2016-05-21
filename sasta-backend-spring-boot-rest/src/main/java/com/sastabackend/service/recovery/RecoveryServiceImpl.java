@@ -81,9 +81,9 @@ public class RecoveryServiceImpl implements RecoveryService {
         LOGGER.debug("Creating  Recovery : {}",rc.toString());
         ResponseModel response = new ResponseModel<Boolean>();
         try{
-            boolean flag=  Create(rc);
-            response.setStatus(flag);
-            response.setData(flag == true ? " Recovery Added Successfully!!" : "Unable to add Recovery!!");
+            Long id =  Create(rc);
+            response.setStatus((id>0)?true:false);
+            response.setData(id);
         }catch(Exception err){
             response.setData(err.getMessage());
         }
@@ -106,7 +106,7 @@ public class RecoveryServiceImpl implements RecoveryService {
         return response;
     }
 
-    private boolean Create(Recovery rc)  {
+    private Long Create(Recovery rc)  {
         SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_recovery")
                 .declareParameters(
                         new SqlParameter("auditid", Types.BIGINT),
@@ -120,7 +120,7 @@ public class RecoveryServiceImpl implements RecoveryService {
                         new SqlParameter("pendingparascount", Types.INTEGER),
                         new SqlParameter("pendingparasamt", Types.DECIMAL),
                         new SqlParameter("createdby", Types.BIGINT),
-                        new SqlOutParameter("flag", Types.BIT)
+                        new SqlOutParameter("recoveryid", Types.BIGINT)
                 );
         Map<String, Object> inParamMap = new HashMap<String, Object>();
         inParamMap.put("auditid", rc.getAuditId());
@@ -138,17 +138,16 @@ public class RecoveryServiceImpl implements RecoveryService {
         simplejdbcCall.compile();
         Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
         if(!simpleJdbcCallResult.isEmpty())
-            return (boolean)simpleJdbcCallResult.get("flag");
+            return (Long)simpleJdbcCallResult.get("recoveryid");
         else
-            return false;
+            return 0L;
     }
 
 
     private boolean Modify(Recovery rc)  {
-        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_special_grama_sabha")
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_recovery")
                 .declareParameters(
                         new SqlParameter("recoveryid", Types.BIGINT),
-                        new SqlParameter("auditid", Types.BIGINT),
                         new SqlParameter("auditid", Types.BIGINT),
                         new SqlParameter("parascount", Types.INTEGER),
                         new SqlParameter("parasamt", Types.DECIMAL),
@@ -278,7 +277,12 @@ public class RecoveryServiceImpl implements RecoveryService {
         try{
             Integer counter = 0;
             for (DetailedRecovery dr : list){
-                boolean flag =  UpdateDetailedRecovery(dr);
+                boolean flag = false;
+                if(dr.getId() !=null && dr.getId() > 0){
+                    flag = UpdateDetailedRecovery(dr);
+                }else{
+                    flag = CreateDetailedRecovery(dr);
+                }
                 if(flag)
                     counter++;
             }

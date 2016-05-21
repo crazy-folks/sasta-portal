@@ -166,6 +166,11 @@
                         VRP Details
                     </a>
                 </li> 
+                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="reports.recoveryreports" title="Recovery Reports">
+                        Recovery Reports
+                    </a>
+                </li>                 
             </ul>           
         </li>       
         <li ng-show="sessionConfig.loggedInAs"  class="nav-dropdown" ng-class="{active: $state.includes('mail')}">

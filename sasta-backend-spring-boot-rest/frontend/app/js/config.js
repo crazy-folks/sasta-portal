@@ -356,13 +356,22 @@
             },
             controller : 'VrpReportController as vrpRptCtl'
         })
+        .state('reports.recoveryreports', {
+            url: "/recoveryreports",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'Recovery Reports'
+            },
+            controller : 'RecoveryReportsController as recoveryRptCtl'
+        })        
          .state('entries.recovery', {
-            url: "/recovery",
+            url: "/recovery?aid",
             templateUrl: "admin/recovery/templates.html",
             data: {
                 pageTitle: 'Recovery Details'
             },
-            controller : 'RecoveryController as recoveryCtl'
+            controller : 'RecoveryController as recoveryCtl',
+            params: {aid: null}
         })
 
         

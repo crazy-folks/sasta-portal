@@ -1,6 +1,6 @@
 <section id="main-content" class="animated fadeInRight">
     <!-- pass in the variable if our form is valid or invalid -->
-    <form name="frmAddRecovery" id="frmAddRecovery">
+    <form name="frmEditRecovery" id="frmEditRecovery">
         <div class="row">
             <div class="col-md-12  col-lg-12">
               <div class="panel panel-default">
@@ -38,7 +38,7 @@
                         </div>                     
                     </div>
                     <div class="col-md-10  col-lg-10">
-                        <div class="col-md-10  col-lg-10" ng-repeat="item in arr track by $index">
+                        <div class="col-md-10  col-lg-10" ng-repeat="item in editRecovery track by $index">
                             <div class="rec-check">
                                 <input type="checkbox" ng-model="item.checked" />
                             </div>
@@ -52,9 +52,9 @@
                                 <input  ng-model="item.description"  placeholder="Description"  type="text" class="k-input">
                             </div>
                             <div class="actions pull-right">
-                                <i class="fa fa-chevron-up" ng-click="moveUp(item)"></i>
-                                <i class="fa fa-chevron-down" ng-click="moveDown(item)"></i>
-                                <i class="fa fa-times" ng-click="delete(item)"></i>
+                                <i class="fa fa-chevron-up" ng-click="editmoveUp(item)"></i>
+                                <i class="fa fa-chevron-down" ng-click="editmoveDown(item)"></i>
+                                <i class="fa fa-times" ng-click="editdelete(item)"></i>
                                 </div>                       
                             </div>
                     </div>
@@ -77,9 +77,9 @@
              <div class="panel panel-default">
                 <div class="panel-body col-md-11">
                     <div class="form-group no-margin text-right">
-                        <button type="button" class="btn btn-danger btn-sm" ng-click="addItem()">Add</button>
-                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseRecoveryWindow()">Cancel</button>
-                        <button type="button" class="btn btn-success btn-sm" data-ng-click="Submit()">&#160;Save&#160;</button>
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="pushItem()">Add</button>
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="CloseEditRecoverytWindow()">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" data-ng-click="doUpdateData()">&#160;Update&#160;</button>
                     </div>
                 </div>
             </div>
