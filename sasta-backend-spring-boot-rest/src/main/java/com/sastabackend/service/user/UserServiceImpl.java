@@ -695,7 +695,7 @@ public class UserServiceImpl implements UserService {
             o.setScreenName(StringUtils.trimToNull(set.getString("screen_name")));
             o.setLastName(StringUtils.trimToNull(set.getString("first_name")));
             o.setFirstName(StringUtils.trimToNull(set.getString("last_name")));
-            o.setCountryId(set.getInt("gender_id"));
+            o.setCountryId(set.getInt("country_id"));
             o.setJobTitle(StringUtils.trimToNull(set.getString("job_title")));
             o.setDescription(StringUtils.trimToNull(set.getString("description")));
             o.setExperience(StringUtils.trimToNull(set.getString("experience")));
