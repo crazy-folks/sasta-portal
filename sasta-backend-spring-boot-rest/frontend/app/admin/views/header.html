@@ -9,8 +9,8 @@
     <li class="toggle-navigation toggle-left" toggle-left-sidebar></li>
     <li class="toggle-profile hidden-xs" toggle-profile></li>
     <li class="hidden-xs hidden-sm">
-        <input type="text" class="search" placeholder="Search project...">
-        <button type="submit" class="btn btn-sm btn-search"><i class="fa fa-search"></i>
+        <input type="text" ng-model="searchModel.userName" class="search" placeholder="Search users...">
+        <button type="submit" ng-click="Search()" class="btn btn-sm btn-search"><i class="fa fa-search"></i>
         </button>
     </li>
 </ul>

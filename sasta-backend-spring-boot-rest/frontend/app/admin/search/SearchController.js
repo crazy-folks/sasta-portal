@@ -155,7 +155,11 @@
     GetLookupValues(8); // Departments
     GetLookupValues(1); // Blocks
     GetLookupValues(16); // Blocks
-    //$scope.SearchUsers();
+    if($location.search().userName){
+        $scope.search.firstName = $location.search().userName;
+        $scope.SearchUsers();
+    }
+    
 }]);
 
 app.factory('searchfactory',function($http,$q,$rootScope){

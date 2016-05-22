@@ -285,12 +285,13 @@
             controller : 'UsersController as userCtl'
         })
         .state('users.search', {
-            url: "/search",
+            url: "/search?userName",
             templateUrl: "admin/search/templates.html",
             data: {
                 pageTitle: 'User Search'
             },
-            controller : 'SearchController as SearchCtl'
+            controller : 'SearchController as SearchCtl',
+            params: {userName: null}
         })
         .state('reports', {
             abstract: true,

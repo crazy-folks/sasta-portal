@@ -1,5 +1,5 @@
-app.controller('BaseController', ['$window','$scope','$rootScope','storage','notify','authfactory',
-    function($window,$scope,$rootScope,storage,notify,authfactory) {
+app.controller('BaseController', ['$window','$scope','$rootScope','storage','notify','authfactory','$state',
+    function($window,$scope,$rootScope,storage,notify,authfactory,$state) {
     
 
     $rootScope.appConfig.authenticated = false;
@@ -50,6 +50,13 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     $scope.redirectToContactUs = function(event){
         setActiveLink(event.target);
         $rootScope.$state.go('ui.contact-us');
+    }
+    $scope.searchModel = {
+        userName : ''
+    }
+    $scope.Search = function(){
+        if($scope.searchModel.userName)
+            $state.go('users.search',{userName: $scope.searchModel.userName})
     }
 
     /* Sign in code start */
