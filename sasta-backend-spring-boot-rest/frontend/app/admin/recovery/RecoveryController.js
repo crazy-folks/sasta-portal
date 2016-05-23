@@ -68,8 +68,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
         "createdBy": $rootScope.sessionConfig.userId,
         "modifiedBy": $rootScope.sessionConfig.userId,
         "recoveryId": 0,
-        "paidedType": 0,
-        checked : false
+        "paidedType": 0
       }
 
       $scope.dummy = angular.copy($scope.defaultDefaltDetailedRecovery);
@@ -97,11 +96,11 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
               }
           },
           open : function() {
-          $($scope.AddRecoveryFormName).validationEngine('attach', {
-              promptPosition: "topLeft",
-              scroll: true
-          });         
-          $scope.addjQueryValidator = new Validator($scope.AddRecoveryFormName); 
+            $($scope.AddRecoveryFormName).validationEngine('attach', {
+                promptPosition: "topLeft",
+                scroll: true
+            });         
+            $scope.addjQueryValidator = new Validator($scope.AddRecoveryFormName); 
           }
       }; 
 
@@ -194,45 +193,44 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
         $scope.ResetAuditData();
       }
 
-      function parseType(list)        {
-          angular.forEach(list,function(item,key){     
-            item.paidedType = false;         
-            if(item.checked)
-                item.recoveryType = $scope.recoveredType;
-            else
-              item.recoveryType =  !$scope.recoveredType;
-
-            if(item.actualAmount === item.recoveredAmount)
-              item.paidedType = true;
+      function parseObject(list){
+          angular.forEach(list,function(item,key){
+            item.displayOrder = key;
+            if(item.recoveryType){
+              if((parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))){
+                item.paidedType = true  ;
+              }
+            }           
           });
-          return list;
+          return list;     
       }
 
       function parseRecovery(list){
         var model = angular.copy($scope.defaultOptions);
-          angular.forEach(list,function(item,key){       
-            if(item.checked && (parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))){
+          angular.forEach(list,function(item,key){  
+
+            if((parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))){
               model.recoveredAmount =  parseFloat(model.recoveredAmount||0) + parseFloat(item.recoveredAmount||0);
-              model.settledParasGsAmount = parseFloat(model.settledParasGsAmount||0) + parseFloat(item.actualAmount||0);
-              model.settledParasGsCount++;
-
+              if(item.recoveryType){
+                model.settledParasGsAmount = parseFloat(model.settledParasGsAmount||0) + parseFloat(item.actualAmount||0);
+                model.settledParasGsCount++;                
+              }
               model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
-              model.setteledParasCount++;
-
+              model.setteledParasCount++;               
+            }else{
+              if((parseFloat(item.recoveredAmount||0)<parseFloat(item.actualAmount||0))){
+                model.recoveredAmount = parseFloat(model.recoveredAmount) + parseFloat(item.recoveredAmount||0);
+                if(item.recoveryType){
+                  model.settledParasGsAmount = parseFloat(model.settledParasGsAmount||0) + parseFloat(item.actualAmount||0);
+                  model.settledParasGsCount++;
+                }
+                model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
+                model.pendingParasCount++;                
+              }
             }
-            if(item.checked && (parseFloat(item.actualAmount||0) < parseFloat(item.recoveredAmount||0))){
-              model.recoveredAmount = parseFloat(model.recoveredAmount) + parseFloat(item.recoveredAmount||0);
-              model.settledParasGsAmount += parseFloat(item.actualAmount);
-              model.settledParasGsCount++;
-            }
-            else{
-              model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
-              model.pendingParasCount++;
-            }
+          
             model.parasAmount = parseFloat(model.parasAmount||0) + parseFloat(item.actualAmount||0);
             model.parasCount++;
-            if(item.hasOwnProperty('checked'))
-              delete item.checked;
           });          
         return model;
       }
@@ -241,11 +239,10 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
         if($scope.addjQueryValidator.doValidate()){
           var list = angular.copy($scope.arr);
           var model = angular.copy($scope.defaultOptions);
-
-          list = parseType(list);
-
+          list = parseObject(list); 
           model.settledParasGsCount = model.parasCount = 0;
           model = parseRecovery(list);
+          list = parseObject(list);          
           model.auditId = $scope.recovery.auditId;
           var deffered = recoveryfactory.doSubmitData(model);
           deffered.success(function(r){
@@ -260,7 +257,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
                             messageTemplate: '<span>'+result.data+'</span>',
                             position: $rootScope.appConfig.notifyConfig.position,
                             scope:$scope
-                        });       
+                    });       
                     // scope.grid is the widget reference
                      $scope.grid.dataSource.read();
                      $scope.grid.dataSource.fetch();
@@ -294,11 +291,10 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
         if($scope.editjQueryValidator.doValidate()){
           var list = angular.copy($scope.editRecovery);
           var model = angular.copy($scope.defaultOptions);
-
-          list = parseType(list);
-
+          list = parseObject(list); 
           model.settledParasGsCount = model.parasCount = 0;
           model = parseRecovery(list);
+          list = parseObject(list);
           model.auditId = $scope.recovery.auditId;
           model.id = $scope.recovery.recoveryId;
           var deffered = recoveryfactory.doUpdateData(model);
@@ -407,7 +403,6 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
             if(result.data.length>0)
               $scope.editRecovery = result.data;
               angular.forEach($scope.editRecovery,function(i,k){
-                i.checked = i.recoveryType;
                 i.status = false;
               });  
 
@@ -420,7 +415,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
               model = parseRecovery(list);
               model.auditId = $scope.recovery.auditId;
               model.id = $scope.recovery.recoveryId;
-               model.status = false;
+              model.status = false;
               var deffered = recoveryfactory.doUpdateData(model);
               deffered.success(function(r){
                 angular.forEach(list,function(v,key){
@@ -518,10 +513,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
         ajaxCall.success(function(result){
           if(result.status){
             if(result.data.length>0)
-              $scope.editRecovery = result.data;
-              angular.forEach($scope.editRecovery,function(i,k){
-                i.checked = i.recoveryType;
-              });              
+              $scope.editRecovery = result.data;             
             $scope.OpenEditRecoveryWindow();
           }
         });

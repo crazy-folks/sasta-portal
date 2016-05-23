@@ -91,11 +91,11 @@ public class Recovery  implements java.io.Serializable , CommonProperties{
         return settled_paras_gs_count;
     }
 
-    public void setSettledParasGsCount(Integer settled_paras_gs_count) {
+    public void setSetteledParasGsCount(Integer settled_paras_gs_count) {
         this.settled_paras_gs_count = settled_paras_gs_count;
     }
 
-    public BigDecimal getSettledParasGsAmount() {
+    public BigDecimal getSetteledParasGsAmount() {
         return settled_paras_gs_amt;
     }
 
