@@ -44,7 +44,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		$scope.defaultvillages = angular.copy($scope.defaultdpOptions);
 
 	    $scope.kaddWindowOptions = {
-	        content: 'admin/audit/add.html',
+	        content: 'frontend/admin/audit/add.html',
 	        title: $scope.modelDialogTitle.AddAuditTitle,
 	        iframe: false,
 	        draggable: true,
@@ -71,7 +71,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    $scope.EditAuditFormName = '#frmEditAudit';    
 
 	    $scope.keditWindowOptions = {
-	        content: 'admin/audit/edit.html',
+	        content: 'frontend/admin/audit/edit.html',
 	        title: $scope.modelDialogTitle.EditAuditTitle,
 	        iframe: false,
 	        draggable: true,
@@ -423,7 +423,8 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 				}	  	    		
 	    	});
 			
-  			GetLookupValues($rootScope.appConfig.lookupTypes.Rounds).done(function(result){
+  			GetLookupValues($rootScope.appConfig.lookupTypes.Rounds,
+  				($rootScope.appConfig.lookupTypes.FinancialYear||0)).done(function(result){
 		    	var r = jQuery.map( $scope.rounds, function( n, i ) {
 					if(data.roundId === n.value)
 				  		return n;

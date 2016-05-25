@@ -65,7 +65,7 @@ app.controller('VrpReportController',['$http','$window','$scope','$rootScope','n
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds
+				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds+((($scope.selectedFy)?"&where="+$scope.selectedFy.join(','):''))
 				      }).success(function(data, status, headers, config) {
 				      	if(!$scope.multiSelectddlRounds.options.initialLoad)
 	                  		data&&e.success(data);
@@ -251,11 +251,11 @@ app.controller('VrpReportController',['$http','$window','$scope','$rootScope','n
             },	    	
 	        columns: [ 
 		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
-		        		{ field: "auditFinancialYear", groupable:true,width: '130px', title:'FY'},
-		        		{ field: "roundName", groupable:true,width: '130px', title:'Round'},
-		        		{ field: "auditDistrictName", groupable:true,width: '130px', title:'District'},
-		        		{ field: "auditBlockName", groupable:true,width: '130px', title:'Block'},
-		        		{ field: "auditVpName", groupable:true,width: '130px', title:'Audit Panchayat'},
+		        		{ field: "auditFinancialYear", locked: true, groupable:true,width: '130px', title:'FY'},
+		        		{ field: "roundName", locked: true, groupable:true,width: '130px', title:'Round'},
+		        		{ field: "auditDistrictName", locked: true, groupable:true,width: '130px', title:'District'},
+		        		{ field: "auditBlockName", locked: true, groupable:true,width: '130px', title:'Block'},
+		        		{ field: "auditVpName", locked: true, groupable:true,width: '130px', title:'Audit Panchayat'},
 		        		{ field: "name", width:'130px', title:'Name'  },
 		        		{ field: "genderName", width:'130px', title:'M/F'},
 		        		{ field: "vrpPanchayatName", width:'130px', title : "Panchayat Name"},

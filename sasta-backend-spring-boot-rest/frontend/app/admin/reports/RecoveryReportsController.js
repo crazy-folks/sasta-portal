@@ -65,7 +65,7 @@
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds
+				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds+((($scope.selectedFy)?"&where="+$scope.selectedFy.join(','):''))
 				      }).success(function(data, status, headers, config) {
 				      	if(!$scope.multiSelectddlRounds.options.initialLoad)
 	                  		data&&e.success(data);
@@ -251,11 +251,11 @@
             },	    	
           columns: [ 
                 { field: "id", title:'Id', menu:false, hidden: true, editable : false },
-                { field: "financialYear", groupable:true,width: '80px', title:'FY'},
-                { field: "roundName", groupable:true,width: '90px', title:'Round'},
-                { field: "districtName", groupable:true,width: '90px', title:'District'},
-                { field: "blockName", groupable:true,width: '90px', title:'Block'},
-                { field: "vpName", groupable:true,width: '100px', title:'Panchayat'},
+                { field: "financialYear", locked: true, groupable:true,width: '80px', title:'FY'},
+                { field: "roundName", locked: true, groupable:true,width: '90px', title:'Round'},
+                { field: "districtName", locked: true, groupable:true,width: '90px', title:'District'},
+                { field: "blockName", locked: true, groupable:true,width: '90px', title:'Block'},
+                { field: "vpName", locked: true, groupable:true,width: '100px', title:'Panchayat'},
                 {
                   title : "Total No of paras",
                   columns :[

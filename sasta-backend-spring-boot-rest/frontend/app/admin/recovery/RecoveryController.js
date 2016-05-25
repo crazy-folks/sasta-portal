@@ -81,7 +81,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
       }
 
       $scope.kaddWindowOptions = {
-          content: 'admin/recovery/add.html',
+          content: 'frontend/admin/recovery/add.html',
           title: $scope.modelDialogTitle.AddAuditTitle,
           width : '80%',
           height:'400px',
@@ -105,7 +105,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
       }; 
 
       $scope.keditWindowOptions = {
-          content: 'admin/recovery/edit.html',
+          content: 'frontend/admin/recovery/edit.html',
           title: $scope.modelDialogTitle.EditAuditTitle,
           iframe: false,
           width : '90%',
@@ -212,8 +212,8 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
             if((parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))){
               model.recoveredAmount =  parseFloat(model.recoveredAmount||0) + parseFloat(item.recoveredAmount||0);
               if(item.recoveryType){
-                model.settledParasGsAmount = parseFloat(model.settledParasGsAmount||0) + parseFloat(item.actualAmount||0);
-                model.settledParasGsCount++;                
+                model.setteledParasGsAmount = parseFloat(model.setteledParasGsAmount||0) + parseFloat(item.actualAmount||0);
+                model.setteledParasGsCount++;                
               }
               model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
               model.setteledParasCount++;               
@@ -221,8 +221,8 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
               if((parseFloat(item.recoveredAmount||0)<parseFloat(item.actualAmount||0))){
                 model.recoveredAmount = parseFloat(model.recoveredAmount) + parseFloat(item.recoveredAmount||0);
                 if(item.recoveryType){
-                  model.settledParasGsAmount = parseFloat(model.settledParasGsAmount||0) + parseFloat(item.actualAmount||0);
-                  model.settledParasGsCount++;
+                  model.setteledParasGsAmount = parseFloat(model.setteledParasGsAmount||0) + parseFloat(item.actualAmount||0);
+                  model.setteledParasGsCount++;
                 }
                 model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
                 model.pendingParasCount++;                
@@ -240,7 +240,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
           var list = angular.copy($scope.arr);
           var model = angular.copy($scope.defaultOptions);
           list = parseObject(list); 
-          model.settledParasGsCount = model.parasCount = 0;
+          model.setteledParasGsCount = model.parasCount = 0;
           model = parseRecovery(list);
           list = parseObject(list);          
           model.auditId = $scope.recovery.auditId;
@@ -292,7 +292,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
           var list = angular.copy($scope.editRecovery);
           var model = angular.copy($scope.defaultOptions);
           list = parseObject(list); 
-          model.settledParasGsCount = model.parasCount = 0;
+          model.setteledParasGsCount = model.parasCount = 0;
           model = parseRecovery(list);
           list = parseObject(list);
           model.auditId = $scope.recovery.auditId;
@@ -360,37 +360,37 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
 
 
       $scope.defaultOptions = {
-        "id": null,
-        "status": true,
-        "auditDistrictId": null,
-        "roundId": null,
-        "auditId": null,
+        "id": 0,
+        "roundId": 0,
         "createdBy": $rootScope.sessionConfig.userId,
+        "auditId": 0,
         "modifiedBy": $rootScope.sessionConfig.userId,
-        "blockId": null,
+        "blockId": 0,
         "blockName": "",
         "isActive": true,
         "parasCount": 0,
+        "status": true,
+        "roundName": "",
+        "vpName": "",
+        "vpId": 0,
+        "auditDistrictId": 0,
         "pendingParasCount": 0,
         "parasAmount": 0,
-        "settledParasGsCount": 0,
         "setteledParasAmount": 0,
         "recoveredAmount": 0,
         "setteledParasCount": 0,
         "pendingParasAmount": 0,
         "createdDate": null,
-        "roundName": "",
-        "vpName": "",
-        "vpId": null,
         "modifiedDate": null,
         "createdByName": "",
         "modifiedByName": "",
         "financialDescription": "",
         "financialYear": "",
-        "roundDescription": null,
+        "roundDescription": "",
         "districtName": "",
-        "roundStartDate": "",
-        "roundEndDate": "",
+        "roundStartDate": "2016-05-25T04:10:18.920Z",
+        "roundEndDate": "2016-05-25T04:10:18.920Z",
+        "setteledParasGsCount": 0,
         "settledParasGsAmount": 0
       };
 
@@ -411,7 +411,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
 
               list = parseType(list);
 
-              model.settledParasGsCount = model.parasCount = 0;
+              model.setteledParasGsCount = model.parasCount = 0;
               model = parseRecovery(list);
               model.auditId = $scope.recovery.auditId;
               model.id = $scope.recovery.recoveryId;
@@ -537,16 +537,16 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
                 {
                   title : "No of paras setteled in GS",
                   columns :[
-                    { field: "settledParasGsCount",headerTemplate: "No", title : "Paras setteled in GS No",width: '130px', groupable:false  },
-                    { field: "settledParasGsAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Paras setteled in GS Amount",width: '130px', groupable:false },
+                    { field: "setteledParasGsCount",headerTemplate: "No", title : "Paras setteled in GS No",width: '130px', groupable:false  },
+                    { field: "setteledParasGsAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Paras setteled in GS Amount",width: '130px', groupable:false },
                   ]
                 },
                 { field: "recoveredAmount", title : "Amount Recovered In GS ", groupable:false,width: '130px'  },
                 {
                   title : "Paras Setteled So Far",
                   columns :[
-                    { field: "setteledParasCount",headerTemplate: "No", title : "Settled Paras No",width: '130px', groupable:false  },
-                    { field: "setteledParasAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Settled Paras Amount",width: '130px', groupable:false },
+                    { field: "setteledParasCount",headerTemplate: "No", title : "Setteled Paras No",width: '130px', groupable:false  },
+                    { field: "setteledParasAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Setteled Paras Amount",width: '130px', groupable:false },
                   ]
                 }, 
                 {

@@ -65,7 +65,7 @@ app.controller('GrievanceReportController',['$http','$window','$scope','$rootSco
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds
+				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds+((($scope.selectedFy)?"&where="+$scope.selectedFy.join(','):''))
 				      }).success(function(data, status, headers, config) {
 				      	if(!$scope.multiSelectddlRounds.options.initialLoad)
 	                  		data&&e.success(data);
@@ -250,11 +250,11 @@ app.controller('GrievanceReportController',['$http','$window','$scope','$rootSco
             },	    	
 	        columns: [ 
 		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
-		        		{ field: "financialYear", groupable:true,width: '80px', title:'FY', footerTemplate: "Total :"},
-		        		{ field: "roundName", groupable:true,width: '90px', title:'Round'},
-		        		{ field: "districtName", groupable:true,width: '90px', title:'District'},
-		        		{ field: "blockName", groupable:true,width: '90px', title:'Block'},
-		        		{ field: "vpName", groupable:true,width: '100px', title:'Panchayat'},
+		        		{ field: "financialYear", locked: true, groupable:true,width: '80px', title:'FY', footerTemplate: "Total :"},
+		        		{ field: "roundName", locked: true, groupable:true,width: '90px', title:'Round'},
+		        		{ field: "districtName", locked: true, groupable:true,width: '90px', title:'District'},
+		        		{ field: "blockName", locked: true, groupable:true,width: '90px', title:'Block'},
+		        		{ field: "vpName", locked: true, groupable:true,width: '100px', title:'Panchayat'},
 		        		{ field: "totalReceivedGrievancesHF", title:'Grievances In Household Verification', groupable:false,width: '250px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{ field: "totalReceivedGrievancesMeeting", title:'Grievances In GS', groupable:false,width: '140px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{ field: "hfTotal",title: 'Total',groupable:false,width: '140px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#"},

@@ -95,7 +95,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds
+				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds+((($scope.selectedFy)?"&where="+$scope.selectedFy.join(','):''))
 				      }).success(function(data, status, headers, config) {
 				      	if(!$scope.multiSelectddlRounds.options.initialLoad)
 	                  		data&&e.success(data);

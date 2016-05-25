@@ -388,7 +388,7 @@ public class RecoveryServiceImpl implements RecoveryService {
                 o.setVpName(StringUtils.trimToNull(set.getString("village_name")));
             o.setParasCount(set.getInt("paras_count"));
             o.setParasAmount(set.getBigDecimal("paras_amt"));
-            o.setSettledParasGsCount(set.getInt("settled_paras_gs_count"));
+            o.setSetteledParasGsCount(set.getInt("settled_paras_gs_count"));
             o.setSettledParasGsAmount(set.getBigDecimal("settled_paras_gs_amt"));
             o.setRecoveredAmount(set.getBigDecimal("recovered_amt"));
             o.setSetteledParasCount(set.getInt("setteled_paras_count"));
@@ -459,7 +459,7 @@ public class RecoveryServiceImpl implements RecoveryService {
             o.setVpName(StringUtils.trimToNull(set.getString("vp_name")));
             o.setParasCount(set.getInt("paras_count"));
             o.setParasAmount(set.getBigDecimal("paras_amt"));
-            o.setSettledParasGsCount(set.getInt("settled_paras_gs_count"));
+            o.setSetteledParasGsCount(set.getInt("settled_paras_gs_count"));
             o.setSettledParasGsAmount(set.getBigDecimal("settled_paras_gs_amt"));
             o.setRecoveredAmount(set.getBigDecimal("recovered_amt"));
             o.setSetteledParasCount(set.getInt("setteled_paras_count"));

@@ -65,7 +65,7 @@ app.controller('mgnregaReportController',['$http','$window','$scope','$rootScope
 	                read: function (e) {
 	                  $http({
 				         method: 'GET',
-				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds
+				         url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.Rounds+((($scope.selectedFy)?"&where="+$scope.selectedFy.join(','):''))
 				      }).success(function(data, status, headers, config) {
 				      	if(!$scope.multiSelectddlRounds.options.initialLoad)
 	                  		data&&e.success(data);
@@ -250,11 +250,11 @@ app.controller('mgnregaReportController',['$http','$window','$scope','$rootScope
             },	    	
 	        columns: [ 
 		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
-		        		{ field: "financialYear", groupable:true,width: '130px', title:'FY', footerTemplate: "Total :"},
-		        		{ field: "roundName", groupable:true,width: '130px', title:'Round'},
-		        		{ field: "districtName", groupable:true,width: '130px', title:'District'},
-		        		{ field: "blockName", groupable:true,width: '130px', title:'Block'},
-		        		{ field: "vpName", groupable:true,width: '130px', title:'Panchayat'},
+		        		{ field: "financialYear", locked: true, groupable:true,width: '130px', title:'FY', footerTemplate: "Total :"},
+		        		{ field: "roundName", locked: true, groupable:true,width: '130px', title:'Round'},
+		        		{ field: "districtName", locked: true, groupable:true,width: '130px', title:'District'},
+		        		{ field: "blockName", locked: true, groupable:true,width: '130px', title:'Block'},
+		        		{ field: "vpName", locked: true, groupable:true,width: '130px', title:'Panchayat'},
 		        		{
 		        			title : "Completed Works",
 		        			headerAttributes : {
