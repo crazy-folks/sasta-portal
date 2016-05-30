@@ -52,6 +52,12 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
         $rootScope.$state.go('ui.contact-us');
     }
 
+
+  $scope.redirectToNews = function(event){
+        setActiveLink(event.target);
+        $rootScope.$state.go('ui.news');
+    }
+
     /* Sign in code start */
     $scope.vm = {
         userName : '',

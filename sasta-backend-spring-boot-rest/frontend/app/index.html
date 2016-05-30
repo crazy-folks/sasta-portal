@@ -14,6 +14,8 @@
     <base href="/" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="assets/admin/styles/kendo.common.core.min.css"> 
@@ -22,25 +24,26 @@
     <link rel="stylesheet" href="assets/admin/css/validation-engine-2.6.2/validationEngine.jquery.css">
     <link rel="stylesheet" href="assets/admin/js/crop/image-crop-styles.css">
     <link rel="stylesheet" href="assets/css/common.css">
+
 </head>  
 <body  class="{{$state.current.name}}">
 
-    <div class="table y100 spin-theme" ng-show="loading">
+    <div class="table y100 " ng-show="loading">
         <div class="table-cell py4 center">
           <img src="assets/images/loading-bubbles.svg" width="64" height="64">
-          <h1 class="h1 mt2 mb0">Please Wait... Loading...</h1>
+         
         </div>
     </div>
-
     <!-- Main content view  -->
     <div ui-view></div>
-
+    
     <script type="text/javascript" src="assets/libs/jquery.js"></script>
     <script type="text/javascript" src="assets/libs/jquery.navgoco.min.js"></script>
     <script type="text/javascript" src="assets/admin/js/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/admin/js/vendor/jquery.validationEngine-en.js"></script>
     <script type="text/javascript" src="assets/admin/js/vendor/jquery.validationEngine.js"></script>
     <script type="text/javascript" src="assets/admin/js/vendor/jquery.quickflip.source.js"></script>
+     
     <!-- Angular Script -->
     <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="assets/admin/libs/kendo.all.min.js"></script>
@@ -92,7 +95,8 @@
     <script type="text/javascript" src="admin/reports/mgnregaReportController.js"></script>
     <script type="text/javascript" src="admin/reports/VrpReportController.js"></script>
         <script type="text/javascript" src="admin/recovery/RecoveryController.js"></script>
-    <div kendo-window="changePasswordWindow" k-options="kchangePasswordWindowOptions"></div>    
-    
+    <div kendo-window="changePasswordWindow" k-options="kchangePasswordWindowOptions"></div> 
+
+   
 </body>
 </html>

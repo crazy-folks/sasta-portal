@@ -364,6 +364,14 @@
             },
             controller : 'RecoveryController as recoveryCtl'
         })
+         .state('ui.news', {
+            url: "/news",
+            templateUrl: "views/static/news.html",
+            data: {
+                pageTitle: 'News'
+            }
+        })
+        
 
         
 }
@@ -374,7 +382,9 @@ angular.module('sastaboard')
         appVersion: "1.0",
         // Local Environment For Curl Ref : http://www.codingpedia.org/ama/how-to-test-a-rest-api-from-command-line-with-curl/
          //baseUrl: "http://localhost:8080/sasta-backend/api",
-         baseUrl: "http://192.168.1.37:8080/sasta-backend/api",
+        baseUrl: "http://192.168.1.37:8080/sasta-backend/api",
+       // baseUrl: " http://www.tnsasta.com/sasta-backend/api",
+       
         debug : true,
         environment : 'development',
         notifyConfig : {
