@@ -206,13 +206,13 @@ app.controller('mgnregaReportController',['$http','$window','$scope','$rootScope
         };
 
 		$scope.stateChanged = function(state){
-			$scope.grid.showColumn(2);
-			$scope.grid.showColumn(4);
-			$scope.grid.showColumn(5);			
+			$scope.grid.showColumn('roundName');
+			$scope.grid.showColumn('blockName');
+			$scope.grid.showColumn('vpName');			
 			if(state){
-				$scope.grid.hideColumn(2);
-				$scope.grid.hideColumn(4);
-				$scope.grid.hideColumn(5);
+				$scope.grid.hideColumn('roundName');
+				$scope.grid.hideColumn('blockName');
+				$scope.grid.hideColumn('vpName');
 			}
 		}
 
@@ -297,6 +297,7 @@ app.controller('mgnregaReportController',['$http','$window','$scope','$rootScope
 	        filterable :true,
 	        groupable : true,
 	        sortable: true,
+	        scrollable: true,
 	        columnMenu: true,
             reorderable: true,
             resizable: true,	        

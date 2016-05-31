@@ -138,7 +138,7 @@
 	                <div class="panel-body">
 	                	<div kendo-pager k-data-source="dataSource"></div>	
                         <div class="row no-padding auto-margin" kendo-list-view  k-data-source="dataSource">
-					    	<div class="card col-md-3" card-flip k-template>
+					    	<div class="card col-md-2" card-flip k-template>
 						        <div class="front">
 									<div class="actions pull-right clear-both">
 				                        <i class="fa fa-times"></i>
@@ -150,55 +150,42 @@
 			                            <div class="text">{{dataItem.screenName}}</div>
 			                            <div class="text">{{dataItem.jobTitle}}</div>
 			                        </span>
-			                        <div>
-										<div class="lft-lbl">
-											<label>Mobile Number</label>
-										</div> 
-										<div  class="rht-lbl">
-											<label>{{dataItem.mobileNumber||'-'}}</label>
-										</div>		                        	
-
-										<div class="lft-lbl">
-											<label>Employee Id</label>
-										</div> 
-										<div  class="rht-lbl">
+			                        <div class="meta">
+										<div  class="text widget-gauge">
 											<label>{{dataItem.employeeId||'-'}}</label>
+										</div>		                        	
+ 
+										<div  class="text widget-gauge">
+											<label ng-bind="(!dataItem.genderId)?'-':((dataItem.genderId===1)?'Male':'Female')"></label>
 										</div>			                        	
 
-										<div class="lft-lbl">
-											<label>Email</label>
-										</div> 
-										<div  class="rht-lbl">
+										<div  class="text widget-gauge">
 											<label>{{dataItem.email||'-'}}</label>
 										</div>
 
-										<div class="lft-lbl">
-											<label>Skype Name</label>
-										</div> 
-										<div  class="rht-lbl">
+							
+										<div  class="text widget-gauge">
 											<label>{{dataItem.skypeName||'-'}}</label>
 										</div>
 
-										<div class="lft-lbl">
-											<label>Date Of Joining</label>
-										</div> 
-										<div  class="rht-lbl">
+										<div  class="text widget-gauge">
 											<label>{{dataItem.dateOfJoining||'-'}}</label>
 										</div>			                        	
 
-										<div class="lft-lbl">
-											<label>Address</label>
-										</div> 
-										<div  class="rht-lbl">
+										<div  class="text widget-gauge">
 											<label>{{dataItem.communicationAddress||'-'}}</label>
 										</div>			                        	
 
-										<div class="lft-lbl">
-											<label>Team Name</label>
-										</div> 
-										<div  class="rht-lbl">
+										<div  class="text widget-gauge">
 											<label>{{dataItem.teamName||'-'}}</label>
 										</div>
+			                        </div>
+			                        <div class="meta">
+			                        	<div class="text widget-gauge" style="position:fixed;bottom:0;">
+					                    	<i class="fa fa-eye"></i>
+					                        <i class="fa fa-edit"></i>
+					                        <i class="fa" ng-class="dataItem.IsLocked?'fa-unlock':' fa-lock'"></i>
+					                    </div>
 			                        </div>
 						        </div>
 						    

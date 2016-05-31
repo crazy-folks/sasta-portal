@@ -207,13 +207,13 @@ app.controller('ExpenditureReportController',['$http','$window','$scope','$rootS
         };
 
 		$scope.stateChanged = function(state){
-			$scope.grid.showColumn(2);
-			$scope.grid.showColumn(4);
-			$scope.grid.showColumn(5);			
+			$scope.grid.showColumn('roundName');
+			$scope.grid.showColumn('blockName');
+			$scope.grid.showColumn('vpName');			
 			if(state){
-				$scope.grid.hideColumn(2);
-				$scope.grid.hideColumn(4);
-				$scope.grid.hideColumn(5);
+				$scope.grid.hideColumn('roundName');
+				$scope.grid.hideColumn('blockName');
+				$scope.grid.hideColumn('vpName');
 			}
 		}
 
@@ -261,15 +261,15 @@ app.controller('ExpenditureReportController',['$http','$window','$scope','$rootS
 		        		{ field: "appReceivedCount", groupable:false,width: '130px', title:'Applications', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{ field: "attendedAppCount", groupable:false,width: '130px', title:'Attended Exam', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{ field: "refreshmentCharges",format: '{0:n0}', groupable:false,width: '130px', title : "Refreshment", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        		{ field: "selectedVrpCount", groupable:false,width: '130px', title : "VRP's Selected", aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "paidedAmount",format: '{0:n0}', groupable:false,width: '180px', title : "Amount Paid To VRP's", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        		{ field: "selectedVrpCount",  groupable:false,width: '130px', title : "VRP's Selected", aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "paidedAmount", format: '{0:n0}', groupable:false,width: '180px', title : "Amount Paid To VRP's", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        		{ field: "photographyCharges",format: '{0:n0}', groupable:false,width: '130px', title : "Photography", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        		{ field: "videosCharges",format: '{0:n0}', groupable:false,width: '130px', title : "Video", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        		{ field: "ppleafLets",format: '{0:n0}', groupable:false,width: '130px', title : "Publicity", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        		{ field: "stationary",format: '{0:n0}', groupable:false,width: '110px', title : "Stationary", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        		{ field: "others",format: '{0:n0}', groupable:false,width: '90px', title : "Others", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        		{ field: "ppleafLets", format: '{0:n0}', groupable:false,width: '130px', title : "Publicity", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        		{ field: "stationary", format: '{0:n0}', groupable:false,width: '110px', title : "Stationary", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        		{ field: "others", format: '{0:n0}', groupable:false,width: '90px', title : "Others", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        		{ 
-		        			title : "Total Exp", 
+		        			title : "Total Exp",
 		        			groupable:false,
 		        			width: '150px',
 		        			format: '{0:n0}',
@@ -285,6 +285,7 @@ app.controller('ExpenditureReportController',['$http','$window','$scope','$rootS
 	        sortable: true,
 	        columnMenu: true,
             reorderable: true,
+            scrollable: true,
             resizable: true,	        
 	        pageSize: 10,
 	        autoBind : false,

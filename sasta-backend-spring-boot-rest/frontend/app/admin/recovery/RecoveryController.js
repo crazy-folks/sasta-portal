@@ -81,7 +81,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
       }
 
       $scope.kaddWindowOptions = {
-          content: 'frontend/admin/recovery/add.html',
+          content: 'admin/recovery/add.html',
           title: $scope.modelDialogTitle.AddAuditTitle,
           width : '80%',
           height:'400px',
@@ -105,7 +105,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
       }; 
 
       $scope.keditWindowOptions = {
-          content: 'frontend/admin/recovery/edit.html',
+          content: 'admin/recovery/edit.html',
           title: $scope.modelDialogTitle.EditAuditTitle,
           iframe: false,
           width : '90%',
@@ -359,39 +359,39 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
       }
 
 
-      $scope.defaultOptions = {
-        "id": 0,
-        "roundId": 0,
-        "createdBy": $rootScope.sessionConfig.userId,
-        "auditId": 0,
-        "modifiedBy": $rootScope.sessionConfig.userId,
-        "blockId": 0,
-        "blockName": "",
-        "isActive": true,
-        "parasCount": 0,
-        "status": true,
-        "roundName": "",
-        "vpName": "",
-        "vpId": 0,
-        "auditDistrictId": 0,
-        "pendingParasCount": 0,
-        "parasAmount": 0,
-        "setteledParasAmount": 0,
-        "recoveredAmount": 0,
-        "setteledParasCount": 0,
-        "pendingParasAmount": 0,
+      $scope.defaultOptions ={
+        "id": null,
         "createdDate": null,
         "modifiedDate": null,
         "createdByName": "",
         "modifiedByName": "",
+        "auditDistrictId": 0,
         "financialDescription": "",
         "financialYear": "",
         "roundDescription": "",
         "districtName": "",
-        "roundStartDate": "2016-05-25T04:10:18.920Z",
-        "roundEndDate": "2016-05-25T04:10:18.920Z",
+        "roundStartDate": "2016-05-27T02:41:37.129Z",
+        "roundEndDate": "2016-05-27T02:41:37.129Z",
+        "parasAmount": 0,
         "setteledParasGsCount": 0,
-        "settledParasGsAmount": 0
+        "setteledParasGsAmount": 0,
+        "recoveredAmount": 0,
+        "setteledParasCount": 0,
+        "setteledParasAmount": 0,
+        "pendingParasCount": 0,
+        "pendingParasAmount": 0,
+        "auditId": 0,
+        "modifiedBy": $rootScope.sessionConfig.userId,
+        "createdBy": $rootScope.sessionConfig.userId,
+        "blockId": 0,
+        "roundId": 0,
+        "status": true,
+        "blockName": "",
+        "isActive": true,
+        "parasCount": 0,
+        "roundName": "",
+        "vpName": "",
+        "vpId": 0
       };
 
       $scope.OnDelete = function(data){
@@ -409,13 +409,14 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
               var list = angular.copy($scope.editRecovery);
               var model = angular.copy($scope.defaultOptions);
 
-              list = parseType(list);
-
+              list = parseObject(list); 
               model.setteledParasGsCount = model.parasCount = 0;
               model = parseRecovery(list);
+              list = parseObject(list);
               model.auditId = $scope.recovery.auditId;
               model.id = $scope.recovery.recoveryId;
               model.status = false;
+              model.isActive = false;
               var deffered = recoveryfactory.doUpdateData(model);
               deffered.success(function(r){
                 angular.forEach(list,function(v,key){

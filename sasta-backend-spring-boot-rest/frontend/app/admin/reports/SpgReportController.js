@@ -206,21 +206,21 @@ app.controller('SpgReportController',['$http','$window','$scope','$rootScope','n
         };
 
 		$scope.stateChanged = function(state){
-			$scope.grid.showColumn(2);
-			$scope.grid.showColumn(4);
-			$scope.grid.showColumn(5);
-			$scope.grid.showColumn(11);
-			$scope.grid.showColumn(12);	
-			$scope.grid.showColumn(16);
-			$scope.grid.showColumn(17);	
+			$scope.grid.showColumn('roundName');
+			$scope.grid.showColumn('blockName');
+			$scope.grid.showColumn('vpName');	
+			$scope.grid.showColumn('nameOfPersonHeadSgs');
+			$scope.grid.showColumn('nameOfPersonRecordedMinutes');
+			$scope.grid.showColumn('saReportsUploaded');
+			$scope.grid.showColumn('atrsUploaded');
 			if(state){
-				$scope.grid.hideColumn(2);
-				$scope.grid.hideColumn(4);
-				$scope.grid.hideColumn(5);
-				$scope.grid.hideColumn(11);
-				$scope.grid.hideColumn(12);	
-				$scope.grid.hideColumn(16);
-				$scope.grid.hideColumn(17);	
+				$scope.grid.hideColumn('roundName');
+				$scope.grid.hideColumn('blockName');
+				$scope.grid.hideColumn('vpName');
+				$scope.grid.hideColumn('nameOfPersonHeadSgs');
+				$scope.grid.hideColumn('nameOfPersonRecordedMinutes');	
+				$scope.grid.hideColumn('saReportsUploaded');
+				$scope.grid.hideColumn('atrsUploaded');	
 			}
 		}
 
@@ -286,6 +286,7 @@ app.controller('SpgReportController',['$http','$window','$scope','$rootScope','n
 	        filterable :true,
 	        groupable : true,
 	        sortable: true,
+	        scrollable: true,
 	        columnMenu: true,
             reorderable: true,
             resizable: true,	        

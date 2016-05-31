@@ -25,7 +25,7 @@ public class Recovery  implements java.io.Serializable , CommonProperties{
     private java.math.BigDecimal setteled_paras_gs_amt;
     private java.math.BigDecimal recovered_amt;
     private Integer setteled_paras_count;
-    private java.math.BigDecimal settled_paras_amt;
+    private java.math.BigDecimal setteled_paras_amt;
     private Integer pending_paras_count;
     private java.math.BigDecimal pending_paras_amt;
     private Boolean is_active;
@@ -87,20 +87,20 @@ public class Recovery  implements java.io.Serializable , CommonProperties{
         this.paras_amt = paras_amt;
     }
 
-    public Integer getSettledParasGsCount() {
+    public Integer getSetteledParasGsCount() {
         return setteled_paras_gs_count;
     }
 
-    public void setSetteledParasGsCount(Integer settled_paras_gs_count) {
-        this.setteled_paras_gs_count = settled_paras_gs_count;
+    public void setSetteledParasGsCount(Integer setteled_paras_gs_count) {
+        this.setteled_paras_gs_count = setteled_paras_gs_count;
     }
 
     public BigDecimal getSetteledParasGsAmount() {
         return setteled_paras_gs_amt;
     }
 
-    public void setSettledParasGsAmount(BigDecimal settled_paras_gs_amt) {
-        this.setteled_paras_gs_amt = settled_paras_gs_amt;
+    public void setSetteledParasGsAmount(BigDecimal setteled_paras_gs_amt) {
+        this.setteled_paras_gs_amt = setteled_paras_gs_amt;
     }
 
     public BigDecimal getRecoveredAmount() {
@@ -120,11 +120,11 @@ public class Recovery  implements java.io.Serializable , CommonProperties{
     }
 
     public BigDecimal getSetteledParasAmount() {
-        return settled_paras_amt;
+        return setteled_paras_amt;
     }
 
-    public void setSetteledParasAmount(BigDecimal settled_paras_amt) {
-        this.settled_paras_amt = settled_paras_amt;
+    public void setSetteledParasAmount(BigDecimal setteled_paras_amt) {
+        this.setteled_paras_amt = setteled_paras_amt;
     }
 
     public Integer getPendingParasCount() {
@@ -333,11 +333,11 @@ public class Recovery  implements java.io.Serializable , CommonProperties{
                 ", audit_id=" + audit_id +
                 ", paras_count=" + paras_count +
                 ", paras_amt=" + paras_amt +
-                ", settled_paras_gs_count=" + setteled_paras_gs_count +
-                ", settled_paras_gs_amt=" + setteled_paras_gs_amt +
+                ", setteled_paras_gs_count=" + setteled_paras_gs_count +
+                ", setteled_paras_gs_amt=" + setteled_paras_gs_amt +
                 ", recovered_amt=" + recovered_amt +
                 ", setteled_paras_count=" + setteled_paras_count +
-                ", settled_paras_amt=" + settled_paras_amt +
+                ", setteled_paras_amt=" + setteled_paras_amt +
                 ", pending_paras_count=" + pending_paras_count +
                 ", pending_paras_amt=" + pending_paras_amt +
                 ", is_active=" + is_active +

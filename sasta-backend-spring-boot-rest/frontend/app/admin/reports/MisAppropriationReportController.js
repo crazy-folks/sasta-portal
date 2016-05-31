@@ -206,13 +206,13 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
         };
 
 		$scope.stateChanged = function(state){
-			$scope.grid.showColumn(2);
-			$scope.grid.showColumn(4);
-			$scope.grid.showColumn(5);			
+			$scope.grid.showColumn('roundName');
+			$scope.grid.showColumn('blockName');
+			$scope.grid.showColumn('vpName');			
 			if(state){
-				$scope.grid.hideColumn(2);
-				$scope.grid.hideColumn(4);
-				$scope.grid.hideColumn(5);
+				$scope.grid.hideColumn('roundName');
+				$scope.grid.hideColumn('blockName');
+				$scope.grid.hideColumn('vpName');
 			}
 		}
 
@@ -444,6 +444,7 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 	        sortable: true,
 	        columnMenu: true,
             reorderable: true,
+            scrollable: true,
             selectable: true,
             resizable: true,	        
 	        pageSize: 10,

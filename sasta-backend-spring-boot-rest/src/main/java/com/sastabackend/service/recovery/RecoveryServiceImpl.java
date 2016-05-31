@@ -126,7 +126,7 @@ public class RecoveryServiceImpl implements RecoveryService {
         inParamMap.put("auditid", rc.getAuditId());
         inParamMap.put("parascount", rc.getParasCount());
         inParamMap.put("parasamt", rc.getParasAmount());
-        inParamMap.put("settledparasgscount", rc.getSettledParasGsCount());
+        inParamMap.put("settledparasgscount", rc.getSetteledParasGsCount());
         inParamMap.put("settledparasgsamt", rc.getSetteledParasAmount());
         inParamMap.put("recoveredamt", rc.getRecoveredAmount());
         inParamMap.put("setteledparascount", rc.getSetteledParasCount());
@@ -167,7 +167,7 @@ public class RecoveryServiceImpl implements RecoveryService {
         inParamMap.put("auditid", rc.getAuditId());
         inParamMap.put("parascount", rc.getParasCount());
         inParamMap.put("parasamt", rc.getParasAmount());
-        inParamMap.put("settledparasgscount", rc.getSettledParasGsCount());
+        inParamMap.put("settledparasgscount", rc.getSetteledParasGsCount());
         inParamMap.put("settledparasgsamt", rc.getSetteledParasAmount());
         inParamMap.put("recoveredamt", rc.getRecoveredAmount());
         inParamMap.put("setteledparascount", rc.getSetteledParasCount());
@@ -389,7 +389,7 @@ public class RecoveryServiceImpl implements RecoveryService {
             o.setParasCount(set.getInt("paras_count"));
             o.setParasAmount(set.getBigDecimal("paras_amt"));
             o.setSetteledParasGsCount(set.getInt("settled_paras_gs_count"));
-            o.setSettledParasGsAmount(set.getBigDecimal("settled_paras_gs_amt"));
+            o.setSetteledParasGsAmount(set.getBigDecimal("settled_paras_gs_amt"));
             o.setRecoveredAmount(set.getBigDecimal("recovered_amt"));
             o.setSetteledParasCount(set.getInt("setteled_paras_count"));
             o.setSetteledParasAmount(set.getBigDecimal("settled_paras_amt"));
@@ -460,7 +460,7 @@ public class RecoveryServiceImpl implements RecoveryService {
             o.setParasCount(set.getInt("paras_count"));
             o.setParasAmount(set.getBigDecimal("paras_amt"));
             o.setSetteledParasGsCount(set.getInt("settled_paras_gs_count"));
-            o.setSettledParasGsAmount(set.getBigDecimal("settled_paras_gs_amt"));
+            o.setSetteledParasGsAmount(set.getBigDecimal("settled_paras_gs_amt"));
             o.setRecoveredAmount(set.getBigDecimal("recovered_amt"));
             o.setSetteledParasCount(set.getInt("setteled_paras_count"));
             o.setSetteledParasAmount(set.getBigDecimal("settled_paras_amt"));
