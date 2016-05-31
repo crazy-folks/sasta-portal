@@ -58,6 +58,10 @@
 
         });
      
-
-       
+     $(document).ready(function () {
+      function playcarousel(){
+        $('.carousel-control.right').trigger('click');
+      } 
+      window.setInterval(playcarousel, 4000); 
+    });
 </script> 

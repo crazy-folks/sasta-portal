@@ -369,7 +369,8 @@
             templateUrl: "views/static/news.html",
             data: {
                 pageTitle: 'News'
-            }
+            },
+              controller : 'NewsController as newsController'
         })
         
 
