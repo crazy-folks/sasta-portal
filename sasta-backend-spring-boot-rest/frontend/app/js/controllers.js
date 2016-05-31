@@ -59,6 +59,12 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
             $state.go('users.search',{userName: $scope.searchModel.userName})
     }
 
+
+  $scope.redirectToNews = function(event){
+        setActiveLink(event.target);
+        $rootScope.$state.go('ui.news');
+    }
+
     /* Sign in code start */
     $scope.vm = {
         userName : '',
