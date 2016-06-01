@@ -181,18 +181,21 @@
 										</div>
 			                        </div>
 			                        <div class="meta">
-			                        	<div class="text widget-gauge" style="position:fixed;bottom:0;">
-					                    	<i class="fa fa-eye"></i>
-					                        <i class="fa fa-edit"></i>
-					                        <i class="fa" ng-class="dataItem.IsLocked?'fa-unlock':' fa-lock'"></i>
+			                        	<div class="text widget-gauge width-100 icons-sections" style="position:fixed;bottom:0;">
+			                        		<span class="back-button">Back</span>
+					                    	<i class="fa fa-eye font-middle-icons"></i>
+					                        <i class="fa fa-edit font-middle-icons"></i>
+					                        <i class="fa font-middle-icons" ng-class="dataItem.IsLocked?'fa-unlock':' fa-lock'"></i>
 					                    </div>
 			                        </div>
 						        </div>
 						    
 						        <div class="back">
 						            <h3 class="first quickFlipCta">About Me</h3>
-						            <div >
-						            	{{dataItem.description}}
+						            <div class="meta">
+						            	<div  class="text padding-10">
+						            		{{dataItem.description}}
+						            	</div>
 						            </div>
 						        </div>			    		
 					    	</div>

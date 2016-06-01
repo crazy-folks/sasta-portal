@@ -12,7 +12,7 @@ public class BasicUserDetails {
     private String personal_email;
     private String gmail_id;
     private String skype_name;
-    private java.util.Date date_of_birth;
+    private java.sql.Date date_of_birth;
     private String experience;
     private Float previous_experience;
     private String mobile_number;
@@ -61,7 +61,7 @@ public class BasicUserDetails {
         return date_of_birth;
     }
 
-    public void setDateOfBirth(Date date_of_birth) {
+    public void setDateOfBirth(java.sql.Date date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
 

@@ -18,34 +18,34 @@
 		                            </div>
 	                                <div class="form-group no-margin">
 	                                    <label for="personalEmail" class="label-adjust">Personal Email</label>
-	                                        <input type="text" class="k-input width-95 validate[required,custom[email]]" id="personalEmail" name="personalEmail"
+	                                        <input type="text" class="k-input width-95" ng-change="onchange($event)" id="personalEmail" name="personalEmail"
 	                                               data-ng-model="user.personalEmail" ng-maxlength="50" 
 	                                              />
 	                                </div>                                        
 	                                <div class="form-group no-margin">
 	                                    <label for="gmailId" class="label-adjust">Gmail Id</label>
-	                                        <input type="text" class="k-input width-95 validate[required,custom[email]]" id="gmailId" name="gmailId"
+	                                        <input type="text" class="k-input width-95" ng-change="onchange($event)" id="gmailId" name="gmailId"
 	                                               data-ng-model="user.gmailId" ng-maxlength="50" 
 	                                              />
 	                                </div>
 	                                <div class="form-group no-margin">
 	                                    <div>
 	                                        <label for="skypeName" class="label-adjust">Skype Name</label>
-	                                        <input type="text" class="k-input width-95 validate[required]" id="skypeName" name="skypeName"
+	                                        <input type="text" class="k-input width-95" id="skypeName" name="skypeName"
 	                                               data-ng-model="user.skypeName" ng-maxlength="100" 
 	                                              />
 	                                    </div>
 	                                </div>
 	                                <div class="form-group no-margin">
 	                                    <label for="dateOfBirth" class="label-adjust">Date Of Birth</label>
-	                                        <input type="text" class="width-95" id="dateOfBirth" name="dateOfBirth" kendo-date-picker="dateOfBirthObject" 
+	                                        <input type="text" class="width-95" id="dateOfBirth" name="dateOfBirth" kendo-date-picker="dateOfBirthObject" k-options="dateOptions"
 	                                               data-ng-model="user.dateOfBirth" 
 	                                              />
 	                                </div>
 	                                <div class="form-group no-margin">
 	                                    <div>
 	                                        <label for="experience" class="label-adjust">Experience</label>
-	                                        <input type="text" class="k-input width-95 validate[required]" id="experience" name="experience"
+	                                        <input type="text" class="k-input width-95" id="experience" name="experience"
 	                                               data-ng-model="user.experience" ng-maxlength="100" 
 	                                              />
 	                                    </div>
@@ -62,7 +62,7 @@
 		                            <div class="form-group no-margin">
 		                                <div>
 		                                    <label for="previousExperience" class="label-adjust">Previous Experience</label>
-		                                    <input type="text" class="k-input width-95 validate[required]" id="previousExperience" name="previousExperience"
+		                                    <input type="text" class="k-input width-95" id="previousExperience" name="previousExperience"
 		                                           data-ng-model="user.previousExperience" ng-maxlength="100" 
 		                                          />
 		                                </div>
@@ -75,7 +75,7 @@
 	                                </div>                                        
 	                                <div class="form-group no-margin">
 	                                    <label for="landLineNumber" class="label-adjust">Land Line Number</label>
-	                                        <input type="text" class="k-input width-95 validate[required]" id="landLineNumber" name="landLineNumber"
+	                                        <input type="text" class="k-input width-95" id="landLineNumber" name="landLineNumber"
 	                                               data-ng-model="user.landLineNumber" ng-maxlength="50" 
 	                                              />
 	                                </div>
@@ -95,7 +95,7 @@
 	                                <div class="form-group no-margin">
 	                                    <div>
 	                                        <label for="permanentAddress" class="label-adjust">Permanent Address</label>
-	                                        <input type="text" class="k-input width-95 validate[required]" id="permanentAddress" name="permanentAddress"
+	                                        <input type="text" class="k-input width-95" id="permanentAddress" name="permanentAddress"
 	                                               data-ng-model="user.permanentAddress" ng-maxlength="100" 
 	                                              />
 	                                    </div>

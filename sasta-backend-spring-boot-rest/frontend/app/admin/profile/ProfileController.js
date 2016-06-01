@@ -210,8 +210,15 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             $scope.defaultBloodGroups = defaultBloodGroups;
         }
 
+        $scope.onchange = function($event){
+            if($($event.target).val().length>0){
+                $($event.target).addClass('validate[custom[email]]');
+            }
+        }
+
         $scope.SubmitBasicProfile = function(){
             if($scope.basicProfieValidator.doValidate()){
+                
                 var model = {
                   "experience": $scope.user.experience,
                   "gmailId": $scope.user.gmailId,

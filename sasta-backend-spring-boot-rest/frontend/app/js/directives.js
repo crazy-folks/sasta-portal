@@ -81,11 +81,18 @@ function cardFlip() {
     return {
         restrict: 'A',
         link: function(scope, element) {
+            $(element).find('.back-button').on('click',function(e){
+              $(element).flip({
+                axis: "y",
+                reverse: true,
+                trigger: "click"
+              });
+            });
           $(element).flip({
             axis: "y",
             reverse: true,
             trigger: "click"
-          });
+          });            
         }
     }
 };
