@@ -383,7 +383,7 @@ public class UserServiceImpl implements UserService {
                             new SqlParameter("permanentaddress", Types.VARCHAR),
                             new SqlParameter("isaddresssame", Types.BIT),
                             new SqlParameter("dateofbirth", Types.DATE),
-                            new SqlParameter("previousworkexp", Types.FLOAT),
+                            new SqlParameter("previousworkexp", Types.VARCHAR),
                             new SqlParameter("gmailid", Types.VARCHAR),
                             new SqlParameter("skypename", Types.VARCHAR),
                             new SqlParameter("businessemail", Types.VARCHAR),
@@ -711,7 +711,7 @@ public class UserServiceImpl implements UserService {
             o.setSameAddress(set.getBoolean("is_address_same"));
             o.setDateOfJoining(set.getDate("date_of_joining"));
             o.setDateOfBirth(set.getDate("date_of_birth"));
-            o.setPreviousExperience(set.getFloat("previous_work_exp"));
+            o.setPreviousExperience(StringUtils.trimToNull(set.getString("previous_work_exp")));
             o.setTeamName(StringUtils.trimToNull(set.getString("team_name")));
             o.setEmployeeId(StringUtils.trimToNull(set.getString("employee_id")));
             o.setDepartmentId(set.getInt("department_id"));

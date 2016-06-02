@@ -14,7 +14,7 @@ public class BasicUserDetails {
     private String skype_name;
     private java.sql.Date date_of_birth;
     private String experience;
-    private Float previous_experience;
+    private String previous_experience;
     private String mobile_number;
     private String land_line_number;
     private Integer blood_group_id;
@@ -73,11 +73,11 @@ public class BasicUserDetails {
         this.experience = experience;
     }
 
-    public Float getPreviousExperience() {
+    public String getPreviousExperience() {
         return previous_experience;
     }
 
-    public void setPreviousExperience(Float previous_experience) {
+    public void setPreviousExperience(String previous_experience) {
         this.previous_experience = previous_experience;
     }
 

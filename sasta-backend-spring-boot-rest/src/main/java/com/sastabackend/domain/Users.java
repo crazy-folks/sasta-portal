@@ -40,7 +40,7 @@ public class  Users  implements java.io.Serializable {
     private java.lang.Boolean is_address_same;
     private java.sql.Date date_of_joining;
     private java.sql.Date date_of_birth;
-    private java.lang.Float previous_work_exp;
+    private String previous_work_exp;
     private String team_name;
     private String employee_id;
     private java.lang.Integer department_id;
@@ -241,11 +241,11 @@ public class  Users  implements java.io.Serializable {
         this.date_of_birth = date_of_birth;
     }
 
-    public void setPreviousExperience(java.lang.Float previous_work_exp){
+    public void setPreviousExperience(String previous_work_exp){
         this.previous_work_exp = previous_work_exp;
     }
 
-    public java.lang.Float getPreviousExperience(){
+    public String getPreviousExperience(){
         return this.previous_work_exp;
     }
 
