@@ -28,4 +28,8 @@ public interface UserService {
 
     ResponseModel SearchUsers(SearchModel model);
 
+    ResponseModel DeleteUsers(Long userid,Long modifiedby);
+
+    ResponseModel UnLock(Long userid,Long modifiedby);
+
 }

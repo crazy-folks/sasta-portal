@@ -6,6 +6,7 @@ import com.sastabackend.repository.UserRepository;
 import com.sastabackend.service.common.CommonService;
 import com.sastabackend.service.common.CommonServiceImpl;
 import com.sastabackend.service.user.exception.UserAlreadyExistsException;
+import com.sastabackend.util.BaseRowMapper;
 import com.sastabackend.util.Constants;
 import com.sastabackend.util.CryptoUtil;
 import com.sastabackend.util.TextUtil;
@@ -43,6 +44,7 @@ import java.util.Map;
 
 @Service
 @Validated
+
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -483,6 +485,96 @@ public class UserServiceImpl implements UserService {
         return Search(model);
     }
 
+
+    @Override
+    public ResponseModel DeleteUsers(Long userid,Long modifiedby){
+        LOGGER.debug("Deteling User  : {}");
+        ResponseModel response = new ResponseModel<String>();
+        try{
+            boolean flag = DeleteUser(userid, modifiedby);
+            if(flag)
+                response.setData("Successfully user details deteled!");
+            else
+                response.setData("Unable to delete user details!");
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+
+    @Override
+    public ResponseModel UnLock(Long userid,Long modifiedby){
+        LOGGER.debug("Un Lock User   : {}");
+        ResponseModel response = new ResponseModel<String>();
+        try{
+            boolean flag = UnLockUsers(userid, modifiedby);
+            if(flag)
+                response.setData("Successfully Locked Users details!");
+            else
+                response.setData("Successfully to Un Lock Users details!");
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    /**
+     * delete user by id
+     * @param userid
+     * @return boolean - true - Deleted , false - unable to delete user
+     */
+    private boolean UnLockUsers(Long userid,Long modifiedby){
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("un_lock")
+                .declareParameters(
+                        new SqlParameter("user_id",Types.BIGINT),
+                        new SqlParameter("modifiedby",Types.BIGINT),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("user_id",userid);
+        inParamMap.put("modifiedby",modifiedby);
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
+
+    /**
+     * delete user by id
+     * @param userid
+     * @return boolean - true - Deleted , false - unable to delete user
+     */
+    private boolean DeleteUser(Long userid,Long modifiedby){
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("delete_users")
+                .declareParameters(
+                        new SqlParameter("user_id",Types.BIGINT),
+                        new SqlParameter("modifiedby",Types.BIGINT),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("user_id",userid);
+        inParamMap.put("modifiedby",modifiedby);
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
+
     private ResponseModel Search(SearchModel model){
         ResponseModel response = null;
         List<Users> o = new ArrayList<Users>();
@@ -686,8 +778,8 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    protected static final class UserMapper implements RowMapper{
-        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+    protected static final class UserMapper extends BaseRowMapper{
+        public Object mapRowImpl(ResultSet set, int rowNo)throws SQLException {
             System.out.println("Read Row :" + rowNo);
             Users o = new Users();
             o.setId(set.getLong("id"));
@@ -699,7 +791,7 @@ public class UserServiceImpl implements UserService {
             o.setJobTitle(StringUtils.trimToNull(set.getString("job_title")));
             o.setDescription(StringUtils.trimToNull(set.getString("description")));
             o.setExperience(StringUtils.trimToNull(set.getString("experience")));
-            o.setCountryId(set.getInt("state_id"));
+            o.setStateId(set.getInt("state_id"));
             o.setStateName(StringUtils.trimToNull(set.getString("stateName")));
             o.setCountryId(set.getInt("country_id"));
             o.setCountryName(StringUtils.trimToNull(set.getString("countryName")));
@@ -725,9 +817,17 @@ public class UserServiceImpl implements UserService {
             o.setBloodGroupName(StringUtils.trimToNull(set.getString("bloodGorupName")));
             o.setReportingId(set.getLong("reporting_id"));
             o.setReportingTo(StringUtils.trimToNull(set.getString("reporting_to")));
+            o.setPhysicallyChallanged(set.getBoolean("physically_challanged"));
+            o.setSubCaste(StringUtils.trimToNull(set.getString("sub_caste")));
             o.setAllottedBlock(set.getInt("allotted_block"));
+            if(hasColumn("allotted_block_name"))
+                o.setAllottedBlockName(StringUtils.trimToNull(set.getString("allotted_block_name")));
             o.setAllottedDistrict(set.getInt("allotted_district"));
+            if(hasColumn("allotted_district_name"))
+                o.setAllottedDistrictName(StringUtils.trimToNull(set.getString("allotted_district_name")));
             o.setRecruitmentId(set.getInt("recruitment_id"));
+            if(hasColumn("recruitment_name"))
+                o.setRecruitmentName(StringUtils.trimToNull(set.getString("recruitment_name")));
             o.setBirthProofId(set.getLong("birth_proof_id"));
             o.setValidationCode(StringUtils.trimToNull(set.getString("validation_code")));
             o.setVisibleFields(StringUtils.trimToNull(set.getString("visible_fields")));

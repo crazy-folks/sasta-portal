@@ -98,6 +98,81 @@
         $scope.search.jobTitle = null;
     }
 
+
+    $scope.ResetPasswordByAdmin = function(userid){
+         searchfactory.resetPasswordByAdmin(userid).success(function(result){
+            if(result.status){
+                notify({
+                    messageTemplate: '<span>'+result.data+'</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });
+            }else{
+                notify({
+                    messageTemplate: '<span>Unable to reset password!</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });                
+            }
+        }).error(function(error,status){
+            notify({
+                messageTemplate: '<span>Unable to reset password!</span>',
+                position: $rootScope.appConfig.notifyConfig.position,
+                scope:$scope
+            });
+        });        
+    }
+
+    $scope.deleteUser = function(userid){
+         searchfactory.deleteUser(userid,$rootScope.sessionConfig.userId).success(function(result){
+            if(result.status){
+                notify({
+                    messageTemplate: '<span>'+result.data+'</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });
+                $scope.SearchUsers();
+            }else{
+                notify({
+                    messageTemplate: '<span>Unable to reset password!</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });                
+            }
+        }).error(function(error,status){
+            notify({
+                messageTemplate: '<span>Unable to reset password!</span>',
+                position: $rootScope.appConfig.notifyConfig.position,
+                scope:$scope
+            });
+        });        
+    }
+
+    $scope.UnLock = function(userid){
+         searchfactory.UnLock(userid,$rootScope.sessionConfig.userId).success(function(result){
+            if(result.status){
+                notify({
+                    messageTemplate: '<span>'+result.data+'</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });
+                $scope.SearchUsers();
+            }else{
+                notify({
+                    messageTemplate: '<span>Unable to un lock user!</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });                
+            }
+        }).error(function(error,status){
+            notify({
+                messageTemplate: '<span>Unable to un lock user!!!</span>',
+                position: $rootScope.appConfig.notifyConfig.position,
+                scope:$scope
+            });
+        });        
+    }
+
     function GetLookupValues(type){
     	$scope.deferred = jQuery.Deferred();
         searchfactory.getLookupValues(type).success(function(result){
@@ -158,8 +233,7 @@
     if($location.search().userName){
         $scope.search.firstName = $location.search().userName;
         $scope.SearchUsers();
-    }
-    
+    }    
 }]);
 
 app.factory('searchfactory',function($http,$q,$rootScope){
@@ -173,6 +247,28 @@ app.factory('searchfactory',function($http,$q,$rootScope){
             url : crudServiceBaseUrl + '/lookup/getlookup?id='+id
         });
     }
+
+    service.resetPasswordByAdmin = function(userid){
+        return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/user/resetpasswordbyadmin?UserId='+userid+'&ChangeReqBy='+true
+        });
+    }
+
+    service.UnLock = function(userid,deletedby){
+        return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/user/unlock?UserId='+userid+'&modifiedby='+deletedby
+        });
+    }
+
+    service.deleteUser = function(userid,deletedby){
+        return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/user/deleteusersbyadmin?UserId='+userid+'&modifiedby='+deletedby
+        });
+    }
+
 
     service.GetUsers = function(model){
         return $http({

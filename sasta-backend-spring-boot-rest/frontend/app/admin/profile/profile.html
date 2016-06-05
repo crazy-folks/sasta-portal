@@ -42,160 +42,282 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12  col-lg-12">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="panel panel-default">
-		                <div class="panel-heading">
-		                    <h3 class="panel-title">Basic Details</h3>
-		                    <div class="actions pull-right">
-		                    <i data-fullscreen-widget class="fa fa-expand"></i>
-		                        <i data-widget-toggle class="fa fa-chevron-down"></i>
-		                        <i data-widget-close class="fa fa-times"></i>
-		                    </div>
-		                </div>
-		                <div class="panel-body">
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">First Name</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.firstName||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Last Name</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.lastName||'-'"></label>
-		                	</div>	
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Screen Name</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.screenName||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Father Name</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.fatherName||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">State</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.stateName||'-'"></label>
-		                	</div>	
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Country</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.countryName||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Job Title</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.jobTitle||'-'"></label>
-		                	</div>	
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Team Name</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.teamName||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Employee Id</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.employeeId||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Department</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.deptName||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Date Of Joining</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.dateOfJoining||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Email</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.email||'-'"></label>
-		                	</div>	
-		                </div>					
-					</div>
-				</div>
 
-				<div class="col-md-6">
-					<div class="panel panel-default">
-		                <div class="panel-heading">
-		                    <h3 class="panel-title">Personnal Information</h3>
-		                    <div class="actions pull-right">
-		                    	<i ng-click="EditBasicProfile();" class="fa icon-pencil"></i>
-		                    	<i data-fullscreen-widget class="fa fa-expand"></i>
-		                        <i data-widget-toggle class="fa fa-chevron-down"></i>
-		                        <i data-widget-close class="fa fa-times"></i>
-		                    </div>
-		                </div>
-		                <div class="panel-body">
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Business Email</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.businessEmail||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Personal Email</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.personalEmail||'-'"></label>
-		                	</div>	
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Gmail Id</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.gmailId||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Skype Name</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.skypeName||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Date of birth</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.dateOfBirth||'-'"></label>
-		                	</div>	
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Experience</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.experience||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Previous Experience</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.previousExperience||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Mobile Number</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.mobileNumber||'-'"></label>
-		                	</div>	
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Land Line Number</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.landLineNumber||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Blood Group</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.bloodGroupName||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Com-Address</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.communicationAddress||'-'"></label>
-		                	</div>
-		                	<div class="form-group">
-		                		<label class="col-sm-4 control-label">Per-Address</label>
-		                		<label class="col-sm-1 control-label">:</label>
-		                		<label class="col-sm-6 control-label" ng-bind="user.permanentAddress||'-'"></label>
-		                	</div>	                	
-		                </div>				
-					</div>
-				</div>
-			</div>
-		</div>
+        <div class="col-md-12">
+            <div class="panel panel-default ">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Basic Tabs</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-wrapper tab-primary">
+	                    <tabset>
+	                        <tab heading="BASIC DETAILS">
+								<!-- pass in the variable if our form is valid or invalid -->
+								<form name="userForm" id="userForm">
+						        	<div class="row">
+						        		<div class="col-md-6">
+								              <div class="panel panel-default">
+								                <div class="panel-heading">
+								                    <h3 class="panel-title">Basic Details</h3>
+								                </div>
+								                <div class="panel-body">
+							                        <!-- FIRST NAME -->
+							                        <div class="form-group">
+							                            <label>First Name*</label>
+							                            <input type="text" ng-disabled="!sessionConfig.loggedInAs" name="firstName" class="k-input width-95 validate[required]" ng-model="user.firstName"/>
+							                        </div>	
+
+							                        <!-- LAST NAME -->
+							                        <div class="form-group">
+							                            <label>Last Name*</label>
+							                            <input type="text" ng-disabled="!sessionConfig.loggedInAs"  name="lastName" class="k-input width-95 validate[required]" ng-model="user.lastName"/>
+							                        </div>
+
+							                        <!-- SCREEN NAME -->
+							                        <div class="form-group">
+							                            <label>Screen Name*</label>
+							                            <input type="text" ng-disabled="!sessionConfig.loggedInAs"  name="screenName" class="k-input width-95 validate[required]" ng-model="user.screenName">
+							                        </div>
+
+							                        <!-- EMAIL -->
+							                        <div class="form-group">
+							                            <label for="email">Email*</label>
+							                            <input type="email" ng-disabled="!sessionConfig.loggedInAs"  autocomplete="off" name="email" class="k-input width-95 validate[required,custom[email]]" ng-model="user.email">
+							                        </div>
+
+							                        <!-- Gender -->
+						                            <div class="form-group">
+						                            	<label for="selGender">Gender*</label>
+						                                <select ng-disabled="!sessionConfig.loggedInAs"  class="k-input width-95 validate[required]" name="selGender" ng-model="defaultGenders"  ng-options="obj.text for obj in Genders track by obj.value"  required>
+						                                </select>
+						                            </div>
+
+							                        <!-- STATE -->
+						                            <div class="form-group">
+						                            	<label for="selState">State*</label>
+										                <select ng-disabled="!sessionConfig.loggedInAs"  name="selState" class="k-input width-95 validate[required]" ng-model="defaultStates" ng-options="obj.text for obj in states track by obj.value" >
+										                </select>	                                	
+						                            </div>	
+
+							                        <!-- COUNTRY -->
+						                            <div class="form-group">
+						                            	<label for="selCountry">Country*</label>
+										                <select ng-disabled="!sessionConfig.loggedInAs"  name="selCountry" id="selCountry" class="k-input width-95 validate[required]" ng-model="defaultCountries" ng-options="obj.text for obj in countries track by obj.value" >
+										                </select>	                                	
+						                            </div>
+
+							                        <!-- JOB TITLE -->
+							                        <div class="form-group">
+							                            <label>Job Title*</label>
+							                            <input ng-disabled="!sessionConfig.loggedInAs" type="text" name="jobTitle" class="k-input width-95 validate[required]" ng-model="user.jobTitle">
+							                        </div>
+								                </div>
+								            </div>      			
+						        		</div>
+
+						        		<div class="col-md-6">
+								            <div class="panel panel-default">
+								                <div class="panel-heading">
+								                    <h3 class="panel-title">Other Details</h3>
+								                </div>
+								                <div class="panel-body">
+							                        <!-- USER GROUP -->
+						                            <div class="form-group">
+						                            	<label for="selUserGroup">User Group*</label>
+										                <select ng-disabled="!sessionConfig.loggedInAs" name="selUserGroup" id="selUserGroup" class="k-input width-95 validate[required]" ng-model="defaultEntityGroups" ng-options="obj.text for obj in entityGroups track by obj.value" >
+										                </select>	                                	
+						                            </div>
+
+							                        <!-- DATE OF JOINING -->
+							                        <div class="form-group">
+							                            <label for="dateOfJoining">Date Of Joining*</label>
+							                            <input ng-disabled="!sessionConfig.loggedInAs" type="text" name="dateOfJoining" class="k-input width-95 validate[required]" ng-model="user.dateOfJoining" datepicker-popup="yyyy-MM-dd" ng-readonly="true" is-open="Opened" ng-click="Opened=true"/>
+							                        </div>
+							                        <!-- TEAM NAME -->
+							                        <div class="form-group">
+							                            <label for="teamName">Team Name*</label>
+							                            <input ng-disabled="!sessionConfig.loggedInAs" type="text" name="teamName" class="k-input width-95 validate[required]" ng-model="user.teamName">
+							                        </div>
+							                        <!-- EMPLOYEE ID -->
+							                        <div class="form-group">
+							                            <label for="employeeId">Employee Id*</label>
+							                            <input ng-disabled="!sessionConfig.loggedInAs" type="text" name="employeeId" class="k-input width-95 validate[required]" ng-model="user.employeeId">
+							                        </div>
+
+							                        <!-- DEPARTMENT -->
+						                            <div class="form-group">
+						                            	<label for="selDepartment">Department*</label>
+										                <select ng-disabled="!sessionConfig.loggedInAs" name="selDepartment" id="selDepartment" class="k-input width-95 validate[required]" ng-model="defaultDepartments" ng-options="obj.text for obj in departments track by obj.value" >
+										                </select>	                                	
+						                            </div>
+
+							                        <!-- REPORTING TO -->
+						                            <div class="form-group">
+						                            	<label for="selReportingTo">Reporting To</label>
+										                <select ng-disabled="!sessionConfig.loggedInAs" name="selReportingTo" id="selReportingTo" class="k-input width-95" ng-model="defaultReportingTo" ng-options="obj.text for obj in reportingto track by obj.value" >
+										                </select>	                                	
+						                            </div>
+
+							                        <!-- ALLOTTED DISTRICT -->
+						                            <div class="form-group">
+						                            	<label for="selAllottedDistrict">Allotted District</label>
+										                <select ng-disabled="!sessionConfig.loggedInAs" name="selAllottedDistrict" id="selAllottedDistrict" class="k-input width-95" ng-model="allottedDefaultDistricts" ng-options="obj.text for obj in allotteddistricts track by obj.value" >
+										                </select>	                                	
+						                            </div>
+
+							                        <!-- ALLOTTED BLOCK -->
+						                            <div class="form-group">
+						                            	<label for="selAllottedBlock">Allotted Block</label>
+										                <select ng-disabled="!sessionConfig.loggedInAs" name="selAllottedBlock" id="selAllottedBlock" class="k-input width-95" ng-model="allottedDefaultBlocks" ng-options="obj.text for obj in allottedblocks track by obj.value" >
+										                </select>	                                	
+						                            </div>	   
+
+							                        <!-- Recruitement Type -->
+						                            <div class="form-group">
+						                            	<label for="selRecruitementType">Recruitement Type</label>
+										                <select ng-disabled="!sessionConfig.loggedInAs" name="selRecruitementType" id="selRecruitementType" class="k-input width-95" ng-model="defaultRecruitementType" ng-options="obj.text for obj in recruitementType track by obj.value" >		                
+										                </select>	                                	
+						                            </div>
+								                </div>
+								            </div>      			
+						        		</div>
+						        	</div>
+								</form> 
+							    <div class="row" ng-hide="!sessionConfig.loggedInAs">
+							    	<div class="col-md-12">
+								         <div class="panel panel-default">
+								        	<div class="panel-body">
+									        	<input type="button" class="btn btn-success btn-sm" value="Save" ng-click="CreateUser();"/>
+												<input type="button" class="btn btn-danger btn-sm" ng-click="Reset();" value="Reset" /> 
+								        	</div>
+								        </div>
+							    	</div>    	
+							    </div>
+                            </tab>
+                            <tab heading="OTHER DETAILS">
+ 								<!-- pass in the variable if our form is valid or invalid -->
+								<form name="basicProfielForm" id="basicProfielForm">
+						        	<div class="row">
+						        		<div class="col-md-6">
+								              <div class="panel panel-default">
+								                <div class="panel-heading">
+								                    <h3 class="panel-title">Personal Details</h3>
+								                </div>
+								                <div class="panel-body">
+						                            <div class="form-group no-margin">
+						                                <div>
+						                                    <label for="businessEmail" class="label-adjust">Business Email</label>
+						                                    <input type="text" class="k-input width-95 validate[required,custom[email]]" id="businessEmail" name="businessEmail"
+						                                           data-ng-model="user.businessEmail" ng-maxlength="100" 
+						                                          />
+						                                </div>
+						                            </div>
+					                                <div class="form-group no-margin">
+					                                    <label for="personalEmail" class="label-adjust">Personal Email</label>
+					                                        <input type="text" class="k-input width-95" ng-change="onchange($event)" id="personalEmail" name="personalEmail"
+					                                               data-ng-model="user.personalEmail" ng-maxlength="50" 
+					                                              />
+					                                </div>                                        
+					                                <div class="form-group no-margin">
+					                                    <label for="gmailId" class="label-adjust">Gmail Id</label>
+					                                        <input type="text" class="k-input width-95" ng-change="onchange($event)" id="gmailId" name="gmailId"
+					                                               data-ng-model="user.gmailId" ng-maxlength="50" 
+					                                              />
+					                                </div>
+					                                <div class="form-group no-margin">
+					                                    <div>
+					                                        <label for="skypeName" class="label-adjust">Skype Name</label>
+					                                        <input type="text" class="k-input width-95" id="skypeName" name="skypeName"
+					                                               data-ng-model="user.skypeName" ng-maxlength="100" 
+					                                              />
+					                                    </div>
+					                                </div>
+					                                <div class="form-group no-margin">
+					                                    <label for="dateOfBirth" class="label-adjust">Date Of Birth</label>
+					                                        <input type="text" class="width-95" id="dateOfBirth" name="dateOfBirth" kendo-date-picker="dateOfBirthObject" k-options="dateOptions"
+					                                               data-ng-model="user.dateOfBirth" 
+					                                              />
+					                                </div>
+					                                <div class="form-group no-margin">
+					                                    <div>
+					                                        <label for="experience" class="label-adjust">Experience</label>
+					                                        <input type="text" class="k-input width-95" id="experience" name="experience"
+					                                               data-ng-model="user.experience" ng-maxlength="100" 
+					                                              />
+					                                    </div>
+					                                </div>
+								                </div>
+								            </div>      			
+						        		</div>
+
+						        		<div class="col-md-6">
+								            <div class="panel panel-default">
+								                <div class="panel-heading">
+								                    <h3 class="panel-title">Experience Details</h3>
+								                </div>
+								                <div class="panel-body">
+						                            <div class="form-group no-margin">
+						                                <div>
+						                                    <label for="previousExperience" class="label-adjust">Previous Experience</label>
+						                                    <input type="text" class="k-input width-95" id="previousExperience" name="previousExperience"
+						                                           data-ng-model="user.previousExperience" ng-maxlength="100" 
+						                                          />
+						                                </div>
+						                            </div>
+					                                <div class="form-group no-margin">
+					                                    <label for="mobileNumber" class="label-adjust">Mobile Number</label>
+					                                        <input type="text" class="k-input width-95 validate[required]" id="mobileNumber" name="mobileNumber"
+					                                               data-ng-model="user.mobileNumber" ng-maxlength="50" 
+					                                              />
+					                                </div>                                        
+					                                <div class="form-group no-margin">
+					                                    <label for="landLineNumber" class="label-adjust">Land Line Number</label>
+					                                        <input type="text" class="k-input width-95" id="landLineNumber" name="landLineNumber"
+					                                               data-ng-model="user.landLineNumber" ng-maxlength="50" 
+					                                              />
+					                                </div>
+					                                <div class="form-group no-margin">
+					                                    <div>
+					                                        <label for="bloodGroupName" class="label-adjust">Blood Group</label>
+				                                            <select name="selYears" class=" k-input width-95  validate[required]" ng-model="defaultBloodGroups" ng-options="obj.text for obj in bloodGroups track by obj.value"  ng-change="OnSelectedBloodGroupValue(defaultBloodGroups)" >
+				                                            </select> 
+					                                    </div>
+					                                </div>
+					                                <div class="form-group no-margin">
+					                                    <label for="communicationAddress" class="label-adjust">Communication Address</label>
+					                                        <input type="text" class="k-input width-95 validate[required]" id="communicationAddress" name="communicationAddress"
+					                                               data-ng-model="user.communicationAddress" ng-maxlength="50" 
+					                                              />
+					                                </div>
+					                                <div class="form-group no-margin">
+					                                    <div>
+					                                        <label for="permanentAddress" class="label-adjust">Permanent Address</label>
+					                                        <input type="text" class="k-input width-95" id="permanentAddress" name="permanentAddress"
+					                                               data-ng-model="user.permanentAddress" ng-maxlength="100" 
+					                                              />
+					                                    </div>
+					                                </div>
+								                </div>
+								            </div>      			
+						        		</div>
+						        	</div>
+								</form> 
+							    <div class="row">
+							    	<div class="col-md-12">
+								         <div class="panel panel-default">
+								        	<div class="panel-body">
+								                <button type="button" class="btn btn-danger btn-sm" ng-click="CloseEditBasicProfile()">Cancel</button>
+								                <button type="button" class="btn btn-success btn-sm" data-ng-click="SubmitBasicProfile()">&#160;Save&#160;</button> 
+								        	</div>
+								        </div>
+							    	</div>    	
+							    </div>  
+                            </tab>
+                        </tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</div>
 </section>
 

@@ -138,67 +138,120 @@
 	                <div class="panel-body">
 	                	<div kendo-pager k-data-source="dataSource"></div>	
                         <div class="row no-padding auto-margin" kendo-list-view  k-data-source="dataSource">
-					    	<div class="card col-md-2" card-flip k-template>
-						        <div class="front">
-									<div class="actions pull-right clear-both">
-				                        <i class="fa fa-times"></i>
-				                    </div>
-						            <span class="meta">
-			                            <span class="thumb">
-			                                <img style="height:120px;width:120px;" no-cache-src="{{dataItem.imageName}}" class="img-circle" alt="">
-			                            </span>
-			                            <div class="text">{{dataItem.screenName}}</div>
-			                            <div class="text">{{dataItem.jobTitle}}</div>
-			                        </span>
-			                        <div class="meta">
-										<div  class="text widget-gauge">
-											<label>{{dataItem.employeeId||'-'}}</label>
-										</div>		                        	
- 
-										<div  class="text widget-gauge">
-											<label ng-bind="(!dataItem.genderId)?'-':((dataItem.genderId===1)?'Male':'Female')"></label>
-										</div>			                        	
+							<div class="col-md-2 col-sm-2" k-template>
+					            <div class="card-container manual-flip"  card-flip>
+					                <div class="card">
+					                    <div class="front">
+					                        <div class="cover">
+					                            <img src="assets/images/rotating_card_thumb3.png">
+					                        </div>
+					                        <div class="user">
+					                            <img class="img-circle" no-cache-src="{{dataItem.imageName}}" class="img-circle" alt="">
+					                        </div>
+					                        <div class="content">
+					                            <div class="main">
+					                                <h3 class="name">{{dataItem.screenName}}</h3>
+					                                <p class="profession">{{dataItem.jobTitle}}</p>
+					                                <p class="text-center">
+														<i class="fa fa-fw fa-openid"></i>
+														<label>{{dataItem.employeeId||'-'}}</label>
+					                                </p>
+					                                <p class="text-center">
+														<i class="fa fa-fw" ng-class="(!dataItem.genderId)?'icon-user':((dataItem.genderId===1)?'icon-user':'icon-user-female')" ></i>
+														<label ng-bind="(!dataItem.genderId)?'-':((dataItem.genderId===1)?'Male':'Female')"></label>
+					                                </p>
+					                                					                                
+					                                <p class="text-center">
+														<i class="fa fa-fw icon-users"></i>
+														<label>{{dataItem.fatherName||'-'}}</label>
+					                                </p>
 
-										<div  class="text widget-gauge">
-											<label>{{dataItem.email||'-'}}</label>
-										</div>
+					                                <p class="text-center">
+														<i class="fa fa-fw fa-map-marker"></i>
+														<label>{{dataItem.allottedDistrictName||'-'}}</label>
+					                                </p>	
 
-							
-										<div  class="text widget-gauge">
-											<label>{{dataItem.skypeName||'-'}}</label>
-										</div>
-
-										<div  class="text widget-gauge">
-											<label>{{dataItem.dateOfJoining||'-'}}</label>
-										</div>			                        	
-
-										<div  class="text widget-gauge">
-											<label>{{dataItem.communicationAddress||'-'}}</label>
-										</div>			                        	
-
-										<div  class="text widget-gauge">
-											<label>{{dataItem.teamName||'-'}}</label>
-										</div>
-			                        </div>
-			                        <div class="meta">
-			                        	<div class="text widget-gauge width-100 icons-sections" style="position:fixed;bottom:0;">
-			                        		<span class="back-button">Back</span>
-					                    	<i class="fa fa-eye font-middle-icons"></i>
-					                        <i class="fa fa-edit font-middle-icons"></i>
-					                        <i class="fa font-middle-icons" ng-class="dataItem.IsLocked?'fa-unlock':' fa-lock'"></i>
-					                    </div>
-			                        </div>
-						        </div>
-						    
-						        <div class="back">
-						            <h3 class="first quickFlipCta">About Me</h3>
-						            <div class="meta">
-						            	<div  class="text padding-10">
-						            		{{dataItem.description}}
-						            	</div>
-						            </div>
-						        </div>			    		
-					    	</div>
+					                                <p class="text-center">
+														<i class="fa fa-fw fa-map-marker"></i>
+														<label>{{dataItem.allottedBlockName||'-'}}</label>
+					                                </p>	
+					                                <p class="text-center">
+														<i class="fa fa-fw fa-calendar"></i>
+														<label>{{dataItem.dateOfJoining||'-'}}</label>
+					                                </p>					                                
+					                            </div>
+					                            <div class="footer">
+					                                <button class="btn btn-simple back-button">
+					                                    <i class="fa fa-mail-forward"></i>
+					                                </button>
+					                                <a class="btn btn-simple" ui-sref="admin.profile({id: dataItem.id, mode: 'view'})">
+					                                    <i class="fa fa-eye font-middle-icons"></i>
+					                                </a>
+					                                <a class="btn btn-simple" ui-sref="admin.profile({id: dataItem.id, mode: 'edit'})">
+					                                    <i class="fa fa-edit font-middle-icons"></i>
+					                                </a>
+					                                <button class="btn btn-simple" ng-click="UnLock(dataItem.id)">
+					                                    <i class="fa font-middle-icons" ng-class="dataItem.IsLocked?'fa-unlock':' fa-lock'"></i>
+					                                </button>
+					                                <button class="btn btn-simple"  ng-click="deleteUser(dataItem.id)">
+					                                    <i class="fa fa-times"></i>
+					                                </button>					                                
+					                            </div>
+					                        </div>
+					                    </div> <!-- end front panel -->
+					                    <div class="back">
+					                        <div class="header">
+					                            <h5 class="motto">Personal Information</h5>
+					                        </div>
+					                        <div class="content">
+					                            <div class="main">
+					                                <h4 class="text-center">About Me</h4>
+					                                <p class="text-center">{{(dataItem.description||'Not yet updated!')|ellipsis:200}}</p>
+					                                <p class="text-center">
+														<i class="fa fa-fw fa-calendar"></i>
+														<label>{{dataItem.dateOfBirth||'-'}}</label>
+					                                </p>
+					                                <p class="text-center">
+														<i class="fa fa-edit fa-wheelchair"></i>
+														<label>{{dataItem.physicallyChallanged?'Yes' : 'No'}}</label>
+					                                </p>
+					                                <p class="text-center"> 
+														<i class="fa fa-edit fa-phone"></i>
+														<label>{{dataItem.mobileNumber||'-'}}</label>
+					                                </p>
+					                                <p class="text-center"> 
+														<i class="fa fa-edit fa-hospital-o"></i>
+														<label>{{dataItem.bloodGroupName||'-'}}</label>
+					                                </p>
+					                                <p class="text-center">
+														<i class="fa fa-fw fa-map-marker"></i>
+														<label>{{dataItem.communicationAddress||'-'}}</label>
+					                                </p>
+					                            </div>
+					                        </div>
+					                        <div class="footer">
+				                                <button class="btn btn-simple back-button">
+				                                    <i class="fa fa-mail-reply"></i>
+				                                </button>
+												<div class="social-links text-center">
+				                                	<a href="javascript:void(0);" ng-click="ResetPasswordByAdmin(dataItem.id)">
+				                                		<i class="fa fa-fw icon-key"></i>
+				                                	</a>												
+				                                	<a ng-if="dataItem.skypeName"  ng-href="{{'skype:'+dataItem.skypeName+'?userinfo'}}">
+				                                		<i class="fa fa-fw fa-skype"></i>
+				                                	</a>
+				                                	<a ng-if="dataItem.gmailId"  ng-href="{{'mailto:'+dataItem.gmailId}}">
+				                                		<i class="fa fa-fw fa-google"></i>
+				                                	</a>
+				                                	<a ng-if="dataItem.businessEmail" ng-href="{{'mailto:'+dataItem.businessEmail}}">
+				                                		<i class="fa fa-fw fa-envelope-o"></i>
+				                                	</a>
+												</div>			                                
+					                        </div>					                        
+					                    </div> <!-- end back panel -->
+					                </div> <!-- end card -->
+					        	</div> <!-- end card-container -->
+							</div>
                         </div>
                         <div kendo-pager k-data-source="dataSource"></div>		                	
 	                </div>

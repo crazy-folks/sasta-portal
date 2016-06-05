@@ -14,7 +14,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
         });
 
         $scope.jQueryValidator = new Validator($scope.formName);
-
+        $scope.viewMode = $location.search().mode === 'view' ? true : false;
         // lookup data
         $scope.countries = [];
         $scope.states = [];
@@ -23,16 +23,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
         $scope.allotteddistricts = [];
         $scope.allottedblocks = [];
         $scope.bloodGroups = [];
-        $scope.entityGroups = [{
-            "value": 0,
-            "text": "Select"
-        },{
-            "value": 1,
-            "text": "Admin"
-        },{
-            "value": 2,
-            "text": "Users"
-        }];
+        $scope.entityGroups = [];
 
         $scope.recruitementType = [{
             "value": 0,
@@ -98,14 +89,23 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             "text": "Select"
         };        
 
+       $scope.allottedDefaultBlocks = {
+            "value": 0,
+            "text": "Select"
+        };   
+       $scope.allottedDefaultDistricts = {
+            "value": 0,
+            "text": "Select"
+        };
+
         //Action of clicking product name link.
         $scope.modelDialogTitle = {
             aboumeTitle : "About Me",
             basicProfileTitle : 'Basic Profile'
         };
-
+        $scope.basicProfieValidator = new Validator($scope.basicProfielForm);
         $scope.KbasicProfileWindowWindowOptions = {
-            content: 'frontend/admin/profile/basicprofile.html',
+            content: 'admin/profile/basicprofile.html',
             title: $scope.modelDialogTitle.basicProfileTitle,
             width : '90%',
             iframe: false,
@@ -128,7 +128,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
         };
 
         $scope.kWindowOptions = {
-            content: 'frontend/admin/profile/aboutme.html',
+            content: 'admin/profile/aboutme.html',
             title: $scope.modelDialogTitle.aboumeTitle,
             width : '90%',
             iframe: false,
@@ -154,7 +154,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             var model = {
                 image : $scope.user.imageName,
                 description : $scope.user.description,
-                userId : $rootScope.sessionConfig.userId
+                userId : $location.search().id||$rootScope.sessionConfig.userId
             };
             var resp = profilefactory.UploadProfileDescription(model);
             resp.success(function(result){
@@ -195,8 +195,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             fileReader.onload = function(e) {
                 $scope.imgSrc = this.result;
                 $scope.$apply();
-            };
-            
+            };            
         }       
        
         $scope.clear = function() {
@@ -234,7 +233,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
                   "personalUrl": null,
                   "isAddressSame": true,
                   "presentAddress": $scope.user.permanentAddress,
-                  "userId": $rootScope.sessionConfig.userId
+                  "userId": $location.search().id||$rootScope.sessionConfig.userId
                 };
                 var resp = profilefactory.UpdateBasicProfile(model);
                 resp.success(function(result){
@@ -318,10 +317,20 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
       };
 
 	function GetProfileInformation(){
-        var response = profilefactory.GetUsers($rootScope.sessionConfig.userId);
+        var response = profilefactory.GetUsers($location.search().id||$rootScope.sessionConfig.userId);
         response.success(function(result){
             if(result instanceof Array){
             	$scope.user = result[0];
+                $scope.defaultGenders.value = $scope.user.genderId||'0';
+                $scope.defaultStates.value = $scope.user.stateId||'0';
+                $scope.defaultCountries.value = $scope.user.countryId||'0';
+                $scope.defaultEntityGroups.value = $scope.user.userGroupId||'0';
+                $scope.defaultDepartments.value = $scope.user.departmentId||'0';
+                $scope.defaultReportingTo.value = $scope.user.reportingId||'0';
+                $scope.allottedDefaultBlocks.value = $scope.user.allottedBlock||'0';
+                $scope.allottedDefaultDistricts.value = $scope.user.allottedDistrict||'0';
+                $scope.defaultRecruitementType.value = $scope.user.recruitmentId||'0';
+                $scope.defaultBloodGroups.value = $scope.user.bloodGroupId||'0';
             }else{
 				var messageTemplate = '<span>'+result.data+'</span>';
 		  		notify({
@@ -381,6 +390,11 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
                     for (var i=0; i<result.length; i++){
                         $scope.bloodGroups.push(result[i]);
                     }                    
+                }else if(type === 16){//blood groups
+                     $scope.entityGroups.push(defaultOptions);
+                    for (var i=0; i<result.length; i++){
+                        $scope.entityGroups.push(result[i]);
+                    }                    
                 }
             }else{
                 notify({
@@ -405,6 +419,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
     GetLookupValues(1);
     GetLookupValues(7);
     GetLookupValues(5);
+    GetLookupValues(16);
 
     // Get Profile Information
     GetProfileInformation();

@@ -80,19 +80,16 @@ function widgetToggle() {
 function cardFlip() {
     return {
         restrict: 'A',
-        link: function(scope, element) {
+        link: function(scope, element) {             
             $(element).find('.back-button').on('click',function(e){
-              $(element).flip({
-                axis: "y",
-                reverse: true,
-                trigger: "click"
-              });
-            });
-          $(element).flip({
-            axis: "y",
-            reverse: true,
-            trigger: "click"
-          });            
+                var $card = $(this).closest('.card-container');
+                console.log($card);
+                if($card.hasClass('hover')){
+                    $card.removeClass('hover');
+                } else {
+                    $card.addClass('hover');
+                }
+            });           
         }
     }
 };
@@ -666,3 +663,39 @@ angular
     .directive('cardFlip', cardFlip)
     .directive('toggle',toggle)
     
+
+
+/**
+ * NSF - Responsive Admin Theme
+ * Copyright 2019 NSF.  
+ *
+ * TABLE OF CONTENTS
+ * Use @ along with function name to search for the filters.
+ *
+ *  @ellipsis - ellipsis filter for truncate string with ellipsis
+ *                - @Param text
+ *               - @Param length, default is based on app settings
+ *               - @Param end, default is "..."
+ *               - @return string                
+ *
+ */
+
+function ellipsis() {
+    return function (text, length, end) {
+        if (isNaN(length))
+            length = 10;
+        if (end === undefined)
+            end = "...";
+
+        if (text.length <= length || text.length - end.length <= length) {
+            return text;
+        }
+        else {
+            return String(text).substring(0, length - end.length) + end;
+        }
+
+    };
+}
+
+angular.module('sastaboard').
+    filter('ellipsis', ellipsis);

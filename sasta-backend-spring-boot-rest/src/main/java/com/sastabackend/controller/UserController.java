@@ -97,6 +97,28 @@ public class UserController {
         return userService.ChangePassword(userid, oldPassword, NewPassword, changedby);
     }
 
+
+    @ApiOperation(value = "Change Password By Admin", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/resetpasswordbyadmin", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseModel ChangePasswordByAdmin(@RequestParam("UserId") Long userid,@RequestParam("ChangeReqBy") Boolean changedby){
+        return userService.ChangePassword(userid, "sasta@123", "sasta@123", changedby);
+    }
+
+    @ApiOperation(value = "Change Password By Admin", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/deleteusersbyadmin", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseModel DeleteUserByAdmin(@RequestParam("UserId") Long userid,@RequestParam("modifiedby") Long modifiedby){
+        return userService.DeleteUsers(userid, modifiedby);
+    }
+
+    @ApiOperation(value = "un lock user By Admin", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/unlock", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseModel UnLock(@RequestParam("UserId") Long userid,@RequestParam("modifiedby") Long modifiedby){
+        return userService.UnLock(userid,modifiedby);
+    }
+
     @ApiOperation(value = "search users", response = ResponseModel.class, httpMethod = "POST")
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     @ResponseBody

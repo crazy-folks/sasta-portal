@@ -1,7 +1,8 @@
- function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider) {
+ function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider,$compileProvider) {
     
     $httpProvider.defaults.cache = true;
     $urlRouterProvider.otherwise("/ui/index");
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|skype|chrome-extension):/);
 
     $stateProvider
         .state('ui', {
@@ -173,12 +174,13 @@
             controller : 'VillagePanchayatController as vpCtl'
         })
        .state('admin.profile', {
-            url: "/profile",
+            url: "/profile?id=&mode=view",
             templateUrl: "admin/profile/profile.html",
             data: {
                 pageTitle: 'Profile Information'
             },
-            controller : 'ProfileController as ProfileCtl'
+            controller : 'ProfileController as ProfileCtl',
+            params: {id: null, mode : null}
         })
         .state('entries', {
             abstract: true,
@@ -378,7 +380,7 @@
         
 }
 angular.module('sastaboard')
-    .config(['$locationProvider','$stateProvider', '$urlRouterProvider','$httpProvider',config])
+    .config(['$locationProvider','$stateProvider', '$urlRouterProvider','$httpProvider','$compileProvider',config])
     .constant("appConfig", {
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
