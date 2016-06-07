@@ -1,57 +1,66 @@
-<header class="header cfx">
-  <div class="container headerinr cfx">
-    <h1 class="site-logo"> <a href="index.html"><img src="assets/figure/logo-lt.png" alt=""></a> </h1>
-    <div class="logo-rt"> <a href="#"><img src="assets/figure/logo-rt.png" alt=""></a> </div>
-  </div>
-  <!--Navbar Start Here-->
-  <nav class="navbar navbar-default">
-    <div class="container"> 
-      <!-- Brand and toggle get grouped for better mobile display -->
-     
-      
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="active"><a ng-click="redirectToHome($event);" ><span class="home-ic"><img src="assets/figure/home-ic.png" alt=""></span></a></li>
-          <li><a ng-click="redirectToAboutUs($event);">ABOUT US</a></li>
-          <li><a ng-click="redirectToUsefulLinks($event);">USEFUL LINKS</a></li>
-          <li><a ng-click="redirectToCareers($event);">CAREERS</a></li>
-          <li><a ng-click="redirectToNews($event);" >News</a></li>
-          <li><a ng-click="redirectToContactUs($event);">CONTACT US</a></li>
-        </ul>
-        <!--Loging Section Desktop and Tab View-->
-        <div class="login-sec hidden-xs">
-                       <ul id="jx-main-menu" class="menu">
-                            <li >
-                                <a href="javascript:void(0);" ng-click="toggle()" ><i class="user-ic"></i>Login</a>
-                                    <ul class="submenu" toggle="1">                                     
-                                    <li>
+<header>
+    <div class="jx-header-1">
+        <div class="jx-header header-line">
+            <div class="container">
+                <div class="four columns">
+                    <div class="jx-header-logo">
+                        <a href="index.html"><img src="assets/images/header_logo.png" alt="" /></a>
+                     </div>
+                </div>                
+                <div class="twelve columns">
+                    <div class="header-info">
+                        <ul>
+                            <li>
+								 <div class="centerlogo"><img src="assets/images/header_logo-2.png" alt="" /></div>
+								 <div class="rightlogo"><img src="assets/images/header_logo-3.png" alt="" /></div>
+                            </li> 
+                        </ul>
+                    </div>
+                </div>                
+            </div>
+        </div>     
+    </div>
+    
+    <div class="jx-menu-holder jx-sticky">
+    	<div class="container">
+                <div class="header-menu-left">
+                    <div class="nav_container">
+                        <ul id="jx-main-menu" class="menu">
+                            <li class="active"><a ng-click="redirectToHome($event);">Home</a></li>
+                            <li><a ng-click="redirectToAboutUs($event);">About Us</a></li>
+                            <li><a ng-click="redirectToUsefulLinks($event);">Useful Links</a></li>
+							<li><a ng-click="redirectToCareers($event);">Careers</a></li>
+                            <li><a ng-click="redirectToContactUs($event);">Contact Us</a></li>
+                        </ul>                  	                  
+                    </div>
+                </div>
+                
+                <div class="header-search-right">
+                    <div class="nav_container">
+					   <ul id="jx-main-menu" class="menu">
+					   		<li >
+                                <a href="javascript:void(0);" ng-click="toggle()">Login</a>
+                                    <ul class="submenu" toggle>                                    	
+                                	<li>
                                         <ul>                                        
                                             <li>
-                                                <div class="login-menu">
-                                                    <form>
-                                                      <label for="username">User Name:</label>
-                                                      <input type="text" ng-trim="true" ng-model = "vm.userName" name="username" class="txtfield" tabindex="1">
-                                                      <label for="password">Password:</label>
-                                                      <input type="password"  ng-model = "vm.password" name="password" class="txtfield" tabindex="2">
-                                                      <input type="submit" ng-click="login()" name="loginbtn" class="flatbtn-blu" tabindex="3" value="Login">
-                                                    </form>
-                                                </div>
-                                            </li>
+												<div class="login-menu">
+													<form>
+													  <label for="username">User Name:</label>
+													  <input type="text" ng-trim="true" ng-model = "vm.userName" name="username" class="txtfield" tabindex="1">
+													  <label for="password">Password:</label>
+													  <input type="password"  ng-model = "vm.password" name="password" class="txtfield" tabindex="2">
+													  <input type="submit" ng-click="login()" name="loginbtn" class="flatbtn-blu" tabindex="3">
+													</form>
+												</div>
+											</li>
                                         </ul>
                                      </li>
                                  </ul>
                             </li> 
-                             </ul>        
-                
+							 </ul>        
+                    </div>
+                </div>
         </div>
- 
-        
-        <!--Loging Section Desktop and Tab View--> 
-      </div>
-      <!-- /.navbar-collapse --> 
-    </div>
-    <!-- /.container-fluid --> 
-  </nav>
-  <!--Navbar End Here--> 
-</header>
+     </div>    
+</header> 

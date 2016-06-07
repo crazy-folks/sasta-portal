@@ -81,7 +81,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
       }
 
       $scope.kaddWindowOptions = {
-          content: 'frontend/admin/recovery/add.html',
+          content: 'admin/recovery/add.html',
           title: $scope.modelDialogTitle.AddAuditTitle,
           width : '80%',
           height:'400px',
@@ -105,7 +105,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
       }; 
 
       $scope.keditWindowOptions = {
-          content: 'frontend/admin/recovery/edit.html',
+          content: 'admin/recovery/edit.html',
           title: $scope.modelDialogTitle.EditAuditTitle,
           iframe: false,
           width : '90%',
@@ -213,29 +213,36 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
           model.setteledParasGsCount =0;
           model.parasAmount=0;
           model.pendingParasCount=0;
-          model.setteledParasGsAmount = model.setteledParasGsCount = model.recoveredAmount = model.setteledParasAmount = model.setteledParasCount = 0;     
+          model.setteledParasGsAmount = 0;
+          model.setteledParasGsCount = 0;
+          model.recoveredAmount = 0;
+          model.setteledParasAmount = 0;
+          model.setteledParasCount = 0;     
           angular.forEach(list,function(item,key){  
-
-            if((item.recoveryType)||(parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))){
+            var fullyPaided = (parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0));
+            if((item.recoveryType)){
               model.recoveredAmount =  parseFloat(model.recoveredAmount||0) + parseFloat(item.recoveredAmount||0);
               if(item.recoveryType){
                 model.setteledParasGsAmount = parseFloat(model.setteledParasGsAmount||0) + parseFloat(item.actualAmount||0);
                 model.setteledParasGsCount++;                
               }              
               model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
-              model.setteledParasCount++;               
-            }else{
-              if((parseFloat(item.recoveredAmount||0)<parseFloat(item.actualAmount||0))){
-                model.recoveredAmount = parseFloat(model.recoveredAmount) + parseFloat(item.recoveredAmount||0);
+              fullyPaided&&(model.setteledParasCount++); 
+              !fullyPaided&&(model.pendingParasCount++,(
+                model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0))
+              ));              
+            }else if((parseFloat(item.recoveredAmount||0)<parseFloat(item.actualAmount||0))){
                 if(item.recoveryType){
                   model.setteledParasGsAmount = parseFloat(model.setteledParasGsAmount||0) + parseFloat(item.actualAmount||0);
-                  model.setteledParasGsCount++;
+                  model.setteledParasGsCount++;                
                 }
+                model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);                  
                 model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
                 model.pendingParasCount++;                
-              }
+            }else if(fullyPaided){
+              model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
+              model.setteledParasCount++;                  
             }
-          
             model.parasAmount = parseFloat(model.parasAmount||0) + parseFloat(item.actualAmount||0);
             model.parasCount++;
           });          
@@ -546,7 +553,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
                   title : "No of paras setteled in GS",
                   columns :[
                     { field: "setteledParasGsCount",headerTemplate: "No", title : "Paras setteled in GS No",width: '130px', groupable:false  },
-                    { field: "setteledParasGsAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Paras setteled in GS Amount",width: '130px', groupable:false },
+                    { field: "setteledParasGsAmount",format: '{0:n0}', headerTemplate : "Amount(Token)", title : "Paras setteled in GS Amount",width: '130px', groupable:false },
                   ]
                 },
                 { field: "recoveredAmount", title : "Amount Recovered In GS ", groupable:false,width: '130px'  },

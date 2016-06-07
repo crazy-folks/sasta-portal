@@ -113,11 +113,11 @@ blockquote.right {
 }
 ::selection {
   color: #ffffff;
-  background:#1F3488;
+  background:#7ba525;
 }
 ::-moz-selection {
   color: #ffffff;
-  background:#1F3488;
+  background:#7ba525;
 }
 		
 			
@@ -400,7 +400,7 @@ hr {
 a {
   text-decoration: none;
   outline: 0;
-  color:#1F3488;
+  color:#007701;
   transition:all 0.3s ease-out
 }
 a:hover{
@@ -435,19 +435,15 @@ ul.disc {
   list-style: disc outside;
 }
 ul ul,ul ol,ol ol,ol ul {
-  margin: 15px 0 5px 30px;
+  margin: 4px 0 5px 30px;
   font-size: 90%;
 }
 ul ul li,ul ol li,ol ol li,ol ul li {
   margin-bottom: 6px;
 }
-/*li {
-  line-height: 18px;
-  margin-bottom: 12px;
-}*/
 li {
   line-height: 18px;
- 
+  margin-bottom: 12px;
 }
 ul.large li {
   line-height: 21px;
@@ -1081,7 +1077,7 @@ table th {
   font-size: 12px;
   padding: 10px;
   text-align: center;
-    background-color:#1F3488;
+    background-color:#007701;
 }
 table td {
   text-align: center;
@@ -2058,7 +2054,7 @@ div.pp_overlay {
   color: #fff;
   border-radius: 46px;
 }
-/*.menu > li {
+.menu > li {
   display: inline-block;
 	vertical-align: top;
 	margin: -14px 0px;
@@ -2067,7 +2063,7 @@ div.pp_overlay {
 }
 
 .menu > li:hover {
-    border-top: 4px solid #1F3488;
+    border-top: 4px solid #007701;
 }
 
 .menu li.with-sub:after {
@@ -2095,8 +2091,6 @@ div.pp_overlay {
 	border-radius: 10px;
 	font-weight:400;
 }
-*/
-.menu > li{ margin-bottom: 0px; }
 
 
 .menu .jx-mega-menu-title{
@@ -2162,12 +2156,12 @@ div.pp_overlay {
   margin-bottom:0;
 }
 .menu li li li{
-    background: #1F3488;
+    background: #7da526;
     border-radius: 5px;
     padding: 5px 2px 0px 2px;
-	border-bottom: 1px solid #1F3488;
-	border-left: 1px solid #1F3488;
-	border-right: 1px solid #1F3488;
+	border-bottom: 1px solid #6e9121;
+	border-left: 1px solid #6e9121;
+	border-right: 1px solid #6e9121;
 }
 .menu li .submenu li.col {
 	width:235px;
@@ -2432,7 +2426,7 @@ div.pp_overlay {
 	/* Button */
 .slicknav_btn {
 	margin: 26px;
-	border: 1px solid #1F3488;
+	border: 1px solid #007701;
 	position: absolute;
 	right: 0px;
 	background: #7da526 none repeat scroll 0% 0%;
@@ -3083,9 +3077,9 @@ div.pp_overlay {
 	font-weight: 400;
 	line-height: 1.2em;
 	float:left;
-	color: #1F3488;
+	color: #006600;
 	font-family: oswald;
-	padding: 15px 0px;
+	padding: 5px 0px 5px 0px;
 }
 .jx-section-title-1 .jx-title-position {
 	position: relative;
@@ -3112,9 +3106,10 @@ div.pp_overlay {
 	color:#FFB300;
 }
 .jx-section-title-1 .jx-subtitle {
-	color: #000;
-	font-size: 14px;
-  text-align: justify;	
+	color: #666;
+	font-size: 16px;
+	max-width: 900px;
+	margin: 0px auto;
 	line-height: 1.5;
 }
 
@@ -3147,7 +3142,7 @@ div.pp_overlay {
   margin-bottom: 20px;
   margin-left: 0;
   border: none;
-  background-color: #1F3488;
+  background-color: #007701;
 }
 .jx-section-title-2.jx-light .jx-title{
   color:#fff;
@@ -3167,7 +3162,7 @@ div.pp_overlay {
 .jx-section-title-3 .jx-title {
 	font-size: 28px;
 	font-weight: 600;
-	color: #1F3488;
+	color: #007701;
 	margin-bottom: 8px;
 	line-height: 35px;
 	font-family: raleway;
@@ -3939,7 +3934,7 @@ color:#ffb300
 .bgblue {background-color:#4597be;}
 .jx-useful-links ul li a{ font-size: 16px; font-weight: 500;  font-style: italic; line-height: 23px;}
 .min-height {min-height:600px;}
-.active{background-color: #1F3488; border-radius: 0px 0px 6px 6px;}
+.active{background-color: #007701; border-radius: 0px 0px 6px 6px;}
 table tbody {border: 1px #ccc solid;}
 #content {
   display: block;
@@ -3960,7 +3955,7 @@ table tbody {border: 1px #ccc solid;}
   border: 0;
   color: #f3faef;
   text-decoration: none;
-  background-color: #1F3488;
+  background-color: #007701;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   font-size: 1.2em;
   font-weight: bold;
@@ -3987,7 +3982,7 @@ table tbody {border: 1px #ccc solid;}
   border: 0;
   color: #f3faef;
   text-decoration: none;
-  background-color: #1F3488;
+  background-color: #007701;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   font-size: 1.2em;
   font-weight: bold;
@@ -4078,7 +4073,7 @@ table tbody {border: 1px #ccc solid;}
 .login-menu label {color:#FFF;}
 /* Spinner Theme Start */
 .spin-theme {
-    background-color: #1F3488;
+    background-color: #007701;
 }
 .table {
     width: 100%;
@@ -4106,6 +4101,4 @@ table tbody {border: 1px #ccc solid;}
     font-size: 20px;
     color:#fff !important;
 }
-/* Spinner Theme End */.overlay iframe {
-    pointer-events: none;
-}
+/* Spinner Theme End */

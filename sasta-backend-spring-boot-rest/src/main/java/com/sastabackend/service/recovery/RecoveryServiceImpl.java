@@ -127,7 +127,7 @@ public class RecoveryServiceImpl implements RecoveryService {
         inParamMap.put("parascount", rc.getParasCount());
         inParamMap.put("parasamt", rc.getParasAmount());
         inParamMap.put("settledparasgscount", rc.getSetteledParasGsCount());
-        inParamMap.put("settledparasgsamt", rc.getSetteledParasAmount());
+        inParamMap.put("settledparasgsamt", rc.getSetteledParasGsAmount());
         inParamMap.put("recoveredamt", rc.getRecoveredAmount());
         inParamMap.put("setteledparascount", rc.getSetteledParasCount());
         inParamMap.put("settledparasamt", rc.getSetteledParasAmount());
@@ -168,7 +168,7 @@ public class RecoveryServiceImpl implements RecoveryService {
         inParamMap.put("parascount", rc.getParasCount());
         inParamMap.put("parasamt", rc.getParasAmount());
         inParamMap.put("settledparasgscount", rc.getSetteledParasGsCount());
-        inParamMap.put("settledparasgsamt", rc.getSetteledParasAmount());
+        inParamMap.put("settledparasgsamt", rc.getSetteledParasGsAmount());
         inParamMap.put("recoveredamt", rc.getRecoveredAmount());
         inParamMap.put("setteledparascount", rc.getSetteledParasCount());
         inParamMap.put("settledparasamt", rc.getSetteledParasAmount());
