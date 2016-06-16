@@ -250,8 +250,8 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
     	    $q.when(true).then(function(value) {
 		        return GetAudit(decodeURIComponent($location.search().aid)); // Will be resolved (1)
 		    }).then(function(value) { 
-		    	$scope.villages = [];       
-		        return GetLookupValues($rootScope.appConfig.lookupTypes.DistrictsVillagePanchayats,(session.allottedDistrict?session.allottedDistrict:''));
+		    	$scope.villages = [];  
+		        return GetLookupValues($rootScope.appConfig.lookupTypes.DistrictsVillagePanchayats,(($scope.vrp.auditDistrictId )?$scope.vrp.auditDistrictId :(session.allottedDistrict?session.allottedDistrict:'')));
 		    }).then(function(value) {
 			       var vid = 0;
 			       if($scope.editvrp.villagePanchayatId != null)
@@ -597,7 +597,7 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 					$scope.editdefaultqualifications = angular.copy($scope.defaultSelections);
 	    	});
 
-			GetLookupValues($rootScope.appConfig.lookupTypes.DistrictsVillagePanchayats,(session.allottedDistrict?session.allottedDistrict:'')).done(function(result){
+			GetLookupValues($rootScope.appConfig.lookupTypes.DistrictsVillagePanchayats,((data.auditDistrictId)?data.auditDistrictId:(session.allottedDistrict?session.allottedDistrict:''))).done(function(result){
 	        		var v = jQuery.map( $scope.villages, function( n, i ) {
 						if(data.villagePanchayatId === n.value)
 							return n;						

@@ -533,7 +533,7 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
                 o.setCreatedBy(set.getLong("created_by"));
             if(hasColumn("modified_by"))
                 o.setModifiedBy(set.getLong("modified_by"));
-            //o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
             //o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
             if(hasColumn("is_active"))
                 o.setStatus(set.getBoolean("is_active"));

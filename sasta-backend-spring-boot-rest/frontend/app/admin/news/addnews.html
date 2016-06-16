@@ -1,0 +1,73 @@
+<div class="pageheader">
+    <h1>News</h1>
+    <div class="breadcrumb-wrapper hidden-xs">
+        <span class="label">You are here:</span>
+        <ol class="breadcrumb">
+            <li><a ui-sref="admin.home">Dashboard</a>
+            </li>
+            <li>Masters</li>
+            <li class="active">Add News</li>
+        </ol>
+    </div>
+</div>
+
+<section id="main-content" class="animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <!--button start-->
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title">Add News</h3>
+                            <div class="actions pull-right">
+                            <i data-fullscreen-widget class="fa fa-expand"></i>
+                                <i data-widget-toggle class="fa fa-chevron-down"></i>
+                                <i data-widget-close class="fa fa-times"></i>
+                            </div>
+                          </div>
+                          <div class="panel-body">
+                            <form class="form-horizontal" name="frmAddNews" id="frmAddNews">
+                                <div class="form-group">
+                                    <label for="selectTypes"  class="label-adjust">Type</label>
+                                    <select name="selectTypes" class="k-input  width-100 validate[required]" ng-model="defaultTypes" ng-options="obj.text for obj in types track by obj.value">
+                                        <option value="">Choose Type</option>
+                                    </select>                    
+                                </div>                             
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Upload your image</label>
+                                    <input type="file" id="exampleInputFile"  file-model="file" />
+                                    <p class="help-block">Please choose your image!</p>
+                                    <button ng-click="uploadFile()">Upload</button>
+                                </div>                           
+                                <div class="form-group no-margin">
+                                    <label for="txttitle"  class="label-adjust">
+                                        Title
+                                    </label>
+                                    <input name="txttitle" type="text" class="k-input width-100" ng-model="defaultOptions.title" />
+                                </div>
+                                <div class="form-group no-margin">
+                                    <label for="txtcontent"  class="label-adjust">
+                                        Content
+                                    </label>
+                                    <textarea name="txtcontent" kendo-editor ng-model="defaultOptions.content" k-encoded="false"></textarea>
+                                </div>
+                            </form>                           
+                          </div>
+                            <div class="panel-body">
+                                <div class="row no-padding auto-margin">
+                                    <div class="row no-padding auto-margin">
+                                        <div class="dialog-buttons dialog-footer text-right"> 
+                                            <button type="button" ng-click="doReset()" class="btn btn-danger btn-sm">Cancel</button>
+                                            <button type="button" ng-click="addNews()" class="btn btn-success btn-sm">&#160;Submit&#160;</button>
+                                        </div>            
+                                    </div>                             
+                                </div>
+                            </div>                           
+                        </div>
+                    </div>
+                  </div>
+            <!--button end-->
+        </div>
+    </div>
+</section>

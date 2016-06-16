@@ -490,7 +490,7 @@ var Util = {
               targetOffset = $(grid.element).offset();
               var position ={
                 top : (offset.top-targetOffset.top)-$(e.target).find("ul").height(),
-                'z-index':999001,
+                'z-index':2147483647,
                 left : (offset.left - targetOffset.left)-130
               };
 

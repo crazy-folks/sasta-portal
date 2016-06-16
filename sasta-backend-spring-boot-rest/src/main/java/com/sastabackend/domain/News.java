@@ -21,6 +21,7 @@ public class News implements java.io.Serializable,CommonProperties{
     private Long image_id;
     private String image_name;
     private String content;
+    private Integer type_id;
 
     private Boolean is_active;
     private java.sql.Timestamp created_date;
@@ -71,6 +72,14 @@ public class News implements java.io.Serializable,CommonProperties{
 
     public void setImageName(String image_name) {
         this.image_name = image_name;
+    }
+
+    public Integer getTypeId() {
+        return type_id;
+    }
+
+    public void setTypeId(Integer type_id) {
+        this.type_id = type_id;
     }
 
     @Override

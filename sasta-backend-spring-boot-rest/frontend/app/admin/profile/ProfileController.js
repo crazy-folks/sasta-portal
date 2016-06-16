@@ -105,7 +105,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
         };
         $scope.basicProfieValidator = new Validator($scope.basicProfielForm);
         $scope.KbasicProfileWindowWindowOptions = {
-            content: 'frontend/admin/profile/basicprofile.html',
+            content: 'admin/profile/basicprofile.html',
             title: $scope.modelDialogTitle.basicProfileTitle,
             width : '90%',
             iframe: false,
@@ -128,7 +128,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
         };
 
         $scope.kWindowOptions = {
-            content: 'frontend/admin/profile/aboutme.html',
+            content: 'admin/profile/aboutme.html',
             title: $scope.modelDialogTitle.aboumeTitle,
             width : '90%',
             iframe: false,

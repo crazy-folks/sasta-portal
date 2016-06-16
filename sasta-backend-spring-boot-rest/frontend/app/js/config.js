@@ -376,7 +376,32 @@
             controller : 'RecoveryController as recoveryCtl',
             params: {aid: null}
         })
-
+        .state('news', {
+            abstract: true,
+            url: "/news",
+            templateUrl: "admin/adminlayout.html",
+            data: {
+                pageTitle: 'Home'
+            }
+        })
+         .state('news.newslist', {
+            url: "/newslist?mode",
+            templateUrl: "admin/news/newslist.html",
+            data: {
+                pageTitle: 'News'
+            },
+            controller : 'NewsController as NewsCtl',
+            params: {mode: 'list'}
+        })
+        .state('news.addnews', {
+            url: "/addnews",
+            templateUrl: "admin/news/addnews.html",
+            data: {
+                pageTitle: 'News'
+            },
+            controller : 'NewsController as NewsCtl',
+            params: {newsid: null,mode: 'add'}
+        })
         
 }
 angular.module('sastaboard')

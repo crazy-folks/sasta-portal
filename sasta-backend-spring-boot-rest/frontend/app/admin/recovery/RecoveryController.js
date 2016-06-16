@@ -227,18 +227,17 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
                 model.setteledParasGsCount++;                
               }              
               model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
-              fullyPaided&&(model.setteledParasCount++); 
-              !fullyPaided&&(model.pendingParasCount++,(
+              (fullyPaided||item.paidedType)&&(model.setteledParasCount++); 
+              (!fullyPaided&&(!item.paidedType))&&(model.pendingParasCount++,(
                 model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0))
               ));              
             }else if((parseFloat(item.recoveredAmount||0)<parseFloat(item.actualAmount||0))){
-                if(item.recoveryType){
-                  model.setteledParasGsAmount = parseFloat(model.setteledParasGsAmount||0) + parseFloat(item.actualAmount||0);
-                  model.setteledParasGsCount++;                
+                model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0); 
+                (item.paidedType)&&(model.setteledParasCount++);
+                if(!item.paidedType){
+                  model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
+                  model.pendingParasCount++;                  
                 }
-                model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);                  
-                model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
-                model.pendingParasCount++;                
             }else if(fullyPaided){
               model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
               model.setteledParasCount++;                  

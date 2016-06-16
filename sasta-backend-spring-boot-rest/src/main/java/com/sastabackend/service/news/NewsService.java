@@ -1,6 +1,8 @@
 package com.sastabackend.service.news;
 
+import com.sastabackend.domain.Images;
 import com.sastabackend.domain.News;
+import com.sastabackend.domain.Posts;
 import com.sastabackend.domain.ResponseModel;
 
 /**
@@ -12,4 +14,5 @@ public interface NewsService {
     ResponseModel findAll();
     ResponseModel Add(News rc);
     ResponseModel Update(News rc);
+    ResponseModel UploadImage(Posts image);
 }
