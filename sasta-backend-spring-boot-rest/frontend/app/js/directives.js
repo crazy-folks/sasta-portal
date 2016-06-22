@@ -32,6 +32,53 @@ function pageTitle($rootScope, $timeout) {
     }
 };
 
+
+function circleSlider($rootScope){
+    return {
+        link : function(scope,element){
+            $(element).tinycircleslider({
+                dotsSnap : true,   
+                radius   : 170,   
+                dotsHide : false,
+                interval : true
+            });           
+        }
+    }
+};
+
+
+ /*
+ * @scrollTop - Scroll to Top
+ */
+function scrollTop($rootScope){
+    return {
+        link : function(scope,element){
+            $(element).on('click',function(){
+                jQuery('html, body').animate({scrollTop:0}, 'slow');                
+            })
+        }
+    }
+};
+
+ /*
+ * @stickyHeader - Scroll Header
+ */
+function stickyHeader($rootScope){
+    return {
+        link : function(scope,element){
+            $(window).scroll(function() {
+                  if ($(this).scrollTop() > 50){  
+                    $(element).addClass("sticky");
+                  }
+                  else{
+                    $(element).removeClass("sticky");
+                  }
+            });         
+        }
+    }
+};
+
+
  /*
  * @topNavigation - top Navigation Directive for top navigation
  */
@@ -47,14 +94,48 @@ function topNavigation($rootScope, $timeout) {
     };
 }
  /*
- * @sastaAutoSlider - Auto Slider with some images
+ * @slidePanel - Auto Slider with some images
  */
-function sastaAutoSlider($rootScope, $timeout) {
+function slidePanel($rootScope, $timeout) {
     return {
         restrict : 'A',
         link : function(scope,element){
-            window.Theme.initialized = false;
-            window.Theme.initialize();
+            var options = {
+                nextButton: false,
+                prevButton: false,
+                pagination: true,
+                animateStartingFrameIn: false,
+                autoPlay: true,
+                autoPlayDelay: 4000,
+                preloader: true,
+                reverseAnimationsWhenNavigatingBackwards: false, 
+        //         preloadTheseFrames: [1, 2, 3, 4],
+        /*
+                preloadTheseImages: [
+                    "../img/Merrifield_Streetscape_View2_FINAL2_low-res(2).jpg",
+                    "../img/Rosette-Parade_view02_FINAL_low-res.jpg",
+                    "../img/nostra-bg.jpg",
+                    "images/tn-model1.png",
+                    "images/tn-model2.png",
+                    "images/tn-model3.png"
+                ]
+        */
+            };
+            
+            var sequence = $(element).sequence(options).data("sequence");
+        //     sequence.stopAutoPlay();
+        //    sequence.pause();
+        //     mySequence.pause();
+               sequence.beforeCurrentFrameAnimatesOut = function() {
+                   
+                    //add code to execute here, such as:
+        //             alert("Do something before the CURRENT frame animates out");
+                };
+
+                sequence.beforeNextFrameAnimatesIn = function(){
+                    //add code to execute here, such as:
+        //             alert("Do something before the NEXT frame animates in");
+                };
         }
     };
 }
@@ -629,23 +710,6 @@ function toggle(){
     };   
 }
 
-
-function fileModel($parse){
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            var model = $parse(attrs.fileModel);
-            var modelSetter = model.assign;
-            
-            element.bind('change', function(){
-                scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
-                });
-            });
-        }
-    };   
-}
-
 /*
  * Pass functions to module
  */
@@ -654,7 +718,7 @@ angular
     .directive('noCacheSrc', noCache)
     .directive('pageTitle', pageTitle)
     .directive('topNavigation',topNavigation)
-    .directive('sastaAutoSlider',sastaAutoSlider)
+    .directive('slidePanel',slidePanel)
     .directive('widgetToggle', widgetToggle)
     .directive('widgetClose', widgetClose)
     .directive('toggleLeftSidebar', toggleLeftSidebar)
@@ -679,8 +743,9 @@ angular
     .directive('switchTheme', switchTheme)
     .directive('cardFlip', cardFlip)
     .directive('toggle',toggle)
-    .directive('fileModel',fileModel)
-
+    .directive('circleSlider',circleSlider)
+    .directive('scrollTop',scrollTop)
+    .directive('stickyHeader',stickyHeader) 
 
 /**
  * NSF - Responsive Admin Theme

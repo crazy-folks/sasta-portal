@@ -2,139 +2,211 @@ app.controller('NewsController',['$http','$window','$scope','$rootScope','notify
 	function($http,$window,$scope,$rootScope,notify,$location,$state,storage,newsFactory){
 
 
-  $scope.defaultOptions = {
-	  "id": null,
-	  "title": "",
-	  "content": "",
-	  "status": true,
-	  "imageId": null,
-	  "modifiedBy": $rootScope.sessionConfig.userId,
-	  "createdBy": $rootScope.sessionConfig.userId,
-	  "imageName": "",
-	  "typeId": null,
-	  "createdDate": null,
-	  "modifiedByName": "",
-	  "modifiedDate": null,
-	  "createdByName": ""
-	};
+	  $scope.defaultOptions = {
+		  "id": null,
+		  "title": "",
+		  "content": "",
+		  "status": true,
+		  "imageId": null,
+		  "modifiedBy": $rootScope.sessionConfig.userId,
+		  "createdBy": $rootScope.sessionConfig.userId,
+		  "imageName": "",
+		  "typeId": null,
+		  "createdDate": null,
+		  "modifiedByName": "",
+		  "modifiedDate": null,
+		  "createdByName": ""
+		};
 
-	$scope.types = [{
-		value : 5,
-		text : "News"
-	},{
-		value : 6,
-		text : "Calender"
-	},{
-		value : 7,
-		text : "Circular"
-	}];
+		$scope.types = [{
+			value : 5,
+			text : "News"
+		},{
+			value : 6,
+			text : "Calender"
+		},{
+			value : 7,
+			text : "Circular"
+		}];
 
-	$scope.defaultTypes= {
-		value : null,
-		text : ""
-	};
+		$scope.defaultTypes= {
+			value : null,
+			text : ""
+		};
 
-	$scope.formatDateString = function (date) {
-		if(!date)
-			return "-";
-		return kendo.toString(new Date(date), "MM ddd yyyy");
-	}
+		$scope.formatDateString = function (date) {
+			if(!date)
+				return "-";
+			return kendo.toString(new Date(date), "MM ddd yyyy");
+		}
 
-	$scope.dummyOptions = angular.copy($scope.defaultOptions);
+		$scope.dummyOptions = angular.copy($scope.defaultOptions);
 
-	$scope.file = null;
-	$scope.news = [];
+		$scope.file = null;
+		$scope.news = [];
 
-	$scope.uploadFile = function(){
-		var response = newsFactory.UploadImage($scope.file,$scope.defaultTypes.value,$rootScope.sessionConfig.userId,$scope.defaultOptions.imageId);
-		response.success(function(result){
-			if(result.status)
-				$scope.defaultOptions.imageId = result.data;
-		}).error(function(error,status){
-	  		notify({
-	            messageTemplate: '<span>Unable to upload images!</span>',
-	            position: $rootScope.appConfig.notifyConfig.position,
-	            scope:$scope
-	        });
-        });	
-	}
+		$scope.OnEdit = function(obj){
+			$state.go('news.managenews',{newsid:obj.id,mode:'edit'});
+		}
 
-	$scope.GetNews = function(){
-		var response = newsFactory.GetNewsList();
-		response.success(function(result){
-			if(result.status){
-		  		$scope.news = result.data;				
+		$scope.uploadFile = function(fileObject){
+			if(fileObject.files.length>0){
+				var file = fileObject.files[0];
+				$scope.defaultOptions.imageName = file.name;
+				var ext = $(fileObject).val().split('.').pop().toLowerCase();
+				 if($.inArray(ext, ['gif','png','jpg','jpeg']) > 0){
+				 	$scope.defaultTypes.value = 5;
+					var response = newsFactory.UploadImage(file,$scope.defaultTypes.value,$rootScope.sessionConfig.userId,$scope.defaultOptions.imageId);
+					response.success(function(result){
+						if(result.status){
+					  		notify({
+					            messageTemplate: '<span>Successfully image uploaded!</span>',
+					            position: $rootScope.appConfig.notifyConfig.position,
+					            scope:$scope
+					        });					
+							$scope.defaultOptions.imageId = result.data;
+						}
+					}).error(function(error,status){
+				  		notify({
+				            messageTemplate: '<span>Unable to upload images!</span>',
+				            position: $rootScope.appConfig.notifyConfig.position,
+				            scope:$scope
+				        });
+			        });
+				 }else{
+			  		notify({
+			            messageTemplate: '<span>Image formats should be JPG, JPEG, PNG or GIF!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+				 }				
 			}
-		    else
+		}
+
+		$scope.GetNews = function(){
+			var response = newsFactory.GetNewsList();
+			response.success(function(result){
+				if(result.status){
+			  		$scope.news = result.data;				
+				}
+			    else
+			  		notify({
+			            messageTemplate: '<span>Unable to read news!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });		
+			}).error(function(error,status){
 		  		notify({
 		            messageTemplate: '<span>Unable to read news!</span>',
 		            position: $rootScope.appConfig.notifyConfig.position,
 		            scope:$scope
-		        });		
-		}).error(function(error,status){
-	  		notify({
-	            messageTemplate: '<span>Unable to read news!</span>',
-	            position: $rootScope.appConfig.notifyConfig.position,
-	            scope:$scope
-	        });
-        });			
-	}
+		        });
+	        });			
+		}
 
-	$scope.addNews = function(){
-		var response = newsFactory.AddNews($scope.defaultOptions);
-		response.success(function(result){
-			if(result.status){
-		  		notify({
-		            messageTemplate: '<span>'+result.data+'</span>',
-		            position: $rootScope.appConfig.notifyConfig.position,
-		            scope:$scope
-		        });				
-			}
-		    else
+		$scope.addNews = function(){
+			$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '');
+			var response = newsFactory.AddNews($scope.defaultOptions);
+			response.success(function(result){
+				if(result.status){
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });				
+				}
+			    else
+			  		notify({
+			            messageTemplate: '<span>Unable to add news!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });		
+			}).error(function(error,status){
 		  		notify({
 		            messageTemplate: '<span>Unable to add news!</span>',
 		            position: $rootScope.appConfig.notifyConfig.position,
 		            scope:$scope
-		        });		
-		}).error(function(error,status){
-	  		notify({
-	            messageTemplate: '<span>Unable to add news!</span>',
-	            position: $rootScope.appConfig.notifyConfig.position,
-	            scope:$scope
-	        });
-        });	
-	}
+		        });
+	        });	
+		}
 
-	$scope.deleteNews = function(model){
-		model.status = false;
-		var response = newsFactory.UpdateNews(model);
-		response.success(function(result){
-			if(result.status){
-				$scope.GetNews();
-		  		notify({
-		            messageTemplate: '<span>'+result.data+'</span>',
-		            position: $rootScope.appConfig.notifyConfig.position,
-		            scope:$scope
-		        });				
-			}
-		    else
+		$scope.UpdateNews = function(){
+			$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '')
+			var response = newsFactory.UpdateNews($scope.defaultOptions);
+			response.success(function(result){
+				if(result.status){
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });
+			        $state.go("news.newslist",{mode:'list'});		
+				}
+			    else
+			  		notify({
+			            messageTemplate: '<span>Unable to delete news!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });		
+			}).error(function(error,status){
 		  		notify({
 		            messageTemplate: '<span>Unable to delete news!</span>',
 		            position: $rootScope.appConfig.notifyConfig.position,
 		            scope:$scope
-		        });		
-		}).error(function(error,status){
-	  		notify({
-	            messageTemplate: '<span>Unable to delete news!</span>',
-	            position: $rootScope.appConfig.notifyConfig.position,
-	            scope:$scope
-	        });
-        });	
-	}
+		        });
+	        });	
+		}
 
-	if($location.search().mode === 'list')
-		$scope.GetNews();
+		$scope.deleteNews = function(model){
+			var response = newsFactory.DeleteNews(model.id);
+			response.success(function(result){
+				if(result.status){
+					$scope.GetNews();
+			  		notify({
+			            messageTemplate: '<span>'+result.data+'</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });				
+				}
+			    else
+			  		notify({
+			            messageTemplate: '<span>Unable to delete news!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });		
+			}).error(function(error,status){
+		  		notify({
+		            messageTemplate: '<span>Unable to delete news!</span>',
+		            position: $rootScope.appConfig.notifyConfig.position,
+		            scope:$scope
+		        });
+	        });	
+		}
 
+
+		if($location.search().mode === 'list'){
+			$scope.mode = 1;
+			$scope.pageTitle = "News"
+			$scope.GetNews();
+		}else if($location.search().mode === 'add'){
+			$scope.mode = 2;
+			$scope.pageTitle = "Add News";
+		}else if($location.search().mode === 'edit'){
+			$scope.mode = 3;
+			$scope.pageTitle = "Edit News";
+			var response = newsFactory.GetNewsById($location.search().newsid);
+			response.success(function(result){
+				if(result.status){
+			  		$scope.defaultOptions = result.data;				
+				}
+			    else
+			  		notify({
+			            messageTemplate: '<span>Unable to read news!</span>',
+			            position: $rootScope.appConfig.notifyConfig.position,
+			            scope:$scope
+			        });		
+			});			
+		}
 }]);
 
 
@@ -176,12 +248,29 @@ app.factory('newsFactory',function($http,$q,$rootScope){
                 "Content-Type": "application/json"
             }
         });
+    }
+
+    service.DeleteNews = function(id){      
+        return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/news/deletenews?id='+(id||''),
+            cache : false
+        });
     } 
+
+    service.GetNewsById = function(id){      
+        return $http({
+            method : 'GET',
+            url : crudServiceBaseUrl + '/news/getnewsbyid?id='+(id||''),
+            cache : false
+        });
+    }
 
     service.GetNewsList = function(){      
         return $http({
             method : 'GET',
-            url : crudServiceBaseUrl + '/news/newslist'
+            url : crudServiceBaseUrl + '/news/newslist',
+            cache : false
         });
     } 
 

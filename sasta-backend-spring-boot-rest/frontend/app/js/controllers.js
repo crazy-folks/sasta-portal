@@ -1,9 +1,10 @@
-app.controller('BaseController', ['$window','$scope','$rootScope','storage','notify','authfactory','$state',
-    function($window,$scope,$rootScope,storage,notify,authfactory,$state) {
+app.controller('BaseController', ['$window','$scope','$rootScope','storage','notify','authfactory','$state','$animate',
+    function($window,$scope,$rootScope,storage,notify,authfactory,$state,$animate) {
     
 
     $rootScope.appConfig.authenticated = false;
     $scope.sessionConfig = {};
+
     $scope.baseUrl = $rootScope.appConfig.baseUrl;
     var s = storage.recall();
     if( s != false ){
@@ -22,35 +23,6 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
         $scope.loading = false;
     });
 
-    $scope.redirectToHome = function(event){
-        setActiveLink(event.target);
-        $rootScope.$state.go('ui.index');
-    }
-
-    function setActiveLink(target){
-        $(target).parent().parent().find('>li').removeClass();
-        $(target).parent().addClass('active');
-    }
-
-    $scope.redirectToAboutUs = function(event){
-        setActiveLink(event.target);
-        $rootScope.$state.go('ui.about-us');
-    }
-
-    $scope.redirectToUsefulLinks = function(event){
-        setActiveLink(event.target);
-        $rootScope.$state.go('ui.useful-links');
-    }
-
-    $scope.redirectToCareers = function(event){
-        setActiveLink(event.target);
-        $rootScope.$state.go('ui.careers');
-    }
-
-    $scope.redirectToContactUs = function(event){
-        setActiveLink(event.target);
-        $rootScope.$state.go('ui.contact-us');
-    }
     $scope.searchModel = {
         userName : ''
     }
@@ -59,17 +31,24 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
             $state.go('users.search',{userName: $scope.searchModel.userName})
     }
 
-
-  $scope.redirectToNews = function(event){
-        setActiveLink(event.target);
-        $rootScope.$state.go('ui.news');
-    }
-
     /* Sign in code start */
     $scope.vm = {
         userName : '',
         password : ''
     };
+
+    $scope.customCheckbox = function (checkboxName){
+        var checkBox = $('input[name="'+ checkboxName +'"]');
+        $(checkBox).each(function(){
+            $(this).wrap( "<span class='custom-checkbox'></span>" );
+            if($(this).is(':checked')){
+                $(this).parent().addClass("selected");
+            }
+        });
+        $(checkBox).click(function(){
+            $(this).parent().toggleClass("selected");
+        });
+    }
 
     function ValidateForm(){
         
@@ -220,6 +199,32 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
         $scope.$broadcast('event:toggle');
     }
 
+    $scope.top3news = [];
+
+    $scope.GetTop3News = function () {
+        var response = authfactory.GetTop3News();
+        response.success(function(result){
+            if(result.status){
+                $scope.top3news = result.data;              
+            }     
+        });
+    }
+
+    $scope.messages = [];
+    $scope.GetMessages = function () {
+        var response = authfactory.GetMessages();
+        response.success(function(result){
+            if(result.status){
+                // will work as normal, if globaly disabled
+                $animate.enabled(true); 
+                $scope.messages = result.data;              
+            }   
+        });
+    }
+
+    $scope.GetTop3News();
+    $scope.GetMessages();
+
 }]);
 
 
@@ -248,6 +253,22 @@ app.factory('authfactory',function($http,$q,$rootScope){
             data : { "sessionid" : sessionid }
         });
     }
+
+    service.GetTop3News = function(){      
+        return $http({
+            method : 'GET',
+            url : $rootScope.appConfig.baseUrl + '/news/top3news',
+            cache : false
+        });
+    } 
+
+    service.GetMessages = function(){
+        return $http({
+            method : 'GET',
+            url : $rootScope.appConfig.baseUrl + '/message/getlist',
+            cache : false
+        });
+    } 
 
     service.doChangePassword = function(model){
         return $.ajax({

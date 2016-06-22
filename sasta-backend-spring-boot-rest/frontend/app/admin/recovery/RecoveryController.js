@@ -219,7 +219,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
           model.setteledParasAmount = 0;
           model.setteledParasCount = 0;     
           angular.forEach(list,function(item,key){  
-            var fullyPaided = (parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0));
+            var fullyPaided = (parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))||(item.paidedType);
             if((item.recoveryType)){
               model.recoveredAmount =  parseFloat(model.recoveredAmount||0) + parseFloat(item.recoveredAmount||0);
               if(item.recoveryType){
@@ -739,20 +739,23 @@ app.factory('recoveryfactory',function($http,$q,$rootScope){
   service.getLookupValues = function(id){
       return $http({
           method : 'GET',
-          url : crudServiceBaseUrl + '/lookup/getlookup?id='+id
+          url : crudServiceBaseUrl + '/lookup/getlookup?id='+id,
+          cache:false
       });
   }
 
   service.getDetailedRecoveryList = function(id){
       return $http({
           method : 'GET',
-          url : crudServiceBaseUrl + '/recovery/getdetailedrecoverylist?id='+id
+          url : crudServiceBaseUrl + '/recovery/getdetailedrecoverylist?id='+id,
+          cache:false
       });
   }
   service.getAudit = function(id){
       return $http({
           method : 'GET',
-          url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id
+          url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id,
+          cache:false
       });
   }
 
@@ -794,9 +797,9 @@ app.factory('recoveryfactory',function($http,$q,$rootScope){
             method : 'POST',
             url : crudServiceBaseUrl + '/recovery/update',
             data : JSON.stringify(model),
-        headers: {
-            "Content-Type": "application/json"
-        }
+            headers: {
+                "Content-Type": "application/json"
+            }
         });
   } 
 

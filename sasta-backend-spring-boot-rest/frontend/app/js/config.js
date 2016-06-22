@@ -24,11 +24,11 @@
                 pageTitle: 'About-Us'
             }
         })
-        .state('ui.useful-links', {
-            url: "/useful-links",
-            templateUrl: "views/static/useful-links.html",
+        .state('ui.gallery', {
+            url: "/gallery",
+            templateUrl: "views/static/gallery.html",
             data: {
-                pageTitle: 'Useful-Links'
+                pageTitle: 'Gallery'
             }
         })        
         .state('ui.careers', {
@@ -44,6 +44,24 @@
             data: {
                 pageTitle: 'Contact-Us'
             }
+        })
+        .state('ui.news', {
+            url: "/news?newsid&mode",
+            templateUrl: "views/static/news.html",
+            data: {
+                pageTitle: 'News'
+            },
+            controller : 'PostsController as postCtl',
+            params: {newsid: null, mode : "list"}
+        })
+        .state('ui.viewnews', {
+            url: "/viewnews?newsid&mode",
+            templateUrl: "views/static/news.html",
+            data: {
+                pageTitle: 'View News'
+            },
+            controller : 'PostsController as vwpostCtl',
+            params: {newsid: null, mode : "view"}
         })
         .state('admin', {
             abstract: true,
@@ -393,8 +411,8 @@
             controller : 'NewsController as NewsCtl',
             params: {mode: 'list'}
         })
-        .state('news.addnews', {
-            url: "/addnews",
+        .state('news.managenews', {
+            url: "/managenews?newsid&mode",
             templateUrl: "admin/news/addnews.html",
             data: {
                 pageTitle: 'News'
@@ -402,7 +420,32 @@
             controller : 'NewsController as NewsCtl',
             params: {newsid: null,mode: 'add'}
         })
-        
+        .state('messages', {
+            abstract: true,
+            url: "/messages",
+            templateUrl: "admin/adminlayout.html",
+            data: {
+                pageTitle: 'Home'
+            }
+        })
+        .state('messages.messagelist', {
+            url: "/messagelist?mode",
+            templateUrl: "admin/messages/templates.html",
+            data: {
+                pageTitle: 'Messages'
+            },
+            controller : 'MessagesController as MessagesCtl',
+            params: {mode: 'list'}
+        })
+        .state('messages.managemessages', {
+            url: "/managemessages?messageid&mode",
+            templateUrl: "admin/messages/managemessage.html",
+            data: {
+                pageTitle: 'Add Messages'
+            },
+            controller : 'MessagesController as MessagesCtl',
+            params: {mode: 'add'}
+        })
 }
 angular.module('sastaboard')
     .config(['$locationProvider','$stateProvider', '$urlRouterProvider','$httpProvider','$compileProvider',config])
@@ -481,6 +524,8 @@ angular.module('sastaboard')
         if($rootScope.appConfig.authenticated){
             var session  = storage.recall();
             if($state.includes('admin') || (next.name.indexOf($rootScope.appConfig.adminPrefixUrl)>-1)){
+                if($(".modal-backdrop").length)
+                    $(".modal-backdrop").hide();
                 var expire = kendo.parseDate(kendo.toString(session.expiredDate, "yyyy/MM/dd hh:mm:ss tt")); //new Date(session.expiredDate);
                 var now = new Date();
                 if( expire > now){

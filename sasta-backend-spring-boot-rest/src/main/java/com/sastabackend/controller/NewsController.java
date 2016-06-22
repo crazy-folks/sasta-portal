@@ -87,6 +87,13 @@ public class NewsController {
         return newsService.findOne(id);
     }
 
+    @ApiOperation(value = "delete news by id", response = ResponseModel.class, httpMethod = "GET")
+    @RequestMapping(value = "/deletenews", method = RequestMethod.GET)
+    public ResponseModel DeleteNews(@RequestParam("id") Long id) {
+        LOGGER.debug("Reading  : {}", id);
+        return newsService.Delete(id);
+    }
+
     /**
      * POST /uploadFile -> receive and locally save a file.
      *
@@ -140,8 +147,8 @@ public class NewsController {
             stream.write(file.getBytes());
             stream.close();
 
-            BufferedImage img = new BufferedImage(200, 300, BufferedImage.TYPE_INT_RGB);
-            img.createGraphics().drawImage(ImageIO.read(new File(filepath)).getScaledInstance(200, 300, Image.SCALE_SMOOTH), 0, 0, null);
+            BufferedImage img = new BufferedImage(300, 228, BufferedImage.TYPE_INT_RGB);
+            img.createGraphics().drawImage(ImageIO.read(new File(filepath)).getScaledInstance(300, 228, Image.SCALE_SMOOTH), 0, 0, null);
             ImageIO.write(img, "png", new File(thumbnailFilepath));
 
             LOGGER.debug("Entered into Upload" + filepath);

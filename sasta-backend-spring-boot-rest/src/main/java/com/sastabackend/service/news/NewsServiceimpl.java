@@ -77,7 +77,13 @@ public class NewsServiceImpl implements NewsService{
         ResponseModel response = null;
         try{
             response = new ResponseModel<News>();
-            response.setData(selectNewsById(id));
+            News u = selectNewsById(id);
+            if(u.getImageId() == null || u.getImageId() == 0){
+                u.setImageName(this.imageUrl + "news/default.jpg");
+            } else if(u.getImageId() != null){
+                u.setImageName(this.imageUrl + "news/" + u.getImageName());
+            }
+            response.setData(u);
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -148,6 +154,22 @@ public class NewsServiceImpl implements NewsService{
         return response;
     }
 
+    @Override
+    public ResponseModel Delete(Long id) {
+        LOGGER.debug("Creating  News :{}", id);
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<Boolean>();
+            boolean flag = DeleteNews(id);
+            response.setStatus(flag);
+            response.setData(flag == true ? "News deleted Successfully!!" : "Unable to deleted News!!");
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
 
     @Override
     public ResponseModel UploadImage(Posts image) {
@@ -196,6 +218,23 @@ public class NewsServiceImpl implements NewsService{
             response.setData(err.getMessage());
         }
         return response;
+    }
+
+    private boolean DeleteNews(Long id) {
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("delete_news")
+                .declareParameters(
+                        new SqlParameter("news_id", Types.BIGINT),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("news_id", id);
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
     }
 
     /**

@@ -28,30 +28,31 @@
                           </div>
                           <div class="panel-body">
                             <form class="form-horizontal" name="frmAddNews" id="frmAddNews">
-                                <div class="form-group">
-                                    <label for="selectTypes"  class="label-adjust">Type</label>
-                                    <select name="selectTypes" class="k-input  width-100 validate[required]" ng-model="defaultTypes" ng-options="obj.text for obj in types track by obj.value">
-                                        <option value="">Choose Type</option>
-                                    </select>                    
-                                </div>                             
-                                <div class="form-group">
-                                    <label for="exampleInputFile">Upload your image</label>
-                                    <input type="file" id="exampleInputFile"  file-model="file" />
-                                    <p class="help-block">Please choose your image!</p>
-                                    <button ng-click="uploadFile()">Upload</button>
-                                </div>                           
+
                                 <div class="form-group no-margin">
                                     <label for="txttitle"  class="label-adjust">
                                         Title
                                     </label>
                                     <input name="txttitle" type="text" class="k-input width-100" ng-model="defaultOptions.title" />
                                 </div>
+
+                                <div class="form-group  no-margin">
+                                    <label for="exampleInputFile">Upload your image</label>
+                                    <div class="custom_file_upload">
+                                        <input type="text" ng-model="defaultOptions.imageName" class="file k-input width-90" name="file_info">
+                                        <div class="file_upload btn btn-success btn-sm">
+                                            <input type="file" id="file_upload" onchange="angular.element(this).scope().uploadFile(this)"  name="file_upload">
+                                        </div>
+                                    </div>
+                                </div>  
+
                                 <div class="form-group no-margin">
                                     <label for="txtcontent"  class="label-adjust">
                                         Content
                                     </label>
                                     <textarea name="txtcontent" kendo-editor ng-model="defaultOptions.content" k-encoded="false"></textarea>
                                 </div>
+
                             </form>                           
                           </div>
                             <div class="panel-body">
@@ -59,7 +60,7 @@
                                     <div class="row no-padding auto-margin">
                                         <div class="dialog-buttons dialog-footer text-right"> 
                                             <button type="button" ng-click="doReset()" class="btn btn-danger btn-sm">Cancel</button>
-                                            <button type="button" ng-click="addNews()" class="btn btn-success btn-sm">&#160;Submit&#160;</button>
+                                            <button type="button" ng-click="(mode === 2)?addNews():UpdateNews()" class="btn btn-success btn-sm">&#160;Submit&#160;</button>
                                         </div>            
                                     </div>                             
                                 </div>

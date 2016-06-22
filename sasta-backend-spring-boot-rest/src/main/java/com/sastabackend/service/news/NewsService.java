@@ -14,5 +14,6 @@ public interface NewsService {
     ResponseModel findAll();
     ResponseModel Add(News rc);
     ResponseModel Update(News rc);
+    ResponseModel Delete(Long id);
     ResponseModel UploadImage(Posts image);
 }

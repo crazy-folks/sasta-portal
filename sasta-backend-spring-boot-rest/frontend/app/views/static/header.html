@@ -1,66 +1,83 @@
-<header>
-    <div class="jx-header-1">
-        <div class="jx-header header-line">
-            <div class="container">
-                <div class="four columns">
-                    <div class="jx-header-logo">
-                        <a href="index.html"><img src="assets/images/header_logo.png" alt="" /></a>
-                     </div>
-                </div>                
-                <div class="twelve columns">
-                    <div class="header-info">
-                        <ul>
-                            <li>
-								 <div class="centerlogo"><img src="assets/images/header_logo-2.png" alt="" /></div>
-								 <div class="rightlogo"><img src="assets/images/header_logo-3.png" alt="" /></div>
-                            </li> 
-                        </ul>
+    <!--Header Start Here-->
+    <header class="header cfx container" sticky-header>
+      <div class="headerinr cfx container">
+        <h1 class="site-logo"> <a href="index.html"><img src="assets/images/logo-lt.png" alt=""></a> </h1>
+        <figure class="center-logo"><img src="assets/images/cm.png" alt=""></figure>
+        <div class="logo-rt"> <a href="#"><img src="assets/images/logo-rt.png" alt=""></a> </div>
+      </div>
+      <!--Navbar Start Here-->
+      <nav class="navbar navbar-default">
+        <div class="container"> 
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+            <!--Loging Section Mobile View-->
+            <div class="login-sec visible-xs"> <a href="javascript:void(0)" data-toggle="modal" data-target="#mlogin-window"><i class="user-ic"></i>Login</a>
+              <div id="mlogin-window" class="modal login-holder fade" role="dialog">
+                <div class="modal-dialog">
+                  <button type="button" class="btn btn-default clse-btn" data-dismiss="modal"><span>Close</span><i></i></button>
+                  <div class="login-header">
+                    <h2>Login</h2>
+                  </div>
+                  <div class="login-container">
+                    <div class="form-rw">
+                      <input type="text" ng-model="vm.userName" class="txt-bx" placeholder="User Name*">
                     </div>
-                </div>                
+                    <div class="form-rw">
+                      <input type="password" ng-model="vm.password"  class="txt-bx" placeholder="Password*">
+                    </div>
+                    <div class="form-rw">
+                      <button type="submit" class="log-btn" ng-click="login()">Login<i></i></button>
+                    </div>
+                  </div>
+                  
+                  <!-- Modal content--> 
+                </div>
+              </div>
             </div>
-        </div>     
-    </div>
-    
-    <div class="jx-menu-holder jx-sticky">
-    	<div class="container">
-                <div class="header-menu-left">
-                    <div class="nav_container">
-                        <ul id="jx-main-menu" class="menu">
-                            <li class="active"><a ng-click="redirectToHome($event);">Home</a></li>
-                            <li><a ng-click="redirectToAboutUs($event);">About Us</a></li>
-                            <li><a ng-click="redirectToUsefulLinks($event);">Useful Links</a></li>
-							<li><a ng-click="redirectToCareers($event);">Careers</a></li>
-                            <li><a ng-click="redirectToContactUs($event);">Contact Us</a></li>
-                        </ul>                  	                  
+            <!--Loging Section Mobile View--> 
+          </div>
+          
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li ng-class="{active: $state.includes('ui.index')}"><a ui-sref="ui.index">Home</a></li>
+              <li ng-class="{active: $state.includes('ui.about-us')}"><a ui-sref="ui.about-us">ABOUT US</a></li>
+              <li ng-class="{active: $state.includes('ui.gallery')}"><a ui-sref="ui.gallery">GALLERY</a></li>
+              <li ng-class="{active: $state.includes('ui.careers')}"><a ui-sref="ui.careers">CAREERS</a></li>
+              <li ng-class="{active: $state.includes('ui.news')}"><a ui-sref="ui.news">NEWS</a></li>
+              <li ng-class="{active: $state.includes('ui.contact-us')}"><a ui-sref="ui.contact-us">CONTACT US</a></li>
+            </ul>
+            <!--Loging Section Desktop and Tab View-->
+            <div class="login-sec hidden-xs"><a href="javascript:void(0)" data-toggle="modal" data-target="#login-window"><i class="user-ic"></i>Login</a>
+                      <div id="login-window" class="modal login-holder fade" role="dialog" style="display: none;">
+                        <div class="modal-dialog">
+                          <button type="button" class="btn btn-default clse-btn" data-dismiss="modal"><span>Close</span><i></i></button>
+                          <div class="login-header">
+                            <h2>Login</h2>
+                          </div>
+                          <div class="login-container">
+                            <div class="form-rw">
+                              <input type="text" ng-model="vm.userName" class="txt-bx" placeholder="User Name*">
+                            </div>
+                            <div class="form-rw">
+                              <input type="password" ng-model="vm.password"  class="txt-bx" placeholder="Password*">
+                            </div>
+                            <div class="form-rw">
+                              <button type="submit" ng-click="login()" class="log-btn">Login<i></i></button>
+                            </div>
+                          </div>
+                          
+                          <!-- Modal content--> 
+                        </div>
+                      </div>
                     </div>
-                </div>
-                
-                <div class="header-search-right">
-                    <div class="nav_container">
-					   <ul id="jx-main-menu" class="menu">
-					   		<li >
-                                <a href="javascript:void(0);" ng-click="toggle()">Login</a>
-                                    <ul class="submenu" toggle>                                    	
-                                	<li>
-                                        <ul>                                        
-                                            <li>
-												<div class="login-menu">
-													<form>
-													  <label for="username">User Name:</label>
-													  <input type="text" ng-trim="true" ng-model = "vm.userName" name="username" class="txtfield" tabindex="1">
-													  <label for="password">Password:</label>
-													  <input type="password"  ng-model = "vm.password" name="password" class="txtfield" tabindex="2">
-													  <input type="submit" ng-click="login()" name="loginbtn" class="flatbtn-blu" tabindex="3">
-													</form>
-												</div>
-											</li>
-                                        </ul>
-                                     </li>
-                                 </ul>
-                            </li> 
-							 </ul>        
-                    </div>
-                </div>
+            <!--Loging Section Desktop and Tab View--> 
+          </div>
+          <!-- /.navbar-collapse --> 
         </div>
-     </div>    
-</header> 
+        <!-- /.container-fluid --> 
+      </nav>
+      <!--Navbar End Here--> 
+    </header>
+    <!--Header End Here-->
