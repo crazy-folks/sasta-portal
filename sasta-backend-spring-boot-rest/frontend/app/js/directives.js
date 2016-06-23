@@ -46,6 +46,22 @@ function circleSlider($rootScope){
     }
 };
 
+function boxSlider ($rootScope){
+    return {
+        link :function(scope,element){
+            setTimeout(function() {
+                $(element).find('.testimonials-slider').bxSlider({
+                    slideWidth: 800,
+                    minSlides: 1,
+                    maxSlides: 1,
+                    slideMargin: 32,
+                    auto: true,
+                    autoControls: true
+                });
+            }, 2000);
+        }
+    }
+}
 
  /*
  * @scrollTop - Scroll to Top
@@ -745,7 +761,8 @@ angular
     .directive('toggle',toggle)
     .directive('circleSlider',circleSlider)
     .directive('scrollTop',scrollTop)
-    .directive('stickyHeader',stickyHeader) 
+    .directive('stickyHeader',stickyHeader)
+    .directive('boxSlider',boxSlider)
 
 /**
  * NSF - Responsive Admin Theme
