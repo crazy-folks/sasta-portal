@@ -208,11 +208,13 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 		$scope.stateChanged = function(state){
 			$scope.grid.showColumn('roundName');
 			$scope.grid.showColumn('blockName');
-			$scope.grid.showColumn('vpName');			
+			$scope.grid.showColumn('vpName');
+			$scope.grid.showColumn('createdByName');
 			if(state){
 				$scope.grid.hideColumn('roundName');
 				$scope.grid.hideColumn('blockName');
 				$scope.grid.hideColumn('vpName');
+				$scope.grid.hideColumn('createdByName');
 			}
 		}
 

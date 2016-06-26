@@ -4,5 +4,6 @@
         'ui.bootstrap',
         'ngAnimate',
         'kendo.directives',
-        'ImageCropper'
+        'ImageCropper',
+        'ngSanitize'
     ]);

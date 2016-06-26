@@ -40,7 +40,7 @@ public class  Users  implements java.io.Serializable {
     private java.lang.Boolean is_address_same;
     private java.sql.Date date_of_joining;
     private java.sql.Date date_of_birth;
-    private java.lang.Float previous_work_exp;
+    private String previous_work_exp;
     private String team_name;
     private String employee_id;
     private java.lang.Integer department_id;
@@ -53,11 +53,15 @@ public class  Users  implements java.io.Serializable {
     private java.lang.Integer blood_group_id;
     private String blood_group_name;
     private java.lang.Long reporting_id;
+    private boolean physically_challanged;
+    private String sub_caste;
     private String reporting_to;
     private java.lang.Integer allotted_district;
+    private String allotted_district_name;
     private java.lang.Integer allotted_block;
+    private String allotted_block_name;
     private java.lang.Integer recruitment_id;
-    private String recruitement_name;
+    private String recruitment_name;
     private java.lang.Long birth_proof_id;
     private String birth_proof_name;
     private String validation_code;
@@ -241,11 +245,11 @@ public class  Users  implements java.io.Serializable {
         this.date_of_birth = date_of_birth;
     }
 
-    public void setPreviousExperience(java.lang.Float previous_work_exp){
+    public void setPreviousExperience(String previous_work_exp){
         this.previous_work_exp = previous_work_exp;
     }
 
-    public java.lang.Float getPreviousExperience(){
+    public String getPreviousExperience(){
         return this.previous_work_exp;
     }
 
@@ -530,12 +534,12 @@ public class  Users  implements java.io.Serializable {
         this.blood_group_name = blood_group_name;
     }
 
-    public String getRecruitementName() {
-        return recruitement_name;
+    public String getRecruitmentName() {
+        return recruitment_name;
     }
 
-    public void setRecruitementName(String recruitement_name) {
-        this.recruitement_name = recruitement_name;
+    public void setRecruitmentName(String recruitment_name) {
+        this.recruitment_name = recruitment_name;
     }
 
     public String getBirthProofName() {
@@ -544,6 +548,39 @@ public class  Users  implements java.io.Serializable {
 
     public void setBirthProofName(String birth_proof_name) {
         this.birth_proof_name = birth_proof_name;
+    }
+
+
+    public String getAllottedDistrictName() {
+        return allotted_district_name;
+    }
+
+    public void setAllottedDistrictName(String allotted_district_name) {
+        this.allotted_district_name = allotted_district_name;
+    }
+
+    public String getAllottedBlockName() {
+        return allotted_block_name;
+    }
+
+    public void setAllottedBlockName(String allotted_block_name) {
+        this.allotted_block_name = allotted_block_name;
+    }
+
+    public boolean getPhysicallyChallanged() {
+        return physically_challanged;
+    }
+
+    public void setPhysicallyChallanged(boolean physically_challanged) {
+        this.physically_challanged = physically_challanged;
+    }
+
+    public String getSubCaste() {
+        return sub_caste;
+    }
+
+    public void setSubCaste(String sub_caste) {
+        this.sub_caste = sub_caste;
     }
 
     @Override
@@ -561,29 +598,41 @@ public class  Users  implements java.io.Serializable {
                 ", experience='" + experience + '\'' +
                 ", has_read_tc=" + has_read_tc +
                 ", state_id=" + state_id +
+                ", state_name='" + state_name + '\'' +
                 ", country_id=" + country_id +
+                ", country_name='" + country_name + '\'' +
                 ", image_id=" + image_id +
+                ", image_name='" + image_name + '\'' +
                 ", user_group_id=" + user_group_id +
                 ", communication_address='" + communication_address + '\'' +
                 ", permanent_address='" + permanent_address + '\'' +
                 ", is_address_same=" + is_address_same +
                 ", date_of_joining=" + date_of_joining +
                 ", date_of_birth=" + date_of_birth +
-                ", previous_work_exp=" + previous_work_exp +
+                ", previous_work_exp='" + previous_work_exp + '\'' +
                 ", team_name='" + team_name + '\'' +
                 ", employee_id='" + employee_id + '\'' +
                 ", department_id=" + department_id +
+                ", dept_name='" + dept_name + '\'' +
                 ", gmail_id='" + gmail_id + '\'' +
                 ", skype_name='" + skype_name + '\'' +
                 ", business_email='" + business_email + '\'' +
                 ", personal_email='" + personal_email + '\'' +
                 ", father_name='" + father_name + '\'' +
                 ", blood_group_id=" + blood_group_id +
+                ", blood_group_name='" + blood_group_name + '\'' +
                 ", reporting_id=" + reporting_id +
+                ", physically_challanged=" + physically_challanged +
+                ", sub_caste='" + sub_caste + '\'' +
+                ", reporting_to='" + reporting_to + '\'' +
                 ", allotted_district=" + allotted_district +
+                ", allotted_district_name='" + allotted_district_name + '\'' +
                 ", allotted_block=" + allotted_block +
+                ", allotted_block_name='" + allotted_block_name + '\'' +
                 ", recruitment_id=" + recruitment_id +
+                ", recruitment_name='" + recruitment_name + '\'' +
                 ", birth_proof_id=" + birth_proof_id +
+                ", birth_proof_name='" + birth_proof_name + '\'' +
                 ", validation_code='" + validation_code + '\'' +
                 ", visible_fields='" + visible_fields + '\'' +
                 ", mobile_no='" + mobile_no + '\'' +
@@ -595,6 +644,8 @@ public class  Users  implements java.io.Serializable {
                 ", create_date=" + create_date +
                 ", modified_date=" + modified_date +
                 ", last_login_date=" + last_login_date +
+                ", created_by=" + created_by +
+                ", modified_by=" + modified_by +
                 ", created_by_Name='" + created_by_Name + '\'' +
                 ", modified_by_Name='" + modified_by_Name + '\'' +
                 '}';

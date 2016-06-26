@@ -54,9 +54,9 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
       $scope.defaultDefaltDetailedRecovery = {
         "id": null,
         "description": "",
-        "recoveredAmount": 0,
+        "recoveredAmount": null,
         "displayOrder": 0,
-        "actualAmount": 0,
+        "actualAmount": null,
         "recoveryType": false,
         "createdDate":  "2016-01-05T22:23:28.513Z",
         "status": true,
@@ -197,9 +197,10 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
           angular.forEach(list,function(item,key){
             item.displayOrder = key;
             if(item.recoveryType){
-              if((parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))){
-                item.paidedType = true  ;
-              }
+              if(!item.paidedType)
+                if((parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))){
+                  item.paidedType = true  ;
+                }
             }           
           });
           return list;     
@@ -207,28 +208,40 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
 
       function parseRecovery(list){
         var model = angular.copy($scope.defaultOptions);
+          model.recoveredAmount = 0;
+          model.setteledParasGsAmount =0;
+          model.setteledParasGsCount =0;
+          model.parasAmount=0;
+          model.pendingParasCount=0;
+          model.setteledParasGsAmount = 0;
+          model.setteledParasGsCount = 0;
+          model.recoveredAmount = 0;
+          model.setteledParasAmount = 0;
+          model.setteledParasCount = 0;     
           angular.forEach(list,function(item,key){  
-
-            if((parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))){
+            var fullyPaided = (parseFloat(item.actualAmount||0) === parseFloat(item.recoveredAmount||0))||(item.paidedType);
+            if((item.recoveryType)){
               model.recoveredAmount =  parseFloat(model.recoveredAmount||0) + parseFloat(item.recoveredAmount||0);
               if(item.recoveryType){
                 model.setteledParasGsAmount = parseFloat(model.setteledParasGsAmount||0) + parseFloat(item.actualAmount||0);
                 model.setteledParasGsCount++;                
-              }
+              }              
               model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
-              model.setteledParasCount++;               
-            }else{
-              if((parseFloat(item.recoveredAmount||0)<parseFloat(item.actualAmount||0))){
-                model.recoveredAmount = parseFloat(model.recoveredAmount) + parseFloat(item.recoveredAmount||0);
-                if(item.recoveryType){
-                  model.setteledParasGsAmount = parseFloat(model.setteledParasGsAmount||0) + parseFloat(item.actualAmount||0);
-                  model.setteledParasGsCount++;
+              (fullyPaided||item.paidedType)&&(model.setteledParasCount++); 
+              (!fullyPaided&&(!item.paidedType))&&(model.pendingParasCount++,(
+                model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0))
+              ));              
+            }else if((parseFloat(item.recoveredAmount||0)<parseFloat(item.actualAmount||0))){
+                model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0); 
+                (item.paidedType)&&(model.setteledParasCount++);
+                if(!item.paidedType){
+                  model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
+                  model.pendingParasCount++;                  
                 }
-                model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
-                model.pendingParasCount++;                
-              }
+            }else if(fullyPaided){
+              model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
+              model.setteledParasCount++;                  
             }
-          
             model.parasAmount = parseFloat(model.parasAmount||0) + parseFloat(item.actualAmount||0);
             model.parasCount++;
           });          
@@ -539,7 +552,7 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
                   title : "No of paras setteled in GS",
                   columns :[
                     { field: "setteledParasGsCount",headerTemplate: "No", title : "Paras setteled in GS No",width: '130px', groupable:false  },
-                    { field: "setteledParasGsAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Paras setteled in GS Amount",width: '130px', groupable:false },
+                    { field: "setteledParasGsAmount",format: '{0:n0}', headerTemplate : "Amount(Token)", title : "Paras setteled in GS Amount",width: '130px', groupable:false },
                   ]
                 },
                 { field: "recoveredAmount", title : "Amount Recovered In GS ", groupable:false,width: '130px'  },
@@ -726,20 +739,23 @@ app.factory('recoveryfactory',function($http,$q,$rootScope){
   service.getLookupValues = function(id){
       return $http({
           method : 'GET',
-          url : crudServiceBaseUrl + '/lookup/getlookup?id='+id
+          url : crudServiceBaseUrl + '/lookup/getlookup?id='+id,
+          cache:false
       });
   }
 
   service.getDetailedRecoveryList = function(id){
       return $http({
           method : 'GET',
-          url : crudServiceBaseUrl + '/recovery/getdetailedrecoverylist?id='+id
+          url : crudServiceBaseUrl + '/recovery/getdetailedrecoverylist?id='+id,
+          cache:false
       });
   }
   service.getAudit = function(id){
       return $http({
           method : 'GET',
-          url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id
+          url : crudServiceBaseUrl + '/audit/getconfiguration?id=' + id,
+          cache:false
       });
   }
 
@@ -781,9 +797,9 @@ app.factory('recoveryfactory',function($http,$q,$rootScope){
             method : 'POST',
             url : crudServiceBaseUrl + '/recovery/update',
             data : JSON.stringify(model),
-        headers: {
-            "Content-Type": "application/json"
-        }
+            headers: {
+                "Content-Type": "application/json"
+            }
         });
   } 
 

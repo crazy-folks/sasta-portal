@@ -178,7 +178,7 @@ public class DeviationServiceImpl implements DeviationService {
         inParamMap.put("jcmisusedbyotherscount",dv.getJcMisusedByOthersCount());
         inParamMap.put("jcmisusedbyothersamt",dv.getJcMisusedByOthersAmt());
         inParamMap.put("wagespaidworkerswithoutjccount",dv.getWagesPaidWorkersWithoutJcCount());
-        inParamMap.put("wagespaidworkerswithoutjcamt",dv.getWagesPaidWorkersWithoutJcCount());
+        inParamMap.put("wagespaidworkerswithoutjcamt",dv.getWagesPaidWorkersWithoutJcAmt());
         inParamMap.put("wagespaidwithoutrecordmesurementcount",dv.getWagesPaidWithoutRecordMesurementCount());
         inParamMap.put("wagespaidwithoutrecordmesurementamt",dv.getWagesPaidWithoutRecordMesurementAmt());
         inParamMap.put("wagespaidexcessmbooksvaluecount",dv.getWagesPaidExcessMBooksValueCount());

@@ -32,6 +32,65 @@ function pageTitle($rootScope, $timeout) {
     }
 };
 
+
+function circleSlider($rootScope){
+    return {
+        link : function(scope,element){
+            $(element).tinycircleslider({
+                dotsSnap : true,   
+                radius   : 170,   
+                dotsHide : false,
+                interval : true
+            });           
+        }
+    }
+};
+
+function boxSlider ($rootScope){
+    return {
+        link :function(scope,element){
+            setTimeout(function() {
+                $(element).find('.testimonials-slider').bxSlider({
+                    auto: true,
+                    autoControls: false
+                });
+            }, 2000);
+        }
+    }
+}
+
+ /*
+ * @scrollTop - Scroll to Top
+ */
+function scrollTop($rootScope){
+    return {
+        link : function(scope,element){
+            $(element).on('click',function(){
+                jQuery('html, body').animate({scrollTop:0}, 'slow');                
+            })
+        }
+    }
+};
+
+ /*
+ * @stickyHeader - Scroll Header
+ */
+function stickyHeader($rootScope){
+    return {
+        link : function(scope,element){
+            $(window).scroll(function() {
+                  if ($(this).scrollTop() > 50){  
+                    $(element).addClass("sticky");
+                  }
+                  else{
+                    $(element).removeClass("sticky");
+                  }
+            });         
+        }
+    }
+};
+
+
  /*
  * @topNavigation - top Navigation Directive for top navigation
  */
@@ -47,14 +106,38 @@ function topNavigation($rootScope, $timeout) {
     };
 }
  /*
- * @sastaAutoSlider - Auto Slider with some images
+ * @slidePanel - Auto Slider with some images
  */
-function sastaAutoSlider($rootScope, $timeout) {
+function slidePanel($rootScope, $timeout) {
     return {
         restrict : 'A',
         link : function(scope,element){
-            window.Theme.initialized = false;
-            window.Theme.initialize();
+            var options = {
+                nextButton: false,
+                prevButton: false,
+                pagination: true,
+                animateStartingFrameIn: false,
+                autoPlay: true,
+                autoPlayDelay: 4000,
+                preloader: true,
+                reverseAnimationsWhenNavigatingBackwards: false
+            };
+            $timeout(function(){
+                var sequence = $(element).sequence(options).data("sequence");
+                //     sequence.stopAutoPlay();
+                //    sequence.pause();
+                //     mySequence.pause();
+                sequence.beforeCurrentFrameAnimatesOut = function() {
+
+                    //add code to execute here, such as:
+                    //             alert("Do something before the CURRENT frame animates out");
+                };
+
+                sequence.beforeNextFrameAnimatesIn = function(){
+                    //add code to execute here, such as:
+                    //             alert("Do something before the NEXT frame animates in");
+                };
+            },500);
         }
     };
 }
@@ -80,12 +163,16 @@ function widgetToggle() {
 function cardFlip() {
     return {
         restrict: 'A',
-        link: function(scope, element) {
-          $(element).flip({
-            axis: "y",
-            reverse: true,
-            trigger: "click"
-          });
+        link: function(scope, element) {             
+            $(element).find('.back-button').on('click',function(e){
+                var $card = $(this).closest('.card-container');
+                console.log($card);
+                if($card.hasClass('hover')){
+                    $card.removeClass('hover');
+                } else {
+                    $card.addClass('hover');
+                }
+            });           
         }
     }
 };
@@ -633,7 +720,7 @@ angular
     .directive('noCacheSrc', noCache)
     .directive('pageTitle', pageTitle)
     .directive('topNavigation',topNavigation)
-    .directive('sastaAutoSlider',sastaAutoSlider)
+    .directive('slidePanel',slidePanel)
     .directive('widgetToggle', widgetToggle)
     .directive('widgetClose', widgetClose)
     .directive('toggleLeftSidebar', toggleLeftSidebar)
@@ -658,4 +745,42 @@ angular
     .directive('switchTheme', switchTheme)
     .directive('cardFlip', cardFlip)
     .directive('toggle',toggle)
-    
+    .directive('circleSlider',circleSlider)
+    .directive('scrollTop',scrollTop)
+    .directive('stickyHeader',stickyHeader)
+    .directive('boxSlider',boxSlider)
+
+/**
+ * NSF - Responsive Admin Theme
+ * Copyright 2019 NSF.  
+ *
+ * TABLE OF CONTENTS
+ * Use @ along with function name to search for the filters.
+ *
+ *  @ellipsis - ellipsis filter for truncate string with ellipsis
+ *                - @Param text
+ *               - @Param length, default is based on app settings
+ *               - @Param end, default is "..."
+ *               - @return string                
+ *
+ */
+
+function ellipsis() {
+    return function (text, length, end) {
+        if (isNaN(length))
+            length = 10;
+        if (end === undefined)
+            end = "...";
+
+        if (text.length <= length || text.length - end.length <= length) {
+            return text;
+        }
+        else {
+            return String(text).substring(0, length - end.length) + end;
+        }
+
+    };
+}
+
+angular.module('sastaboard').
+    filter('ellipsis', ellipsis);

@@ -26,18 +26,14 @@
 </head>  
 <body  class="{{$state.current.name}}">
 
-    <div class="table y100 spin-theme" ng-show="loading">
-        <div class="table-cell py4 center">
-          <img src="assets/images/loading-bubbles.svg" width="64" height="64">
-          <h1 class="h1 mt2 mb0">Please Wait... Loading...</h1>
-        </div>
-    </div>
-
     <!-- Main content view  -->
     <div ui-view></div>
 
-    <script type="text/javascript" src="assets/libs/jquery.js"></script>
-    <script type="text/javascript" src="assets/libs/jquery.navgoco.min.js"></script>
+    <script type="text/javascript" src="assets/libs/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="assets/libs/slider.js"></script>
+    <script type="text/javascript" src="assets/libs/jquery.bxslider.min.js"></script>
+    <script type="text/javascript" src="assets/libs/jquery.tinycircleslider.min.js"></script> 
+    <script type="text/javascript" src="assets/libs/jquery.navgoco.min.js"></script>  
     <script type="text/javascript" src="assets/admin/js/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="assets/admin/js/vendor/jquery.validationEngine-en.js"></script>
     <script type="text/javascript" src="assets/admin/js/vendor/jquery.validationEngine.js"></script>
@@ -50,7 +46,8 @@
     <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <script src="bower_components/angular-notification/angular-notification.min.js"></script> 
+    <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <!-- <script src="bower_components/angular-notification/angular-notification.min.js"></script> -->
     <script type="text/javascript" src="assets/admin/js/plugins/fullscreen/jquery.fullscreen-min.js"></script>
 
     <script type="text/javascript"  src="js/app.js"></script>
@@ -58,6 +55,7 @@
     <script type="text/javascript" src="js/config.js"></script>
     <script type="text/javascript" src="js/directives.js"></script>
     <script type="text/javascript" src="js/controllers.js"></script>    
+    <script type="text/javascript" src="js/PostsController.js"></script>  
     <script type="text/javascript" src="admin/banks/BankController.js"></script>
     <script type="text/javascript" src="admin/blocks/AuditBlocksController.js"></script>
     <script type="text/javascript" src="admin/bloodgroups/BloodGroupsController.js"></script>
@@ -94,6 +92,9 @@
     <script type="text/javascript" src="admin/reports/VrpReportController.js"></script>
     <script type="text/javascript" src="admin/recovery/RecoveryController.js"></script>
     <script type="text/javascript" src="admin/reports/RecoveryReportsController.js"></script>    
+    <script type="text/javascript" src="admin/news/NewsController.js"></script>    
+    <script type="text/javascript" src="admin/messages/MessagesController.js"></script>    
+    
     <div kendo-window="changePasswordWindow" k-options="kchangePasswordWindowOptions"></div>    
     
 </body>

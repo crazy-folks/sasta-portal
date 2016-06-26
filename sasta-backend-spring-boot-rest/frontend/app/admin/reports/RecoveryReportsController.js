@@ -266,8 +266,8 @@
                 {
                   title : "No of paras setteled in GS",
                   columns :[
-                    { field: "settledParasGsCount",headerTemplate: "No", title : "Paras setteled in GS No",width: '130px', groupable:false  },
-                    { field: "settledParasGsAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Paras setteled in GS Amount",width: '130px', groupable:false },
+                    { field: "setteledParasGsCount",headerTemplate: "No", title : "Paras setteled in GS No",width: '130px', groupable:false  },
+                    { field: "setteledParasGsAmount",format: '{0:n0}', headerTemplate : "Amount(Token)", title : "Paras setteled in GS Amount",width: '130px', groupable:false },
                   ]
                 },
                 { field: "recoveredAmount", title : "Amount Recovered In GS ", groupable:false,width: '130px'  },

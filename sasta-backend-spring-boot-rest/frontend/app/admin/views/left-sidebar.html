@@ -101,6 +101,36 @@
                 </li>
             </ul>
         </li>
+        <li ng-show="sessionConfig.loggedInAs" class="nav-dropdown" ng-class="{active: $state.includes('news')}">
+            <a ng-show="sessionConfig.loggedInAs"  href="" title="News">
+                <i class="fa fa-fw icon-speech"></i> News
+            </a>
+            <ul ng-show="sessionConfig.loggedInAs" class="nav-sub" ng-class="{in: $state.includes('news')}">
+                <li ng-show="sessionConfig.loggedInAs"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="news.newslist({mode: 'list'})" title="Blocks">Show News
+                   </a>
+                </li>            
+                <li ng-show="sessionConfig.loggedInAs"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="news.managenews({mode: 'add'})" title="Blocks">Add News
+                   </a>
+                </li>
+            </ul>
+        </li> 
+        <li ng-show="sessionConfig.loggedInAs" class="nav-dropdown" ng-class="{active: $state.includes('messages')}">
+            <a ng-show="sessionConfig.loggedInAs"  href="" title="Messages">
+                <i class="fa fa-fw icon-bubbles"></i> Messages
+            </a>
+            <ul ng-show="sessionConfig.loggedInAs" class="nav-sub" ng-class="{in: $state.includes('messages')}">
+                <li ng-show="sessionConfig.loggedInAs"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="messages.messagelist({mode: 'list'})" title="Blocks">Show Messages
+                   </a>
+                </li>            
+                <li ng-show="sessionConfig.loggedInAs"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="messages.managemessages({mode: 'add'})" title="Blocks">Add Messages
+                   </a>
+                </li>
+            </ul>
+        </li> 
         <li class="nav-dropdown" ng-class="{active: $state.includes('entries')}">
             <a href="" title="Forms">
                 <i class="fa  fa-fw fa-edit"></i> Entries

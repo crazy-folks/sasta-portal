@@ -12,9 +12,9 @@ public class BasicUserDetails {
     private String personal_email;
     private String gmail_id;
     private String skype_name;
-    private java.util.Date date_of_birth;
+    private java.sql.Date date_of_birth;
     private String experience;
-    private Float previous_experience;
+    private String previous_experience;
     private String mobile_number;
     private String land_line_number;
     private Integer blood_group_id;
@@ -61,7 +61,7 @@ public class BasicUserDetails {
         return date_of_birth;
     }
 
-    public void setDateOfBirth(Date date_of_birth) {
+    public void setDateOfBirth(java.sql.Date date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
 
@@ -73,11 +73,11 @@ public class BasicUserDetails {
         this.experience = experience;
     }
 
-    public Float getPreviousExperience() {
+    public String getPreviousExperience() {
         return previous_experience;
     }
 
-    public void setPreviousExperience(Float previous_experience) {
+    public void setPreviousExperience(String previous_experience) {
         this.previous_experience = previous_experience;
     }
 

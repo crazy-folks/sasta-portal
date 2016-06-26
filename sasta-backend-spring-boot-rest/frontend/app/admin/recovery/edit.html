@@ -41,10 +41,13 @@
                         <div class="col-md-11  col-lg-11" ng-repeat="item in editRecovery track by $index">
                             <div class="col-md-11  col-lg-11 padding-5">
                                <div class="col-md-2">
-                                    <label>
+                                    <label style="width:100%">
                                         <input type="checkbox" ng-model="item.recoveryType" />
-                                        In GS/ After GS
+                                        In Grama Sabha
                                     </label>
+                                    <label style="width:100%">
+                                        <input type="checkbox" ng-model="item.paidedType"/> Settled
+                                    </label>                                     
                                 </div>                           
                                 <div class="col-md-3">
                                     <input ng-model="item.actualAmount" placeholder="Actual Amount" type="text" class="width-100 k-input validate[required,custom[integer]]">

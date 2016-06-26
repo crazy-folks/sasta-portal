@@ -13,6 +13,9 @@ public class Constants {
     public static Integer BIRTH_CERTICATE_PROOF = 2;
     public static Integer QUALIFICATION_PROOF = 3;
     public static Integer BIRTH_PROOF = 4;
+    public static Integer NEWS_IMAGE = 5;
+    public static Integer CALENDER = 6;
+    public static Integer CIRCULAR = 7;
     /**
      * Replace everything that is not word characters, using negated character class
      * @param value

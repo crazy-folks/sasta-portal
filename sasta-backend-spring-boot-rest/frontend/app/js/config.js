@@ -1,7 +1,8 @@
- function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider) {
+ function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider,$compileProvider) {
     
     $httpProvider.defaults.cache = true;
     $urlRouterProvider.otherwise("/ui/index");
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|skype|chrome-extension):/);
 
     $stateProvider
         .state('ui', {
@@ -23,11 +24,11 @@
                 pageTitle: 'About-Us'
             }
         })
-        .state('ui.useful-links', {
-            url: "/useful-links",
-            templateUrl: "views/static/useful-links.html",
+        .state('ui.gallery', {
+            url: "/gallery",
+            templateUrl: "views/static/gallery.html",
             data: {
-                pageTitle: 'Useful-Links'
+                pageTitle: 'Gallery'
             }
         })        
         .state('ui.careers', {
@@ -43,6 +44,24 @@
             data: {
                 pageTitle: 'Contact-Us'
             }
+        })
+        .state('ui.news', {
+            url: "/news?newsid&mode",
+            templateUrl: "views/static/news.html",
+            data: {
+                pageTitle: 'News'
+            },
+            controller : 'PostsController as postCtl',
+            params: {newsid: null, mode : "list"}
+        })
+        .state('ui.viewnews', {
+            url: "/viewnews?newsid&mode",
+            templateUrl: "views/static/news.html",
+            data: {
+                pageTitle: 'View News'
+            },
+            controller : 'PostsController as vwpostCtl',
+            params: {newsid: null, mode : "view"}
         })
         .state('admin', {
             abstract: true,
@@ -173,12 +192,13 @@
             controller : 'VillagePanchayatController as vpCtl'
         })
        .state('admin.profile', {
-            url: "/profile",
+            url: "/profile?id=&mode=view",
             templateUrl: "admin/profile/profile.html",
             data: {
                 pageTitle: 'Profile Information'
             },
-            controller : 'ProfileController as ProfileCtl'
+            controller : 'ProfileController as ProfileCtl',
+            params: {id: null, mode : null}
         })
         .state('entries', {
             abstract: true,
@@ -374,11 +394,61 @@
             controller : 'RecoveryController as recoveryCtl',
             params: {aid: null}
         })
-
-        
+        .state('news', {
+            abstract: true,
+            url: "/news",
+            templateUrl: "admin/adminlayout.html",
+            data: {
+                pageTitle: 'Home'
+            }
+        })
+         .state('news.newslist', {
+            url: "/newslist?mode",
+            templateUrl: "admin/news/newslist.html",
+            data: {
+                pageTitle: 'News'
+            },
+            controller : 'NewsController as NewsCtl',
+            params: {mode: 'list'}
+        })
+        .state('news.managenews', {
+            url: "/managenews?newsid&mode",
+            templateUrl: "admin/news/addnews.html",
+            data: {
+                pageTitle: 'News'
+            },
+            controller : 'NewsController as NewsCtl',
+            params: {newsid: null,mode: 'add'}
+        })
+        .state('messages', {
+            abstract: true,
+            url: "/messages",
+            templateUrl: "admin/adminlayout.html",
+            data: {
+                pageTitle: 'Home'
+            }
+        })
+        .state('messages.messagelist', {
+            url: "/messagelist?mode",
+            templateUrl: "admin/messages/templates.html",
+            data: {
+                pageTitle: 'Messages'
+            },
+            controller : 'MessagesController as MessagesCtl',
+            params: {mode: 'list'}
+        })
+        .state('messages.managemessages', {
+            url: "/managemessages?messageid&mode",
+            templateUrl: "admin/messages/managemessage.html",
+            data: {
+                pageTitle: 'Add Messages'
+            },
+            controller : 'MessagesController as MessagesCtl',
+            params: {mode: 'add'}
+        })
 }
 angular.module('sastaboard')
-    .config(['$locationProvider','$stateProvider', '$urlRouterProvider','$httpProvider',config])
+    .config(['$locationProvider','$stateProvider', '$urlRouterProvider','$httpProvider','$compileProvider',config])
     .constant("appConfig", {
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
@@ -454,6 +524,8 @@ angular.module('sastaboard')
         if($rootScope.appConfig.authenticated){
             var session  = storage.recall();
             if($state.includes('admin') || (next.name.indexOf($rootScope.appConfig.adminPrefixUrl)>-1)){
+                if($(".modal-backdrop").length)
+                    $(".modal-backdrop").hide();
                 var expire = kendo.parseDate(kendo.toString(session.expiredDate, "yyyy/MM/dd hh:mm:ss tt")); //new Date(session.expiredDate);
                 var now = new Date();
                 if( expire > now){

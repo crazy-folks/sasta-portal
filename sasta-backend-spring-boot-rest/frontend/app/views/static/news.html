@@ -1,0 +1,52 @@
+
+
+  <div class="page-title cfx" ng-show="listMode"  ng-hide="viewMode">
+    <div class="container cfx">
+        <h3>All News</h3>
+        <ol class="breadcrump">
+          <li><a ui-sref="ui.index">Home</a></li>
+          <li class="active"><a href="javascript:void(0);">News</a></li>
+        </ol>
+    </div>  
+  </div>
+
+   <div class="container news-list-wrapper cfx" ng-show="listMode" ng-hide="viewMode">
+      <div class="row cfx">
+          <div class="unit-lg-4 unit-sm-6 unit-md-4 unit-xs-12 news-holder new-list-bx"  ng-repeat="newsObject in news">
+            <figure class="hnewsimg"><img alt="{{newsObject.title}}"  no-cache-src="{{newsObject.imageName}}" >
+            <span class="post-date"><i></i>{{formatDateString(newsObject.createdDate)}}</span>
+            <span class="post-auhor"><i></i>Posted By : {{(newsObject.createdByName||'')|ellipsis:10}}</span>
+            </figure>
+            <figcaption>
+            <h6 ng-bind="newsObject.title"></h6>
+              <p>{{(newsObject.content||'No content to display!')|ellipsis:200}}</p>
+              <a class="btn-white-md" ui-sref="ui.viewnews({newsid: newsObject.id, mode : 'view'})">Learn More<i class="btnarwmd"></i></a> </figcaption>
+          </div>
+      </div>
+    </div>
+
+
+  <div class="page-title cfx" ng-show="viewMode"  ng-hide="listMode">
+    <div class="container cfx">
+        <h3 ng-bind="newsData.title"></h3>
+        <ol class="breadcrump">
+          <li><a ui-sref="ui.index">Home</a></li>
+          <li><a ui-sref="ui.news">News</a></li>
+          <li class="active"><a href="javascript:void(0);" ng-bind="newsData.title"></a></li>
+        </ol>
+    </div>  
+  </div>
+
+  <div class="container news-details-wrapper cfx" ng-show="viewMode"   ng-hide="listMode">
+  <div class="row cfx">
+  <div class="unit-lg-12 unit-sm-12 unit-md-12 unit-xs-12 news-holder new-list-bx">
+        <figure class="hnewsimg"><img alt="{{newsData.title}}"  no-cache-src="{{newsData.imageName}}">
+        <span class="post-date"><i></i>{{formatDateString(newsData.createdDate)}}</span>
+        <span class="post-auhor"><i></i>{{(newsData.createdByName||'')}}</span>
+        </figure>
+        <figcaption>
+        <h2 class="clr-blue">Amet nibh vulputate cursus</h2>
+          <p>{{(newsData.content||'No content to display!')}}</p>
+      </div>
+  </div>
+  </div>

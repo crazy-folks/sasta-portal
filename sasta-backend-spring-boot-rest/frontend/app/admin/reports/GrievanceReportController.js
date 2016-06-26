@@ -254,7 +254,7 @@ app.controller('GrievanceReportController',['$http','$window','$scope','$rootSco
 		        		{ field: "roundName", locked: true, groupable:true,width: '90px', title:'Round'},
 		        		{ field: "districtName", locked: true, groupable:true,width: '90px', title:'District'},
 		        		{ field: "blockName", locked: true, groupable:true,width: '90px', title:'Block'},
-		        		{ field: "vpName", locked: true, groupable:true,width: '100px', title:'Panchayat'},
+		        		{ field: "vpName", locked: true, groupable:true,width: '120px', title:'Panchayat'},
 		        		{ field: "totalReceivedGrievancesHF", title:'Grievances In Household Verification', groupable:false,width: '250px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{ field: "totalReceivedGrievancesMeeting", title:'Grievances In GS', groupable:false,width: '140px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{ field: "hfTotal",title: 'Total',groupable:false,width: '140px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#"},
