@@ -109,6 +109,7 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
             $scope.$emit("LOAD");
             authfactory.doSignIn($scope.vm.userName,$scope.vm.password)
             .done(function(result){
+                 angular.element(".clse-btn").trigger('click');
                  if(result.status){
                     storage.memorize(null);
                     storage.memorize(result.data);
@@ -200,24 +201,28 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     }
 
     $scope.top3news = [];
+    $scope.newsFlag = false;
 
     $scope.GetTop3News = function () {
         var response = authfactory.GetTop3News();
         response.success(function(result){
             if(result.status){
-                $scope.top3news = result.data;              
+                $scope.top3news = result.data;
+                $scope.newsFlag = ($scope.top3news||[]).length>0 ? true : false;
             }     
         });
     }
 
     $scope.messages = [];
+    $scope.messagesFlag = false;
     $scope.GetMessages = function () {
         var response = authfactory.GetMessages();
         response.success(function(result){
             if(result.status){
                 // will work as normal, if globaly disabled
                 $animate.enabled(true); 
-                $scope.messages = result.data;              
+                $scope.messages = result.data;
+                $scope.messagesFlag = ($scope.messages||[]).length>0 ? true : false;
             }   
         });
     }
@@ -225,6 +230,18 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     $scope.GetTop3News();
     $scope.GetMessages();
 
+    function removeBackDrop(){
+        if(angular.element('body').hasClass('modal-open')){
+            angular.element('body').removeClass('modal-open');
+            angular.element('.modal-backdrop').remove();
+        }
+    }
+
+    $scope.$on('$viewContentLoaded', function(){
+        $(document).on('hide.bs.modal','#login-window', function () {
+            removeBackDrop();
+        });
+    });
 }]);
 
 

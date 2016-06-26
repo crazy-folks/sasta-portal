@@ -72,6 +72,7 @@ body {
 }
 .site-logo a, .logo-rt a {
 	display: block;
+	cursor: default;
 }
 .slider-section img {
 	width: 100%;
@@ -81,7 +82,6 @@ body {
     color: #74ba50;
     display: block;
     font-size: 14px;
-    margin: 10px 0 0;
     padding: 6px 20px;
     position: relative;
     text-transform: uppercase;
@@ -351,10 +351,9 @@ p {
 .header.sticky .navbar-default {
 	margin-top: 0;
 	position: fixed;
-	/*width: 100%;*/
 	z-index: 9999;
 }
-.header.sticky .navbar-default {
+.header.sticky .navbar-default,header .navbar-default {
 	background-color: rgba(116,186,80, 0.95)
 }
 .header.sticky .navbar-default .navbar-nav > li > a
@@ -371,12 +370,12 @@ p {
 {
 	border-right:1px dashed #9cd423;
 }
-.header.sticky .login-sec a
+.header.sticky .login-sec a,.header .login-sec a
 {
-	border-color:#fff;
 	color:#fff;
+	right : 10px;
 }
-.header.sticky .login-sec a i.user-ic
+.header.sticky .login-sec a i.user-ic,.header .login-sec a i.user-ic
 {
 	background: url("../../assets/images/user-ic 2.png") no-repeat scroll 0 0;
 }
@@ -826,6 +825,7 @@ p {
 .login-sec a:hover
 {
 	background-color:#74ba50;
+	border-color:#fff;
 	color:#fff;
 }
 .login-sec a:hover i.user-ic
@@ -838,7 +838,8 @@ p {
 }
 .header
 {
-	border-top:3px solid #89c30c;
+	border-top: 3px solid #89c30c;
+	background: #ecf6d7;
 }
 .headerinr
 {
@@ -850,6 +851,16 @@ p {
 {
 	display:inline-block;
 }
+.left-logo{
+	height: 96px;
+	margin-top: 4px;
+}
+
+.right-logo{
+	height: 93px;
+	margin-top: 4px;
+}
+
 .wc-heading img
 {
 	max-width:100%;
@@ -968,16 +979,17 @@ p {
 .padding-top-20{
 	padding-top:20px;	
 }
-
+.lft-border{ padding: 10px 0px; border:1px solid #ccc; }
+.rht-border{ border-left: none !important; border-right: 1px; border-bottom: 1px; border-top: 1px; border-color: #ccc; border-style: solid; padding: 10px 0px; }
 .bx-wrapper .testimonials-thumbnail{ margin: 0px 0px 15px; }
 .bx-wrapper .testimonials-title{ text-align: center;  margin: 25px 15px 3px; font-size: 24px; line-height: 1; }
 .bx-wrapper .testimonials-carousel-thumbnail{ max-width: 35%; float: left; margin-right: 20px; }
 .bx-wrapper .testimonials-carousel-thumbnail img{ display: block;   margin-right: 20px;width: 100px;}
 .bx-wrapper .testimonials-carousel-context{ overflow: hidden; }
-.bx-wrapper .testimonials-name{ font-size: 18px; margin-bottom: 15px; color:#000000; font-weight:400;}
+.bx-wrapper .testimonials-name{	font-size: 18px; margin-bottom: 15px;	color: #555555;	font-weight: 400;	text-transform: uppercase;	font-weight: bold;}
 .bx-wrapper span{ font-size: 11px; margin-left:10px; color:#aaa; font-family: Georgia, Arial, Helvetica, sans-serif; font-style:italic; }
 .bx-wrapper {position: relative;margin: 30px auto;padding: 0;width:100%;*zoom: 1;}
-.bx-wrapper .slide {padding:0;margin:0;display: block;}
+.bx-wrapper .slide {padding:0;margin:0;display: block;text-align: justify;padding: 10px;}
 .bx-wrapper .bx-viewport {padding:10px;margin-left:0;z-index:1;width:100%;}
 .bx-wrapper .bx-pager,
 .bx-wrapper .bx-controls-auto {position: absolute;display:none;bottom: -30px;width: 100%;}
@@ -988,6 +1000,6 @@ p {
 .bx-wrapper .bx-pager.bx-default-pager a {background: #666;text-indent: -9999px;display: block;width: 10px;height: 10px;margin: 0 5px;outline: 0;-moz-border-radius: 5px;-webkit-border-radius: 5px;border-radius: 5px;}
 .bx-wrapper .bx-pager.bx-default-pager a:hover,
 .bx-wrapper .bx-pager.bx-default-pager a.active {background: #000;}
-.bx-wrapper .bx-next {position: absolute;top: 0;right: 0;width: 30px;border-left:1px solid #ddd;height: 30px;cursor: pointer;background: #ED3131 url(../../assets/images/caousel-next.png) no-repeat 0 0 ;}
-.bx-wrapper .bx-prev {position: absolute;top: 0px;right: 30px;border-right:1px solid #ddd;width: 30px;height: 30px;cursor: pointer;background: #ED3131 url(../../assets/images/caousel-prev.png) no-repeat 0 0 ;}
+.bx-wrapper .bx-next {position: absolute;top: 0;right: 0;width: 30px;border-left:1px solid #ddd;height: 30px;cursor: pointer;background: #8bc34a url(../../assets/images/caousel-next.png) no-repeat 0 0 ;}
+.bx-wrapper .bx-prev {position: absolute;top: 0px;right: 30px;border-right:1px solid #ddd;width: 30px;height: 30px;cursor: pointer;background: #8bc34a url(../../assets/images/caousel-prev.png) no-repeat 0 0 ;}
 .bx-wrapper .bx-controls-direction a {position: absolute;top: 0;margin-top: 0;margin-right: 0px;outline: 0;width: 30px;height: 30px;text-indent: -9999px;z-index: 9999;}

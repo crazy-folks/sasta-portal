@@ -51,12 +51,8 @@ function boxSlider ($rootScope){
         link :function(scope,element){
             setTimeout(function() {
                 $(element).find('.testimonials-slider').bxSlider({
-                    slideWidth: 800,
-                    minSlides: 1,
-                    maxSlides: 1,
-                    slideMargin: 32,
                     auto: true,
-                    autoControls: true
+                    autoControls: false
                 });
             }, 2000);
         }
@@ -124,34 +120,24 @@ function slidePanel($rootScope, $timeout) {
                 autoPlay: true,
                 autoPlayDelay: 4000,
                 preloader: true,
-                reverseAnimationsWhenNavigatingBackwards: false, 
-        //         preloadTheseFrames: [1, 2, 3, 4],
-        /*
-                preloadTheseImages: [
-                    "../img/Merrifield_Streetscape_View2_FINAL2_low-res(2).jpg",
-                    "../img/Rosette-Parade_view02_FINAL_low-res.jpg",
-                    "../img/nostra-bg.jpg",
-                    "images/tn-model1.png",
-                    "images/tn-model2.png",
-                    "images/tn-model3.png"
-                ]
-        */
+                reverseAnimationsWhenNavigatingBackwards: false
             };
-            
-            var sequence = $(element).sequence(options).data("sequence");
-        //     sequence.stopAutoPlay();
-        //    sequence.pause();
-        //     mySequence.pause();
-               sequence.beforeCurrentFrameAnimatesOut = function() {
-                   
+            $timeout(function(){
+                var sequence = $(element).sequence(options).data("sequence");
+                //     sequence.stopAutoPlay();
+                //    sequence.pause();
+                //     mySequence.pause();
+                sequence.beforeCurrentFrameAnimatesOut = function() {
+
                     //add code to execute here, such as:
-        //             alert("Do something before the CURRENT frame animates out");
+                    //             alert("Do something before the CURRENT frame animates out");
                 };
 
                 sequence.beforeNextFrameAnimatesIn = function(){
                     //add code to execute here, such as:
-        //             alert("Do something before the NEXT frame animates in");
+                    //             alert("Do something before the NEXT frame animates in");
                 };
+            },500);
         }
     };
 }

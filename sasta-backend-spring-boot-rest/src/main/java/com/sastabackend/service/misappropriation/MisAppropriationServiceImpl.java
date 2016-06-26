@@ -533,8 +533,10 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
                 o.setCreatedBy(set.getLong("created_by"));
             if(hasColumn("modified_by"))
                 o.setModifiedBy(set.getLong("modified_by"));
-            o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
-            //o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
+            if(hasColumn("created_by_name"))
+                o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            if(hasColumn("modifed_by_name"))
+                o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
             if(hasColumn("is_active"))
                 o.setStatus(set.getBoolean("is_active"));
             //LOGGER.debug("Mis Appropriation  : {}", o.toString());
@@ -543,9 +545,9 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
     }
 
 
-    protected static final class MisAppropriationMapper implements RowMapper {
+    protected static final class MisAppropriationMapper  extends BaseRowMapper {
 
-        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+        public Object mapRowImpl(ResultSet set, int rowNo)throws SQLException {
             System.out.println("Read Row :" + rowNo);
             MisAppropriation o = new MisAppropriation();
             o.setId(set.getLong("id"));
@@ -623,11 +625,17 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
             o.setWagesDrawnMoreThanActualWorkingDayAmt(set.getBigDecimal("wages_drawn_more_than_actual_working_day_amt"));
             o.setWorkDoneByContractorsCount(set.getInt("work_done_by_contractors_count"));
             o.setWorkDoneByContractorsAmt(set.getBigDecimal("work_done_by_contractors_amt"));
-            o.setCreatedDate(set.getTimestamp("created_date"));
-            o.setModifiedDate(set.getTimestamp("modified_date"));
-            o.setCreatedBy(set.getLong("created_by"));
-            o.setModifiedBy(set.getLong("modified_by"));
+            if(hasColumn("created_date"))
+                o.setCreatedDate(set.getTimestamp("created_date"));
+            if(hasColumn("modified_date"))
+                o.setModifiedDate(set.getTimestamp("modified_date"));
+            if(hasColumn("created_by"))
+                o.setCreatedBy(set.getLong("created_by"));
+            if(hasColumn("modified_by"))
+                o.setModifiedBy(set.getLong("modified_by"));
+            if(hasColumn("created_by_name"))
             o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            if(hasColumn("modifed_by_name"))
             o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
             o.setStatus(set.getBoolean("is_active"));
             LOGGER.debug("Expenditure  : {}", o.toString());

@@ -317,7 +317,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 						series[28].data.push(obj.wagesDrawnMoreThanActualWorkingDayAmt);						
 					});
 					console.log(series);
-					createChart(series,categories,'Deviation Charts',chartType);
+					createChart(series,categories,'Misappropriation Charts',chartType);
 				},function(status,error){
 
 				});

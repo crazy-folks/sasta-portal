@@ -54,41 +54,41 @@
             <ul class="sequence-pagination bottomNav">
                 <li class="current">
                     <div class="slide-show-menu">
-                        Banner 1
+                        WORKSITE MEASUREMENT
                         <div class="details">
                                     <span style="font-size: 14px;" class="resizeMe arial-font">
-                                    Accumsan et iusto odio dignissim qui blandit praesent
-                                        </span>
+                                        <!-- DESCRIPTION GOES HERE-->
+                                    </span>
                         </div>
                     </div>
                 </li>
                 <li class="">
                     <div class="slide-show-menu">
-                        Banner 2
+                        GRAMA SABHA
                         <div class="details">
                                     <span style="font-size: 14px;" class="resizeMe arial-font">
-                                            Accumsan et iusto odio dignissim qui blandit praesent
-                                        </span>
+                                        <!-- DESCRIPTION GOES HERE-->    
+                                    </span>
                         </div>
                     </div>
                 </li>
                 <li class="">
                     <div class="slide-show-menu">
-                        Banner 3
+                        GRAMA SABHA
                         <div class="details">
                                     <span style="font-size: 14px;" class="resizeMe arial-font">
-                                            Accumsan et iusto odio dignissim qui blandit praesent
-                                        </span>
+                                         <!-- DESCRIPTION GOES HERE-->   
+                                    </span>
                         </div>
                     </div>
                 </li>
                 <li class="">
                     <div class="slide-show-menu">
-                        Banner 4
+                        HABITATION LEVEL MEETING
                         <div class="details">
                                     <span style="font-size: 14px;" class="resizeMe arial-font">
-                                            Accumsan et iusto odio dignissim qui blandit praesent
-                                        </span>
+                                        <!-- DESCRIPTION GOES HERE-->    
+                                    </span>
                         </div>
                     </div>
                 </li>
@@ -100,7 +100,7 @@
 <div class="white-bx-holder cnt-bx-divide cfx">
     <div class="container cfx">
 
-        <div class="wc-heading"><img src="assets/images/welcome-header.jpg" alt=""></div>
+        <div class="wc-heading"><img src="assets/images/welcome-header.png" alt=""></div>
         <div class="row cfx">
             <div class="welcome-caption unit-lg-8 unit-sm-8 unit-md-8 unit-xs-12">
                 <p>Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA) enacted on 5th September, 2005 was
@@ -129,34 +129,41 @@
 </div>
 
 <div class="gry-bx-holder cnt-bx-divide cfx">
-    <div class="container cfx" ng-init="GetTop3News()">
+    <div class="container cfx unit-lg-12 unit-sm-12 unit-md-12 unit-xs-12" ng-init="GetTop3News()">
+        <div class="unit-lg-8 unit-sm-8 unit-md-8 unit-xs-12 lft-border">
+            <center>
+                <h4 class="heading-text">Recent News</h4>
+            </center>
 
-        <center>
-            <h2 class="heading-text">Recent News</h2>
-        </center>
-
-        <div ng-repeat="newsObject in top3news" class="unit-lg-4 unit-sm-4 unit-md-4 unit-xs-12 news-holder">
-            <figure class="hnewsimg"><img no-cache-src="{{newsObject.imageName}}" alt="{{newsObject.title}}"></figure>
-            <figcaption>
-                <p>{{(newsObject.content||'No content to display!')|ellipsis:200}}</p>
-                <a ui-sref="ui.viewnews({newsid: newsObject.id, mode : 'view'})" class="btn-white-md">Learn More<i
-                        class="btnarwmd"></i></a></figcaption>
+            <div ng-hide="!newsFlag" ng-repeat="newsObject in top3news" class="unit-lg-6 unit-sm-6 unit-md-6 unit-xs-12 news-holder">
+                <figure class="hnewsimg"><img no-cache-src="{{newsObject.imageName}}" alt="{{newsObject.title}}"></figure>
+                <figcaption>
+                    <p>{{(newsObject.content||'No content to display!')|ellipsis:200}}</p>
+                    <a ui-sref="ui.viewnews({newsid: newsObject.id, mode : 'view'})" class="btn-white-md">Learn More<i
+                            class="btnarwmd"></i></a></figcaption>
+            </div>
+            <div ng-show="!newsFlag" class="unit-lg-12 unit-sm-12 unit-md-12 unit-xs-12">
+                <center><h6>No news to display here!</h6></center>
+            </div>
         </div>
 
-        <div ng-init="GetMessages()" class="unit-lg-4 unit-sm-4 unit-md-4 unit-xs-12 news-holder"  box-slider>
-            <!-- DEMO -->
-            <h4 class="heading-text">Message From Director</h4>
-            <div class="testimonials-slider">
-                <div class="slide" ng-repeat="slide in messages">
-                    <div class="testimonials-carousel-context">
-                        <div class="testimonials-name" ng-bind="slide.title"></div>
-                        <div class="testimonials-carousel-content">{{slide.content}}</div>
+        <div class="unit-lg-4 unit-sm-4 unit-md-4 unit-xs-12 rht-border" ng-init="GetMessages()" box-slider>
+            <center>
+                <h4 class="heading-text">Message From Director</h4>
+            </center>
+            <div class="unit-lg-12 unit-sm-12 unit-md-12 unit-xs-12 news-holder"  >
+                <!-- DEMO -->
+                <div class="testimonials-slider">
+                    <div class="slide" ng-repeat="slide in messages">
+                        <div class="testimonials-carousel-context">
+                            <div class="testimonials-name" ng-bind="slide.title"></div>
+                            <div class="testimonials-carousel-content">{{slide.content}}</div>
+                        </div>
                     </div>
                 </div>
+                <!-- END DEMO -->
             </div>
-            <!-- END DEMO -->
         </div>
-
     </div>
 </div>
   

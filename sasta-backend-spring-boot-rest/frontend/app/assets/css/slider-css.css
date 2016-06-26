@@ -767,8 +767,8 @@ input:focus {
 	left: 0;
 	text-align: center;
 	width: 100%;
-	height: 90px;
-	line-height: 99px;
+	height: 50px;
+	line-height: 50px;
 	background-color: rgba(44, 45, 41, 0.9);
 	transition: height 0.5s;
 	font-size: 18px;
@@ -796,7 +796,7 @@ input:focus {
 	padding: 20px;
 	line-height: normal;
 	height: 110px;
-	background-color: rgba(137, 195, 12, 0.9);
+	background-color: rgba(116,186,80, 0.95);
 }
 .bottomNav .db {
 	line-height: normal;

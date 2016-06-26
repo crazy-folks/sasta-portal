@@ -5,7 +5,6 @@
 }
 .login-sec {
 	float: right;
-		height: 56px;
 }
 .page-title h3
 {
@@ -55,6 +54,7 @@
 }
 .header.sticky .navbar-default {
 	margin-top: 0 !important;
+	width: 100%;
 }
 .news-holder {
 	margin-bottom: 30px;
