@@ -767,11 +767,11 @@ input:focus {
 	left: 0;
 	text-align: center;
 	width: 100%;
-	height: 50px;
-	line-height: 50px;
+	height: 30px;
+	line-height: 30px;
 	background-color: rgba(44, 45, 41, 0.9);
 	transition: height 0.5s;
-	font-size: 18px;
+	font-size: 14px;
 }
 .bottomNav .slide-show-menu:hover{
 	cursor: pointer;
@@ -793,10 +793,14 @@ input:focus {
 	text-transform: none;
 }
 .bottomNav .current .slide-show-menu {
-	padding: 20px;
+	padding: 5px;
 	line-height: normal;
-	height: 110px;
+	height: 50px;
 	background-color: rgba(116,186,80, 0.95);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
 }
 .bottomNav .db {
 	line-height: normal;
