@@ -59,6 +59,18 @@ function boxSlider ($rootScope){
     }
 }
 
+function keydown ($rootScope){
+    return {
+        link :function(scope,element){
+            $(element).on('keydown', function (e) {
+                var code = e.which; // recommended to use e.which, it's normalized across browsers
+                if(code==13) $(element).parent().parent().find('button').trigger('click');
+            });
+        }
+    }
+}
+
+
  /*
  * @scrollTop - Scroll to Top
  */
@@ -749,6 +761,7 @@ angular
     .directive('scrollTop',scrollTop)
     .directive('stickyHeader',stickyHeader)
     .directive('boxSlider',boxSlider)
+    .directive('keydown',keydown)
 
 /**
  * NSF - Responsive Admin Theme

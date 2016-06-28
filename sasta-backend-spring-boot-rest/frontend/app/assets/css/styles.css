@@ -1869,7 +1869,7 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 }
 .navbar {
 	position: relative;
-	min-height: 36px;
+	/*min-height: 36px;*/
 	z-index: 999;
 }
 @media (min-width:768px) {
@@ -2041,7 +2041,7 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 	position: relative;
 }
 .navbar-nav>li>a {
-	padding: 11px 20px;
+	padding: 5px 20px;
 	color:#333;
 	border-right:1px dashed #e9e9e9;
 }
