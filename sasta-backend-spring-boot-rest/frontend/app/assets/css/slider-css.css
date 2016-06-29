@@ -796,7 +796,7 @@ input:focus {
 	padding: 5px;
 	line-height: normal;
 	height: 50px;
-	background-color: rgba(116,186,80, 0.95);
+	background-color: #206b98;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 0px;

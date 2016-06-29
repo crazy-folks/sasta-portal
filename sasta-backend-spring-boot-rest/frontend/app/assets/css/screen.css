@@ -1,7 +1,7 @@
 /*768 Start Here*/
 @media (min-width:768px) {
 .footer {
-	min-height: 490px;
+	min-height: 250px;
 }
 .login-sec {
 	float: right;
@@ -16,12 +16,13 @@
     margin: 15px 0 0;
 }
 .login-holder .modal-dialog
-    {
-        width: 500px;
-        background-color: #fff;
-        margin: 60px auto;
-    }
-	.footer .ftr-nav
+{
+	width: 500px;
+	background-color: #fff;
+	margin: 60px auto;
+}
+
+.footer .ftr-nav
 {
 	position:absolute;
 	top:60%;
