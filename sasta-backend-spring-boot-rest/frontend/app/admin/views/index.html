@@ -58,16 +58,23 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="col-md-4 form-group no-margin">
-                                                        <label for="selreport"  class="label-adjust">Chart Type</label>
-                                                        <select name="selreport" class="k-input width-95 validate[required]" ng-model="defaultchartsType" ng-options="obj.text for obj in chartsType track by obj.value">
+                                                        <label for="selchartsType"  class="label-adjust">Chart Type</label>
+                                                        <select name="selchartsType" class="k-input width-95 validate[required]" ng-model="defaultchartsType" ng-options="obj.text for obj in chartsType track by obj.value">
                                                             <option value="">Choose Chart Type</option>
                                                         </select>                                      
-                                                </div>                                               
+                                                </div>
+                                                <div class="col-md-4 form-group no-margin">
+                                                    <label for="selfilterType"  class="label-adjust">Filter By</label>
+                                                    <select name="selfilterType" class="k-input width-95 validate[required]" ng-model="defaultFilterType" ng-options="obj.text for obj in filterType track by obj.value">
+                                                        <option value="">Choose Filter Type</option>
+                                                    </select>
+                                                </div>
                                                 <div class="col-md-4 form-group no-margin">
                                                     <label class="label-adjust">&nbsp;</label> 
                                                     <button type="button" data-ng-click="OnReset()"  class="btn btn-danger btn-sm">Reset</button>
                                                     <button type="button" class="btn btn-success btn-sm" ng-click="doSearch();">&#160;Submit&#160;</button>
                                                     <button class='btn btn-success btn-sm' ng-click="OnClick()">EXPORT CHART AS PDF</button>
+                                                    <!--<button class='btn btn-success btn-sm' ng-click="redrawLegends(!disableAll)">CHECK/UNCHECK ALL</button>-->
                                                 </div>                                              
                                             </div>
                                             </form> 
@@ -76,7 +83,7 @@
                                 </div>
                             </div>
 						    <div class="demo-section k-content wide">
-						        <div id="chart" style="width: 1200px; height: 1200px"></div>
+						        <div id="chart" style="width: 100%; height: 1200px"></div>
 						    </div>
                         </div>
                     </div>

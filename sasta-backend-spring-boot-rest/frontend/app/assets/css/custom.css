@@ -147,6 +147,7 @@ p {
 	overflow: hidden;
 	position: relative;
 	margin-bottom: 15px;
+	border: 1px solid #ccc;
 }
 .hnewsimg img {
 	width : 100%;
@@ -459,6 +460,7 @@ p {
 .post-auhor
 {
 	right:0;
+    border: 1px solid #ccc;
 }
 .post-auhor i
 {
@@ -989,6 +991,11 @@ p {
 .padding-top-20{
 	padding-top:20px;	
 }
+
+.minimum-height{
+	min-height: 478px;
+}
+
 .lft-border{ padding: 10px 0px; border:1px solid #ccc; }
 .rht-border{ border-left: none !important; border-right: 1px; border-bottom: 1px; border-top: 1px; border-color: #ccc; border-style: solid; padding: 10px 0px; }
 .bx-wrapper .testimonials-thumbnail{ margin: 0px 0px 15px; }

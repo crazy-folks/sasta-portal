@@ -1,5 +1,6 @@
 package com.sastabackend.service.audit;
 
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 
 /**
@@ -14,4 +15,5 @@ public interface AuditService {
                          Integer district_id, Integer block_id, Integer panchayat_id, Long modifyby,Boolean isactive);
     ResponseModel DoesExistAuditEntry(Long roundid,Integer districtid,Integer blockid,Integer panchayatid);
     ResponseModel SelectConfig(Long id);
+    ResponseModel getAuditEntriesReports(ReportsProperty prop);
 }
