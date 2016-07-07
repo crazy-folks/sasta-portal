@@ -1,9 +1,6 @@
 package com.sastabackend.service.audit;
 
-import com.sastabackend.domain.Audit;
-import com.sastabackend.domain.ConfigurationSettings;
-import com.sastabackend.domain.ResponseModel;
-import com.sastabackend.domain.Rounds;
+import com.sastabackend.domain.*;
 import com.sastabackend.repository.AuditRepository;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -69,7 +66,7 @@ public class AuditServiceImpl implements AuditService {
         ResponseModel response = null;
         try{
             response = new ResponseModel<List<Audit>>();
-            response.setData(readList(district,block,financial,userid));
+            response.setData(readList(district, block, financial, userid));
             response.setStatus(true);
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -153,6 +150,26 @@ public class AuditServiceImpl implements AuditService {
         return getConfiguration(id);
     }
 
+
+    /**
+     * Read All Audit Entries based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Audit Entries, If fail empty list
+     */
+    @Override
+    public ResponseModel getAuditEntriesReports(ReportsProperty prop){
+        LOGGER.debug("Reading MgnRegaWorks  : {}");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<Audit>>();
+            response.setData(readAuditReports(prop));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
 
     private boolean Create(Long roundid, Date startdate, Date enddate, Date gramasabhadate, Integer district_id,
                            Integer block_id, Integer panchayat_id, Long createdby) {
@@ -259,6 +276,21 @@ public class AuditServiceImpl implements AuditService {
             response.setData(err.getMessage());
         }
         return response;
+    }
+
+
+    /**
+     * Read All Read Audit Reports based on end user search criteria
+     * @param prop
+     * @return - Success - List Of Read Audit Reports, If fail empty list
+     */
+    private List<Audit> readAuditReports(ReportsProperty prop){
+        List<Audit> o = new ArrayList<Audit>();
+        if(!prop.getIsConsolidate())
+            o = jdbcTemplate.query("call select_audit_entries_by_admin(?,?,?,?,?,?)",
+                    new Object[]{prop.getReferenceId(),prop.getRoundId(),prop.getDistrictId(),prop.getBlockId(),prop.getVillageId(),prop.getUserId()},
+                    new AuditMapper());
+        return o;
     }
 
 

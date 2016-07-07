@@ -2,6 +2,7 @@ package com.sastabackend.controller;
 
 import com.sastabackend.domain.Audit;
 import com.sastabackend.domain.AuditReq;
+import com.sastabackend.domain.ReportsProperty;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.service.audit.AuditService;
 import com.sastabackend.util.Constants;
@@ -81,5 +82,11 @@ public class AuditController {
             // do nothing
         }
         return auditService.SelectConfig(value);
+    }
+
+    @ApiOperation(value = "Read All Audit Entries based on end user search criteria", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/auditentriesreports", method = RequestMethod.POST)
+    public ResponseModel getAuditEntriesReports(@RequestBody ReportsProperty prop) {
+        return auditService.getAuditEntriesReports(prop);
     }
 }
