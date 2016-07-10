@@ -63,6 +63,14 @@
             controller : 'PostsController as vwpostCtl',
             params: {newsid: null, mode : "view"}
         })
+        .state('ui.calenders', {
+            url: "/calenders",
+            templateUrl: "views/static/calenders.html",
+            data: {
+                pageTitle: 'Calenders'
+            },
+            controller : 'PublicCalenderController as pubCalCtl'
+        })
         .state('admin', {
             abstract: true,
             url: "/admin",
@@ -110,7 +118,25 @@
                 pageTitle: 'Communities'
             },
             controller : 'CommunitiesController as cmCtl'
-        }) 
+        })
+        .state('admin.calenders', {
+            url: "/calenders?mode",
+            templateUrl: "admin/calenders/templates.html",
+            data: {
+                pageTitle: 'Calenders'
+            },
+            controller : 'CalenderController as clCtl',
+            params: {mode: 'list'}
+        })
+        .state('admin.managecalenders', {
+            url: "/managecalenders?calenderid&mode",
+            templateUrl: "admin/calenders/managecalender.html",
+            data: {
+                pageTitle: 'Update Calenders'
+            },
+            controller : 'CalenderController as clCtl',
+            params: {newsid: null,mode: 'add'}
+        })
         .state('admin.entitygroups', {
             url: "/usergroups",
             templateUrl: "admin/entitygroups/templates.html",

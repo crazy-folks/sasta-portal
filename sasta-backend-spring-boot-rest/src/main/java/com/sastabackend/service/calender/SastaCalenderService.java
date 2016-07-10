@@ -1,5 +1,6 @@
 package com.sastabackend.service.calender;
 
+import com.sastabackend.domain.DetailedSastaCalender;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.SastaCalender;
 
@@ -13,9 +14,9 @@ public interface SastaCalenderService {
     ResponseModel UpdateSastaCalender(SastaCalender rc);
     ResponseModel DeleteSastaCalender(Long id);
 
-    //ResponseModel GetDetailedCalender(Long id);
-    //ResponseModel AddDetailedCalender(SastaCalender rc);
-    //ResponseModel UpdateDetailedCalender(SastaCalender rc);
-    //ResponseModel DeleteDetailedCalender(Long id);
+    ResponseModel GetDetailedCalender(Long id);
+    ResponseModel AddDetailedCalender(DetailedSastaCalender rc);
+    ResponseModel UpdateDetailedCalender(DetailedSastaCalender rc);
+    ResponseModel DeleteDetailedCalender(Long id);
 
 }

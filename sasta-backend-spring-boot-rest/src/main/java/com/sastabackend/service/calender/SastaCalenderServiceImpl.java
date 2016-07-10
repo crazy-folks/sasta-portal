@@ -1,5 +1,6 @@
 package com.sastabackend.service.calender;
 
+import com.sastabackend.domain.DetailedSastaCalender;
 import com.sastabackend.domain.ResponseModel;
 import com.sastabackend.domain.SastaCalender;
 import com.sastabackend.repository.CalenderRepository;
@@ -99,6 +100,7 @@ public class SastaCalenderServiceImpl implements SastaCalenderService{
             response = new ResponseModel<Boolean>();
             boolean flag = Modify(cl);
             response.setStatus(flag);
+            LOGGER.debug("Status : {0}", flag);
             response.setData(flag == true ? "Sasta Calender Updated Successfully!!" : "Unable to update Sasta Calender!!");
         }catch(Exception err){
             response = new ResponseModel<String>();
@@ -116,6 +118,69 @@ public class SastaCalenderServiceImpl implements SastaCalenderService{
             boolean flag = DeleteSastaCalenderById(id);
             response.setStatus(flag);
             response.setData(flag == true ? "Sasta Calender deleted Successfully!!" : "Unable to delete sasta calender!!");
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseModel GetDetailedCalender(Long id) {
+        LOGGER.debug("Reading Detailed Sasta Calender  : ");
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<List<DetailedSastaCalender>>();
+            response.setData(readDetailedSastaCalenderById(id));
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseModel AddDetailedCalender(DetailedSastaCalender rc) {
+        LOGGER.debug("Creating Detailed Sasta Calender : {0}", rc.toString());
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<Boolean>();
+            boolean flag = CreateDetailedSastaCalender(rc) > 0 ? true : false;
+            response.setStatus(flag);
+            response.setData(flag == true ? "Detailed Sasta Calender Created Successfully!!" : "Unable to Create Detailed Sasta Calender!!");
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseModel UpdateDetailedCalender(DetailedSastaCalender rc) {
+        LOGGER.debug("Update Detailed Sasta Calender : {0}", rc.toString());
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<Boolean>();
+            boolean flag = UpdateDetailedSastaCalender(rc);
+            response.setStatus(flag);
+            response.setData(flag == true ? "Detailed Sasta Calender Updated Successfully!!" : "Unable to update detailed Sasta Calender!!");
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public ResponseModel DeleteDetailedCalender(Long id) {
+        LOGGER.debug("Deleting Detailed Sasta Calender :{}", id);
+        ResponseModel response = null;
+        try{
+            response = new ResponseModel<Boolean>();
+            boolean flag = DeleteDetailedSastaCalenderById(id);
+            response.setStatus(flag);
+            response.setData(flag == true ? "Detailed Sasta Calender deleted Successfully!!" : "Unable to delete detailed sasta calender!!");
         }catch(Exception err){
             response = new ResponseModel<String>();
             response.setData(err.getMessage());
@@ -215,7 +280,7 @@ public class SastaCalenderServiceImpl implements SastaCalenderService{
     }
 
     /**
-     *Read Sasta Calender Id
+     *Read Sasta Calender By Id
      * @param id - Sasta Calender Id
      * @return - Sasta Calender
      */
@@ -226,6 +291,113 @@ public class SastaCalenderServiceImpl implements SastaCalenderService{
             return null;
         else
             return o.get(0);
+    }
+
+
+    /**
+     * Update Sasta Calender
+     * @param cl - Sasta Calender object
+     * @return - >0 - successfully created , 0 - failed to update Sasta Calender
+     */
+    Long CreateDetailedSastaCalender(DetailedSastaCalender cl){
+        LOGGER.debug("Creating : {0}", cl);
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("insert_detailed_calender")
+                .declareParameters(
+                        new SqlParameter("calenderid", Types.BIGINT),
+                        new SqlParameter("roundno", Types.VARCHAR),
+                        new SqlParameter("startdate", Types.DATE),
+                        new SqlParameter("enddate", Types.DATE),
+                        new SqlParameter("gsdate", Types.DATE),
+                        new SqlParameter("calender_remarks", Types.VARCHAR),
+                        new SqlParameter("createdby", Types.BIGINT),
+                        new SqlOutParameter("id", Types.BIGINT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("calender_remarks", cl.getRemarks());
+        inParamMap.put("calenderid", cl.getCalenderId());
+        inParamMap.put("roundno", cl.getRoundNo());
+        inParamMap.put("startdate", cl.getStartDate());
+        inParamMap.put("enddate", cl.getEndDate());
+        inParamMap.put("gsdate", cl.getGsDate());
+        inParamMap.put("createdby", cl.getCreatedBy());
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (Long)simpleJdbcCallResult.get("id");
+        else
+            return 0L;
+    }
+
+
+    /**
+     * Update Sasta Calender
+     * @param cl - Update Sasta Calender object
+     * @return - > true - successfully created , false - failed to update Sasta Calender
+     */
+    boolean UpdateDetailedSastaCalender(DetailedSastaCalender cl){
+        LOGGER.debug("Creating : {0}", cl);
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_detailed_calender")
+                .declareParameters(
+                        new SqlParameter("detailed_calender_id", Types.BIGINT),
+                        new SqlParameter("calenderid", Types.BIGINT),
+                        new SqlParameter("roundno", Types.VARCHAR),
+                        new SqlParameter("startdate", Types.DATE),
+                        new SqlParameter("enddate", Types.DATE),
+                        new SqlParameter("gsdate", Types.DATE),
+                        new SqlParameter("calender_remarks", Types.VARCHAR),
+                        new SqlParameter("modifiedby", Types.BIGINT),
+                        new SqlOutParameter("id", Types.BIGINT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("detailed_calender_id", cl.getId());
+        inParamMap.put("calender_remarks", cl.getRemarks());
+        inParamMap.put("calenderid", cl.getCalenderId());
+        inParamMap.put("roundno", cl.getRoundNo());
+        inParamMap.put("startdate", cl.getStartDate());
+        inParamMap.put("enddate", cl.getEndDate());
+        inParamMap.put("gsdate", cl.getGsDate());
+        inParamMap.put("modifiedby", cl.getModifiedBy());
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
+    /**
+     * Delete Sasta Calender By Id
+     * @param id
+     * @return - true - deleted , false - fail to delete
+     */
+    private boolean DeleteDetailedSastaCalenderById(Long id) {
+        SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("delete_detailed_calender")
+                .declareParameters(
+                        new SqlParameter("detailed_calender_id", Types.BIGINT),
+                        new SqlOutParameter("flag", Types.BIT)
+                );
+        Map<String, Object> inParamMap = new HashMap<String, Object>();
+        inParamMap.put("detailed_calender_id", id);
+        SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+        simplejdbcCall.compile();
+        Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+        if(!simpleJdbcCallResult.isEmpty())
+            return (boolean)simpleJdbcCallResult.get("flag");
+        else
+            return false;
+    }
+
+    /**
+     * Read Detailed Sasta Calender By Id
+     * @param id - Detailed Sasta Calender Id
+     * @return - Detailed Sasta Calender
+     */
+    private List<DetailedSastaCalender> readDetailedSastaCalenderById(Long id){
+        List<DetailedSastaCalender> o = new ArrayList<DetailedSastaCalender>();
+        o = jdbcTemplate.query("call get_detailed_sasta_calender(?)", new Object[]{id}, new DetailedSastaCalenderMapper());
+        return o;
     }
 
     protected static final class SastaCalenderMapper implements RowMapper {
@@ -249,5 +421,34 @@ public class SastaCalenderServiceImpl implements SastaCalenderService{
         }
 
     }
+
+    protected static final class DetailedSastaCalenderMapper implements RowMapper {
+
+        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+            System.out.println("Read Row :" + rowNo);
+            DetailedSastaCalender o = new DetailedSastaCalender();
+            o.setId(set.getLong("id"));
+            o.setCalenderId(set.getLong("calender_id"));
+            o.setTitle(StringUtils.trimToNull(set.getString("title")));
+            o.setFinancialYearId(set.getInt("financial_year"));
+            o.setFinancialYearName(StringUtils.trimToNull(set.getString("fy_name")));
+            o.setRoundNo(StringUtils.trimToNull(set.getString("round_no")));
+            o.setStartDate(set.getTimestamp("start_date"));
+            o.setEndDate(set.getTimestamp("end_date"));
+            o.setGsDate(set.getTimestamp("gs_date"));
+            o.setRemarks(StringUtils.trimToNull(set.getString("remarks")));
+            o.setCreatedDate(set.getTimestamp("created_date"));
+            o.setModifiedDate(set.getTimestamp("modified_date"));
+            o.setCreatedBy(set.getLong("created_by"));
+            o.setModifiedBy(set.getLong("modified_by"));
+            o.setCreatedByName(StringUtils.trimToNull(set.getString("created_by_name")));
+            o.setModifiedByName(StringUtils.trimToNull(set.getString("modifed_by_name")));
+            o.setIsActive(set.getBoolean("is_active"));
+            LOGGER.debug("Detailed Sasta Calender Mapper  : {}", o.toString());
+            return o;
+        }
+
+    }
+
 
 }
