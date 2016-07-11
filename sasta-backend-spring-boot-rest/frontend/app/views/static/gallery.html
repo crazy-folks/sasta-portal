@@ -1,179 +1,101 @@
 <div class="page-title cfx">
-  <div class="container cfx">
-    <h3 class="clr-blue">Gallery</h3>
-    <ol class="breadcrump">
-      <li><a href="javascript:void(0)">Home</a></li>
-      <li class="active"><a href="javascript:void(0)">Gallery</a></li>
-    </ol>
-  </div>
+    <div class="container cfx">
+        <h3 class="clr-blue">Gallery</h3>
+        <ol class="breadcrump">
+            <li><a href="javascript:void(0)">Home</a></li>
+            <li class="active"><a href="javascript:void(0)">Gallery</a></li>
+        </ol>
+    </div>
 </div>
 <div class="container news-list-wrapper cfx">
-<div class="row cfx">
-<!--Gallery Left Start Here-->
-<div class="unit-lg-4 unit-sm-4 unit-md-4 unit-xs-12 gallery-holder gallery-list-bx">
-<div class="gallery-lt-inr">
-<div class="bs-example">
-<div class="panel-group" id="accordion">
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h4 class="panel-title"> <a data-toggle="collapse" href="javascript:void(0)">Financial Year</a> </h4>
-  </div>
-  <div id="collapseOne" class="panel-collapse collapse in">
-    <ul class="panel-body">
-      <li>
-        <label>
-          <input type="checkbox" name="achievment[]" value="ac1" />
-          2010-2011</label>
-      </li>
-      <li>
-        <label>
-          <input type="checkbox" name="achievment[]" value="ac2" />
-          2012-2013</label>
-      </li>
-      <li>
-        <label>
-          <input type="checkbox" name="achievment[]" value="ac3" />
-          2014-2015</label>
-      </li>
-    </ul>
-  </div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title"> <a data-toggle="collapse" href="javascript:void(0)">Round</a> </h4>
-</div>
-<div id="collapseTwo" class="panel-collapse collapse">
-<ul class="panel-body">
-<li>
-  <label>
-    <input type="checkbox" name="round[]" value="r1" />
-    Round 1</label>
-</li>
-<li>
-  <label>
-    <input type="checkbox" name="round[]" value="r2" />
-    Round 2</label>
-</li>
-<li>
-  <label>
-    <input type="checkbox" name="round[]" value="r3" />
-    Round 3</label>
-</li>
-<li>
-  <label>
-    <input type="checkbox" name="round[]" value="r4" />
-    Round 4</label>
-</li>
-<li>
-  <label>
-    <input type="checkbox" name="round[]" value="r5" />
-    Round 5</label>
-</li>
-<li>
-  <label>
-    <input type="checkbox" name="round[]" value="r6" />
-    Round 6</label>
-</li>
-<li>
-  <label>
-    <input type="checkbox" name="round[]" value="r7" />
-    Round 7</label>
-</li>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!--Gallery Left End Here--> 
-
-<!--Gallery Right Start Here-->
-<div class="unit-lg-8 unit-sm-8 unit-md-8 unit-xs-12 gallery-holder gallery-list-bx">
-  <div class="row gallery-list-bx cfx">
-    <div class="unit-lg-12">
-      <h3 class="page-heading-lt">SOCIAL AUDIT GALLERY : 2012-2013</h3>
-    </div>
-    <!--Gallery Thump Begin-->
-    <div class="unit-lg-6 unit-sm-6 unit-md-6 unit-xs-12 gallery-bx caption-style-1">
-      <figure><img src="assets/images/gallery-img1.jpg">
-        <figcaption class="caption">
-          <div class="blur"></div>
-          <h6>SOCIAL AUDIT GALLERIES</h6>
-          <p>Social Audit, Government will take action on the findings and inform the stakeholders of the action taken.</p>
-          <button type="button" class="cap-btn" data-toggle="modal" data-target="javascript:void(0)myModal">Read More<i></i></button>
-          <!--                <a href="javascript:void(0)" class="cap-btn">Read More<i></i></a>--> 
-          <!-- Modal -->
-          <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-              <button type="button" class="btn btn-default clse-btn" data-dismiss="modal"><span>Close</span><i></i></button>
-              <img src="assets/images/gallery-img1.jpg">
-              <p>Facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium</p>
-              <p>Consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit</p>
-              <!-- Modal content--> 
+    <div class="row cfx">
+        <!--Gallery Left Start Here-->
+        <div class="unit-lg-4 unit-sm-4 unit-md-4 unit-xs-12 gallery-holder gallery-list-bx">
+            <div class="gallery-lt-inr">
+                <div class="bs-example">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a data-toggle="collapse" href="javascript:void(0)">Financial
+                                    Year</a></h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in">
+                                <ul class="panel-body">
+                                    <li ng-repeat="item in fy">
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="achievment[]"
+                                                   ng-disabled="item.checked"
+                                                   data-ng-model="item.checked"
+                                                   ng-click="UpdateFy(item.value);"/>
+                                            {{item.text}}
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a data-toggle="collapse" href="javascript:void(0)">Round</a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse in">
+                                <ul class="panel-body">
+                                    <li ng-repeat="it in rounds">
+                                        <label>
+                                            <input type="checkbox"
+                                                   name="achievment[]"
+                                                   ng-disabled="it.checked"
+                                                   data-ng-model="it.checked"
+                                                   ng-click="UpdateRound(it.value);"/>
+                                            {{it.text}}
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </figcaption>
-      </figure>
-    </div>
-    <!--Gallery Thump End--> 
-    <!--Gallery Thump Begin-->
-    <div class="unit-lg-6 unit-sm-6 unit-md-6 unit-xs-12 gallery-bx caption-style-1">
-      <figure><img src="assets/images/gallery-img1.jpg">
-        <figcaption class="caption">
-          <div class="blur"></div>
-          <h6>SOCIAL AUDIT GALLERIES</h6>
-          <p>Social Audit, Government will take action on the findings and inform the stakeholders of the action taken.</p>
-          <a href="javascript:void(0)" class="cap-btn">Read More<i></i></a> </figcaption>
-      </figure>
-    </div>
-    <!--Gallery Thump End--> 
-    <!--Gallery Thump Begin-->
-    <div class="unit-lg-6 unit-sm-6 unit-md-6 unit-xs-12 gallery-bx caption-style-1">
-      <figure><img src="assets/images/gallery-img1.jpg">
-        <figcaption class="caption">
-          <div class="blur"></div>
-          <h6>SOCIAL AUDIT GALLERIES</h6>
-          <p>Social Audit, Government will take action on the findings and inform the stakeholders of the action taken.</p>
-          <a href="javascript:void(0)" class="cap-btn">Read More<i></i></a> </figcaption>
-      </figure>
-    </div>
-    <!--Gallery Thump End--> 
-    <!--Gallery Thump Begin-->
-    <div class="unit-lg-6 unit-sm-6 unit-md-6 unit-xs-12 gallery-bx caption-style-1">
-      <figure><img src="assets/images/gallery-img1.jpg">
-        <figcaption class="caption">
-          <div class="blur"></div>
-          <h6>SOCIAL AUDIT GALLERIES</h6>
-          <p>Social Audit, Government will take action on the findings and inform the stakeholders of the action taken.</p>
-          <a href="javascript:void(0)" class="cap-btn">Read More<i></i></a> </figcaption>
-      </figure>
-    </div>
-    <!--Gallery Thump End--> 
-    <!--Gallery Thump Begin-->
-    <div class="unit-lg-6 unit-sm-6 unit-md-6 unit-xs-12 gallery-bx caption-style-1">
-      <figure><img src="assets/images/gallery-img1.jpg">
-        <figcaption class="caption">
-          <div class="blur"></div>
-          <h6>SOCIAL AUDIT GALLERIES</h6>
-          <p>Social Audit, Government will take action on the findings and inform the stakeholders of the action taken.</p>
-          <a href="javascript:void(0)" class="cap-btn">Read More<i></i></a> </figcaption>
-      </figure>
-    </div>
-    <!--Gallery Thump End--> 
-    <!--Gallery Thump Begin-->
-    <div class="unit-lg-6 unit-sm-6 unit-md-6 unit-xs-12 gallery-bx caption-style-1">
-      <figure><img src="assets/images/gallery-img1.jpg">
-        <figcaption class="caption">
-          <div class="blur"></div>
-          <h6>SOCIAL AUDIT GALLERIES</h6>
-          <p>Social Audit, Government will take action on the findings and inform the stakeholders of the action taken.</p>
-          <a href="javascript:void(0)" class="cap-btn">Read More<i></i></a> </figcaption>
-      </figure>
-    </div>
-    <!--Gallery Thump End--> 
-  </div>
-</div>
-<!--Gallery Right End Here-->
+        </div>
+        <!--Gallery Left End Here-->
 
-</div>
+        <!--Gallery Right Start Here-->
+        <div class="unit-lg-8 unit-sm-8 unit-md-8 unit-xs-12 gallery-holder gallery-list-bx">
+            <div class="row gallery-list-bx cfx">
+                <div class="unit-lg-12">
+                    <h3 class="page-heading-lt">SOCIAL AUDIT GALLERY <span ng-if="selectedcalender">{{(':'+selectedcalender||'')}}</h3>
+                </div>
+                <!--Gallery Thump Begin-->
+                <div class="unit-lg-6 unit-sm-6 unit-md-6 unit-xs-12 gallery-bx caption-style-1" ng-repeat="gal in galleries">
+                    <figure>
+                        <img ng-src="{{gal.imageName}}" />
+                        <figcaption class="caption">
+                            <div class="blur"></div>
+                            <h6>SOCIAL AUDIT GALLERIES</h6>
+
+                            <p>{{(gal.description||'No content to display!')|ellipsis:200}}</p>
+                            <button type="button" class="cap-btn" data-toggle="{{'myModal'+$index}}"
+                                    data-target="javascript:void(0)myModal">Read More<i></i></button>
+                            <!--                <a href="javascript:void(0)" class="cap-btn">Read More<i></i></a>-->
+                            <!-- Modal -->
+                            <div ng-attr-id="{{'myModal'+$index}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <button type="button" class="btn btn-default clse-btn" data-dismiss="modal"><span>Close</span><i></i>
+                                    </button>
+                                    <img ng-src="{{gal.imageName}}" />
+
+                                    <p>{{gal.description}}</p>
+                                    <!-- Modal content-->
+                                </div>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+                <!--Gallery Thump End-->
+            </div>
+        </div>
+        <!--Gallery Right End Here-->
+
+    </div>
 </div>

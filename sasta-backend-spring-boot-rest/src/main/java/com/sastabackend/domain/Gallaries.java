@@ -29,11 +29,13 @@ public class Gallaries implements java.io.Serializable{
     private Integer thumbnail_width;
     private java.sql.Timestamp uploaded_date;
     private Boolean is_deleted;
-    private Boolean deleted_date;
+    private java.sql.Timestamp deleted_date;
     private Integer type_id;
     private Long user_id;
     private Long created_by;
     private Long modified_by;
+    private String created_by_Name;
+    private String modified_by_Name;
 
     public Gallaries(){}
 
@@ -46,11 +48,11 @@ public class Gallaries implements java.io.Serializable{
     }
 
 
-    public Long getAudit_id() {
+    public Long getAuditId() {
         return audit_id;
     }
 
-    public void setAudit_id(Long audit_id) {
+    public void setAuditId(Long audit_id) {
         this.audit_id = audit_id;
     }
 
@@ -142,11 +144,11 @@ public class Gallaries implements java.io.Serializable{
         this.is_deleted = is_deleted;
     }
 
-    public Boolean getDeletedDate() {
+    public java.sql.Timestamp getDeletedDate() {
         return deleted_date;
     }
 
-    public void setDeletedDate(Boolean deleted_date) {
+    public void setDeletedDate(java.sql.Timestamp deleted_date) {
         this.deleted_date = deleted_date;
     }
 
@@ -182,6 +184,22 @@ public class Gallaries implements java.io.Serializable{
         this.modified_by = modified_by;
     }
 
+    public String getCreatedByName() {
+        return this.created_by_Name;
+    }
+
+    public void setCreatedByName(String createByName) {
+        this.created_by_Name = createByName;
+    }
+
+    public String getModifiedByName() {
+        return this.modified_by_Name;
+    }
+
+    public void setModifiedByName(String modifiedByName) {
+        this.modified_by_Name = modifiedByName;
+    }
+
     @Override
     public String toString() {
         return "Gallaries{" +
@@ -203,6 +221,8 @@ public class Gallaries implements java.io.Serializable{
                 ", user_id=" + user_id +
                 ", created_by=" + created_by +
                 ", modified_by=" + modified_by +
+                ", created_by_Name='" + created_by_Name + '\'' +
+                ", modified_by_Name='" + modified_by_Name + '\'' +
                 '}';
     }
 }

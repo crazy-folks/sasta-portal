@@ -369,6 +369,10 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 			$state.go('entries.vrp',{aid:data.key});
     	}
 
+		$scope.Galleries = function(data){
+			$state.go('entries.galleries',{aid:data.auditId});
+		}
+
     	$scope.ExpenData = function(data){
 			$state.go('entries.expenditure',{aid:data.key});
     	}
