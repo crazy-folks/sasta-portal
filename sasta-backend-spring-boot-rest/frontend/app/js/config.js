@@ -24,13 +24,6 @@
                 pageTitle: 'About-Us'
             }
         })
-        .state('ui.gallery', {
-            url: "/gallery",
-            templateUrl: "views/static/gallery.html",
-            data: {
-                pageTitle: 'Gallery'
-            }
-        })        
         .state('ui.careers', {
             url: "/careers",
             templateUrl: "views/static/careers.html",
@@ -62,6 +55,22 @@
             },
             controller : 'PostsController as vwpostCtl',
             params: {newsid: null, mode : "view"}
+        })
+        .state('ui.calenders', {
+            url: "/calenders",
+            templateUrl: "views/static/calenders.html",
+            data: {
+                pageTitle: 'Calenders'
+            },
+            controller : 'PublicCalenderController as pubCalCtl'
+        })
+        .state('ui.galleries', {
+            url: "/galleries",
+            templateUrl: "views/static/gallery.html",
+            data: {
+                pageTitle: 'Galleries'
+            },
+            controller : 'PublicGalleriesController as pubGalleriesCtl'
         })
         .state('admin', {
             abstract: true,
@@ -110,7 +119,25 @@
                 pageTitle: 'Communities'
             },
             controller : 'CommunitiesController as cmCtl'
-        }) 
+        })
+        .state('admin.calenders', {
+            url: "/calenders?mode",
+            templateUrl: "admin/calenders/templates.html",
+            data: {
+                pageTitle: 'Calenders'
+            },
+            controller : 'CalenderController as clCtl',
+            params: {mode: 'list'}
+        })
+        .state('admin.managecalenders', {
+            url: "/managecalenders?calenderid&mode",
+            templateUrl: "admin/calenders/managecalender.html",
+            data: {
+                pageTitle: 'Update Calenders'
+            },
+            controller : 'CalenderController as clCtl',
+            params: {newsid: null,mode: 'add'}
+        })
         .state('admin.entitygroups', {
             url: "/usergroups",
             templateUrl: "admin/entitygroups/templates.html",
@@ -286,6 +313,15 @@
                 pageTitle: 'Audit Special Gram Shaba'
             },
             controller : 'SgmController as SgmCtl',
+            params: {aid: null}
+        })
+        .state('entries.galleries', {
+            url: "/galleries?aid",
+            templateUrl: "admin/galleries/templates.html",
+            data: {
+                pageTitle: 'Galleries'
+            },
+            controller : 'GalleriesController as GalleriesCtl',
             params: {aid: null}
         })
         .state('users', {

@@ -641,6 +641,7 @@ p {
 		padding: 0px;
 		float: left;
 		z-index: 4;
+		height: 300px;
 	}
 
 
@@ -995,6 +996,7 @@ p {
 .minimum-height{
 	min-height: 478px;
 }
+
 
 .lft-border{ padding: 10px 0px; border:1px solid #ccc; }
 .rht-border{ border-left: none !important; border-right: 1px; border-bottom: 1px; border-top: 1px; border-color: #ccc; border-style: solid; padding: 10px 0px; }

@@ -23,7 +23,7 @@ public class SastaCalender implements java.io.Serializable{
     private java.sql.Timestamp created_date;
     private java.sql.Timestamp modified_date;
     private Long created_by;
-    private Long modifed_by;
+    private Long modified_by;
     private String created_by_Name;
     private String modified_by_Name;
     private String financial_name;
@@ -87,11 +87,11 @@ public class SastaCalender implements java.io.Serializable{
     }
 
     public Long getModifiedBy() {
-        return modifed_by;
+        return modified_by;
     }
 
-    public void setModifiedBy(Long modifed_by) {
-        this.modifed_by = modifed_by;
+    public void setModifiedBy(Long modified_by) {
+        this.modified_by = modified_by;
     }
 
     public String getCreatedByName() {
@@ -128,7 +128,7 @@ public class SastaCalender implements java.io.Serializable{
                 ", created_date=" + created_date +
                 ", modified_date=" + modified_date +
                 ", created_by=" + created_by +
-                ", modifed_by=" + modifed_by +
+                ", modifed_by=" + modified_by +
                 ", created_by_Name='" + created_by_Name + '\'' +
                 ", modified_by_Name='" + modified_by_Name + '\'' +
                 ", financial_name='" + financial_name + '\'' +

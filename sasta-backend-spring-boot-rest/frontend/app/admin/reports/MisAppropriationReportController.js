@@ -245,12 +245,29 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 
 	    $scope.gridOptions = {
 			toolbar: ["excel"],
-			excel: {
+            excel: {
                 fileName: "mis-appropriations"+new Date().getTime()+".xlsx",
                 proxyURL: "http://demos.telerik.com/kendo-ui/service/export",
                 filterable: true,
                 allPages: true
-            },	    	
+            },
+            /* excel: {
+                filterable: true,
+                allPages: true
+            },
+			excelExport: function(e) {
+                var workbook = new kendo.ooxml.Workbook({
+                    sheets : e.workbook.sheets
+                });
+                kendo.saveAs({
+                    dataURI: workbook.toDataURL(),
+                    fileName: "mis-appropriations"+new Date().getTime()+".xlsx",
+                    proxyURL: $scope.crudServiceBaseUrl+"/export/save",//"http://demos.telerik.com/kendo-ui/service/export",
+                    //filterable: true,
+                    //allPages: true,
+                    //forceProxy: true
+                });
+			},*/
 	        columns: [ 
 		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
 		        		{ field: "financialYear", locked: true, groupable:true,width: '130px', title:'FY', footerTemplate: "Total :"},

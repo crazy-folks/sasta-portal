@@ -1,16 +1,15 @@
 package com.sastabackend.domain;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+/**
+ * Created by Sarvaratchagan on 08-07-2016.
+ */
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
-/**
- * Created by Sarvaratchagan on 03-07-2016.
- */
-public class DetailedCalender implements java.io.Serializable{
+@Entity( name = "detailed_calenders" )
+public class DetailedSastaCalender implements java.io.Serializable{
 
     @Id
     @NotNull
@@ -24,16 +23,20 @@ public class DetailedCalender implements java.io.Serializable{
     private java.sql.Timestamp end_date;
     private java.sql.Timestamp gs_date;
     private String remarks;
-
-    private Boolean is_active;
     private java.sql.Timestamp created_date;
     private java.sql.Timestamp modified_date;
     private Long created_by;
-    private Long modifed_by;
-    private String created_by_Name;
-    private String modified_by_Name;
+    private Long modified_by;
+    private boolean is_active;
 
-    public DetailedCalender(){}
+    private String title;
+    private Integer financial_year_id;
+    private String financial_year_Name;
+
+    private String modified_by_Name;
+    private String created_by_Name;
+
+    public DetailedSastaCalender(){}
 
     public Long getId() {
         return id;
@@ -57,6 +60,38 @@ public class DetailedCalender implements java.io.Serializable{
 
     public void setRoundNo(String round_no) {
         this.round_no = round_no;
+    }
+
+    public Timestamp getStartDate() {
+        return start_date;
+    }
+
+    public void setStartDate(Timestamp start_date) {
+        this.start_date = start_date;
+    }
+
+    public Timestamp getEndDate() {
+        return end_date;
+    }
+
+    public void setEndDate(Timestamp end_date) {
+        this.end_date = end_date;
+    }
+
+    public Timestamp getGsDate() {
+        return gs_date;
+    }
+
+    public void setGsDate(Timestamp gs_date) {
+        this.gs_date = gs_date;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public Boolean getIsActive() {
@@ -91,12 +126,36 @@ public class DetailedCalender implements java.io.Serializable{
         this.created_by = created_by;
     }
 
-    public Long getModifedBy() {
-        return modifed_by;
+    public Long getModifiedBy() {
+        return modified_by;
     }
 
-    public void setModifedBy(Long modifed_by) {
-        this.modifed_by = modifed_by;
+    public void setModifiedBy(Long modified_by) {
+        this.modified_by = modified_by;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getFinancialYearId() {
+        return financial_year_id;
+    }
+
+    public void setFinancialYearId(Integer financial_year_id) {
+        this.financial_year_id = financial_year_id;
+    }
+
+    public String getFinancialYearName() {
+        return financial_year_Name;
+    }
+
+    public void setFinancialYearName(String financial_year_Name) {
+        this.financial_year_Name = financial_year_Name;
     }
 
     public String getCreatedByName() {
@@ -115,17 +174,9 @@ public class DetailedCalender implements java.io.Serializable{
         this.modified_by_Name = modified_by_Name;
     }
 
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
     @Override
     public String toString() {
-        return "DetailedCalender{" +
+        return "DetailedSastaCalender{" +
                 "id=" + id +
                 ", calender_id=" + calender_id +
                 ", round_no='" + round_no + '\'' +
@@ -133,13 +184,16 @@ public class DetailedCalender implements java.io.Serializable{
                 ", end_date=" + end_date +
                 ", gs_date=" + gs_date +
                 ", remarks='" + remarks + '\'' +
-                ", is_active=" + is_active +
                 ", created_date=" + created_date +
                 ", modified_date=" + modified_date +
                 ", created_by=" + created_by +
-                ", modifed_by=" + modifed_by +
-                ", created_by_Name='" + created_by_Name + '\'' +
+                ", modified_by=" + modified_by +
+                ", is_active=" + is_active +
+                ", title='" + title + '\'' +
+                ", financial_year_id=" + financial_year_id +
+                ", financial_year_Name='" + financial_year_Name + '\'' +
                 ", modified_by_Name='" + modified_by_Name + '\'' +
+                ", created_by_Name='" + created_by_Name + '\'' +
                 '}';
     }
 }
