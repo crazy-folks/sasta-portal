@@ -34,8 +34,10 @@ public class LookupRepository {
         LookupType type = LookupType.GetValue(value);
         StringBuilder builder = new StringBuilder();
         StringBuilder where = new StringBuilder();
+        StringBuilder orderby = new StringBuilder();
         where.append(" where is_active = 1 ");
         builder.append("select id as 'value',name as 'text' from ");
+        orderby.append("");
         switch(type){
             case AuditBlocks:
                 builder.append("audit_blocks");
@@ -75,6 +77,7 @@ public class LookupRepository {
                 break;
             case FinancialYear:
                 builder.append("financial_year");
+                orderby.append(" order by text ");
                 break;
             case Grades:
                 builder.append("grade_lookups");
@@ -130,6 +133,8 @@ public class LookupRepository {
         }
         builder.append(" ");
         builder.append(where.toString());
+        builder.append(" ");
+        builder.append(orderby.toString());
         //LOGGER.debug("Builder Query :  " + builder.toString());
         return builder.toString();
     }

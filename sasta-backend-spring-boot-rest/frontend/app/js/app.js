@@ -1,4 +1,3 @@
-
   	var app = angular.module('sastaboard', [
         'ui.router',
         'ui.bootstrap',
@@ -7,3 +6,4 @@
         'ImageCropper',
         'ngSanitize'
     ]);
+

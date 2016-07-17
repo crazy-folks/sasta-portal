@@ -64,52 +64,52 @@
 							                        <!-- FIRST NAME -->
 							                        <div class="form-group">
 							                            <label>First Name*</label>
-							                            <input type="text" ng-disabled="!sessionConfig.loggedInAs" name="firstName" class="k-input width-95 validate[required]" ng-model="user.firstName"/>
+							                            <input type="text" ng-disabled="!sessionConfig.loggedInAs||viewMode" name="firstName" class="k-input width-95 validate[required]" ng-model="user.firstName"/>
 							                        </div>	
 
 							                        <!-- LAST NAME -->
 							                        <div class="form-group">
 							                            <label>Last Name*</label>
-							                            <input type="text" ng-disabled="!sessionConfig.loggedInAs"  name="lastName" class="k-input width-95 validate[required]" ng-model="user.lastName"/>
+							                            <input type="text" ng-disabled="!sessionConfig.loggedInAs||viewMode"  name="lastName" class="k-input width-95 validate[required]" ng-model="user.lastName"/>
 							                        </div>
 
 							                        <!-- SCREEN NAME -->
 							                        <div class="form-group">
 							                            <label>Screen Name*</label>
-							                            <input type="text" ng-disabled="!sessionConfig.loggedInAs"  name="screenName" class="k-input width-95 validate[required]" ng-model="user.screenName">
+							                            <input type="text" ng-disabled="!sessionConfig.loggedInAs||viewMode"  name="screenName" class="k-input width-95 validate[required]" ng-model="user.screenName">
 							                        </div>
 
 							                        <!-- EMAIL -->
 							                        <div class="form-group">
 							                            <label for="email">Email*</label>
-							                            <input type="email" ng-disabled="!sessionConfig.loggedInAs"  autocomplete="off" name="email" class="k-input width-95 validate[required,custom[email]]" ng-model="user.email">
+							                            <input type="email" ng-disabled="!sessionConfig.loggedInAs||viewMode"  autocomplete="off" name="email" class="k-input width-95 validate[required,custom[email]]" ng-model="user.email">
 							                        </div>
 
 							                        <!-- Gender -->
 						                            <div class="form-group">
 						                            	<label for="selGender">Gender*</label>
-						                                <select ng-disabled="!sessionConfig.loggedInAs"  class="k-input width-95 validate[required]" name="selGender" ng-model="defaultGenders"  ng-options="obj.text for obj in Genders track by obj.value"  required>
+						                                <select ng-disabled="!sessionConfig.loggedInAs||viewMode"  class="k-input width-95 validate[required]" name="selGender" ng-model="defaultGenders"  ng-options="obj.text for obj in Genders track by obj.value"  required>
 						                                </select>
 						                            </div>
 
 							                        <!-- STATE -->
 						                            <div class="form-group">
 						                            	<label for="selState">State*</label>
-										                <select ng-disabled="!sessionConfig.loggedInAs"  name="selState" class="k-input width-95 validate[required]" ng-model="defaultStates" ng-options="obj.text for obj in states track by obj.value" >
+										                <select ng-disabled="!sessionConfig.loggedInAs||viewMode"  name="selState" class="k-input width-95 validate[required]" ng-model="defaultStates" ng-options="obj.text for obj in states track by obj.value" >
 										                </select>	                                	
 						                            </div>	
 
 							                        <!-- COUNTRY -->
 						                            <div class="form-group">
 						                            	<label for="selCountry">Country*</label>
-										                <select ng-disabled="!sessionConfig.loggedInAs"  name="selCountry" id="selCountry" class="k-input width-95 validate[required]" ng-model="defaultCountries" ng-options="obj.text for obj in countries track by obj.value" >
+										                <select ng-disabled="!sessionConfig.loggedInAs||viewMode"  name="selCountry" id="selCountry" class="k-input width-95 validate[required]" ng-model="defaultCountries" ng-options="obj.text for obj in countries track by obj.value" >
 										                </select>	                                	
 						                            </div>
 
 							                        <!-- JOB TITLE -->
 							                        <div class="form-group">
 							                            <label>Job Title*</label>
-							                            <input ng-disabled="!sessionConfig.loggedInAs" type="text" name="jobTitle" class="k-input width-95 validate[required]" ng-model="user.jobTitle">
+							                            <input ng-disabled="!sessionConfig.loggedInAs||viewMode" type="text" name="jobTitle" class="k-input width-95 validate[required]" ng-model="user.jobTitle">
 							                        </div>
 								                </div>
 								            </div>      			
@@ -124,58 +124,58 @@
 							                        <!-- USER GROUP -->
 						                            <div class="form-group">
 						                            	<label for="selUserGroup">User Group*</label>
-										                <select ng-disabled="!sessionConfig.loggedInAs" name="selUserGroup" id="selUserGroup" class="k-input width-95 validate[required]" ng-model="defaultEntityGroups" ng-options="obj.text for obj in entityGroups track by obj.value" >
+										                <select ng-disabled="!sessionConfig.loggedInAs||viewMode" name="selUserGroup" id="selUserGroup" class="k-input width-95 validate[required]" ng-model="defaultEntityGroups" ng-options="obj.text for obj in entityGroups track by obj.value" >
 										                </select>	                                	
 						                            </div>
 
 							                        <!-- DATE OF JOINING -->
 							                        <div class="form-group">
 							                            <label for="dateOfJoining">Date Of Joining*</label>
-							                            <input ng-disabled="!sessionConfig.loggedInAs" type="text" name="dateOfJoining" class="k-input width-95 validate[required]" ng-model="user.dateOfJoining" datepicker-popup="yyyy-MM-dd" ng-readonly="true" is-open="Opened" ng-click="Opened=true"/>
+							                            <input ng-disabled="!sessionConfig.loggedInAs||viewMode" type="text" name="dateOfJoining" class="k-input width-95 validate[required]" ng-model="user.dateOfJoining" datepicker-popup="yyyy-MM-dd" ng-readonly="true" is-open="Opened" ng-click="Opened=true"/>
 							                        </div>
 							                        <!-- TEAM NAME -->
 							                        <div class="form-group">
 							                            <label for="teamName">Team Name*</label>
-							                            <input ng-disabled="!sessionConfig.loggedInAs" type="text" name="teamName" class="k-input width-95 validate[required]" ng-model="user.teamName">
+							                            <input ng-disabled="!sessionConfig.loggedInAs||viewMode" type="text" name="teamName" class="k-input width-95 validate[required]" ng-model="user.teamName">
 							                        </div>
 							                        <!-- EMPLOYEE ID -->
 							                        <div class="form-group">
 							                            <label for="employeeId">Employee Id*</label>
-							                            <input ng-disabled="!sessionConfig.loggedInAs" type="text" name="employeeId" class="k-input width-95 validate[required]" ng-model="user.employeeId">
+							                            <input ng-disabled="!sessionConfig.loggedInAs||viewMode" type="text" name="employeeId" class="k-input width-95 validate[required]" ng-model="user.employeeId">
 							                        </div>
 
 							                        <!-- DEPARTMENT -->
 						                            <div class="form-group">
 						                            	<label for="selDepartment">Department*</label>
-										                <select ng-disabled="!sessionConfig.loggedInAs" name="selDepartment" id="selDepartment" class="k-input width-95 validate[required]" ng-model="defaultDepartments" ng-options="obj.text for obj in departments track by obj.value" >
+										                <select ng-disabled="!sessionConfig.loggedInAs||viewMode" name="selDepartment" id="selDepartment" class="k-input width-95 validate[required]" ng-model="defaultDepartments" ng-options="obj.text for obj in departments track by obj.value" >
 										                </select>	                                	
 						                            </div>
 
 							                        <!-- REPORTING TO -->
 						                            <div class="form-group">
 						                            	<label for="selReportingTo">Reporting To</label>
-										                <select ng-disabled="!sessionConfig.loggedInAs" name="selReportingTo" id="selReportingTo" class="k-input width-95" ng-model="defaultReportingTo" ng-options="obj.text for obj in reportingto track by obj.value" >
+										                <select ng-disabled="!sessionConfig.loggedInAs||viewMode" name="selReportingTo" id="selReportingTo" class="k-input width-95" ng-model="defaultReportingTo" ng-options="obj.text for obj in reportingto track by obj.value" >
 										                </select>	                                	
 						                            </div>
 
 							                        <!-- ALLOTTED DISTRICT -->
 						                            <div class="form-group">
 						                            	<label for="selAllottedDistrict">Allotted District</label>
-										                <select ng-disabled="!sessionConfig.loggedInAs" name="selAllottedDistrict" id="selAllottedDistrict" class="k-input width-95" ng-model="allottedDefaultDistricts" ng-options="obj.text for obj in allotteddistricts track by obj.value" >
+										                <select ng-disabled="!sessionConfig.loggedInAs||viewMode" name="selAllottedDistrict" id="selAllottedDistrict" class="k-input width-95" ng-model="allottedDefaultDistricts" ng-options="obj.text for obj in allotteddistricts track by obj.value" >
 										                </select>	                                	
 						                            </div>
 
 							                        <!-- ALLOTTED BLOCK -->
 						                            <div class="form-group">
 						                            	<label for="selAllottedBlock">Allotted Block</label>
-										                <select ng-disabled="!sessionConfig.loggedInAs" name="selAllottedBlock" id="selAllottedBlock" class="k-input width-95" ng-model="allottedDefaultBlocks" ng-options="obj.text for obj in allottedblocks track by obj.value" >
+										                <select ng-disabled="!sessionConfig.loggedInAs||viewMode" name="selAllottedBlock" id="selAllottedBlock" class="k-input width-95" ng-model="allottedDefaultBlocks" ng-options="obj.text for obj in allottedblocks track by obj.value" >
 										                </select>	                                	
 						                            </div>	   
 
 							                        <!-- Recruitement Type -->
 						                            <div class="form-group">
 						                            	<label for="selRecruitementType">Recruitement Type</label>
-										                <select ng-disabled="!sessionConfig.loggedInAs" name="selRecruitementType" id="selRecruitementType" class="k-input width-95" ng-model="defaultRecruitementType" ng-options="obj.text for obj in recruitementType track by obj.value" >		                
+										                <select ng-disabled="!sessionConfig.loggedInAs||viewMode" name="selRecruitementType" id="selRecruitementType" class="k-input width-95" ng-model="defaultRecruitementType" ng-options="obj.text for obj in recruitementType track by obj.value" >
 										                </select>	                                	
 						                            </div>
 								                </div>
@@ -187,7 +187,7 @@
 							    	<div class="col-md-12">
 								         <div class="panel panel-default">
 								        	<div class="panel-body">
-									        	<input type="button" class="btn btn-success btn-sm" value="Save" ng-click="CreateUser();"/>
+									        	<input type="button" class="btn btn-success btn-sm" value="Save" ng-click="UpdateUser();"/>
 												<input type="button" class="btn btn-danger btn-sm" ng-click="Reset();" value="Reset" /> 
 								        	</div>
 								        </div>
@@ -207,41 +207,41 @@
 						                            <div class="form-group no-margin">
 						                                <div>
 						                                    <label for="businessEmail" class="label-adjust">Business Email</label>
-						                                    <input type="text" class="k-input width-95 validate[required,custom[email]]" id="businessEmail" name="businessEmail"
+						                                    <input ng-disabled="viewMode"  type="text" class="k-input width-95 validate[required,custom[email]]" id="businessEmail" name="businessEmail"
 						                                           data-ng-model="user.businessEmail" ng-maxlength="100" 
 						                                          />
 						                                </div>
 						                            </div>
 					                                <div class="form-group no-margin">
 					                                    <label for="personalEmail" class="label-adjust">Personal Email</label>
-					                                        <input type="text" class="k-input width-95" ng-change="onchange($event)" id="personalEmail" name="personalEmail"
+					                                        <input ng-disabled="viewMode"   type="text" class="k-input width-95" ng-change="onchange($event)" id="personalEmail" name="personalEmail"
 					                                               data-ng-model="user.personalEmail" ng-maxlength="50" 
 					                                              />
 					                                </div>                                        
 					                                <div class="form-group no-margin">
 					                                    <label for="gmailId" class="label-adjust">Gmail Id</label>
-					                                        <input type="text" class="k-input width-95" ng-change="onchange($event)" id="gmailId" name="gmailId"
+					                                        <input ng-disabled="viewMode" type="text" class="k-input width-95" ng-change="onchange($event)" id="gmailId" name="gmailId"
 					                                               data-ng-model="user.gmailId" ng-maxlength="50" 
 					                                              />
 					                                </div>
 					                                <div class="form-group no-margin">
 					                                    <div>
 					                                        <label for="skypeName" class="label-adjust">Skype Name</label>
-					                                        <input type="text" class="k-input width-95" id="skypeName" name="skypeName"
+					                                        <input ng-disabled="viewMode" type="text" class="k-input width-95" id="skypeName" name="skypeName"
 					                                               data-ng-model="user.skypeName" ng-maxlength="100" 
 					                                              />
 					                                    </div>
 					                                </div>
 					                                <div class="form-group no-margin">
 					                                    <label for="dateOfBirth" class="label-adjust">Date Of Birth</label>
-					                                        <input type="text" class="width-95" id="dateOfBirth" name="dateOfBirth" kendo-date-picker="dateOfBirthObject" k-options="dateOptions"
+					                                        <input ng-disabled="viewMode" type="text" class="width-95" id="dateOfBirth" name="dateOfBirth" kendo-date-picker="dateOfBirthObject" k-options="dateOptions"
 					                                               data-ng-model="user.dateOfBirth" 
 					                                              />
 					                                </div>
 					                                <div class="form-group no-margin">
 					                                    <div>
 					                                        <label for="experience" class="label-adjust">Experience</label>
-					                                        <input type="text" class="k-input width-95" id="experience" name="experience"
+					                                        <input ng-disabled="viewMode" type="text" class="k-input width-95" id="experience" name="experience"
 					                                               data-ng-model="user.experience" ng-maxlength="100" 
 					                                              />
 					                                    </div>
@@ -259,40 +259,40 @@
 						                            <div class="form-group no-margin">
 						                                <div>
 						                                    <label for="previousExperience" class="label-adjust">Previous Experience</label>
-						                                    <input type="text" class="k-input width-95" id="previousExperience" name="previousExperience"
+						                                    <input ng-disabled="viewMode" type="text" class="k-input width-95" id="previousExperience" name="previousExperience"
 						                                           data-ng-model="user.previousExperience" ng-maxlength="100" 
 						                                          />
 						                                </div>
 						                            </div>
 					                                <div class="form-group no-margin">
 					                                    <label for="mobileNumber" class="label-adjust">Mobile Number</label>
-					                                        <input type="text" class="k-input width-95 validate[required]" id="mobileNumber" name="mobileNumber"
+					                                        <input ng-disabled="viewMode" type="text" class="k-input width-95 validate[required]" id="mobileNumber" name="mobileNumber"
 					                                               data-ng-model="user.mobileNumber" ng-maxlength="50" 
 					                                              />
 					                                </div>                                        
 					                                <div class="form-group no-margin">
 					                                    <label for="landLineNumber" class="label-adjust">Land Line Number</label>
-					                                        <input type="text" class="k-input width-95" id="landLineNumber" name="landLineNumber"
+					                                        <input ng-disabled="viewMode" type="text" class="k-input width-95" id="landLineNumber" name="landLineNumber"
 					                                               data-ng-model="user.landLineNumber" ng-maxlength="50" 
 					                                              />
 					                                </div>
 					                                <div class="form-group no-margin">
 					                                    <div>
 					                                        <label for="bloodGroupName" class="label-adjust">Blood Group</label>
-				                                            <select name="selYears" class=" k-input width-95  validate[required]" ng-model="defaultBloodGroups" ng-options="obj.text for obj in bloodGroups track by obj.value"  ng-change="OnSelectedBloodGroupValue(defaultBloodGroups)" >
+				                                            <select ng-disabled="viewMode" name="selYears" class=" k-input width-95  validate[required]" ng-model="defaultBloodGroups" ng-options="obj.text for obj in bloodGroups track by obj.value"  ng-change="OnSelectedBloodGroupValue(defaultBloodGroups)" >
 				                                            </select> 
 					                                    </div>
 					                                </div>
 					                                <div class="form-group no-margin">
 					                                    <label for="communicationAddress" class="label-adjust">Communication Address</label>
-					                                        <input type="text" class="k-input width-95 validate[required]" id="communicationAddress" name="communicationAddress"
+					                                        <input ng-disabled="viewMode" type="text" class="k-input width-95 validate[required]" id="communicationAddress" name="communicationAddress"
 					                                               data-ng-model="user.communicationAddress" ng-maxlength="50" 
 					                                              />
 					                                </div>
 					                                <div class="form-group no-margin">
 					                                    <div>
 					                                        <label for="permanentAddress" class="label-adjust">Permanent Address</label>
-					                                        <input type="text" class="k-input width-95" id="permanentAddress" name="permanentAddress"
+					                                        <input ng-disabled="viewMode" type="text" class="k-input width-95" id="permanentAddress" name="permanentAddress"
 					                                               data-ng-model="user.permanentAddress" ng-maxlength="100" 
 					                                              />
 					                                    </div>
@@ -306,8 +306,8 @@
 							    	<div class="col-md-12">
 								         <div class="panel panel-default">
 								        	<div class="panel-body">
-								                <button type="button" class="btn btn-danger btn-sm" ng-click="CloseEditBasicProfile()">Cancel</button>
-								                <button type="button" class="btn btn-success btn-sm" data-ng-click="SubmitBasicProfile()">&#160;Save&#160;</button> 
+								                <button type="button" class="btn btn-danger btn-sm" ng-click="Reset()">Cancel</button>
+								                <button type="button" class="btn btn-success btn-sm" data-ng-click="SubmitBasicProfile()">&#160;Save&#160;</button>
 								        	</div>
 								        </div>
 							    	</div>    	

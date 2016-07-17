@@ -724,6 +724,31 @@ function toggle(){
     };   
 }
 
+function loadingWidget(requestNotification) {
+    return {
+        restrict: "AC",
+        link: function (scope, element) {
+            // hide the element initially
+            //element.hide();
+
+            //subscribe to listen when a request starts
+            requestNotification.subscribeOnRequestStarted(function () {
+                // show the spinner!
+                kendo.ui.progress($(element), true);
+            });
+
+            requestNotification.subscribeOnRequestEnded(function () {
+                // hide the spinner if there are no more pending requests
+                if (requestNotification.getRequestCount() === 0) {
+                    setTimeout(function(){
+                        kendo.ui.progress($(element), false);
+                    },1000);
+                }
+            });
+        }
+    };
+}
+
 /*
  * Pass functions to module
  */
@@ -762,6 +787,7 @@ angular
     .directive('stickyHeader',stickyHeader)
     .directive('boxSlider',boxSlider)
     .directive('keydown',keydown)
+    .directive('loadingWidget',loadingWidget)
 
 /**
  * NSF - Responsive Admin Theme

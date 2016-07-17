@@ -23,9 +23,9 @@ app.controller('PublicCalenderController',['$http','$window','$scope','$rootScop
                     columns: [
                         { field: "id", title:'Detailed Calender ID', hidden: true, editable : false },
                         { field: "roundNo", title:'Round No', width: "100px"  },
-                        { field: "startDate", title:'Start Date', width: "100px" , template :"#=kendo.toString(startDate,'yyyy-MM-dd')#"  },
-                        { field: "endDate", title:'End Date' , width: "100px" , template :"#=kendo.toString(endDate,'yyyy-MM-dd')#" },
-                        { field: "gsDate", title:'GS Date', width: "100px" , template :"#=kendo.toString(gsDate,'yyyy-MM-dd')#"  },
+                        { field: "startDate", title:'Start Date', width: "100px" , template :"#=kendo.toString(startDate,'dd-MM-yyyy')#"  },
+                        { field: "endDate", title:'End Date' , width: "100px" , template :"#=kendo.toString(endDate,'dd-MM-yyyy')#" },
+                        { field: "gsDate", title:'GS Date', width: "100px" , template :"#=kendo.toString(gsDate,'dd-MM-yyyy')#"  },
                         { field: "remarks", title:'Remarks', width: "200px"   }
                     ],
                     pageable: false,

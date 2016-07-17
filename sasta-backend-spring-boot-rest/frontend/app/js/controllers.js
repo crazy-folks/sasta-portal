@@ -85,7 +85,7 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
 
     $scope.logout = function(){
         var session = storage.recall();
-        $rootScope.$emit("LOAD");
+        kendo.ui.progress($(document.body), true);
         authfactory.doSignOut(session.sessionId).done(function(result){
             if(result.status){
                 storage.memorize([]);
@@ -100,13 +100,15 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
                 $rootScope.$state.go('ui.index');
             },500);
         }).always(function(){
-            $scope.$emit("UNLOAD");
+            setTimeout(function(){
+                kendo.ui.progress($(document.body), false);
+            },1000);
         })
     };
 
     $scope.login = function(){
         if(ValidateForm()){
-            $scope.$emit("LOAD");
+            kendo.ui.progress($(document.body), true);
             authfactory.doSignIn($scope.vm.userName,$scope.vm.password)
             .done(function(result){
                  angular.element(".clse-btn").trigger('click');
@@ -129,7 +131,9 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
             }).fail(function(error,status){
                 // do your failiure stuff here
             }).always(function(){
-                $scope.$emit("UNLOAD");
+                setTimeout(function(){
+                    kendo.ui.progress($(document.body), false);
+                },1000);
             });
         }
     };
@@ -156,7 +160,7 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
 
     $scope.DoResetPassword = function(){
         if($scope.checkChangePwdjQueryValidator.doValidate()){
-            $scope.$emit("LOAD");
+            kendo.ui.progress($(document.body), true);
             authfactory.doChangePassword($scope.changePwdReq)
             .done(function(result){
                 var messageTemplate = '<span>'+result.data+'</span>';
@@ -169,7 +173,9 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
             }).fail(function(error,status){
                 // do your failiure stuff here
             }).always(function(){
-                $scope.$emit("UNLOAD");
+                setTimeout(function(){
+                    kendo.ui.progress($(document.body), false);
+                },1000);
             });
         }
     };

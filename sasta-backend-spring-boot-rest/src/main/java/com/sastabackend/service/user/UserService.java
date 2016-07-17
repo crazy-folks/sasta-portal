@@ -32,4 +32,6 @@ public interface UserService {
 
     ResponseModel UnLock(Long userid,Long modifiedby);
 
+    ResponseModel Update(Users users);
+
 }

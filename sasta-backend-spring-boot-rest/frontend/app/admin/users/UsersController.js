@@ -83,184 +83,188 @@
         };      
         // user info
         $scope.user = {
-        "id": null,
-        "email": null,
-        "password": null,
-        "description": null,
-        "experience": null,
-        "modifiedBy": $rootScope.sessionConfig.userId,
-        "createdBy":  $rootScope.sessionConfig.userId,
-        "countryId":  null,
-        "stateId": null,
-        "bloodGroupId": 1,
-        "screenName": null,
-        "firstName": null,
-        "lastName": null,
-        "genderId": null,
-        "jobTitle": null,
-        "teamName": null,
-        "employeeId": null,
-        "imageName": null,
-        "imageId": null,
-        "gmailId": null,
-        "skypeName": null,
-        "fatherName": null,
-        "isLocked": false,
-        "isActive": true,
-        "createDate": null,
-        "stateName": null,
-        "deptName": null,
-        "modifiedDate": null,
-        "createdByName": null,
-        "modifiedByName": null,
-        "hasReadTermsAndCondtion": true,
-        "userGroupId": null,
-        "dateOfJoining": null,
-        "departmentId": null,
-        "reportingId": null,
-        "allottedDistrict": null,
-        "allottedBlock": null,
-        "recruitmentId": null,
-        "communicationAddress": null,
-        "permanentAddress": null,
-        "sameAddress": false,
-        "dateOfBirth": null,
-        "previousExperience": null,
-        "businessEmail": null,
-        "personalEmail": null,
-        "birthProofId": null,
-        "validationCode": null,
-        "visibleFields": null,
-        "mobileNumber": null,
-        "landLineNumber": null,
-        "personalUrl": null,
-        "failedLoginAttempts": null,
-        "lastLoginDate": null,
-        "countryName": null,
-        "reportingTo": null,
-        "bloodGroupName": null,
-        "recruitementName": null,
-        "birthProofName": null
-      };
+            "id": 0,
+            "email": "",
+            "password": "",
+            "description": "",
+            "experience": "",
+            "stateName": "",
+            "jobTitle": "",
+            "genderId": 0,
+            "fatherName": "",
+            "gmailId": "",
+            "isLocked": true,
+            "createDate": null,
+            "skypeName": "",
+            "lastName": "",
+            "teamName": "",
+            "deptName": "",
+            "subCaste": "",
+            "employeeId": "",
+            "firstName": "",
+            "bloodGroupId": 0,
+            "recruitmentName": "",
+            "communicationAddress": "",
+            "birthProofId": 0,
+            "allottedDistrict": 0,
+            "lastLoginDate": null,
+            "landLineNumber": "",
+            "birthProofName": "",
+            "physicallyChallanged": true,
+            "personalEmail": "",
+            "bloodGroupName": "",
+            "visibleFields": "",
+            "allottedBlock": 0,
+            "personalUrl": "",
+            "sameAddress": true,
+            "hasReadTermsAndCondtion": true,
+            "validationCode": "",
+            "previousExperience": "",
+            "allottedDistrictName": "",
+            "permanentAddress": "",
+            "departmentId": 0,
+            "recruitmentId": 0,
+            "mobileNumber": "",
+            "countryName": "",
+            "dateOfBirth": "2016-07-17T14:36:55.412Z",
+            "allottedBlockName": "",
+            "reportingTo": "",
+            "dateOfJoining": "2016-07-17T14:36:55.412Z",
+            "businessEmail": "",
+            "failedLoginAttempts": 0,
+            "modifiedDate": null,
+            "createdByName": "",
+            "modifiedByName": "",
+            "imageId": 0,
+            "stateId": 0,
+            "isActive": true,
+            "createdBy": 0,
+            "modifiedBy": 0,
+            "countryId": 0,
+            "imageName": "",
+            "screenName": "",
+            "userGroupId": 0,
+            "reportingId": 0
+        };
 
-    $scope.CreateUser = function(){
-        if($scope.jQueryValidator.doValidate()){
-             $scope.user.reportingId = $scope.defaultReportingTo.value;
-            $scope.user.recruitmentId = $scope.defaultRecruitementType.value;
-            $scope.user.allottedDistrict = $scope.defaultDistricts.value;
-            $scope.user.allottedBlock = $scope.defaultBlocks.value;
-            $scope.user.genderId = $scope.defaultGenders.value;
-            $scope.user.departmentId = $scope.defaultDepartments.value;
-            $scope.user.stateId = $scope.defaultStates.value;
-            $scope.user.countryId = $scope.defaultCountries.value;
-            $scope.user.userGroupId = $scope.defaultEntityGroups.value;
-            var response = userfactory.AddBasicUserDetails($scope.user);
-            response.success(function(result){
-                if(result.status){
-                    notify({
-                        messageTemplate: '<span>Successfully created a user!</span>',
-                        position: $rootScope.appConfig.notifyConfig.position,
-                        scope:$scope
-                    });
-                    $scope.Reset();
+        $scope.CreateUser = function(){
+            if($scope.jQueryValidator.doValidate()){
+                 $scope.user.reportingId = $scope.defaultReportingTo.value;
+                $scope.user.recruitmentId = $scope.defaultRecruitementType.value;
+                $scope.user.allottedDistrict = $scope.defaultDistricts.value;
+                $scope.user.allottedBlock = $scope.defaultBlocks.value;
+                $scope.user.genderId = $scope.defaultGenders.value;
+                $scope.user.departmentId = $scope.defaultDepartments.value;
+                $scope.user.stateId = $scope.defaultStates.value;
+                $scope.user.countryId = $scope.defaultCountries.value;
+                $scope.user.userGroupId = $scope.defaultEntityGroups.value;
+                var response = userfactory.AddBasicUserDetails($scope.user);
+                response.success(function(result){
+                    if(result.status){
+                        notify({
+                            messageTemplate: '<span>Successfully created a user!</span>',
+                            position: $rootScope.appConfig.notifyConfig.position,
+                            scope:$scope
+                        });
+                        $scope.Reset();
+                    }else{
+                        notify({
+                            messageTemplate: '<span>'+result.data+'</span>',
+                            position: $rootScope.appConfig.notifyConfig.position,
+                            scope:$scope
+                        });
+                    }
+                }).error(function(error,status){
+                    $scope.$emit("ShowError","Unable to update states!");
+                });
+            }
+        };
+
+        $scope.Reset = function(){
+
+            $scope.jQueryValidator.doReset();
+            $($scope.formName)[0].reset();
+            var defaultOptions = {
+                "value": 0,
+                "text": "Select"
+            };
+            $scope.defaultStates = angular.copy(defaultOptions);
+            $scope.defaultCountries = angular.copy(defaultOptions);
+            $scope.defaultRecruitementType = angular.copy(defaultOptions);
+            $scope.defaultBlocks = angular.copy(defaultOptions);
+            $scope.defaultDistricts = angular.copy(defaultOptions);
+            $scope.defaultReportingTo = angular.copy(defaultOptions);
+            $scope.defaultDepartments = angular.copy(defaultOptions);
+            $scope.defaultEntityGroups = angular.copy(defaultOptions);
+            $scope.defaultGenders = angular.copy(defaultOptions);
+        }
+
+        function GetLookupValues(type){
+            userfactory.getLookupValues(type).success(function(result){
+                var defaultOptions = {
+                    "value": 0,
+                    "text": "Select"
+                };
+                if(result instanceof Array){
+                    if(type === 7){ // countries
+                        $scope.countries.push(defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.countries.push(result[i]);
+                        }
+                    }else if(type === 1){ // blocks
+                        $scope.allottedblocks.push(defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.allottedblocks.push(result[i]);
+                        }
+                    }else if(type === 3){//states
+                         $scope.states.push(defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.states.push(result[i]);
+                        }
+                    }else if(type === 8){//departments
+                         $scope.departments.push(defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.departments.push(result[i]);
+                        }
+                    }else if(type === 15){//reportingto
+                         $scope.reportingto.push(defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.reportingto.push(result[i]);
+                        }
+                    }else if(type === 2){//districts
+                         $scope.allotteddistricts.push(defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.allotteddistricts.push(result[i]);
+                        }
+                    }else if(type === 16){//user groups
+                         $scope.entityGroups.push(defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.entityGroups.push(result[i]);
+                        }
+                    }
                 }else{
                     notify({
-                        messageTemplate: '<span>'+result.data+'</span>',
+                        messageTemplate: '<span>Unable to read look up values!!!</span>',
                         position: $rootScope.appConfig.notifyConfig.position,
                         scope:$scope
                     });
                 }
             }).error(function(error,status){
-                $scope.$emit("ShowError","Unable to update states!");
-            });           
-        }
-    };
-
-    $scope.Reset = function(){
-
-        $scope.jQueryValidator.doReset();
-        $($scope.formName)[0].reset();
-        var defaultOptions = {
-            "value": 0,
-            "text": "Select"
-        };
-        $scope.defaultStates = angular.copy(defaultOptions);
-        $scope.defaultCountries = angular.copy(defaultOptions);        
-        $scope.defaultRecruitementType = angular.copy(defaultOptions);
-        $scope.defaultBlocks = angular.copy(defaultOptions);
-        $scope.defaultDistricts = angular.copy(defaultOptions);
-        $scope.defaultReportingTo = angular.copy(defaultOptions);
-        $scope.defaultDepartments = angular.copy(defaultOptions);
-        $scope.defaultEntityGroups = angular.copy(defaultOptions);
-        $scope.defaultGenders = angular.copy(defaultOptions);
-    }
-
-    function GetLookupValues(type){
-        userfactory.getLookupValues(type).success(function(result){
-            var defaultOptions = {
-                "value": 0,
-                "text": "Select"
-            };
-            if(result instanceof Array){
-                if(type === 7){ // countries
-                    $scope.countries.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.countries.push(result[i]);
-                    }                           
-                }else if(type === 1){ // blocks
-                    $scope.allottedblocks.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.allottedblocks.push(result[i]);
-                    } 
-                }else if(type === 3){//states
-                     $scope.states.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.states.push(result[i]);
-                    }                    
-                }else if(type === 8){//departments
-                     $scope.departments.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.departments.push(result[i]);
-                    }                    
-                }else if(type === 15){//reportingto
-                     $scope.reportingto.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.reportingto.push(result[i]);
-                    }                    
-                }else if(type === 2){//districts
-                     $scope.allotteddistricts.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.allotteddistricts.push(result[i]);
-                    }                    
-                }else if(type === 16){//user groups
-                     $scope.entityGroups.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.entityGroups.push(result[i]);
-                    }                    
-                }
-            }else{
                 notify({
                     messageTemplate: '<span>Unable to read look up values!!!</span>',
                     position: $rootScope.appConfig.notifyConfig.position,
                     scope:$scope
                 });
-            }
-        }).error(function(error,status){
-            notify({
-                messageTemplate: '<span>Unable to read look up values!!!</span>',
-                position: $rootScope.appConfig.notifyConfig.position,
-                scope:$scope
-            });
-        })
-    }
+            })
+        }
 
-    GetLookupValues(2);
-    GetLookupValues(15);
-    GetLookupValues(8);
-    GetLookupValues(3);
-    GetLookupValues(1);
-    GetLookupValues(7);
-    GetLookupValues(16); // Blocks
+        GetLookupValues(2);
+        GetLookupValues(15);
+        GetLookupValues(8);
+        GetLookupValues(3);
+        GetLookupValues(1);
+        GetLookupValues(7);
+        GetLookupValues(16); // Blocks
 }]);
 
 app.factory('userfactory',function($http,$q,$rootScope){
@@ -271,7 +275,8 @@ app.factory('userfactory',function($http,$q,$rootScope){
     service.getLookupValues = function(id){
         return $http({
             method : 'GET',
-            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id
+            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id,
+            cache : false
         });
     }
 
