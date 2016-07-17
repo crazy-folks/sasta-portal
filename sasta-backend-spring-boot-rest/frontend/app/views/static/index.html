@@ -136,9 +136,9 @@
             </center>
 
             <div ng-hide="!newsFlag" ng-repeat="newsObject in top3news" class="unit-lg-6 unit-sm-6 unit-md-6 unit-xs-12 news-holder">
-                <figure class="hnewsimg"><img no-cache-src="{{newsObject.imageName}}" alt="{{newsObject.title}}"></figure>
+                <figure class="hnewsimg news-def-height" ng-class="($index%2==0)?'blue-border':'light-blue-border'"><img no-cache-src="{{newsObject.imageName}}" alt="{{newsObject.title}}"></figure>
                 <figcaption>
-                    <p>{{(newsObject.content||'No content to display!')|ellipsis:200}}</p>
+                    <p class="news-desc">{{(newsObject.content||'No content to display!')|ellipsis:130}}</p>
                     <a ui-sref="ui.viewnews({newsid: newsObject.id, mode : 'view'})" class="btn-white-md">Learn More<i
                             class="btnarwmd"></i></a></figcaption>
             </div>

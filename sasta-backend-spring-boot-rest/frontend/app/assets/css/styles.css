@@ -1870,6 +1870,7 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 .navbar {
 	position: relative;
 	z-index: 999;
+	margin-top: -5px;
 }
 @media (min-width:768px) {
 	.navbar-header {

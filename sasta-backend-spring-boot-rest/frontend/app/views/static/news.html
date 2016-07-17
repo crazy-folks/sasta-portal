@@ -13,13 +13,13 @@
    <div class="container news-list-wrapper cfx" ng-show="listMode" ng-hide="viewMode">
       <div class="row cfx">
           <div class="unit-lg-4 unit-sm-6 unit-md-4 unit-xs-12 news-holder new-list-bx"  ng-repeat="newsObject in news">
-            <figure class="hnewsimg"><img alt="{{newsObject.title}}"  no-cache-src="{{newsObject.imageName}}" >
+            <figure class="hnewsimg news-def-height"  ng-class="($index%2==0)?'blue-border':'light-blue-border'"><img alt="{{newsObject.title}}"  no-cache-src="{{newsObject.imageName}}" >
             <span class="post-date"><i></i>{{formatDateString(newsObject.createdDate)}}</span>
             <span class="post-auhor"><i></i>Posted By : {{(newsObject.createdByName||'')|ellipsis:10}}</span>
             </figure>
             <figcaption>
             <h6 ng-bind="newsObject.title"></h6>
-              <p>{{(newsObject.content||'No content to display!')|ellipsis:200}}</p>
+              <p class="news-desc">{{(newsObject.content||'No content to display!')|ellipsis:130}}</p>
               <a class="btn-white-md" ui-sref="ui.viewnews({newsid: newsObject.id, mode : 'view'})">Learn More<i class="btnarwmd"></i></a> </figcaption>
           </div>
       </div>

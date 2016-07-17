@@ -46,7 +46,12 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             "value": 2,
             "text": "Female"
         }];        
+
         // default options
+        $scope.defaultOptions = {
+            "value": 0,
+            "text": "Select"
+        };
 
         $scope.defaultStates = {
             "value": 0,
@@ -254,175 +259,250 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             }    
         }
 
+        $scope.UpdateUser = function(){
+            if($scope.jQueryValidator.doValidate()){
+                $scope.defaultUser.reportingId = parseInt($scope.defaultReportingTo.value,10);
+                $scope.defaultUser.recruitmentId = $scope.defaultRecruitementType.value;
+                $scope.defaultUser.allottedDistrict = $scope.allottedDefaultDistricts.value;
+                $scope.defaultUser.allottedBlock = $scope.allottedDefaultBlocks.value;
+                $scope.defaultUser.genderId = $scope.defaultGenders.value;
+                $scope.defaultUser.departmentId = $scope.defaultDepartments.value;
+                $scope.defaultUser.stateId = $scope.defaultStates.value;
+                $scope.defaultUser.countryId = $scope.defaultCountries.value;
+                $scope.defaultUser.userGroupId = $scope.defaultEntityGroups.value;
+
+                var dt = kendo.parseDate($scope.user.dateOfJoining,'yyyy-mm-dd');
+                $scope.defaultUser.dateOfJoining = kendo.toString(dt,"yyyy-MM-ddTHH:mm:ssZ");
+                dt = kendo.parseDate($scope.user.dateOfBirth,'yyyy-mm-dd');
+                $scope.defaultUser.dateOfBirth = kendo.toString(dt,"yyyy-MM-ddTHH:mm:ssZ");
+                $scope.defaultUser.firstName = $scope.user.firstName;
+                $scope.defaultUser.lastName = $scope.user.lastName;
+                $scope.defaultUser.screenName = $scope.user.screenName;
+                $scope.defaultUser.email = $scope.user.email;
+                $scope.defaultUser.jobTitle  = $scope.user.jobTitle;
+                $scope.defaultUser.teamName  = $scope.user.teamName;
+                $scope.defaultUser.employeeId  = $scope.user.employeeId;
+                $scope.defaultUser.id = $scope.user.id;
+
+                var response = profilefactory.Update($scope.defaultUser);
+                response.success(function(result){
+                    if(result.status){
+                        notify({
+                            messageTemplate: '<span>'+result.data+'</span>',
+                            position: $rootScope.appConfig.notifyConfig.position,
+                            scope:$scope
+                        });
+                        $scope.Reset();
+                    }else{
+                        notify({
+                            messageTemplate: '<span>'+result.data+'</span>',
+                            position: $rootScope.appConfig.notifyConfig.position,
+                            scope:$scope
+                        });
+                    }
+                }).error(function(error,status){
+                    notify({
+                        messageTemplate: '<span>'+error+'</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope
+                    });
+                });
+            }
+        }
+
         // user info
         $scope.user = {
-            "id": null,
-            "email": null,
-            "password": null,
-            "description": null,
-            "experience": null,
-            "modifiedBy": $rootScope.sessionConfig.userId,
-            "createdBy":  $rootScope.sessionConfig.userId,
-            "countryId":  null,
-            "stateId": null,
-            "bloodGroupId": 1,
-            "screenName": null,
-            "firstName": null,
-            "lastName": null,
-            "genderId": null,
-            "jobTitle": null,
-            "teamName": null,
-            "employeeId": null,
-            "imageName": null,
-            "imageId": null,
-            "gmailId": null,
-            "skypeName": null,
-            "fatherName": null,
-            "isLocked": false,
-            "isActive": true,
+            "id": 0,
+            "email": "",
+            "password": "",
+            "description": "",
+            "experience": "",
+            "stateName": "",
+            "jobTitle": "",
+            "genderId": 0,
+            "fatherName": "",
+            "gmailId": "",
+            "isLocked": true,
             "createDate": null,
-            "stateName": null,
-            "deptName": null,
-            "modifiedDate": null,
-            "createdByName": null,
-            "modifiedByName": null,
-            "hasReadTermsAndCondtion": true,
-            "userGroupId": null,
-            "dateOfJoining": null,
-            "departmentId": null,
-            "reportingId": null,
-            "allottedDistrict": null,
-            "allottedBlock": null,
-            "recruitmentId": null,
-            "communicationAddress": null,
-            "permanentAddress": null,
-            "sameAddress": false,
-            "dateOfBirth": null,
-            "previousExperience": null,
-            "businessEmail": null,
-            "personalEmail": null,
-            "birthProofId": null,
-            "validationCode": null,
-            "visibleFields": null,
-            "mobileNumber": null,
-            "landLineNumber": null,
-            "personalUrl": null,
-            "failedLoginAttempts": null,
+            "skypeName": "",
+            "lastName": "",
+            "teamName": "",
+            "deptName": "",
+            "subCaste": "",
+            "employeeId": "",
+            "firstName": "",
+            "bloodGroupId": 0,
+            "recruitmentName": "",
+            "communicationAddress": "",
+            "birthProofId": 0,
+            "allottedDistrict": 0,
             "lastLoginDate": null,
-            "countryName": null,
-            "reportingTo": null,
-            "bloodGroupName": null,
-            "recruitementName": null,
-            "birthProofName": null
-      };
+            "landLineNumber": "",
+            "birthProofName": "",
+            "physicallyChallanged": true,
+            "personalEmail": "",
+            "bloodGroupName": "",
+            "visibleFields": "",
+            "allottedBlock": 0,
+            "personalUrl": "",
+            "sameAddress": true,
+            "hasReadTermsAndCondtion": true,
+            "validationCode": "",
+            "previousExperience": "",
+            "allottedDistrictName": "",
+            "permanentAddress": "",
+            "departmentId": 0,
+            "recruitmentId": 0,
+            "mobileNumber": "",
+            "countryName": "",
+            "dateOfBirth": "2016-07-17T14:36:55.412Z",
+            "allottedBlockName": "",
+            "reportingTo": "",
+            "dateOfJoining": "2016-07-17T14:36:55.412Z",
+            "businessEmail": "",
+            "failedLoginAttempts": 0,
+            "modifiedDate": null,
+            "createdByName": "",
+            "modifiedByName": "",
+            "imageId": 0,
+            "stateId": 0,
+            "isActive": true,
+            "createdBy": 0,
+            "modifiedBy": 0,
+            "countryId": 0,
+            "imageName": "",
+            "screenName": "",
+            "userGroupId": 0,
+            "reportingId": 0
+        };
+        $scope.dummy =  angular.copy($scope.user);
+        $scope.defaultUser = angular.copy($scope.user);
 
-	function GetProfileInformation(){
-        var response = profilefactory.GetUsers($location.search().id||$rootScope.sessionConfig.userId);
-        response.success(function(result){
-            if(result instanceof Array){
-            	$scope.user = result[0];
-                $scope.defaultGenders.value = $scope.user.genderId||'0';
-                $scope.defaultStates.value = $scope.user.stateId||'0';
-                $scope.defaultCountries.value = $scope.user.countryId||'0';
-                $scope.defaultEntityGroups.value = $scope.user.userGroupId||'0';
-                $scope.defaultDepartments.value = $scope.user.departmentId||'0';
-                $scope.defaultReportingTo.value = $scope.user.reportingId||'0';
-                $scope.allottedDefaultBlocks.value = $scope.user.allottedBlock||'0';
-                $scope.allottedDefaultDistricts.value = $scope.user.allottedDistrict||'0';
-                $scope.defaultRecruitementType.value = $scope.user.recruitmentId||'0';
-                $scope.defaultBloodGroups.value = $scope.user.bloodGroupId||'0';
-            }else{
-				var messageTemplate = '<span>'+result.data+'</span>';
-		  		notify({
-		            messageTemplate: messageTemplate,
-		            position: $rootScope.appConfig.notifyConfig.position,
-		            scope:$scope
-		        });
-            }
-        }).error(function(error,status){
-	  		notify({
-	            messageTemplate: 'unable to read profile information!.',
-	            position: $rootScope.appConfig.notifyConfig.position,
-	            scope:$scope
-	        });
-        });		
-	}
+        $scope.Reset = function(){
+            $scope.defaultUser = angular.copy($scope.dummy);
+            $scope.user = angular.copy($scope.dummy);
+            $scope.defaultUser = angular.copy($scope.dummy);
+            $scope.allottedDefaultBlocks = angular.copy($scope.defaultOptions);
+            $scope.defaultStates = angular.copy($scope.defaultOptions);
+            $scope.defaultCountries = angular.copy($scope.defaultOptions);
+            $scope.defaultRecruitementType = angular.copy($scope.defaultOptions);
+            $scope.defaultBlocks = angular.copy($scope.defaultOptions);
+            $scope.defaultDistricts = angular.copy($scope.defaultOptions);
+            $scope.defaultReportingTo = angular.copy($scope.defaultOptions);
+            $scope.defaultDepartments = angular.copy($scope.defaultOptions);
+            $scope.defaultEntityGroups = angular.copy($scope.defaultOptions);
+            $scope.defaultGenders = angular.copy($scope.defaultOptions);
+            $scope.defaultBloodGroups = angular.copy($scope.defaultOptions);
+            $scope.allottedDefaultBlocks = angular.copy($scope.defaultOptions);
+            $scope.allottedDefaultDistricts  = angular.copy($scope.defaultOptions);
+            // Get Profile Information
+            GetProfileInformation();
+        }
 
-    function GetLookupValues(type){
-        profilefactory.getLookupValues(type).success(function(result){
-            var defaultOptions = {
-                "value": 0,
-                "text": "Select"
-            };
-            if(result instanceof Array){
-                if(type === 7){ // countries
-                    $scope.countries.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.countries.push(result[i]);
-                    }                           
-                }else if(type === 1){ // blocks
-                    $scope.allottedblocks.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.allottedblocks.push(result[i]);
-                    } 
-                }else if(type === 3){//states
-                     $scope.states.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.states.push(result[i]);
-                    }                    
-                }else if(type === 8){//departments
-                     $scope.departments.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.departments.push(result[i]);
-                    }                    
-                }else if(type === 15){//reportingto
-                     $scope.reportingto.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.reportingto.push(result[i]);
-                    }                    
-                }else if(type === 2){//districts
-                     $scope.allotteddistricts.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.allotteddistricts.push(result[i]);
-                    }                    
-                }else if(type === 5){//blood groups
-                     $scope.bloodGroups.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.bloodGroups.push(result[i]);
-                    }                    
-                }else if(type === 16){//blood groups
-                     $scope.entityGroups.push(defaultOptions);
-                    for (var i=0; i<result.length; i++){
-                        $scope.entityGroups.push(result[i]);
-                    }                    
+        function GetProfileInformation(){
+            var response = profilefactory.GetUsers($location.search().id||$rootScope.sessionConfig.userId);
+            response.success(function(result){
+                if(result instanceof Array){
+                    $scope.user = $.extend($scope.user,result[0]);
+                    $scope.defaultGenders.value = $scope.user.genderId||0;
+                    $scope.defaultStates.value = $scope.user.stateId||0;
+                    $scope.defaultCountries.value = $scope.user.countryId||0;
+                    $scope.defaultEntityGroups.value = $scope.user.userGroupId||0;
+                    $scope.defaultDepartments.value = $scope.user.departmentId||0;
+                    $scope.defaultReportingTo.value = $scope.user.reportingId||0;
+                    $scope.allottedDefaultBlocks.value = $scope.user.allottedBlock||0;
+                    $scope.allottedDefaultDistricts.value = $scope.user.allottedDistrict||0;
+                    $scope.defaultRecruitementType.value = $scope.user.recruitmentId||0;
+                    $scope.defaultBloodGroups.value = $scope.user.bloodGroupId||0;
+                }else{
+                    var messageTemplate = '<span>'+result.data+'</span>';
+                    notify({
+                        messageTemplate: messageTemplate,
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope
+                    });
                 }
-            }else{
+            }).error(function(error,status){
+                notify({
+                    messageTemplate: 'unable to read profile information!.',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope
+                });
+            });
+        }
+
+        function GetLookupValues(type){
+            profilefactory.getLookupValues(type).success(function(result){
+
+                if(result instanceof Array){
+                    if(type === 7){ // countries
+                        $scope.countries.push($scope.defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.countries.push(result[i]);
+                        }
+                    }else if(type === 1){ // blocks
+                        $scope.allottedblocks.push($scope.defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.allottedblocks.push(result[i]);
+                        }
+                    }else if(type === 3){//states
+                         $scope.states.push($scope.defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.states.push(result[i]);
+                        }
+                    }else if(type === 8){//departments
+                         $scope.departments.push($scope.defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.departments.push(result[i]);
+                        }
+                    }else if(type === 15){//reportingto
+                         $scope.reportingto.push($scope.defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.reportingto.push(result[i]);
+                        }
+                    }else if(type === 2){//districts
+                         $scope.allotteddistricts.push($scope.defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.allotteddistricts.push(result[i]);
+                        }
+                    }else if(type === 5){//blood groups
+                         $scope.bloodGroups.push($scope.defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.bloodGroups.push(result[i]);
+                        }
+                    }else if(type === 16){//blood groups
+                         $scope.entityGroups.push($scope.defaultOptions);
+                        for (var i=0; i<result.length; i++){
+                            $scope.entityGroups.push(result[i]);
+                        }
+                    }
+                }else{
+                    notify({
+                        messageTemplate: '<span>Unable to read look up values!!!</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope
+                    });
+                }
+            }).error(function(error,status){
                 notify({
                     messageTemplate: '<span>Unable to read look up values!!!</span>',
                     position: $rootScope.appConfig.notifyConfig.position,
                     scope:$scope
                 });
-            }
-        }).error(function(error,status){
-            notify({
-                messageTemplate: '<span>Unable to read look up values!!!</span>',
-                position: $rootScope.appConfig.notifyConfig.position,
-                scope:$scope
-            });
-        })
-    }
+            })
+        }
 
-    GetLookupValues(2);
-    GetLookupValues(15);
-    GetLookupValues(8);
-    GetLookupValues(3);
-    GetLookupValues(1);
-    GetLookupValues(7);
-    GetLookupValues(5);
-    GetLookupValues(16);
+        GetLookupValues(2);
+        GetLookupValues(15);
+        GetLookupValues(8);
+        GetLookupValues(3);
+        GetLookupValues(1);
+        GetLookupValues(7);
+        GetLookupValues(5);
+        GetLookupValues(16);
 
-    // Get Profile Information
-    GetProfileInformation();
+        // Get Profile Information
+        GetProfileInformation();
 }]);
 
 app.factory('profilefactory',function($http,$q,$rootScope){
@@ -433,7 +513,8 @@ app.factory('profilefactory',function($http,$q,$rootScope){
     service.getLookupValues = function(id){
         return $http({
             method : 'GET',
-            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id
+            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id,
+            cache : false
         });
     }
 
@@ -446,7 +527,19 @@ app.factory('profilefactory',function($http,$q,$rootScope){
                 "Content-Type": "application/json"
             }
         });
-    } 
+    }
+
+
+    service.Update = function(model){
+        return $http({
+            method : 'POST',
+            url : crudServiceBaseUrl + '/user/create',
+            data : JSON.stringify(model),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    }
 
     service.UpdateBasicProfile = function(model){      
         return $http({

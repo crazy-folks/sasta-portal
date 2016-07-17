@@ -169,6 +169,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
         }
 
         $scope.doSearch = function(){
+            kendo.ui.progress($(document.body), true)
 			$scope.searchReq = {
 			  "referenceId": (($scope.selectedFy)?$scope.selectedFy.join(','):null),
 			  "roundId": (($scope.selectedRounds)?$scope.selectedRounds.join(','):null),
@@ -183,280 +184,322 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 				chartType = $scope.defaultchartsType.value;
 			}
 			if($scope.defaultreports.value === 1){
-				dashboardfactory.GetMgnregaworks($scope.searchReq).then(function(resp){
-					var series = [];
-					var categories  =[];
-					var stackedNames = ['Completed Works Unskilled Wages','Completed Works Skilled Wages','Completed Works Material Exp','Completed Works Admin Exp',
-						'Completed Works Exp. Incurred','Completed Works Value By SA','On Going Works Unskilled Wages','On Going Works Skilled Wages','On Going Works Material Exp','On Going Works Admin Exp',
-						'On Going Works Exp. Incurred','On Going Works Value By SA'
-					];
-					angular.forEach(stackedNames,function(value){
-						series.push({
-							name : value,
-							data : []
-						});
-					});
-					angular.forEach(resp.data.data,function(obj,key){
-						categories.push(obj.districtName);
-						series[0].data.push(obj.unskilledWagesForCompletedWorks);
-						series[1].data.push(obj.skilledWagesForCompletedWorks);
-						series[2].data.push(obj.materialExpForCompletedWorks);
-						series[3].data.push(obj.administrativeExpForCompletedWorks);
-						series[4].data.push(obj.expIncurredForCompletedWorks);
-						series[5].data.push(obj.valueOfCompletedWorksEvaluatedBySATeam);
-						series[6].data.push(obj.unSkilledWagesForOnGoingWorks);
-						series[7].data.push(obj.skilledWagesForOnGoingWorks);
-						series[8].data.push(obj.administrativeExpForOnGoingWorks);
-						series[9].data.push(obj.materialExpForOnGoingWorks);
-						series[10].data.push(obj.expIncurredForOnGoingWorks);
-						series[11].data.push(obj.valueOfOnGoingWorksEvaluatedBySATeam);
-					});
-					console.log(series);
-					createChart(series,categories,'MGNREGA Works Charts',chartType);
-				},function(status,error){
-
-				});
+				dashboardfactory.GetMgnregaworks($scope.searchReq).success(function(resp){
+                    var series = [];
+                    var categories  =[];
+                    var stackedNames = ['Completed Works Unskilled Wages','Completed Works Skilled Wages','Completed Works Material Exp','Completed Works Admin Exp',
+                        'Completed Works Exp. Incurred','Completed Works Value By SA','On Going Works Unskilled Wages','On Going Works Skilled Wages','On Going Works Material Exp','On Going Works Admin Exp',
+                        'On Going Works Exp. Incurred','On Going Works Value By SA'
+                    ];
+                    angular.forEach(stackedNames,function(value){
+                        series.push({
+                            name : value,
+                            data : []
+                        });
+                    });
+                    angular.forEach(resp.data,function(obj,key){
+                        categories.push(obj.districtName);
+                        series[0].data.push(obj.unskilledWagesForCompletedWorks);
+                        series[1].data.push(obj.skilledWagesForCompletedWorks);
+                        series[2].data.push(obj.materialExpForCompletedWorks);
+                        series[3].data.push(obj.administrativeExpForCompletedWorks);
+                        series[4].data.push(obj.expIncurredForCompletedWorks);
+                        series[5].data.push(obj.valueOfCompletedWorksEvaluatedBySATeam);
+                        series[6].data.push(obj.unSkilledWagesForOnGoingWorks);
+                        series[7].data.push(obj.skilledWagesForOnGoingWorks);
+                        series[8].data.push(obj.administrativeExpForOnGoingWorks);
+                        series[9].data.push(obj.materialExpForOnGoingWorks);
+                        series[10].data.push(obj.expIncurredForOnGoingWorks);
+                        series[11].data.push(obj.valueOfOnGoingWorksEvaluatedBySATeam);
+                    });
+                    console.log(series);
+                    createChart(series,categories,'MGNREGA Works Charts',chartType);
+                }).error(function(status,error){
+                    kendo.ui.progress($(document.body), false);
+                }).finally(function(){
+                    kendo.ui.progress($(document.body), false);
+                });
 			}			
 			else if($scope.defaultreports.value === 2){
-				dashboardfactory.GetExpenditures($scope.searchReq).then(function(resp){
-					var series = [];
-					var categories  =[];
-					var stackedNames = ['Refreshment','Amount Paid To VRP\'s','Photography','Video',
-						'Publicity','Stationary','Others'
-					];
-					angular.forEach(stackedNames,function(value){
-						series.push({
-							name : value,
-							data : []
-						});
-					});
-					angular.forEach(resp.data.data,function(obj,key){
-						categories.push(obj.districtName);
-						series[0].data.push(obj.refreshmentCharges);
-						series[1].data.push(obj.paidedAmount);
-						series[2].data.push(obj.photographyCharges);
-						series[3].data.push(obj.videosCharges);
-						series[4].data.push(obj.ppleafLets);
-						series[5].data.push(obj.stationary);
-						series[6].data.push(obj.others);
-					});
-					console.log(series);
-					createChart(series,categories,'Expenditures Charts',chartType);
-				},function(status,error){
-
-				});
+				dashboardfactory.GetExpenditures($scope.searchReq).success(function(resp){
+                    var series = [];
+                    var categories  =[];
+                    var stackedNames = ['Refreshment','Amount Paid To VRP\'s','Photography','Video',
+                        'Publicity','Stationary','Others'
+                    ];
+                    angular.forEach(stackedNames,function(value){
+                        series.push({
+                            name : value,
+                            data : []
+                        });
+                    });
+                    angular.forEach(resp.data,function(obj,key){
+                        categories.push(obj.districtName);
+                        series[0].data.push(obj.refreshmentCharges);
+                        series[1].data.push(obj.paidedAmount);
+                        series[2].data.push(obj.photographyCharges);
+                        series[3].data.push(obj.videosCharges);
+                        series[4].data.push(obj.ppleafLets);
+                        series[5].data.push(obj.stationary);
+                        series[6].data.push(obj.others);
+                    });
+                    console.log(series);
+                    createChart(series,categories,'Expenditures Charts',chartType);
+                }).error(function(status,error){
+                    kendo.ui.progress($(document.body), false);
+                }).finally(function(){
+                    kendo.ui.progress($(document.body), false);
+                });
 			}else if($scope.defaultreports.value === 3){
-				dashboardfactory.GetSpecialGramaSabha($scope.searchReq).then(function(resp){
-					var series = [];
-					var categories  =[];
-					var stackedNames = ['Total Population','Total Families','Registered','JCs in VP',
-						'GS Attended','Paras in SGS','Paras Setteled in SGS'
-					];
-					angular.forEach(stackedNames,function(value){
-						series.push({
-							name : value,
-							data : []
-						});
-					});
-					angular.forEach(resp.data.data,function(obj,key){
-						categories.push(obj.districtName);
-						series[0].data.push(obj.totalPopulation);
-						series[1].data.push(obj.totalFamiliesInVpts);
-						series[2].data.push(obj.noOfFamiliesRegistered);
-						series[3].data.push(obj.totalJcsInVpts);
-						series[4].data.push(obj.noOfPplAttentedSgs);
-						series[5].data.push(obj.totalParasPlacedInSgs);
-						series[6].data.push(obj.parasSetteled);
-					});
-					console.log(series);
-					createChart(series,categories,'Special Grama Sabha Charts',chartType);
-				},function(status,error){
-
-				});				
+				dashboardfactory.GetSpecialGramaSabha($scope.searchReq).success(function(resp){
+                    var series = [];
+                    var categories  =[];
+                    var stackedNames = ['Total Population','Total Families','Registered','JCs in VP',
+                        'GS Attended','Paras in SGS','Paras Setteled in SGS'
+                    ];
+                    angular.forEach(stackedNames,function(value){
+                        series.push({
+                            name : value,
+                            data : []
+                        });
+                    });
+                    angular.forEach(resp.data,function(obj,key){
+                        categories.push(obj.districtName);
+                        series[0].data.push(obj.totalPopulation);
+                        series[1].data.push(obj.totalFamiliesInVpts);
+                        series[2].data.push(obj.noOfFamiliesRegistered);
+                        series[3].data.push(obj.totalJcsInVpts);
+                        series[4].data.push(obj.noOfPplAttentedSgs);
+                        series[5].data.push(obj.totalParasPlacedInSgs);
+                        series[6].data.push(obj.parasSetteled);
+                    });
+                    console.log(series);
+                    createChart(series,categories,'Special Grama Sabha Charts',chartType);
+                }).error(function(status,error){
+                    kendo.ui.progress($(document.body), false);
+                }).finally(function(){
+                    kendo.ui.progress($(document.body), false);
+                });
 			}else if($scope.defaultreports.value === 4){
-				dashboardfactory.GetMisappropriation($scope.searchReq).then(function(resp){
-					var amountSeries = [];
+				dashboardfactory.GetMisappropriation($scope.searchReq).success(function(resp){
+                    var amountSeries = [];
                     var numberSeries = [];
-					var categories  =[];
-					var stackedNames = ['Mulitple JC','Wages to dead','Wages to non-existent','Wages to migrated',
-						'Wages to wrong account','Double Wages','Wages to people who didn\'t work','Double Wages to WSF',
-						'Wages same A/C','Bogus names in FTO','Missing Tank / Eri','Missing Canals',
-						'Missing Roads','Missing Plantations','Missing IHHLs','Missing Farm Pond',
-						'Missing Cattle shed','Missing Goat shed','Missing poultry','Missing IAY',
-						'Missing GH','Misapprop. by VPt President','Misapprop. by VPt Secretary','Amount Drawn twice',
-						'Wages to o ldIHHLs','Bogus entries in FTO','Machinery','Wages more than actual days',
-						"Work by contrators"
-					];
+                    var categories  =[];
+                    var stackedNames = ['Mulitple JC','Wages to dead','Wages to non-existent','Wages to migrated',
+                        'Wages to wrong account','Double Wages','Wages to people who didn\'t work','Double Wages to WSF',
+                        'Wages same A/C','Bogus names in FTO','Missing Tank / Eri','Missing Canals',
+                        'Missing Roads','Missing Plantations','Missing IHHLs','Missing Farm Pond',
+                        'Missing Cattle shed','Missing Goat shed','Missing poultry','Missing IAY',
+                        'Missing GH','Misapprop. by VPt President','Misapprop. by VPt Secretary','Amount Drawn twice',
+                        'Wages to o ldIHHLs','Bogus entries in FTO','Machinery','Wages more than actual days',
+                        "Work by contrators"
+                    ];
 
-					angular.forEach(stackedNames,function(value){
+
+                    angular.forEach(stackedNames,function(value){
                         amountSeries.push({
-							name : value + " Amount",
-							data : []
-						});
-					});
-					angular.forEach(resp.data.data,function(obj,key){
-						categories.push(obj.districtName);
-                        amountSeries[0].data.push(obj.multipleJcIssuedWorkersAmt);
-                        amountSeries[1].data.push(obj.wagedToDeadAmt);
-                        amountSeries[2].data.push(obj.wagesNonExistentAmt);
-                        amountSeries[3].data.push(obj.wagesMigratedAmt);
-                        amountSeries[4].data.push(obj.doubleWagesAmt);
-                        amountSeries[5].data.push(obj.wagesPaidToNotWorkedAmt);
-                        amountSeries[6].data.push(obj.doubleWagesWSFAmt);
-                        amountSeries[7].data.push(obj.wagesPaidSameAccAmt);
-                        amountSeries[8].data.push(obj.inclusionBogousFTOAmt);
-                        amountSeries[9].data.push(obj.missingTanksEriAmt);
-                        amountSeries[10].data.push(obj.missingCanalAmt);
-                        amountSeries[11].data.push(obj.missingRoadsAmt);
-                        amountSeries[12].data.push(obj.missingPlantationsAmt);
-                        amountSeries[13].data.push(obj.missingIHHLSAmt);
-                        amountSeries[14].data.push(obj.missingFarmPondAmt);
-                        amountSeries[15].data.push(obj.missingCattleShedAmt);
-                        amountSeries[16].data.push(obj.missingGoatShedAmt);
-                        amountSeries[17].data.push(obj.missingPoultryAmt);
-                        amountSeries[18].data.push(obj.amountDrawnSameWorkAmt);
-                        amountSeries[19].data.push(obj.machineryUsedAmt);
-                        amountSeries[20].data.push(obj.workDoneByContractorsAmt);
-                        amountSeries[21].data.push(obj.wagesCreditedWrongAccountsAmt);
-                        amountSeries[22].data.push(obj.missingMgnregaComponentIAYAmt);
-                        amountSeries[23].data.push(obj.missingMgnregaComponentGHAmt);
-                        amountSeries[24].data.push(obj.misappropriationByVPTPresidentAmt);
-                        amountSeries[25].data.push(obj.misappropriationByVPTSecretoryAmt);
-                        amountSeries[26].data.push(obj.wagesDisbursedPrevConstructedIHHLSAmt);
-                        amountSeries[27].data.push(obj.bogusEntriesFTOCorretingFluidAmt);
-                        amountSeries[28].data.push(obj.wagesDrawnMoreThanActualWorkingDayAmt);
-					});
+                            name : value + " Amount",
+                            data : [],
+                            additional : []
+                        });
+                    });
+
+                    var addAmount = function(target,source,key){
+                        target[0][key].push(source.multipleJcIssuedWorkersAmt);
+                        target[1][key].push(source.wagedToDeadAmt);
+                        target[2][key].push(source.wagesNonExistentAmt);
+                        target[3][key].push(source.wagesMigratedAmt);
+                        target[4][key].push(source.doubleWagesAmt);
+                        target[5][key].push(source.wagesPaidToNotWorkedAmt);
+                        target[6][key].push(source.doubleWagesWSFAmt);
+                        target[7][key].push(source.wagesPaidSameAccAmt);
+                        target[8][key].push(source.inclusionBogousFTOAmt);
+                        target[9][key].push(source.missingTanksEriAmt);
+                        target[10][key].push(source.missingCanalAmt);
+                        target[11][key].push(source.missingRoadsAmt);
+                        target[12][key].push(source.missingPlantationsAmt);
+                        target[13][key].push(source.missingIHHLSAmt);
+                        target[14][key].push(source.missingFarmPondAmt);
+                        target[15][key].push(source.missingCattleShedAmt);
+                        target[16][key].push(source.missingGoatShedAmt);
+                        target[17][key].push(source.missingPoultryAmt);
+                        target[18][key].push(source.amountDrawnSameWorkAmt);
+                        target[19][key].push(source.machineryUsedAmt);
+                        target[20][key].push(source.workDoneByContractorsAmt);
+                        target[21][key].push(source.wagesCreditedWrongAccountsAmt);
+                        target[22][key].push(source.missingMgnregaComponentIAYAmt);
+                        target[23][key].push(source.missingMgnregaComponentGHAmt);
+                        target[24][key].push(source.misappropriationByVPTPresidentAmt);
+                        target[25][key].push(source.misappropriationByVPTSecretoryAmt);
+                        target[26][key].push(source.wagesDisbursedPrevConstructedIHHLSAmt);
+                        target[27][key].push(source.bogusEntriesFTOCorretingFluidAmt);
+                        target[28][key].push(source.wagesDrawnMoreThanActualWorkingDayAmt);
+                    }
+
+                    var addNo = function(target,source,key){
+                        target[0][key].push(source.multipleJcIssuedWorkersCount);
+                        target[1][key].push(source.wagedToDeadCount);
+                        target[2][key].push(source.wagesNonExistentCount);
+                        target[3][key].push(source.wagesMigratedCount);
+                        target[4][key].push(source.doubleWagesCount);
+                        target[5][key].push(source.wagesPaidToNotWorkedCount);
+                        target[6][key].push(source.doubleWagesWSFCount);
+                        target[7][key].push(source.wagesPaidSameAccCount);
+                        target[8][key].push(source.inclusionBogousFTOCount);
+                        target[9][key].push(source.missingTanksEriCount);
+                        target[10][key].push(source.missingCanalCount);
+                        target[11][key].push(source.missingRoadsCount);
+                        target[12][key].push(source.missingPlantationsCount);
+                        target[13][key].push(source.missingIHHLSCount);
+                        target[14][key].push(source.missingFarmPondCount);
+                        target[15][key].push(source.missingCattleShedCount);
+                        target[16][key].push(source.missingGoatShedCount);
+                        target[17][key].push(source.missingPoultryCount);
+                        target[18][key].push(source.amountDrawnSameWorkCount);
+                        target[19][key].push(source.machineryUsedCount);
+                        target[20][key].push(source.workDoneByContractorsCount);
+                        target[21][key].push(source.wagesCreditedWrongAccountsCount);
+                        target[22][key].push(source.missingMgnregaComponentIAYCount);
+                        target[23][key].push(source.missingMgnregaComponentGHCount);
+                        target[24][key].push(source.misappropriationByVPTPresidentCount);
+                        target[25][key].push(source.misappropriationByVPTSecretoryCount);
+                        target[26][key].push(source.wagesDisbursedPrevConstructedIHHLSCount);
+                        target[27][key].push(source.bogusEntriesFTOCorretingFluidCount);
+                        target[28][key].push(source.wagesDrawnMoreThanActualWorkingDayCount);
+                    }
+
+                    angular.forEach(resp.data,function(obj,key){
+                        categories.push(obj.districtName);
+                        addAmount(amountSeries,obj,'data');
+                        addNo(amountSeries,obj,'additional');
+                    });
 
                     angular.forEach(stackedNames,function(value){
                         numberSeries.push({
                             name : value + " No",
+                            data : [],
+                            additional : []
+                        });
+                    });
+
+                    angular.forEach(resp.data,function(obj,key){
+                        addAmount(numberSeries,obj,'additional');
+                        addNo(numberSeries,obj,'data');
+                    });
+
+                    createChart((($scope.defaultFilterType.value==0) ? amountSeries : numberSeries),categories,'Misappropriation Charts',chartType,true);
+
+                }).error(function(status,error){
+                    kendo.ui.progress($(document.body), false);
+                }).finally(function(){
+                    kendo.ui.progress($(document.body), false);
+                });
+			}
+			else if($scope.defaultreports.value === 5){
+				dashboardfactory.GetDeviationConsolidate($scope.searchReq).success(function(resp){
+                    var amountSeries = [];
+                    var numberSeries = [];
+                    var categories  = [];
+                    var stackedNames = ['JC Misused','WSF Payment','FTO NMR','NMR Not Produced For Audit',
+                        'Shortage In Measurements','AS Not Produced For Audit','TS Not Produced For Audit','Wages paid without measurement',
+                        'Wages paid in excess of M Book','Signature Variation','NMR Overwriting','Ineligible Workers',
+                        'Diff online NMR & Physical NMR','M Books Not Produced For Audit','Works without GS approval','Estimates Not Produced For Audit',
+                        'Non Adoption Of Schedule','Payment witout JC'
+                    ];
+
+
+                    var addAmount = function(target,source,key){
+                        target[0][key].push(source.jcMisusedByOthersAmt);
+                        target[1][key].push(source.wagesPaymentFromSchemeAmt);
+                        target[2][key].push(source.amountMoreThanNMRFTOAmt);
+                        target[3][key].push(source.nmrnotProducedForAuditAmt);
+                        target[4][key].push(source.shortageMeasurementsAmt);
+                        target[5][key].push(source.asnotProducedForAuditAmt);
+                        target[6][key].push(source.tsnotProducedForAuditAmt);
+                        target[7][key].push(source.wagesPaidWithoutRecordMesurementAmt);
+                        target[8][key].push(source.wagesPaidExcessMBooksValueAmt);
+                        target[9][key].push(source.variationsBetweenNMRRegisterAmt);
+                        target[10][key].push(source.nmroverWritingCorrectionsAmt);
+                        target[11][key].push(source.inEligibleWorkersIncludeUnder18Amt);
+                        target[12][key].push(source.diffOnlineNMRPhysicalNMRAmt);
+                        target[13][key].push(source.mbooksNotProducedForAuditAmt);
+                        target[14][key].push(source.worksTakenUpWithoutGbApprovalAmt);
+                        target[15][key].push(source.estimatesNotProducedForAuditAmt);
+                        target[16][key].push(source.noneAdoptionOfScheduleRateAmt);
+                        target[17][key].push(source.wagesPaidWorkersWithoutJcAmt);
+                    }
+
+                    var addNo = function(target,source,key){
+                        target[0][key].push(source.jcMisusedByOthersCount);
+                        target[1][key].push(source.wagesPaymentFromSchemeCount);
+                        target[2][key].push(source.amountMoreThanNMRFTOCount);
+                        target[3][key].push(source.nmrnotProducedForAuditCount);
+                        target[4][key].push(source.shortageMeasurementsCount);
+                        target[5][key].push(source.asnotProducedForAuditCount);
+                        target[6][key].push(source.tsnotProducedForAuditCount);
+                        target[7][key].push(source.wagesPaidWithoutRecordMesurementCount);
+                        target[8][key].push(source.wagesPaidExcessMBooksValueCount);
+                        target[9][key].push(source.variationsBetweenNMRRegisterCount);
+                        target[10][key].push(source.nmroverWritingCorrectionsCount);
+                        target[11][key].push(source.inEligibleWorkersIncludeUnder18Count);
+                        target[12][key].push(source.diffOnlineNMRPhysicalNMRCount);
+                        target[13][key].push(source.mbooksNotProducedForAuditCount);
+                        target[14][key].push(source.worksTakenUpWithoutGbApprovalCount);
+                        target[15][key].push(source.estimatesNotProducedForAuditCount);
+                        target[16][key].push(source.noneAdoptionOfScheduleRateCount);
+                        target[17][key].push(source.wagesPaidWorkersWithoutJcCount);
+                    }
+
+                    angular.forEach(stackedNames,function(value){
+                        amountSeries.push({
+                            name : value+ " Amount",
+                            data : [],
+                            additional : []
+                        });
+                    });
+
+                    angular.forEach(resp.data,function(obj,key){
+                        categories.push(obj.districtName);
+                        addAmount(amountSeries,obj,'data');
+                        addNo(amountSeries,obj,'additional');
+                    });
+
+                    angular.forEach(stackedNames,function(value){
+                        numberSeries.push({
+                            name : value + " No",
+                            data : [],
+                            additional : []
+                        });
+                    });
+
+                    angular.forEach(resp.data,function(obj,key){
+                        addAmount(numberSeries,obj,'additional');
+                        addNo(numberSeries,obj,'data');
+                    });
+                    createChart((($scope.defaultFilterType.value==0) ? amountSeries : numberSeries),categories,'Deviation Charts',chartType,true);
+                }).error(function(status,error){
+                    kendo.ui.progress($(document.body), false);
+                }).finally(function(){
+                    kendo.ui.progress($(document.body), false);
+                });
+			}else if($scope.defaultreports.value === 6){
+				dashboardfactory.GetGrievances($scope.searchReq).success(function(resp){
+                    var amountSeries = [];
+                    var numberSeries = [];
+                    var categories  =[];
+                    var stackedNames = ['Delayed Payment','Differently Abled Not Paid In Full','Payment Less Than Value In M book','Wages for days less than worked',
+                        'Workers Not Paid','Transport Allowance','Injury Compensation','Death Compensation',
+                        'Payment  to IHHL work'
+                    ];
+                    angular.forEach(stackedNames,function(value){
+                        amountSeries.push({
+                            name : value,
                             data : []
                         });
                     });
 
-                    angular.forEach(resp.data.data,function(obj,key){
-                        numberSeries[0].data.push(obj.multipleJcIssuedWorkersCount);
-                        numberSeries[1].data.push(obj.wagedToDeadCount);
-                        numberSeries[2].data.push(obj.wagesNonExistentCount);
-                        numberSeries[3].data.push(obj.wagesMigratedCount);
-                        numberSeries[4].data.push(obj.doubleWagesCount);
-                        numberSeries[5].data.push(obj.wagesPaidToNotWorkedCount);
-                        numberSeries[6].data.push(obj.doubleWagesWSFCount);
-                        numberSeries[7].data.push(obj.wagesPaidSameAccCount);
-                        numberSeries[8].data.push(obj.inclusionBogousFTOCount);
-                        numberSeries[9].data.push(obj.missingTanksEriCount);
-                        numberSeries[10].data.push(obj.missingCanalCount);
-                        numberSeries[11].data.push(obj.missingRoadsCount);
-                        numberSeries[12].data.push(obj.missingPlantationsCount);
-                        numberSeries[13].data.push(obj.missingIHHLSCount);
-                        numberSeries[14].data.push(obj.missingFarmPondCount);
-                        numberSeries[15].data.push(obj.missingCattleShedCount);
-                        numberSeries[16].data.push(obj.missingGoatShedCount);
-                        numberSeries[17].data.push(obj.missingPoultryCount);
-                        numberSeries[18].data.push(obj.amountDrawnSameWorkCount);
-                        numberSeries[19].data.push(obj.machineryUsedCount);
-                        numberSeries[20].data.push(obj.workDoneByContractorsCount);
-                        numberSeries[21].data.push(obj.wagesCreditedWrongAccountsCount);
-                        numberSeries[22].data.push(obj.missingMgnregaComponentIAYCount);
-                        numberSeries[23].data.push(obj.missingMgnregaComponentGHCount);
-                        numberSeries[24].data.push(obj.misappropriationByVPTPresidentCount);
-                        numberSeries[25].data.push(obj.misappropriationByVPTSecretoryCount);
-                        numberSeries[26].data.push(obj.wagesDisbursedPrevConstructedIHHLSCount);
-                        numberSeries[27].data.push(obj.bogusEntriesFTOCorretingFluidCount);
-                        numberSeries[28].data.push(obj.wagesDrawnMoreThanActualWorkingDayCount);
-                    });
-					createChart((($scope.defaultFilterType.value==0) ? amountSeries : numberSeries),categories,'Misappropriation Charts',chartType);
-				},function(status,error){
-
-				});
-			}
-			else if($scope.defaultreports.value === 5){
-				dashboardfactory.GetDeviationConsolidate($scope.searchReq).then(function(resp){
-					var amountSeries = [];
-					var numberSeries = [];
-					var categories  = [];
-					var stackedNames = ['JC Misused','WSF Payment','FTO NMR','NMR Not Produced For Audit',
-						'Shortage In Measurements','AS Not Produced For Audit','TS Not Produced For Audit','Wages paid without measurement',
-						'Wages paid in excess of M Book','Signature Variation','NMR Overwriting','Ineligible Workers',
-						'Diff online NMR & Physical NMR','M Books Not Produced For Audit','Works without GS approval','Estimates Not Produced For Audit',
-						'Non Adoption Of Schedule','Payment witout JC'
-					];
-					angular.forEach(stackedNames,function(value){
-						amountSeries.push({
-							name : value+ " Amount",
-							data : []
-						});
-					});
-					angular.forEach(resp.data.data,function(obj,key){
-						categories.push(obj.districtName);
-						amountSeries[0].data.push(obj.jcMisusedByOthersAmt);
-						amountSeries[1].data.push(obj.wagesPaymentFromSchemeAmt);
-						amountSeries[2].data.push(obj.amountMoreThanNMRFTOAmt);
-						amountSeries[3].data.push(obj.nmrnotProducedForAuditAmt);
-						amountSeries[4].data.push(obj.shortageMeasurementsAmt);
-						amountSeries[5].data.push(obj.asnotProducedForAuditAmt);
-						amountSeries[6].data.push(obj.tsnotProducedForAuditAmt);
-						amountSeries[7].data.push(obj.wagesPaidWithoutRecordMesurementAmt);
-						amountSeries[8].data.push(obj.wagesPaidExcessMBooksValueAmt);
-						amountSeries[9].data.push(obj.variationsBetweenNMRRegisterAmt);
-						amountSeries[10].data.push(obj.nmroverWritingCorrectionsAmt);
-						amountSeries[11].data.push(obj.inEligibleWorkersIncludeUnder18Amt);
-						amountSeries[12].data.push(obj.diffOnlineNMRPhysicalNMRAmt);
-						amountSeries[13].data.push(obj.mbooksNotProducedForAuditAmt);
-						amountSeries[14].data.push(obj.worksTakenUpWithoutGbApprovalAmt);
-						amountSeries[15].data.push(obj.estimatesNotProducedForAuditAmt);
-						amountSeries[16].data.push(obj.noneAdoptionOfScheduleRateAmt);
-						amountSeries[17].data.push(obj.wagesPaidWorkersWithoutJcAmt);
-					});
-
-					angular.forEach(stackedNames,function(value){
-						numberSeries.push({
-							name : value + " No",
-							data : []
-						});
-					});
-
-					angular.forEach(resp.data.data,function(obj,key){
-						numberSeries[0].data.push(obj.jcMisusedByOthersCount);
-						numberSeries[1].data.push(obj.wagesPaymentFromSchemeCount);
-						numberSeries[2].data.push(obj.amountMoreThanNMRFTOCount);
-						numberSeries[3].data.push(obj.nmrnotProducedForAuditCount);
-						numberSeries[4].data.push(obj.shortageMeasurementsCount);
-						numberSeries[5].data.push(obj.asnotProducedForAuditCount);
-						numberSeries[6].data.push(obj.tsnotProducedForAuditCount);
-						numberSeries[7].data.push(obj.wagesPaidWithoutRecordMesurementCount);
-						numberSeries[8].data.push(obj.wagesPaidExcessMBooksValueCount);
-						numberSeries[9].data.push(obj.variationsBetweenNMRRegisterCount);
-						numberSeries[10].data.push(obj.nmroverWritingCorrectionsCount);
-						numberSeries[11].data.push(obj.inEligibleWorkersIncludeUnder18Count);
-						numberSeries[12].data.push(obj.diffOnlineNMRPhysicalNMRCount);
-						numberSeries[13].data.push(obj.mbooksNotProducedForAuditCount);
-						numberSeries[14].data.push(obj.worksTakenUpWithoutGbApprovalCount);
-						numberSeries[15].data.push(obj.estimatesNotProducedForAuditCount);
-						numberSeries[16].data.push(obj.noneAdoptionOfScheduleRateCount);
-						numberSeries[17].data.push(obj.wagesPaidWorkersWithoutJcCount);
-					});
-					createChart((($scope.defaultFilterType.value==0) ? amountSeries : numberSeries),categories,'Deviation Charts',chartType);
-				},function(status,error){
-
-				});
-			}else if($scope.defaultreports.value === 6){
-				dashboardfactory.GetGrievances($scope.searchReq).then(function(resp){
-                    var amountSeries = [];
-                    var numberSeries = [];
-					var categories  =[];
-					var stackedNames = ['Delayed Payment','Differently Abled Not Paid In Full','Payment Less Than Value In M book','Wages for days less than worked',
-						'Workers Not Paid','Transport Allowance','Injury Compensation','Death Compensation',
-						'Payment  to IHHL work'
-					];
-					angular.forEach(stackedNames,function(value){
-                        amountSeries.push({
-							name : value,
-							data : []
-						});
-					});
-					angular.forEach(resp.data.data,function(obj,key){
-						categories.push(obj.districtName);
+                    angular.forEach(resp.data,function(obj,key){
+                        categories.push(obj.districtName);
                         amountSeries[0].data.push(obj.delayWagesPaymentAmt);
                         amountSeries[1].data.push(obj.fullEntitlementNotGivenAmt);
                         amountSeries[2].data.push(obj.lessPaymentValueRecordedMBookAmt);
@@ -466,24 +509,24 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
                         amountSeries[6].data.push(obj.noCompensationInjuredAtWorksiteAmt);
                         amountSeries[7].data.push(obj.noCompensationDeadAtWorksiteAmt);
                         amountSeries[8].data.push(obj.reqPaymentCompletedIHHLWorkAmt);
-					});
+                    });
 
-					var extra = $.merge([
+                    var extra = $.merge([
                         'Grievances In Household Verification','Grievances In GS','Request For JC',"More than 100 days",
                         "IHHL","IAY","Cattle shelter","MNREGA Work","Renewal","Other Schemes","Wage Increase","PDS",
                         "Library Building","Worksite Facilities","Complaint Against BC","JC to OAP","Work to OAP",
                         "Complaint Against WSF","Complaint Against VP President","Complaint Against UOS","Complaint Against BDO (VP)",
                         "Complaint Against VP Secretary","Others"
-					],stackedNames);
+                    ],stackedNames);
 
-					angular.forEach(extra,function(value){
+                    angular.forEach(extra,function(value){
                         numberSeries.push({
                             name : value + " No",
                             data : []
                         });
                     });
 
-                    angular.forEach(resp.data.data,function(obj,key){
+                    angular.forEach(resp.data,function(obj,key){
 
                         numberSeries[0].data.push(obj.totalReceivedGrievancesHF);
                         numberSeries[1].data.push(obj.totalReceivedGrievancesMeeting);
@@ -521,10 +564,12 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
                         numberSeries[31].data.push(obj.reqPaymentCompletedIHHLWorkCount);
                     });
 
-					createChart((($scope.defaultFilterType.value==0) ? amountSeries : numberSeries),categories,'Grievances Charts',chartType);
-				},function(status,error){
-
-				});
+                    createChart((($scope.defaultFilterType.value==0) ? amountSeries : numberSeries),categories,'Grievances Charts',chartType);
+                }).error(function(status,error){
+                    kendo.ui.progress($(document.body), false);
+                }).finally(function(){
+                    kendo.ui.progress($(document.body), false);
+                });
 			}
         }	
 
@@ -532,7 +577,36 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
         var geometry = kendo.geometry;
         $scope.chartInstance = null;
 
-        function createChart(s,c,chartTitle,chartType) {
+        function createChart(s,c,chartTitle,chartType,tmpl) {
+            var templ = "#= series.name # : #= kendo.format('{0:N0}', value) #";
+            tmpl = tmpl || false;
+            if(tmpl){
+                templ = function(e){
+                    var index = e.series.index;
+                    var name = e.series.name;
+                    var value = kendo.format('{0:N0}', e.value);
+                    var ds = $(chart).data('kendoChart').dataSource.data();
+                    var currentItem = null;
+                    var category = e.category;
+                    var categoryIndex = 0;
+
+                    if($(chart).data('kendoChart').options){
+                        angular.forEach(($(chart).data('kendoChart').options.categoryAxis.categories||[]),function(i,k){
+                            if( i === category)
+                                categoryIndex = k;
+                        });
+                    }
+
+                    angular.forEach(ds,function(i,k){
+                       if(i.name === name){
+                           currentItem = i;
+                       }
+                    });
+                    var additional = null;
+                    currentItem&&(additional = currentItem.additional[categoryIndex]);
+                    return name + " : " + value + (additional?("("+kendo.format('{0:N0}', additional)+")"):"");
+                }
+            }
             $scope.chartInstance = $("#chart").kendoChart({
             	dataSource : s,
             	theme: "Material",//BlueOpal
@@ -597,7 +671,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
                 },
                 tooltip: {
                     visible: true,
-                    template: "#= series.name # : #= kendo.format('{0:N0}', value) #"
+                    template: templ
                 },
                 dataBound : function(e){
                 	//setTotalLabel(e.sender);

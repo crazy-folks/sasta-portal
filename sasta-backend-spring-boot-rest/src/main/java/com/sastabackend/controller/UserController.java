@@ -30,8 +30,12 @@ public class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseModel Add(@RequestBody final Users users) {
         LOGGER.debug("Received request to create the {}", users);
-        return userService.Add(users);
+        if(users.getId()>0)
+            return userService.Update(users);
+        else
+            return userService.Add(users);
     }
+
 
     @ApiOperation(value = "Read Users List", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/getlist", method = RequestMethod.GET)

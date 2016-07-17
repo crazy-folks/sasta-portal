@@ -147,8 +147,8 @@ public class NewsController {
             stream.write(file.getBytes());
             stream.close();
 
-            BufferedImage img = new BufferedImage(300, 228, BufferedImage.TYPE_INT_RGB);
-            img.createGraphics().drawImage(ImageIO.read(new File(filepath)).getScaledInstance(300, 228, Image.SCALE_SMOOTH), 0, 0, null);
+            BufferedImage img = new BufferedImage(600, 400, BufferedImage.TYPE_INT_RGB);
+            img.createGraphics().drawImage(ImageIO.read(new File(filepath)).getScaledInstance(600, 400, Image.SCALE_SMOOTH), 0, 0, null);
             ImageIO.write(img, "png", new File(thumbnailFilepath));
 
             LOGGER.debug("Entered into Upload" + filepath);

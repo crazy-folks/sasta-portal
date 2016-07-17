@@ -524,6 +524,91 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * update users by id
+     * @param users
+     * @return
+     */
+    @Override
+    public ResponseModel Update(Users users) {
+        LOGGER.debug("Update User  : {}");
+        ResponseModel response = new ResponseModel<String>();
+        try{
+            boolean flag = UpdateProfileData(users);
+            if(flag)
+                response.setData("Successfully user details updated!");
+            else
+                response.setData("Unable to updated user details!");
+            response.setStatus(true);
+        }catch(Exception err){
+            response = new ResponseModel<String>();
+            response.setData(err.getMessage());
+        }
+        return response;
+    }
+
+    private boolean UpdateProfileData(Users users){
+        boolean flag = false;
+        try {
+            SimpleJdbcCall simplejdbcCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("update_users")
+                    .declareParameters(
+                            new SqlParameter("userid", Types.BIGINT),
+                            new SqlParameter("emailid", Types.VARCHAR),
+                            new SqlParameter("pwd", Types.VARCHAR),
+                            new SqlParameter("screenname", Types.VARCHAR),
+                            new SqlParameter("firstname", Types.VARCHAR),
+                            new SqlParameter("lastname", Types.VARCHAR),
+                            new SqlParameter("genderid", Types.INTEGER),
+                            new SqlParameter("jobtitle", Types.VARCHAR),
+                            new SqlParameter("hasreadtc", Types.BIT),
+                            new SqlParameter("stateid", Types.INTEGER),
+                            new SqlParameter("countryid", Types.INTEGER),
+                            new SqlParameter("usergroupid", Types.INTEGER),
+                            new SqlParameter("dateofjoining", Types.DATE),
+                            new SqlParameter("teamname", Types.VARCHAR),
+                            new SqlParameter("employeeid", Types.VARCHAR),
+                            new SqlParameter("departmentid", Types.INTEGER),
+                            new SqlParameter("reportingid", Types.BIGINT),
+                            new SqlParameter("allotteddistrict", Types.INTEGER),
+                            new SqlParameter("allottedblock", Types.INTEGER),
+                            new SqlParameter("recruitmentid", Types.INTEGER),
+                            new SqlParameter("createdby", Types.BIGINT),
+                            new SqlOutParameter("flag", Types.BIT)
+                    );
+
+            Map<String, Object> inParamMap = new HashMap<String, Object>();
+            inParamMap.put("userid", users.getId());
+            inParamMap.put("emailid", users.getEmail());
+            inParamMap.put("pwd", users.getPassword());
+            inParamMap.put("screenname", users.getScreenName());
+            inParamMap.put("firstname", users.getFirstName());
+            inParamMap.put("lastname", users.getLastName());
+            inParamMap.put("genderid", users.getGenderId());
+            inParamMap.put("jobtitle", users.getJobTitle());
+            inParamMap.put("hasreadtc", users.getHasReadTermsAndCondtion());
+            inParamMap.put("stateid", users.getStateId());
+            inParamMap.put("countryid", users.getCountryId());
+            inParamMap.put("usergroupid", users.getUserGroupId());
+            inParamMap.put("dateofjoining", users.getDateOfJoining());
+            inParamMap.put("teamname", users.getTeamName());
+            inParamMap.put("employeeid", users.getEmployeeId());
+            inParamMap.put("departmentid", users.getDepartmentId());
+            inParamMap.put("reportingid", users.getReportingId());
+            inParamMap.put("allotteddistrict", users.getAllottedDistrict());
+            inParamMap.put("allottedblock", users.getAllottedBlock());
+            inParamMap.put("recruitmentid", users.getRecruitmentId());
+            inParamMap.put("createdby", users.getCreatedBy());
+            SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
+            simplejdbcCall.compile();
+            Map<String, Object> simpleJdbcCallResult = simplejdbcCall.execute(paramMap);
+            if (!simpleJdbcCallResult.isEmpty())
+                flag = (Boolean) (simpleJdbcCallResult.get("flag"));
+        }catch(Exception err){
+            // do your stuff
+        }
+        return flag;
+    }
+
+    /**
      * delete user by id
      * @param userid
      * @return boolean - true - Deleted , false - unable to delete user
