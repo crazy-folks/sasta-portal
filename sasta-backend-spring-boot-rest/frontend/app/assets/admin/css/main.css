@@ -4917,7 +4917,10 @@ select[disabled],input[disabled] {
 .com{
     color: #999;
 }
-
+.back-btn{
+  cursor: pointer;
+  padding: 5px 10px;
+}
 .btn-simple{
     opacity: .8;
     color: #666666;

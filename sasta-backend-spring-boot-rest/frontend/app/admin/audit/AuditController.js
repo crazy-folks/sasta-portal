@@ -44,7 +44,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		$scope.defaultvillages = angular.copy($scope.defaultdpOptions);
 
 	    $scope.kaddWindowOptions = {
-	        content: 'frontend/admin/audit/add.html',
+	        content: 'admin/audit/add.html',
 	        title: $scope.modelDialogTitle.AddAuditTitle,
 	        iframe: false,
 	        draggable: true,
@@ -71,7 +71,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    $scope.EditAuditFormName = '#frmEditAudit';    
 
 	    $scope.keditWindowOptions = {
-	        content: 'frontend/admin/audit/edit.html',
+	        content: 'admin/audit/edit.html',
 	        title: $scope.modelDialogTitle.EditAuditTitle,
 	        iframe: false,
 	        draggable: true,

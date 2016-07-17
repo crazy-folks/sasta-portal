@@ -749,6 +749,17 @@ function loadingWidget(requestNotification) {
     };
 }
 
+function back($window) {
+    return {
+        restrict: "EAC",
+        link: function(scope, element, attrs) {
+            element.on('click', function() {
+                $window.history.back();
+            });
+        }
+    };
+}
+
 /*
  * Pass functions to module
  */
@@ -788,6 +799,7 @@ angular
     .directive('boxSlider',boxSlider)
     .directive('keydown',keydown)
     .directive('loadingWidget',loadingWidget)
+    .directive('back',back)
 
 /**
  * NSF - Responsive Admin Theme

@@ -206,9 +206,9 @@ app.controller('CalenderController',['$http','$window','$scope','$rootScope','no
                 columns: [
                     { field: "id", title:'Detailed Calender ID', hidden: true, editable : false },
                     { field: "roundNo", title:'Round No'  },
-                    { field: "startDate", title:'Start Date', template :"#=kendo.toString(startDate,'yyyy-MM-dd')#"  },
-                    { field: "endDate", title:'End Date' , template :"#=kendo.toString(endDate,'yyyy-MM-dd')#" },
-                    { field: "gsDate", title:'GS Date', template :"#=kendo.toString(gsDate,'yyyy-MM-dd')#"  },
+                    { field: "startDate", title:'Start Date', template :"#=kendo.toString(startDate,'dd-MM-yyyy')#"  },
+                    { field: "endDate", title:'End Date' , template :"#=kendo.toString(endDate,'dd-MM-yyyy')#" },
+                    { field: "gsDate", title:'GS Date', template :"#=kendo.toString(gsDate,'dd-MM-yyyy')#"  },
                     { field: "remarks", title:'Remarks'  },
                     { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }
                 ],

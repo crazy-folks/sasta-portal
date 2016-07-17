@@ -21,7 +21,7 @@
                           <div class="panel-heading">
                             <h3 class="panel-title">Audit VRP Entries</h3>
                             <div class="actions pull-right">
-                            <i data-fullscreen-widget class="fa fa-expand"></i>
+                                <i data-fullscreen-widget class="fa fa-expand"></i>
                                 <i data-widget-toggle class="fa fa-chevron-down"></i>
                                 <i data-widget-close class="fa fa-times"></i>
                             </div>
@@ -29,9 +29,13 @@
                           <div class="panel-body">
                           		<div>
                           			<button type="button" class="btn btn-success btn-sm" ng-click="OpenAddVrpAuditWindow();">Add</button>
+                                    <a back class="back-btn">
+                                        <i data-widget-toggle class="fa fa-reply"></i>
+                                        Back to Audit
+                                    </a>
                           		</div>
-              		 						<div kendo-grid="grid" k-options="gridOptions">
-              								</div>
+                                <div kendo-grid="grid" k-options="gridOptions">
+                                </div>
                           </div>
                         </div>
                     </div>
