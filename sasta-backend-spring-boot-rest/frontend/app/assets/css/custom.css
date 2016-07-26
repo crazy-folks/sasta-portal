@@ -108,14 +108,14 @@ body {
 .carousel-control .icon-prev, .carousel-control .glyphicon-chevron-left {
 	background: url(../../assets/images/slider-arwlt.png) no-repeat scroll 0 0;
 }
-.heading-text {
+.heading-text{
 	background: url(../../assets/images/heading-bdr.png) repeat-x scroll left bottom;
 	padding-bottom: 15px;
 	display: inline-block;
 	position: relative;
 	text-transform: uppercase;
 }
-.heading-text:after {
+.heading-text:after{
 	content: "";
 	background-color: #206b98;
 	position: absolute;

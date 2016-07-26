@@ -784,6 +784,18 @@ app.controller('VrpController',['$http','$window','$scope','$rootScope','notify'
 			return deffered.promise();
 	    }
 
+		$scope.OnBack = function(){
+			$state.go('entries.audit',
+				{
+					fyid: $location.search().fyid||null,
+					round: $location.search().round||null,
+					districtId: $location.search().districtId||null,
+					blockId: $location.search().blockId||null,
+					villageId: $location.search().villageId||null,
+					userId: $location.search().userId||null
+				});
+		}
+
 	    function GetLookupValues(type,id){
 	    	var deffered = jQuery.Deferred();
 	    	vrpfactory.getLookupValues(type,id).success(function(result){

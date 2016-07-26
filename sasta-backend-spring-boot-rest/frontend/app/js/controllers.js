@@ -1,5 +1,5 @@
-app.controller('BaseController', ['$window','$scope','$rootScope','storage','notify','authfactory','$state','$animate',
-    function($window,$scope,$rootScope,storage,notify,authfactory,$state,$animate) {
+app.controller('BaseController', ['$window','$scope','$rootScope','storage','notify','authfactory','$state','$animate','filterFilter','$sce',
+    function( $window, $scope, $rootScope, storage, notify, authfactory, $state, $animate, filterFilter, $sce) {
     
 
     $rootScope.appConfig.authenticated = false;
@@ -26,6 +26,7 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     $scope.searchModel = {
         userName : ''
     }
+
     $scope.Search = function(){
         if($scope.searchModel.userName)
             $state.go('users.search',{userName: $scope.searchModel.userName})
@@ -35,6 +36,18 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     $scope.vm = {
         userName : '',
         password : ''
+    };
+
+    $scope.pageData = [];
+
+    if($rootScope.appConfig.pageConfig){
+        $rootScope.appConfig.pageConfig.then(function(result){
+            $scope.pageData = result;
+        })
+    }
+
+    $scope.trustAsHtml = function(string) {
+        return $sce.trustAsHtml(string);
     };
 
     $scope.customCheckbox = function (checkboxName){
@@ -161,6 +174,8 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     $scope.DoResetPassword = function(){
         if($scope.checkChangePwdjQueryValidator.doValidate()){
             kendo.ui.progress($(document.body), true);
+            var s = storage.recall();
+            $scope.changePwdReq.UserId = s.userId;
             authfactory.doChangePassword($scope.changePwdReq)
             .done(function(result){
                 var messageTemplate = '<span>'+result.data+'</span>';
@@ -232,6 +247,17 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
             }   
         });
     }
+    $scope.HOME_PAGE_CONTENT = "";
+    $scope.ABOUT_US_CONTENT = "";
+
+    $scope.GetKeyByValue = function(key){
+        setTimeout(function(){
+            if(key === 'HOME_PAGE_CONTENT')
+                $scope.HOME_PAGE_CONTENT = $scope.trustAsHtml(filterFilter($scope.pageData,key,true)[0].value);
+            else if(key === 'ABOUT_US_CONTENT')
+                $scope.ABOUT_US_CONTENT = $scope.trustAsHtml(filterFilter($scope.pageData,key,true)[0].value);
+        },100);
+    }
 
     $scope.GetTop3News();
     $scope.GetMessages();
@@ -283,7 +309,7 @@ app.factory('authfactory',function($http,$q,$rootScope){
             url : $rootScope.appConfig.baseUrl + '/news/top3news',
             cache : false
         });
-    } 
+    }
 
     service.GetMessages = function(){
         return $http({

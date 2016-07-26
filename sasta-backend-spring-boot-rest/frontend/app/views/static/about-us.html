@@ -4,7 +4,8 @@
             
 
             <div class="row cfx">
-            <div class="welcome-caption unit-lg-8 unit-sm-8 unit-md-8 unit-xs-12">
+            <div ng-if="pageData"  class="welcome-caption unit-lg-8 unit-sm-8 unit-md-8 unit-xs-12" translate ng-bind-html="ABOUT_US_CONTENT"
+                 ng-init="GetKeyByValue('ABOUT_US_CONTENT')">
                 
                 <h3 class="heading-text">Social Audit Society of Tamil Nadu - SASTA</h3>  
 

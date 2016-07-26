@@ -240,6 +240,7 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 			  "userId":  (($scope.selectedusers)?$scope.selectedusers.join(','):null),				  
 			};
 			$scope.grid.dataSource.read();
+			$scope.grid.dataSource.page(1);
 		}
 
 

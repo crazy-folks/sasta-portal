@@ -1007,7 +1007,19 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 			})
 		}
 
-		GetLookupValues(13); 
+		$scope.OnBack = function(){
+			$state.go('entries.audit',
+				{
+					fyid: $location.search().fyid||null,
+					round: $location.search().round||null,
+					districtId: $location.search().districtId||null,
+					blockId: $location.search().blockId||null,
+					villageId: $location.search().villageId||null,
+					userId: $location.search().userId||null
+				});
+		}
+
+		GetLookupValues(13);
 		GetLookupValues(2); 
 		GetLookupValues(1); 
 		GetLookupValues(14); 

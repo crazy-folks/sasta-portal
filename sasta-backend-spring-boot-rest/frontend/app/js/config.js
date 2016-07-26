@@ -1,4 +1,9 @@
- function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider,$compileProvider, requestNotificationProvider) {
+
+var AppDefaults = {};
+AppDefaults.DEFAULT_PAGE_SIZE = 30
+AppDefaults.API_BASE_URL = "http://localhost:8080/sasta-backend/api";
+
+function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvider,$compileProvider, requestNotificationProvider) {
     
     $httpProvider.defaults.cache = true;
     $urlRouterProvider.otherwise("/ui/index");
@@ -19,7 +24,7 @@
         .state('ui', {
             abstract: true,
             url: "/ui",
-            templateUrl: "views/common.html",
+            templateUrl: "views/common.html"
         })    
         .state('ui.index', {
             url: "/index",
@@ -67,13 +72,13 @@
             controller : 'PostsController as vwpostCtl',
             params: {newsid: null, mode : "view"}
         })
-        .state('ui.calenders', {
-            url: "/calenders",
-            templateUrl: "views/static/calenders.html",
+        .state('ui.calendars', {
+            url: "/calendars",
+            templateUrl: "views/static/calendars.html",
             data: {
-                pageTitle: 'Calenders'
+                pageTitle: 'Calendars'
             },
-            controller : 'PublicCalenderController as pubCalCtl'
+            controller : 'PublicCalendarController as pubCalCtl'
         })
         .state('ui.galleries', {
             url: "/galleries",
@@ -131,23 +136,23 @@
             },
             controller : 'CommunitiesController as cmCtl'
         })
-        .state('admin.calenders', {
-            url: "/calenders?mode",
-            templateUrl: "admin/calenders/templates.html",
+        .state('admin.calendars', {
+            url: "/calendars?mode",
+            templateUrl: "admin/calendars/templates.html",
             data: {
-                pageTitle: 'Calenders'
+                pageTitle: 'Calendars'
             },
-            controller : 'CalenderController as clCtl',
+            controller : 'CalendarController as clCtl',
             params: {mode: 'list'}
         })
-        .state('admin.managecalenders', {
-            url: "/managecalenders?calenderid&mode",
-            templateUrl: "admin/calenders/managecalender.html",
+        .state('admin.managecalendars', {
+            url: "/managecalendars?calendarid&mode",
+            templateUrl: "admin/calendars/managecalendar.html",
             data: {
-                pageTitle: 'Update Calenders'
+                pageTitle: 'Update Calendars'
             },
-            controller : 'CalenderController as clCtl',
-            params: {newsid: null,mode: 'add'}
+            controller : 'CalendarController as clCtl',
+            params: {calendarid: null,mode: 'add'}
         })
         .state('admin.entitygroups', {
             url: "/usergroups",
@@ -229,7 +234,7 @@
             },
             controller : 'VillagePanchayatController as vpCtl'
         })
-       .state('admin.profile', {
+        .state('admin.profile', {
             url: "/profile?id=&mode=view",
             templateUrl: "admin/profile/profile.html",
             data: {
@@ -247,93 +252,94 @@
             }
         })
         .state('entries.audit', {
-            url: "/audit",
+            url: "/audit?fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/audit/templates.html",
             data: {
                 pageTitle: 'Audit Entries'
             },
-            controller : 'AuditController as AuditCtl'
+            controller : 'AuditController as AuditCtl',
+            params: {fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })   
         .state('entries.expenditure', {
-            url: "/expenditure?aid",
+            url: "/expenditure?aid&fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/expenditure/templates.html",
             data: {
                 pageTitle: 'Audit expenditure'
             },
             controller : 'ExpenditureController as ExpenCtl',
-            params: {aid: null}
+            params: {aid: null, fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })  
         .state('entries.misappropriation', {
-            url: "/misappropriation?aid",
+            url: "/misappropriation?aid&fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/misappropriation/templates.html",
             data: {
                 pageTitle: 'Audit Misappropriation'
             },
             controller : 'MisappropriationController as MisCtl',
-            params: {aid: null}
+            params: {aid: null, fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })  
         .state('entries.vrp', {
-            url: "/vrp?aid",
+            url: "/vrp?aid&fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/vrp/templates.html",
             data: {
                 pageTitle: 'Audit VRP'
             },
             controller : 'VrpController as VrpCtl',
-            params: {aid: null}
+            params: {aid: null, fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })  
         .state('entries.deviation', {
-            url: "/deviation?aid",
+            url: "/deviation?aid&fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/deviation/templates.html",
             data: {
                 pageTitle: 'Audit Deviation'
             },
             controller : 'DeviationController as DevCtl',
-            params: {aid: null}
+            params: {aid: null, fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })  
         .state('entries.grievance', {
-            url: "/grievance?aid",
+            url: "/grievance?aid&fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/grievance/templates.html",
             data: {
                 pageTitle: 'Audit Grievance'
             },
             controller : 'GrievanceController as GriCtl',
-            params: {aid: null}
+            params: {aid: null, fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })       
         .state('entries.mgnrega', {
-            url: "/mgnrega?aid",
+            url: "/mgnrega?aid&fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/mgnrega/templates.html",
             data: {
                 pageTitle: 'Audit MGNREGA'
             },
             controller : 'MgnregaController as MgnCtl',
-            params: {aid: null}
+            params: {aid: null, fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })  
         .state('entries.hlcommittee', {
-            url: "/hlcommitte?aid",
+            url: "/hlcommitte?aid&fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/hlcommittee/templates.html",
             data: {
                 pageTitle: 'Audit High Level Committee'
             },
             controller : 'HLCommitteeController as HlcCtl',
-            params: {aid: null}
+            params: {aid: null, fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })
         .state('entries.sgm', {
-            url: "/sgm?aid",
+            url: "/sgm?aid&fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/sgm/templates.html",
             data: {
                 pageTitle: 'Audit Special Gram Shaba'
             },
             controller : 'SgmController as SgmCtl',
-            params: {aid: null}
+            params: {aid: null, fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })
         .state('entries.galleries', {
-            url: "/galleries?aid",
+            url: "/galleries?aid&fyid&round&districtId&blockId&villageId&userId",
             templateUrl: "admin/galleries/templates.html",
             data: {
                 pageTitle: 'Galleries'
             },
             controller : 'GalleriesController as GalleriesCtl',
-            params: {aid: null}
+            params: {aid: null, fyid: null, round: null, districtId: null, blockId: null, villageId: null, userId: null }
         })
         .state('users', {
             abstract: true,
@@ -343,7 +349,7 @@
                 pageTitle: 'Home'
             }
         })
-       .state('users.addusers', {
+        .state('users.addusers', {
             url: "/addusers",
             templateUrl: "admin/users/add.html",
             data: {
@@ -432,7 +438,7 @@
             },
             controller : 'RecoveryReportsController as recoveryRptCtl'
         })        
-         .state('entries.recovery', {
+        .state('entries.recovery', {
             url: "/recovery?aid",
             templateUrl: "admin/recovery/templates.html",
             data: {
@@ -449,7 +455,7 @@
                 pageTitle: 'Home'
             }
         })
-         .state('news.newslist', {
+        .state('news.newslist', {
             url: "/newslist?mode",
             templateUrl: "admin/news/newslist.html",
             data: {
@@ -491,6 +497,32 @@
                 pageTitle: 'Add Messages'
             },
             controller : 'MessagesController as MessagesCtl',
+            params: {mode: 'add'}
+        })
+        .state('settings', {
+            abstract: true,
+            url: "/settings",
+            templateUrl: "admin/adminlayout.html",
+            data: {
+                pageTitle: 'Home'
+            }
+        })
+        .state('settings.pageconfig', {
+            url: "/pageconfig?mode",
+            templateUrl: "admin/page/templates.html",
+            data: {
+                pageTitle: 'Page Configuration'
+            },
+            controller : 'PageConfigController as pageCtl',
+            params: {mode: 'list'}
+        })
+        .state('settings.managepageconfig', {
+            url: "/managepageconfig?pid&mode",
+            templateUrl: "admin/page/manage.html",
+            data: {
+                pageTitle: 'Manage Page Configuration'
+            },
+            controller : 'PageConfigController as addpageCtl',
             params: {mode: 'add'}
         })
 }
@@ -566,7 +598,7 @@ angular.module('sastaboard')
         appName: "SASTA-The Social Audit Society of Tamil Nadu",
         appVersion: "1.0",
         // Local Environment For Curl Ref : http://www.codingpedia.org/ama/how-to-test-a-rest-api-from-command-line-with-curl/
-        baseUrl: "http://localhost:8080/sasta-backend/api",
+        baseUrl: AppDefaults.API_BASE_URL ,
          //baseUrl: "http://192.168.1.37:8080/sasta-backend/api",
         debug : true,
         environment : 'development',
@@ -598,7 +630,23 @@ angular.module('sastaboard')
         },
         adminLevelGroups : [1,2,3,6,7],
         blockLevelGroups :[5],
-        districtLevelGroups :[4]
+        districtLevelGroups :[4],
+        pageConfig : (function() {
+            var initInjector = angular.injector(['ng']);
+            var $http = initInjector.get('$http');
+            var $q = initInjector.get('$q');
+            var deffered = $q.defer();
+            $http.get(AppDefaults.API_BASE_URL+'/pageconfig/getlist')
+            .success(function (response) {
+                var dt = [];
+                if(response.status)  dt = response.data;
+                deffered.resolve(dt);
+               // angular.module('sastaboard.config', []).constant('appConstants', dt);
+            }).error(function(status,error){
+                deffered.reject([]);
+            });
+            return deffered.promise;
+        })()
     })
     .value("sessionConfig", {})
     .run(['$rootScope', '$state','$templateCache','appConfig','sessionConfig','authfactory','storage','notify',

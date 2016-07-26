@@ -29,6 +29,7 @@
                         <div class="row no-padding auto-margin">
                              <form class="form-horizontal" name="frmSearchForm" id="frmSearchForm">
                                  <div class="col-md-4">
+
                                      <div class="form-group no-margin">
                                             <label for="txtEmailId" class="label-adjust">Email</label>
                                             <input type="text" class="k-input width-95 validate[required]" id="txtEmailId" name="txtEmailId"
@@ -53,29 +54,27 @@
                                             <label for="selDepartments" class="label-adjust">Departments</label>
 											<select class="k-input width-95 validate[required]" name="selDepartments" ng-model="defaultDepartments"  ng-options="obj.text for obj in departments track by obj.value"  required>
                                 			</select>   
-                                    </div>	                                    
+                                    </div>
+
                                  </div>
 
                                  <div class="col-md-4">
                                      <div class="form-group no-margin">
                                             <label for="txtfirstName" class="label-adjust">First Name</label>
                                             <input type="text" class="k-input width-95 validate[required]" id="txtfirstName" name="txtfirstName"
-                                                   data-ng-model="search.firstName" ng-maxlength="150" 
-                                                  />
+                                                   data-ng-model="search.firstName" ng-maxlength="150" />
                                     </div>
 
                                     <div class="form-group no-margin">
                                             <label for="txtlastName" class="label-adjust">Last Name</label>
                                             <input type="text" class="k-input width-95 validate[required]" id="txtlastName" name="txtlastName"
-                                                   data-ng-model="search.lastName" ng-maxlength="20" 
-                                                  />        
+                                                   data-ng-model="search.lastName" ng-maxlength="20" />
                                     </div>
 
                                     <div class="form-group no-margin">
                                             <label for="txtjobTitle" class="label-adjust">Job Title</label>
                                             <input type="text" class="k-input width-95 validate[required]" id="txtjobTitle" name="txtjobTitle"
-                                                   data-ng-model="search.jobTitle" ng-maxlength="20" 
-                                                  />     
+                                                   data-ng-model="search.jobTitle" ng-maxlength="20" />
                                     </div>
 
                                     <div class="form-group no-margin">
@@ -149,13 +148,18 @@
 					                            <img class="img-circle" no-cache-src="{{dataItem.imageName}}" class="img-circle" alt="">
 					                        </div>
 					                        <div class="content">
+
 					                            <div class="main">
-					                                <h3 class="name">{{dataItem.screenName}}</h3>
+
+													<h3 class="name">{{dataItem.screenName}}</h3>
+
 					                                <p class="profession">{{dataItem.jobTitle}}</p>
+
 					                                <p class="text-center">
 														<i class="fa fa-fw fa-openid"></i>
 														<label>{{dataItem.employeeId||'-'}}</label>
 					                                </p>
+
 					                                <p class="text-center">
 														<i class="fa fa-fw" ng-class="(!dataItem.genderId)?'icon-user':((dataItem.genderId===1)?'icon-user':'icon-user-female')" ></i>
 														<label ng-bind="(!dataItem.genderId)?'-':((dataItem.genderId===1)?'Male':'Female')"></label>
@@ -174,29 +178,39 @@
 					                                <p class="text-center">
 														<i class="fa fa-fw fa-map-marker"></i>
 														<label>{{dataItem.allottedBlockName||'-'}}</label>
-					                                </p>	
+					                                </p>
+
 					                                <p class="text-center">
 														<i class="fa fa-fw fa-calendar"></i>
 														<label>{{dataItem.dateOfJoining||'-'}}</label>
-					                                </p>					                                
+					                                </p>
+
 					                            </div>
+
 					                            <div class="footer">
-					                                <button class="btn btn-simple back-button">
+
+													<button class="btn btn-simple back-button">
 					                                    <i class="fa fa-mail-forward"></i>
 					                                </button>
+
 					                                <a class="btn btn-simple" ui-sref="admin.profile({id: dataItem.id, mode: 'view'})">
 					                                    <i class="fa fa-eye font-middle-icons"></i>
 					                                </a>
-					                                <a class="btn btn-simple" ui-sref="admin.profile({id: dataItem.id, mode: 'edit'})">
+
+					                                <a ng-show="!sessionConfig.loggedInAs" class="btn btn-simple" ui-sref="admin.profile({id: dataItem.id, mode: 'edit'})">
 					                                    <i class="fa fa-edit font-middle-icons"></i>
 					                                </a>
-					                                <button class="btn btn-simple" ng-click="UnLock(dataItem.id)">
+
+					                                <button ng-show="!sessionConfig.loggedInAs" class="btn btn-simple" ng-click="UnLock(dataItem.id)">
 					                                    <i class="fa font-middle-icons" ng-class="dataItem.IsLocked?'fa-unlock':' fa-lock'"></i>
 					                                </button>
-					                                <button class="btn btn-simple"  ng-click="deleteUser(dataItem.id)">
+
+					                                <button ng-show="!sessionConfig.loggedInAs" class="btn btn-simple"  ng-click="deleteUser(dataItem.id)">
 					                                    <i class="fa fa-times"></i>
-					                                </button>					                                
+					                                </button>
+
 					                            </div>
+
 					                        </div>
 					                    </div> <!-- end front panel -->
 					                    <div class="back">
@@ -234,7 +248,7 @@
 				                                    <i class="fa fa-mail-reply"></i>
 				                                </button>
 												<div class="social-links text-center">
-				                                	<a href="javascript:void(0);" ng-click="ResetPasswordByAdmin(dataItem.id)">
+				                                	<a ng-show="!sessionConfig.loggedInAs" href="javascript:void(0);" ng-click="ResetPasswordByAdmin(dataItem.id)">
 				                                		<i class="fa fa-fw icon-key"></i>
 				                                	</a>												
 				                                	<a ng-if="dataItem.skypeName"  ng-href="{{'skype:'+dataItem.skypeName+'?userinfo'}}">

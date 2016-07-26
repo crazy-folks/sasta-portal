@@ -240,6 +240,7 @@ app.controller('DeviationReportController',['$http','$window','$scope','$rootSco
 			  "userId":  (($scope.selectedusers)?$scope.selectedusers.join(','):null),				  
 			};
 			$scope.grid.dataSource.read();
+			$scope.grid.dataSource.page(1);
 		}
 
 	    $scope.gridOptions = {

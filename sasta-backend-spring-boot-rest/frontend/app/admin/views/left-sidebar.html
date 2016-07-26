@@ -68,7 +68,7 @@
                    </a>
                 </li>
                 <li ng-show="sessionConfig.loggedInAs"  ui-sref-active="active">
-                    <a href="javascript:;" ui-sref="admin.calenders({mode: 'list'})" title="Calender">Calender
+                    <a href="javascript:;" ui-sref="admin.calendars({mode: 'list'})" title="Calendar">Calendar
                     </a>
                 </li>
                 <li ng-show="sessionConfig.loggedInAs"  ui-sref-active="active">
@@ -161,45 +161,53 @@
             </ul>            
         </li>
         <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)" class="nav-dropdown" ng-class="{active: $state.includes('reports')}">
-            <a ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  href="" title="mail">
+            <a ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  href="" title="Reports">
                 <i class="fa  fa-fw fa-bar-chart-o"></i> Reports
             </a>
             <ul ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  class="nav-sub">
+
+                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="reports.vrpdetails" title="VRP Details Reports">
+                        VRP Details
+                    </a>
+                </li>
+
+                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="reports.mgnregaworks" title="MGNREGA Works Reports">
+                        MGNREGA Works
+                    </a>
+                </li>
+
                 <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
                     <a href="javascript:;" ui-sref="reports.expenditurereports" title="Expenditure Reports">
                         Expenditures
                     </a>
-                </li> 
+                </li>
+
+                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="reports.specialgramasabhareports" title="Special Grama Sabha Reports">
+                        Special Grama Sabha
+                    </a>
+                </li>
+
+                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="reports.misappropriationsreports" title="Misappropriation Reports">
+                        Misappropriation
+                    </a>
+                </li>
+
+                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="reports.deviationsreports" title="Deviations Reports">
+                        Deviations
+                    </a>
+                </li>
+
                 <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
                     <a href="javascript:;" ui-sref="reports.grievancesreports" title="Grievances Reports">
                         Grievances
                     </a>
                 </li>
-                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
-                    <a href="javascript:;" ui-sref="reports.deviationsreports" title="Deviations Reports">
-                        Deviations
-                    </a>
-                </li> 
-                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
-                    <a href="javascript:;" ui-sref="reports.misappropriationsreports" title="Misappropriation Reports">
-                        Misappropriation 
-                    </a>
-                </li> 
-                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
-                    <a href="javascript:;" ui-sref="reports.specialgramasabhareports" title="Special Grama Sabha Reports">
-                        Special Grama Sabha
-                    </a>
-                </li> 
-                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
-                    <a href="javascript:;" ui-sref="reports.mgnregaworks" title="MGNREGA Works Reports">
-                        MGNREGA Works
-                    </a>
-                </li> 
-                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
-                    <a href="javascript:;" ui-sref="reports.vrpdetails" title="VRP Details Reports">
-                        VRP Details
-                    </a>
-                </li> 
+
                 <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
                     <a href="javascript:;" ui-sref="reports.recoveryreports" title="Recovery Reports">
                         Recovery Reports
@@ -207,14 +215,14 @@
                 </li>                 
             </ul>           
         </li>       
-        <li ng-show="sessionConfig.loggedInAs"  class="nav-dropdown" ng-class="{active: $state.includes('mail')}">
-            <a ng-show="sessionConfig.loggedInAs"  href="" title="mail">
-                <i class="fa fa-fw fa-cogs"></i> Theme Manager
+        <li ng-show="sessionConfig.loggedInAs"  class="nav-dropdown" ng-class="{active: $state.includes('settings')}">
+            <a ng-show="sessionConfig.loggedInAs"  href="javascript:;" title="Settings">
+                <i class="fa fa-fw fa-cogs"></i> Settings
             </a>
-            <ul ng-show="sessionConfig.loggedInAs"  class="nav-sub" ng-class="{in: $state.includes('ui')}">
+            <ul ng-show="sessionConfig.loggedInAs"  class="nav-sub" ng-class="{in: $state.includes('pageconfig')}">
                 <li ng-show="sessionConfig.loggedInAs" ui-sref-active="active">
-                    <a href="" title="Tables">
-                        Manage Theme
+                    <a href="javascript:;" ui-sref="settings.pageconfig"  title="Page Settings">
+                        Page Settings
                     </a>
                 </li>                
             </ul>             

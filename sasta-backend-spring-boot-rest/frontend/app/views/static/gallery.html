@@ -13,13 +13,13 @@
         <div class="unit-lg-4 unit-sm-4 unit-md-4 unit-xs-12 gallery-holder gallery-list-bx">
             <div class="gallery-lt-inr">
                 <div class="bs-example">
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
+                    <div class="panel-group" >
+                        <div class="panel panel-default" ng-toggle-class="in">
                             <div class="panel-heading">
                                 <h4 class="panel-title"><a data-toggle="collapse" href="javascript:void(0)">Financial
                                     Year</a></h4>
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-collapse collapse in">
                                 <ul class="panel-body">
                                     <li ng-repeat="item in fy">
                                         <label>
@@ -34,12 +34,12 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="panel panel-default">
+                        <div class="panel panel-default"  ng-toggle-class="in">
                             <div class="panel-heading">
                                 <h4 class="panel-title"><a data-toggle="collapse" href="javascript:void(0)">Round</a>
                                 </h4>
                             </div>
-                            <div id="collapseTwo" class="panel-collapse collapse in">
+                            <div class="panel-collapse collapse in">
                                 <ul class="panel-body">
                                     <li ng-repeat="it in rounds">
                                         <label>

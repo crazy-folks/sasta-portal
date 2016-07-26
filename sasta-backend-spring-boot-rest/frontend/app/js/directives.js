@@ -749,15 +749,39 @@ function loadingWidget(requestNotification) {
     };
 }
 
-function back($window) {
+/**
+ *  bind html
+ * @returns {{restrict: string, link: Function}}
+ */
+function translate() {
     return {
-        restrict: "EAC",
-        link: function(scope, element, attrs) {
-            element.on('click', function() {
-                $window.history.back();
+        restrict: 'EAC',
+        link: function (scope, element, attr) {
+            scope.$watch(attr.ngBindHtml,function(newValue,oldValue){
+                //check new value to be what you expect.
+                if (newValue){
+                    // your code goes here
+                    element.show();
+                }else{
+                    element.hide();
+                }
             });
         }
     };
+}
+
+function ngToggleClass() {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            var classes = attr.ngToggleClass.split(',');
+            element.bind('click', function () {
+                angular.forEach(classes, function (value) {
+                    (element.find('.panel-collapse').hasClass(value)) ? element.find('.panel-collapse').removeClass(value) : element.find('.panel-collapse').addClass(value);
+                });
+            });
+        }
+    }
 }
 
 /*
@@ -799,7 +823,9 @@ angular
     .directive('boxSlider',boxSlider)
     .directive('keydown',keydown)
     .directive('loadingWidget',loadingWidget)
-    .directive('back',back)
+    .directive('translate',translate)
+    .directive('ngToggleClass',ngToggleClass)
+
 
 /**
  * NSF - Responsive Admin Theme

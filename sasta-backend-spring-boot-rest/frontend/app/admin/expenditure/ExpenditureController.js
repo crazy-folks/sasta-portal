@@ -492,11 +492,11 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 	    function GetAudit(id,type){
 	    	var deffered = jQuery.Deferred();
 	    	expenditurefactory.getAudit(id).success(function(result){
-		    		$scope.expenditure.auditId= result.data.auditId;
-		    		$scope.expenditure.roundId =result.data.roundId;
-			    	$scope.expenditure.auditDistrictId =result.data.auditDistrictId;
-			    	$scope.expenditure.blockId =result.data.auditBlockId;
-			    	$scope.expenditure.vpId =result.data.villagePanchayatId;
+		    		$scope.expenditure.auditId = result.data.auditId;
+		    		$scope.expenditure.roundId = result.data.roundId;
+			    	$scope.expenditure.auditDistrictId = result.data.auditDistrictId;
+			    	$scope.expenditure.blockId = result.data.auditBlockId;
+			    	$scope.expenditure.vpId = result.data.villagePanchayatId;
 		  		return deffered.resolve('Ok');
 			}).error(function(error,status){
 	  			notify({
@@ -559,10 +559,17 @@ app.controller('ExpenditureController',['$http','$window','$scope','$rootScope',
 			})
 		}
 
-		//GetLookupValues(13); 
-		//GetLookupValues(2); 
-		//GetLookupValues(1); 
-		//GetLookupValues(14); 
+		$scope.OnBack = function(){
+			$state.go('entries.audit',
+			{
+				fyid: $location.search().fyid||null,
+				round: $location.search().round||null,
+				districtId: $location.search().districtId||null,
+				blockId: $location.search().blockId||null,
+				villageId: $location.search().villageId||null,
+				userId: $location.search().userId||null
+			});
+		}
 }]);
 
 app.factory('expenditurefactory',function($http,$q,$rootScope){
