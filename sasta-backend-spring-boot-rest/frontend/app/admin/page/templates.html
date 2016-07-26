@@ -1,0 +1,84 @@
+<div class="pageheader">
+    <h1 ng-bind="pageTitle"></h1>
+    <div class="breadcrumb-wrapper hidden-xs">
+        <span class="label">You are here:</span>
+        <ol class="breadcrumb">
+            <li><a ui-sref="admin.home">Dashboard</a>
+            </li>
+            <li>Page Configuration</li>
+            <li class="active" ng-bind="pageTitle"></li>
+        </ol>
+    </div>
+</div>
+<section id="main-content" class="animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <!--button start-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" ng-bind="pageTitle"></h3>
+                            <div class="actions pull-right">
+                                <i data-fullscreen-widget class="fa fa-expand"></i>
+                                <i data-widget-toggle class="fa fa-chevron-down"></i>
+                                <i data-widget-close class="fa fa-times"></i>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form class="form-horizontal" name="frmAddPageConfig" id="frmAddPageConfig">
+                                <div class="form-group  no-margin">
+                                    <label for="txtname" class="label-adjust">Name</label>
+                                    <input type="text" class="k-input width-95  validate[required]" id="txtname"
+                                           name="txtname" data-ng-model="defaultOptions.name"ng-maxlength="100"/>
+                                </div>
+                                <div class="form-group  no-margin">
+                                        <label for="txtlabelName" class="label-adjust">Label</label>
+                                        <input type="text" class="k-input width-95  validate[required]"
+                                               id="txtlabelName" name="txtlabelName"
+                                               data-ng-model="defaultOptions.label" ng-maxlength="100"/>
+                                </div>
+                                <div class="form-group  no-margin">
+                                    <label for="txtvalue" class="label-adjust">Value</label>
+                                    <textarea name="txtvalue" id="txtvalue"  kendo-editor="valueEditor" ng-model="defaultOptions.value" k-encoded="false"></textarea>
+                                </div>
+                                <div class="form-group  no-margin">
+                                    <label for="txtvalue" class="label-adjust">Allow Edit</label>
+                                    <input type="checkbox" data-ng-model="defaultOptions.allowEdit" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row no-padding auto-margin">
+                                <div class="row no-padding auto-margin">
+                                    <div class="dialog-buttons dialog-footer text-right">
+                                        <button type="button" ng-click="doReset()" class="btn btn-danger btn-sm">Cancel</button>
+                                        <button type="button" ng-click="(mode === 1)? addPageConfig():UpdatePageConfig()" class="btn btn-success btn-sm">&#160;Submit&#160;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel panel-default">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default">
+                                            <div kendo-grid="grid" k-options="gridOptions">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--button end-->
+        </div>
+    </div>
+</section>
+
+<script id="toggle-template" type="text/x-kendo-template">
+    <input type="button" class="k-button" ng-click="EditData(dataItem)" value="Edit" />
+    <input type="button" class="k-button" ng-click="OnDisableEdit(dataItem)" value="Disable Edit" />
+</script>

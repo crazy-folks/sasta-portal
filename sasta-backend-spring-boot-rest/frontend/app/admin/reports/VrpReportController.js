@@ -238,6 +238,7 @@ app.controller('VrpReportController',['$http','$window','$scope','$rootScope','n
 			  "userId":  (($scope.selectedusers)?$scope.selectedusers.join(','):null),				  
 			};
 			$scope.grid.dataSource.read();
+			$scope.grid.dataSource.page(1);
 		}
 
 

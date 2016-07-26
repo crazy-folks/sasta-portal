@@ -239,6 +239,7 @@ app.controller('ExpenditureReportController',['$http','$window','$scope','$rootS
 			  "userId":  (($scope.selectedusers)?$scope.selectedusers.join(','):null),				  
 			};
 			$scope.grid.dataSource.read();
+			$scope.grid.dataSource.page(1);
 		}
 
 

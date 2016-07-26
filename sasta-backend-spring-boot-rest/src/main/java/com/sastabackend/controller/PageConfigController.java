@@ -1,8 +1,8 @@
 package com.sastabackend.controller;
 
-import com.sastabackend.domain.ConfigSystem;
+import com.sastabackend.domain.PageConfig;
 import com.sastabackend.domain.ResponseModel;
-import com.sastabackend.service.common.CommonServiceImpl;
+import com.sastabackend.service.page.PageServiceImpl;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,39 +11,39 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 
 /**
- * Created by SARVA on 13/Nov/2015.
+ * Created by Sarvaratchagan on 7/20/2016.
  */
 @RestController
-@RequestMapping("/api/configsystem")
-public class ConfigSystemController {
+@RequestMapping("/api/pageconfig")
+public class PageConfigController {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BankController.class);
-    private final CommonServiceImpl configsystemService;
+    private final PageServiceImpl pageconfigService;
 
     @Inject
-    public ConfigSystemController(final CommonServiceImpl configsystemService) {
-        this.configsystemService = configsystemService;
+    public PageConfigController(final PageServiceImpl pageconfigService) {
+        this.pageconfigService = pageconfigService;
     }
 
     @ApiOperation(value = "Create Config System", response = ResponseModel.class, httpMethod = "POST")
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseModel Create(@ModelAttribute final ConfigSystem config)  {
-        return configsystemService.Add(config);
+    public ResponseModel Create(@RequestBody final PageConfig config)  {
+        return pageconfigService.Add(config);
     }
 
     @ApiOperation(value = "Update Config System", response = ResponseModel.class, httpMethod = "POST")
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseModel Update(@ModelAttribute final  ConfigSystem config) {
-        return configsystemService.Update(config);
+    public ResponseModel Update(@RequestBody final  PageConfig config) {
+        return pageconfigService.Update(config);
     }
 
     @ApiOperation(value = "Read Config System List", response = ResponseModel.class, httpMethod = "GET")
     @RequestMapping(value = "/getlist", method = RequestMethod.GET)
     public ResponseModel getList() {
-        return configsystemService.Select();
+        return pageconfigService.Select();
     }
 
 

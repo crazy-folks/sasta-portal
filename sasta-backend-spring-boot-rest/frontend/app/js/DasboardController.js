@@ -303,37 +303,39 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
                             additional : []
                         });
                     });
-
+                    var validValue = function(value){
+                        return value>0 ? value : 0;
+                    }
                     var addAmount = function(target,source,key){
-                        target[0][key].push(source.multipleJcIssuedWorkersAmt);
-                        target[1][key].push(source.wagedToDeadAmt);
-                        target[2][key].push(source.wagesNonExistentAmt);
-                        target[3][key].push(source.wagesMigratedAmt);
-                        target[4][key].push(source.doubleWagesAmt);
-                        target[5][key].push(source.wagesPaidToNotWorkedAmt);
-                        target[6][key].push(source.doubleWagesWSFAmt);
-                        target[7][key].push(source.wagesPaidSameAccAmt);
-                        target[8][key].push(source.inclusionBogousFTOAmt);
-                        target[9][key].push(source.missingTanksEriAmt);
-                        target[10][key].push(source.missingCanalAmt);
-                        target[11][key].push(source.missingRoadsAmt);
-                        target[12][key].push(source.missingPlantationsAmt);
-                        target[13][key].push(source.missingIHHLSAmt);
-                        target[14][key].push(source.missingFarmPondAmt);
-                        target[15][key].push(source.missingCattleShedAmt);
-                        target[16][key].push(source.missingGoatShedAmt);
-                        target[17][key].push(source.missingPoultryAmt);
-                        target[18][key].push(source.amountDrawnSameWorkAmt);
-                        target[19][key].push(source.machineryUsedAmt);
-                        target[20][key].push(source.workDoneByContractorsAmt);
-                        target[21][key].push(source.wagesCreditedWrongAccountsAmt);
-                        target[22][key].push(source.missingMgnregaComponentIAYAmt);
-                        target[23][key].push(source.missingMgnregaComponentGHAmt);
-                        target[24][key].push(source.misappropriationByVPTPresidentAmt);
-                        target[25][key].push(source.misappropriationByVPTSecretoryAmt);
-                        target[26][key].push(source.wagesDisbursedPrevConstructedIHHLSAmt);
-                        target[27][key].push(source.bogusEntriesFTOCorretingFluidAmt);
-                        target[28][key].push(source.wagesDrawnMoreThanActualWorkingDayAmt);
+                        target[0][key].push(validValue(source.multipleJcIssuedWorkersAmt));
+                        target[1][key].push(validValue(source.wagedToDeadAmt));
+                        target[2][key].push(validValue(source.wagesNonExistentAmt));
+                        target[3][key].push(validValue(source.wagesMigratedAmt));
+                        target[4][key].push(validValue(source.doubleWagesAmt));
+                        target[5][key].push(validValue(source.wagesPaidToNotWorkedAmt));
+                        target[6][key].push(validValue(source.doubleWagesWSFAmt));
+                        target[7][key].push(validValue(source.wagesPaidSameAccAmt));
+                        target[8][key].push(validValue(source.inclusionBogousFTOAmt));
+                        target[9][key].push(validValue(source.missingTanksEriAmt));
+                        target[10][key].push(validValue(source.missingCanalAmt));
+                        target[11][key].push(validValue(source.missingRoadsAmt));
+                        target[12][key].push(validValue(source.missingPlantationsAmt));
+                        target[13][key].push(validValue(source.missingIHHLSAmt));
+                        target[14][key].push(validValue(source.missingFarmPondAmt));
+                        target[15][key].push(validValue(source.missingCattleShedAmt));
+                        target[16][key].push(validValue(source.missingGoatShedAmt));
+                        target[17][key].push(validValue(source.missingPoultryAmt));
+                        target[18][key].push(validValue(source.amountDrawnSameWorkAmt));
+                        target[19][key].push(validValue(source.machineryUsedAmt));
+                        target[20][key].push(validValue(source.workDoneByContractorsAmt));
+                        target[21][key].push(validValue(source.wagesCreditedWrongAccountsAmt));
+                        target[22][key].push(validValue(source.missingMgnregaComponentIAYAmt));
+                        target[23][key].push(validValue(source.missingMgnregaComponentGHAmt));
+                        target[24][key].push(validValue(source.misappropriationByVPTPresidentAmt));
+                        target[25][key].push(validValue(source.misappropriationByVPTSecretoryAmt));
+                        target[26][key].push(validValue(source.wagesDisbursedPrevConstructedIHHLSAmt));
+                        target[27][key].push(validValue(source.bogusEntriesFTOCorretingFluidAmt));
+                        target[28][key].push(validValue(source.wagesDrawnMoreThanActualWorkingDayAmt));
                     }
 
                     var addNo = function(target,source,key){
@@ -575,9 +577,10 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 
         var drawing = kendo.drawing;
         var geometry = kendo.geometry;
-        $scope.chartInstance = null;
+        var chartInstance = null;
 
         function createChart(s,c,chartTitle,chartType,tmpl) {
+            console.log(s);
             var templ = "#= series.name # : #= kendo.format('{0:N0}', value) #";
             tmpl = tmpl || false;
             if(tmpl){
@@ -607,7 +610,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
                     return name + " : " + value + (additional?("("+kendo.format('{0:N0}', additional)+")"):"");
                 }
             }
-            $scope.chartInstance = $("#chart").kendoChart({
+            chartInstance = $("#chart").kendoChart({
             	dataSource : s,
             	theme: "Material",//BlueOpal
                 title: {
@@ -683,7 +686,7 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
 	              sharedTemplate: $("#sharedTemplate").html()
 	            }*/
             }).data('kendoChart');
-			enableLegend(chart);
+			// enableLegend();
         }
 
       	function setTotalLabel(chart, toggledSeriesIndex) {
@@ -806,23 +809,23 @@ app.controller('DasboardController',['$http','$window','$scope','$rootScope','no
             return group;
         }
 
-		function enableLegend (chart){
+		function enableLegend (){
 
-			for(i=0; i <  $scope.chartInstance._sourceSeries.length; i++) {
+			for(i=0; i <  chartInstance._sourceSeries.length; i++) {
 				if(i !== 0){
-                    $scope.chartInstance._sourceSeries[i].visible = false;
+                    chartInstance._sourceSeries[i].visible = false;
 				}
 			}
             $scope.disableAll = true;
-            $scope.chartInstance.redraw();
+            chartInstance.redraw();
 		}
 
         $scope.redrawLegends = function(flag){
-            for(i=0; i <  $scope.chartInstance._sourceSeries.length; i++) {
-                    $scope.chartInstance._sourceSeries[i].visible = flag;
+            for(i=0; i <  chartInstance._sourceSeries.length; i++) {
+                    chartInstance._sourceSeries[i].visible = flag;
             }
             $scope.disableAll = flag;
-            $scope.chartInstance.redraw();
+            chartInstance.redraw();
         }
 }]);
 

@@ -238,6 +238,7 @@ app.controller('mgnregaReportController',['$http','$window','$scope','$rootScope
 			  "userId":  (($scope.selectedusers)?$scope.selectedusers.join(','):null),				  
 			};
 			$scope.grid.dataSource.read();
+			$scope.grid.dataSource.page(1);
 		}
 
 	    $scope.gridOptions = {

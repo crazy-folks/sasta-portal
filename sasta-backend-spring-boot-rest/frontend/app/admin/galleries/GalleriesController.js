@@ -33,6 +33,7 @@ app.controller('GalleriesController',['$http','$window','$scope','$rootScope','n
         $scope.dfOptions = angular.copy($scope.defaultOptions);
         $scope.mode = 1; // 1 - Add & 2 - Edit
         $scope.file = null; // file upload
+
         function parseOptions(o){
             var option = angular.copy(o);
             delete option.uid;

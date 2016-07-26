@@ -41,7 +41,7 @@ module.exports = function (grunt) {
                 tasks: ['wiredep']
             },
             js: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+                files: ['<%= yeoman.app %>/{,*/}*.js'],
                 tasks: ['newer:jshint:all'],
                 options: {
                     livereload: '<%= connect.options.livereload %>'
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
                 tasks: ['newer:jshint:test', 'karma']
             },
             styles: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
+                files: ['<%= yeoman.app %>/assets/{,*/}*.css'],
                 tasks: ['newer:copy:styles', 'autoprefixer']
             },
             gruntfile: {
@@ -136,7 +136,7 @@ module.exports = function (grunt) {
             all: {
                 src: [
                     'Gruntfile.js',
-                    '<%= yeoman.app %>/scripts/{,*/}*.js'
+                    '<%= yeoman.app %>/{,*/}*.js'
                 ]
             },
             test: {
@@ -192,10 +192,10 @@ module.exports = function (grunt) {
         filerev: {
             dist: {
                 src: [
-                    '<%= yeoman.dist %>/scripts/{,*/}*.js',
-                    '<%= yeoman.dist %>/styles/{,*/}*.css',
+                    '<%= yeoman.dist %>/js/{,*/}*.js',
+                    '<%= yeoman.dist %>/assets/{,*/}*.css',
                     '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    '<%= yeoman.dist %>/styles/fonts/*'
+                    '<%= yeoman.dist %>/assets/fonts/*'
                 ]
             }
         },
@@ -222,7 +222,7 @@ module.exports = function (grunt) {
         // Performs rewrites based on filerev and the useminPrepare configuration
         usemin: {
             html: ['<%= yeoman.dist %>/{,*/}*.html'],
-            css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+            css: ['<%= yeoman.dist %>/assets/{,*/}*.css'],
             options: {
                 assetsDirs: ['<%= yeoman.dist %>','<%= yeoman.dist %>/images']
             }
@@ -237,7 +237,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.dist %>',
-                    src: 'styles/*.css',
+                    src: 'assets/**/*.css',
                     dest: '<%= yeoman.dist %>'
                 }]
             }
@@ -246,9 +246,9 @@ module.exports = function (grunt) {
             build: {
                 files: [{
                     expand: true,
-                    src: '**/**/*.js',
-                    dest: '<%= yeoman.dist %>/js',
-                    cwd: '<%= yeoman.app %>/js'
+                    src: '**/*.js',
+                    dest: '<%= yeoman.dist %>',
+                    cwd: '<%= yeoman.app %>'
                 }]
             },
             options: {

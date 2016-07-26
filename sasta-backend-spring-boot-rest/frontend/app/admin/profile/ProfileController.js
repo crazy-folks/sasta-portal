@@ -108,29 +108,8 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             aboumeTitle : "About Me",
             basicProfileTitle : 'Basic Profile'
         };
+
         $scope.basicProfieValidator = new Validator($scope.basicProfielForm);
-        $scope.KbasicProfileWindowWindowOptions = {
-            content: 'admin/profile/basicprofile.html',
-            title: $scope.modelDialogTitle.basicProfileTitle,
-            width : '90%',
-            iframe: false,
-            draggable: true,
-            modal: true,
-            resizable: true,
-            visible: false,     
-            animation: {
-                close: {
-                    effects: "fade:out"
-                }
-            },
-            open : function() {
-                $($scope.basicProfielForm).validationEngine('attach', {
-                    promptPosition: "topLeft",
-                    scroll: true
-                });         
-                $scope.basicProfieValidator = new Validator($scope.basicProfielForm);
-            }
-        };
 
         $scope.kWindowOptions = {
             content: 'admin/profile/aboutme.html',
@@ -151,6 +130,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
         $scope.OpenAboutMe = function($event){
             $scope.aboutMeWindow.center().open();
         }
+
         $scope.Close = function(){
             $scope.aboutMeWindow.close();
         }
@@ -170,7 +150,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
                         scope:$scope
                     });                    
                     GetProfileInformation();
-                    $scope.Close();
+                    $state.reload();
                 }
             }).error(function(error,status){
                 notify({
@@ -210,8 +190,41 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
              delete $scope.resultBlob;
         };
 
+
+        $scope.OnSelectedGendersValue = function(v){
+            $scope.defaultGenders = v;
+        }
+
+        $scope.OnSelectedEntityGroupsValue = function(v){
+            $scope.defaultEntityGroups = v;
+        }
+
+        $scope.OnSelectedEntityGroupsValue = function(v){
+            $scope.defaultEntityGroups = v;
+        }
+
         $scope.OnSelectedBloodGroupValue = function(defaultBloodGroups){
             $scope.defaultBloodGroups = defaultBloodGroups;
+        }
+
+        $scope.OnSelectedDistrictValue = function(v){
+            $scope.allottedDefaultDistricts = v;
+        }
+
+        $scope.OnSelectedBlockValue = function(v){
+            $scope.allottedDefaultBlocks = v;
+        }
+
+        $scope.OnSelectedRecruitementTypeValue = function(v){
+            $scope.defaultRecruitementType = v;
+        }
+
+        $scope.OnSelectedReportingToValue = function(v){
+            $scope.defaultReportingTo = v;
+        }
+
+        $scope.OnSelectedDepartmentsValue = function(v){
+            $scope.defaultDepartments = v;
         }
 
         $scope.onchange = function($event){
@@ -248,7 +261,7 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
                         scope:$scope
                     });                     
                     GetProfileInformation();
-                    $scope.CloseEditBasicProfile();
+                    $state.reload();
                 }).error(function(error,status){
                     notify({
                         messageTemplate: error,

@@ -1,9 +1,10 @@
-  	var app = angular.module('sastaboard', [
-        'ui.router',
-        'ui.bootstrap',
-        'ngAnimate',
-        'kendo.directives',
-        'ImageCropper',
-        'ngSanitize'
-    ]);
+
+        var app = angular.module('sastaboard', [
+                'ui.router',
+                'ui.bootstrap',
+                'ngAnimate',
+                'kendo.directives',
+                'ImageCropper',
+                'ngSanitize'
+        ]);
 

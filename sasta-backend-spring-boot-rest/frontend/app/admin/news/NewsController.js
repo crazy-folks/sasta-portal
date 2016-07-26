@@ -23,7 +23,7 @@ app.controller('NewsController',['$http','$window','$scope','$rootScope','notify
 			text : "News"
 		},{
 			value : 6,
-			text : "Calender"
+			text : "Calendar"
 		},{
 			value : 7,
 			text : "Circular"

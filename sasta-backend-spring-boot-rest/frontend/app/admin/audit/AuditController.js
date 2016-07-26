@@ -43,7 +43,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		// default selected rounds
 		$scope.defaultvillages = angular.copy($scope.defaultdpOptions);
 
-	    $scope.kaddWindowOptions = {
+		$scope.kaddWindowOptions = {
 	        content: 'admin/audit/add.html',
 	        title: $scope.modelDialogTitle.AddAuditTitle,
 	        iframe: false,
@@ -366,7 +366,16 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    }
 
     	$scope.VrpData = function(data){
-			$state.go('entries.vrp',{aid:data.key});
+			$state.go('entries.vrp',
+			{
+				aid:data.key,
+				fyid: $scope.searchReq.referenceId||null,
+				round: $scope.searchReq.roundId||null,
+				districtId: $scope.searchReq.districtId||null,
+				blockId: $scope.searchReq.blockId||null,
+				villageId: $scope.searchReq.villageId||null,
+				userId: $scope.searchReq.userId||null
+			});
     	}
 
 		$scope.Galleries = function(data){
@@ -374,35 +383,107 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 		}
 
     	$scope.ExpenData = function(data){
-			$state.go('entries.expenditure',{aid:data.key});
+			$state.go('entries.expenditure',
+				{
+					aid:data.key,
+					fyid: $scope.searchReq.referenceId||null,
+					round: $scope.searchReq.roundId||null,
+					districtId: $scope.searchReq.districtId||null,
+					blockId: $scope.searchReq.blockId||null,
+					villageId: $scope.searchReq.villageId||null,
+					userId: $scope.searchReq.userId||null
+				});
     	}
 
     	$scope.DeviationData = function(data){
-			$state.go('entries.deviation',{aid:data.key});
+			$state.go('entries.deviation',
+				{
+					aid:data.key,
+					fyid: $scope.searchReq.referenceId||null,
+					round: $scope.searchReq.roundId||null,
+					districtId: $scope.searchReq.districtId||null,
+					blockId: $scope.searchReq.blockId||null,
+					villageId: $scope.searchReq.villageId||null,
+					userId: $scope.searchReq.userId||null
+				});
     	}
 
     	$scope.GrievanceData = function(data){
-			$state.go('entries.grievance',{aid:data.key});
+			$state.go('entries.grievance',
+				{
+					aid:data.key,
+					fyid: $scope.searchReq.referenceId||null,
+					round: $scope.searchReq.roundId||null,
+					districtId: $scope.searchReq.districtId||null,
+					blockId: $scope.searchReq.blockId||null,
+					villageId: $scope.searchReq.villageId||null,
+					userId: $scope.searchReq.userId||null
+				});
     	}
 
     	$scope.MissappropriationData = function(data){
-			$state.go('entries.misappropriation',{aid:data.key});
+			$state.go('entries.misappropriation',
+				{
+					aid:data.key,
+					fyid: $scope.searchReq.referenceId||null,
+					round: $scope.searchReq.roundId||null,
+					districtId: $scope.searchReq.districtId||null,
+					blockId: $scope.searchReq.blockId||null,
+					villageId: $scope.searchReq.villageId||null,
+					userId: $scope.searchReq.userId||null
+				});
     	}
 
     	$scope.MgnregaData = function(data){
-			$state.go('entries.mgnrega',{aid:data.key});
+			$state.go('entries.mgnrega',
+				{
+					aid:data.key,
+					fyid: $scope.searchReq.referenceId||null,
+					round: $scope.searchReq.roundId||null,
+					districtId: $scope.searchReq.districtId||null,
+					blockId: $scope.searchReq.blockId||null,
+					villageId: $scope.searchReq.villageId||null,
+					userId: $scope.searchReq.userId||null
+				});
     	}
 
     	$scope.HlcommitteeData = function(data){
-			$state.go('entries.hlcommittee',{aid:data.key});
+			$state.go('entries.hlcommittee',
+				{
+					aid:data.key,
+					fyid: $scope.searchReq.referenceId||null,
+					round: $scope.searchReq.roundId||null,
+					districtId: $scope.searchReq.districtId||null,
+					blockId: $scope.searchReq.blockId||null,
+					villageId: $scope.searchReq.villageId||null,
+					userId: $scope.searchReq.userId||null
+				});
     	}
 
     	$scope.sgm = function(data){
-			$state.go('entries.sgm',{aid:data.key});
+			$state.go('entries.sgm',
+				{
+					aid:data.key,
+					fyid: $scope.searchReq.referenceId||null,
+					round: $scope.searchReq.roundId||null,
+					districtId: $scope.searchReq.districtId||null,
+					blockId: $scope.searchReq.blockId||null,
+					villageId: $scope.searchReq.villageId||null,
+					userId: $scope.searchReq.userId||null
+				});
     	}    	
 
     	$scope.recovery = function(data){
-			$state.go('entries.recovery',{aid:data.key});
+			$state.go('entries.recovery',
+				{
+					aid:data.key,
+					fyid: $scope.searchReq.referenceId||null,
+					round: $scope.searchReq.roundId||null,
+					districtId: $scope.searchReq.districtId||null,
+					blockId: $scope.searchReq.blockId||null,
+					villageId: $scope.searchReq.villageId||null,
+					userId: $scope.searchReq.userId||null
+				});
     	}  
 
 	    $scope.EditData = function(data){
@@ -563,6 +644,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 				{ field: "districtName", title : "District"},
 				{ field: "blockName", title : "Block" },
 				{ field: "vpName", title : "VP"},
+				{ field: "createdByName", title : "Created By"},
 				{
 					title : "",
 					width: '30px',
@@ -803,7 +885,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 						$scope.selectedBlocks&&(temp=$scope.selectedBlocks.join(','));
 						$http({
 							method: 'GET',
-							url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.VillagePanchayats+'&where='+temp
+							url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.DistrictsVillagePanchayats+'&where='+temp
 						}).success(function(data, status, headers, config) {
 							if(!$scope.multiSelectddlVps.options.initialLoad)
 								data&&e.success(data);
@@ -883,6 +965,62 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 
 			$scope.grid.dataSource.read();
 		}
+
+		if($location.search().fyid){
+			$scope.selectedFy = ($location.search().fyid.indexOf(',')>-1) ? $location.search().fyid.split(','):[$location.search().fyid];
+		}
+
+		if($location.search().round){
+			$scope.selectedRounds = ($location.search().round.indexOf(',')>-1) ? $location.search().round.split(','):[$location.search().round];
+		}
+
+		if($location.search().districtId){
+			$scope.selectedDistricts = ($location.search().districtId.indexOf(',')>-1) ? $location.search().districtId.split(','):[$location.search().districtId];
+		}
+
+		if($location.search().blockId){
+			$scope.selectedBlocks = ($location.search().blockId.indexOf(',')>-1) ? $location.search().blockId.split(','):[$location.search().blockId];
+		}
+
+		if($location.search().villageId){
+			$scope.selectedVps = ($location.search().villageId.indexOf(',')>-1) ? $location.search().villageId.split(','):[$location.search().villageId];
+		}
+
+		if($location.search().userId){
+			$scope.selectedusers = ($location.search().userId.indexOf(',')>-1) ? $location.search().userId.split(','):[$location.search().userId];
+		}
+
+		$scope.$on("kendoWidgetCreated", function(event, widget){
+			// the event is emitted for every widget; if we have multiple
+			// widgets in this controller, we need to check that the event
+			// is for the one we're interested in.
+			if (widget === $scope.multiSelectddlRounds) {
+				$scope.multiSelectddlRounds.options.initialLoad= false;
+				$scope.multiSelectddlRounds.dataSource.read();
+			}
+
+			if (widget === $scope.multiSelectddlBlocks) {
+				$scope.multiSelectddlBlocks.options.initialLoad= false;
+				$scope.multiSelectddlBlocks.dataSource.read();
+			}
+
+			if (widget === $scope.multiSelectddlVps) {
+				$scope.multiSelectddlVps.options.initialLoad= false;
+				$scope.multiSelectddlVps.dataSource.read();
+			}
+
+			if (widget === $scope.multiSelectddlUsers) {
+				$scope.multiSelectddlUsers.options.initialLoad= false;
+				$scope.multiSelectddlUsers.dataSource.read();
+			}
+
+			if (widget === $scope.grid) {
+				if($location.search().fyid || $location.search().round || $location.search().districtId || $location.search().blockId || $location.search().villageId || $location.search().userId){
+					$scope.doSearch();
+				}
+			}
+
+		});
 
 }]);
 

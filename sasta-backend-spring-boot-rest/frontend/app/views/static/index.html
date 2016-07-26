@@ -102,7 +102,8 @@
 
         <div class="wc-heading"><img src="assets/images/welcome-header.png" alt=""></div>
         <div class="row cfx">
-            <div class="welcome-caption unit-lg-8 unit-sm-8 unit-md-8 unit-xs-12">
+            <div ng-if="pageData" class="welcome-caption unit-lg-8 unit-sm-8 unit-md-8 unit-xs-12" translate ng-bind-html="HOME_PAGE_CONTENT"
+                 ng-init="GetKeyByValue('HOME_PAGE_CONTENT')">
                 <p>Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA) enacted on 5th September, 2005 was
                     the first act to make ‘Social Audit’ mandatory. Social Audit is conducted audit conducted jointly by
                     the Government of the people, especially by those people who are affected by, or are the intended
