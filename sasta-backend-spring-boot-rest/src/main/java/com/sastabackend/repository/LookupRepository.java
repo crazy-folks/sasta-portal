@@ -102,8 +102,9 @@ public class LookupRepository {
             case VillagePanchayats:
                 builder.append("village_panchayats");
                 if(!clause.isEmpty()&& clause != null) {
-                    where.append(" and audit_block_id =".concat(clause));
+                    where.append(" and audit_block_id in(".concat(clause)+")");
                 }
+                orderby.append(" order by text ");
                 break;
             case DistrictsVillagePanchayats:
                 builder = new StringBuilder();
@@ -115,6 +116,7 @@ public class LookupRepository {
                     where.append(" where dis.id in( ".concat(clause));
                     where.append(")");
                 }
+                orderby.append(" order by text ");
                 break;
             case Users:
                 builder = new StringBuilder();
@@ -124,6 +126,7 @@ public class LookupRepository {
                     where.append(" where is_active = 1 and allotted_district in ( ".concat(clause));
                     where.append(")");
                 }
+                orderby.append(" order by text ");
                 break;
             case UserGroups:
                 builder.append("entity_groups");

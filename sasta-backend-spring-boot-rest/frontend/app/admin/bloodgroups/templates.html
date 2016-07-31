@@ -51,9 +51,9 @@
 <script id="toggle-template" type="text/x-kendo-template">
     <div class="icon-settings"  ng-mouseover="showContextMenu($event,grid);">
        <ul>
-            <li><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Blood Group Details</a></li>
-            <li><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Blood Group Details</a></li>
-      </ul>    
+            <li ng-show="sessionConfig.canWrite"><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Blood Group Details</a></li>
+            <li ng-show="sessionConfig.canDelete"><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Blood Group Details</a></li>
+      </ul>
     </div>
 </script>
 

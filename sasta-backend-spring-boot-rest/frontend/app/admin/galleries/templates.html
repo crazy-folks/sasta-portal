@@ -71,6 +71,6 @@
 </section>
 
 <script id="toggle-template" type="text/x-kendo-template">
-    <input type="button" class="k-button" ng-click="EditData(dataItem)" value="Edit" />
-    <input type="button" class="k-button" ng-click="OnDelete(dataItem)" value="Delete" />
+    <input  ng-show="sessionConfig.canWrite" type="button" class="k-button" ng-click="EditData(dataItem)" value="Edit" />
+    <input  ng-show="sessionConfig.canDelete" type="button" class="k-button" ng-click="OnDelete(dataItem)" value="Delete" />
 </script>

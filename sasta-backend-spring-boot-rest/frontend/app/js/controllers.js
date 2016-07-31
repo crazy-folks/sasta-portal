@@ -285,7 +285,8 @@ app.factory('authfactory',function($http,$q,$rootScope){
          return $.ajax({
             method: 'GET',
             url: $rootScope.appConfig.baseUrl+'/user/signin',
-            data : { email: userName, password : password }
+            data : { email: userName, password : password },
+             cache : false
          });
     }
 

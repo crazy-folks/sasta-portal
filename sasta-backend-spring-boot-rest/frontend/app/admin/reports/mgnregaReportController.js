@@ -256,15 +256,15 @@ app.controller('mgnregaReportController',['$http','$window','$scope','$rootScope
 		        		{ field: "districtName", locked: true, groupable:true,width: '130px', title:'District'},
 		        		{ field: "blockName", locked: true, groupable:true,width: '130px', title:'Block'},
 		        		{ field: "vpName", locked: true, groupable:true,width: '130px', title:'Panchayat'},
+						{ field: "totalWorksExecutedDuringFY", groupable:false,width: '150px', title:'Total Works in FY', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "noOfWorksCompleted", groupable:false,width: '150px', title:'No. Completed', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "noOfPendingWorks", groupable:false,width: '150px', title:'No. Pending', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{
 		        			title : "Completed Works",
 		        			headerAttributes : {
 		        				style: "text-align: center;"
 		        			},
 		        			columns:[
-								{ field: "totalWorksExecutedDuringFY", groupable:false,width: '150px', title:'Total Works in FY', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-				        		{ field: "noOfWorksCompleted", groupable:false,width: '150px', title:'No. Completed', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-				        		{ field: "noOfPendingWorks", groupable:false,width: '150px', title:'No. Pending', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 				        		{ field: "unskilledWagesForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Unskilled Wages", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 				        		{ field: "skilledWagesForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Skilled Wages", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 				        		{ field: "materialExpForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Material Exp", aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },

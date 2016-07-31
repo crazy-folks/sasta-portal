@@ -629,7 +629,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 	    $scope.gridOptions = {
 			toolbar: ["excel"],
 			excel: {
-				fileName: "deviations"+new Date().getTime()+".xlsx",
+				fileName: "audit_entries"+new Date().getTime()+".xlsx",
 				proxyURL: "http://demos.telerik.com/kendo-ui/service/export",
 				filterable: true,
 				allPages: true
@@ -651,11 +651,15 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 					template: kendo.template($("#toggle-template").html())
 				}
 			],
-	        pageable: true,
-	        filterable :true,
-	        groupable : true,
-	        pageSize: 30,
-            autosync: true,
+			pageable: true,
+			filterable :true,
+			groupable : true,
+			sortable: true,
+			scrollable: true,
+			columnMenu: true,
+			reorderable: true,
+			resizable: true,
+			pageSize: 30,
 			autoBind : false,
             pageable: {
                 refresh: true,
