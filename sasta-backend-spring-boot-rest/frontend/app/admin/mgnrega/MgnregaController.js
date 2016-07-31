@@ -427,15 +427,15 @@ app.controller('MgnregaController',['$http','$window','$scope','$rootScope','not
 		        		{ field: "districtName", groupable:true,width: '130px', title:'District'},
 		        		{ field: "blockName", groupable:true,width: '130px', title:'Block'},
 		        		{ field: "vpName", groupable:true,width: '130px', title:'Panchayat'},
+						{ field: "totalWorksExecutedDuringFY", groupable:false,width: '150px', title:'Total Works in FY'  },
+						{ field: "noOfWorksCompleted", groupable:false,width: '150px', title:'No. Completed'  },
+						{ field: "noOfPendingWorks", groupable:false,width: '150px', title:'No. Pending'  },
 		        		{
 		        			title : "Completed Works",
 		        			headerAttributes : {
 		        				style: "text-align: center;"
 		        			},
 		        			columns:[
-								{ field: "totalWorksExecutedDuringFY", groupable:false,width: '150px', title:'Total Works in FY'  },
-				        		{ field: "noOfWorksCompleted", groupable:false,width: '150px', title:'No. Completed'  },
-				        		{ field: "noOfPendingWorks", groupable:false,width: '150px', title:'No. Pending'  },
 				        		{ field: "unskilledWagesForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Unskilled Wages" },
 				        		{ field: "skilledWagesForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Skilled Wages" },
 				        		{ field: "materialExpForCompletedWorks",format: '{0:n0}', groupable:false,width: '150px', title : "Material Exp" },

@@ -238,9 +238,15 @@ app.controller('RecoveryController',['$http','$window','$scope','$rootScope','no
                   model.pendingParasAmount = parseFloat(model.pendingParasAmount||0) + Math.abs( parseFloat(item.actualAmount||0) - parseFloat(item.recoveredAmount||0));
                   model.pendingParasCount++;                  
                 }
-            }else if(fullyPaided){
+            }
+            else if(fullyPaided){
               model.setteledParasAmount =  parseFloat(model.setteledParasAmount) + parseFloat(item.recoveredAmount||0);
-              model.setteledParasCount++;                  
+              model.setteledParasCount++;
+                if(item.recoveryType === false && item.paidedType === false){
+                    if((item.actualAmount === item.recoveredAmount)){
+                        model.pendingParasCount++;
+                    }
+                }
             }
             model.parasAmount = parseFloat(model.parasAmount||0) + parseFloat(item.actualAmount||0);
             model.parasCount++;

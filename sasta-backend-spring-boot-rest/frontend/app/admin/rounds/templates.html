@@ -50,8 +50,8 @@
 <script id="toggle-template" type="text/x-kendo-template">
     <div class="icon-settings" ng-mouseover="showContextMenu($event,grid);">
        <ul>
-            <li><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Round</a></li>
-            <li><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Round</a></li>
+            <li  ng-show="sessionConfig.canWrite"><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit Round</a></li>
+            <li  ng-show="sessionConfig.canDelete"><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete Round</a></li>
       </ul>    
     </div>
 </script>

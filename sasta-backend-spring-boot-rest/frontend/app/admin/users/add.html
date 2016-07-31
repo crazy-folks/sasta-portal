@@ -165,7 +165,7 @@
 		        	<div class="col-sm-12 text-right">
 				         <div class="panel panel-default">
 				        	<div class="panel-body">
-					        	<input type="button" class="btn btn-success btn-sm" value="Save" ng-click="CreateUser();"/>
+					        	<input  ng-show="sessionConfig.canWrite" type="button" class="btn btn-success btn-sm" value="Save" ng-click="CreateUser();"/>
 								<input type="button" class="btn btn-danger btn-sm" ng-click="Reset();" value="Reset" /> 
 				        	</div>
 				        </div>       		
