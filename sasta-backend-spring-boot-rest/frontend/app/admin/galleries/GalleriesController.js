@@ -78,37 +78,16 @@ app.controller('GalleriesController',['$http','$window','$scope','$rootScope','n
         }
 
         $scope.addGalleries = function(){
-            $scope.defaultOptions.description = ($scope.defaultOptions.description||'').replace(/<(?:.|\n)*?>/gm, '')
-            var galleries = galleriesFactory.UploadImage(
-                $scope.file,
-                $scope.defaultOptions.typeId,
-                parseInt($location.search().aid,10),
-                $rootScope.sessionConfig.userId,
-                $scope.defaultOptions.description,
-                $scope.defaultOptions.id
-            );
-            galleries.success(function(result){
-                if(result.status){
-                    notify({
-                        messageTemplate: '<span>'+result.data+'</span>',
-                        position: $rootScope.appConfig.notifyConfig.position,
-                        scope:$scope
-                    });
-                    $scope.grid.dataSource.read();
-                }
-            }).error(function(error,status){
-                notify({
-                    messageTemplate: '<span>'+error+'</span>',
-                    position: $rootScope.appConfig.notifyConfig.position,
-                    scope:$scope
-                });
-            }).finally(function(){
-                $scope.doReset();
-            });
-        }
 
-        $scope.UpdateGalleries = function(){
-            if(angular.isObject($scope.file)){
+            if(!$rootScope.sessionConfig.canAdd){
+                notify({
+                    messageTemplate: '<span>'+$rootScope.appConfig.messages.addException+'</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope,
+                    type :'error'
+                });
+                return;
+            }else{
                 $scope.defaultOptions.description = ($scope.defaultOptions.description||'').replace(/<(?:.|\n)*?>/gm, '')
                 var galleries = galleriesFactory.UploadImage(
                     $scope.file,
@@ -136,39 +115,80 @@ app.controller('GalleriesController',['$http','$window','$scope','$rootScope','n
                 }).finally(function(){
                     $scope.doReset();
                 });
+            }
+        }
+
+        $scope.UpdateGalleries = function(){
+            if(!$rootScope.sessionConfig.canModify){
+                notify({
+                    messageTemplate: '<span>'+$rootScope.appConfig.messages.addException+'</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope,
+                    type :'error'
+                });
+                return;
             }else{
-                $scope.defaultOptions.modifiedBy = $rootScope.sessionConfig.userId;
-                $scope.defaultOptions.createdBy = $rootScope.sessionConfig.userId;
-                $scope.defaultOptions.userId = $rootScope.sessionConfig.userId;
-                $scope.defaultOptions.deletedDate = new Date();
-                $scope.defaultOptions.description = ($scope.defaultOptions.description||'').replace(/<(?:.|\n)*?>/gm, '')
-                var response = galleriesFactory.UpdateGalleries($scope.defaultOptions);
-                response.success(function(result){
-                    if(result.status){
+                if(angular.isObject($scope.file)){
+                    $scope.defaultOptions.description = ($scope.defaultOptions.description||'').replace(/<(?:.|\n)*?>/gm, '')
+                    var galleries = galleriesFactory.UploadImage(
+                        $scope.file,
+                        $scope.defaultOptions.typeId,
+                        parseInt($location.search().aid,10),
+                        $rootScope.sessionConfig.userId,
+                        $scope.defaultOptions.description,
+                        $scope.defaultOptions.id
+                    );
+                    galleries.success(function(result){
+                        if(result.status){
+                            notify({
+                                messageTemplate: '<span>'+result.data+'</span>',
+                                position: $rootScope.appConfig.notifyConfig.position,
+                                scope:$scope
+                            });
+                            $scope.grid.dataSource.read();
+                        }
+                    }).error(function(error,status){
                         notify({
-                            messageTemplate: '<span>'+result.data+'</span>',
+                            messageTemplate: '<span>'+error+'</span>',
                             position: $rootScope.appConfig.notifyConfig.position,
                             scope:$scope
                         });
-                        $scope.grid.dataSource.read();
-                    }
-                    else
+                    }).finally(function(){
+                        $scope.doReset();
+                    });
+                }else{
+                    $scope.defaultOptions.modifiedBy = $rootScope.sessionConfig.userId;
+                    $scope.defaultOptions.createdBy = $rootScope.sessionConfig.userId;
+                    $scope.defaultOptions.userId = $rootScope.sessionConfig.userId;
+                    $scope.defaultOptions.deletedDate = new Date();
+                    $scope.defaultOptions.description = ($scope.defaultOptions.description||'').replace(/<(?:.|\n)*?>/gm, '')
+                    var response = galleriesFactory.UpdateGalleries($scope.defaultOptions);
+                    response.success(function(result){
+                        if(result.status){
+                            notify({
+                                messageTemplate: '<span>'+result.data+'</span>',
+                                position: $rootScope.appConfig.notifyConfig.position,
+                                scope:$scope
+                            });
+                            $scope.grid.dataSource.read();
+                        }
+                        else
+                            notify({
+                                messageTemplate: '<span>Unable to update Gallaries!</span>',
+                                position: $rootScope.appConfig.notifyConfig.position,
+                                scope:$scope
+                            });
+                    }).error(function(error,status){
                         notify({
                             messageTemplate: '<span>Unable to update Gallaries!</span>',
                             position: $rootScope.appConfig.notifyConfig.position,
                             scope:$scope
                         });
-                }).error(function(error,status){
-                    notify({
-                        messageTemplate: '<span>Unable to update Gallaries!</span>',
-                        position: $rootScope.appConfig.notifyConfig.position,
-                        scope:$scope
+                    }).finally(function(){
+                        $scope.doReset();
                     });
-                }).finally(function(){
-                    $scope.doReset();
-                });
+                }
             }
-
         }
 
         $scope.doReset = function(){

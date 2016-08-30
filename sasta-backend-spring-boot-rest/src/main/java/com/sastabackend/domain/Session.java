@@ -23,6 +23,7 @@ public class Session {
     private Integer allotted_district;
     private Integer allotted_block;
     private Boolean can_read;
+    private Boolean can_add;
     private Boolean can_write;
     private Boolean can_delete;
     private Boolean district_level_person;
@@ -150,6 +151,14 @@ public class Session {
 
     public void setCanRead(Boolean can_read) {
         this.can_read = can_read;
+    }
+
+    public Boolean getCanAdd() {
+        return this.can_add;
+    }
+
+    public void setCanAdd(Boolean can_add) {
+        this.can_add = can_add;
     }
 
     public Boolean getCanWrite() {

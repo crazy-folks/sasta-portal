@@ -61,57 +61,84 @@ app.controller('MessagesController',['$http','$window','$scope','$rootScope','no
 		}
 
 		$scope.updateMessages = function(argument) {
-			$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '')
-			var response = messageFactory.UpdateMessage($scope.defaultOptions);
-			response.success(function(result){
-				if(result.status){
-			  		notify({
-			            messageTemplate: '<span>'+result.data+'</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });	
-			        $state.go("messages.messagelist",{mode:'list'});
-				}
-			    else
-			  		notify({
-			            messageTemplate: '<span>Unable to update messages!</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });		
-			}).error(function(error,status){
-		  		notify({
-		            messageTemplate: '<span>Unable to update messages!</span>',
-		            position: $rootScope.appConfig.notifyConfig.position,
-		            scope:$scope
-		        });
-	        });			
+			if(!$rootScope.sessionConfig.canWrite){
+				notify({
+					messageTemplate: '<span>'+$rootScope.appConfig.messages.modifyException+'</span>',
+					position: $rootScope.appConfig.notifyConfig.position,
+					scope:$scope,
+					type :'error'
+				});
+				return;
+			}else{
+				$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '')
+				var response = messageFactory.UpdateMessage($scope.defaultOptions);
+				response.success(function(result){
+					if(result.status){
+						notify({
+							messageTemplate: '<span>'+result.data+'</span>',
+							position: $rootScope.appConfig.notifyConfig.position,
+							scope:$scope,
+							type: "success"
+						});
+						$state.go("messages.messagelist",{mode:'list'});
+					}
+					else
+						notify({
+							messageTemplate: '<span>Unable to update messages!</span>',
+							position: $rootScope.appConfig.notifyConfig.position,
+							scope:$scope,
+							type: "error"
+						});
+				}).error(function(error,status){
+					notify({
+						messageTemplate: '<span>Unable to update messages!</span>',
+						position: $rootScope.appConfig.notifyConfig.position,
+						scope:$scope,
+						type: "error"
+					});
+				});
+			}
 		}
 
 		$scope.addMessages = function(){
-			$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '')
-			var response = messageFactory.AddMessage($scope.defaultOptions);
-			response.success(function(result){
-				if(result.status){
-			  		notify({
-			            messageTemplate: '<span>'+result.data+'</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });	
-			        $state.go("messages.messagelist",{mode:'list'});
-				}
-			    else
-			  		notify({
-			            messageTemplate: '<span>Unable to add messages!</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });		
-			}).error(function(error,status){
-		  		notify({
-		            messageTemplate: '<span>Unable to add messages!</span>',
-		            position: $rootScope.appConfig.notifyConfig.position,
-		            scope:$scope
-		        });
-	        });			
+
+			if(!$rootScope.sessionConfig.canAdd){
+				notify({
+					messageTemplate: '<span>'+$rootScope.appConfig.messages.addException+'</span>',
+					position: $rootScope.appConfig.notifyConfig.position,
+					scope:$scope,
+					type :'error'
+				});
+				return;
+			}else{
+				$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '')
+				var response = messageFactory.AddMessage($scope.defaultOptions);
+				response.success(function(result){
+					if(result.status){
+						notify({
+							messageTemplate: '<span>'+result.data+'</span>',
+							position: $rootScope.appConfig.notifyConfig.position,
+							scope:$scope,
+							type : "success"
+						});
+						$state.go("messages.messagelist",{mode:'list'});
+					}
+					else
+						notify({
+							messageTemplate: '<span>Unable to add messages!</span>',
+							position: $rootScope.appConfig.notifyConfig.position,
+							scope:$scope,
+							type : "error"
+						});
+				}).error(function(error,status){
+					notify({
+						messageTemplate: '<span>Unable to add messages!</span>',
+						position: $rootScope.appConfig.notifyConfig.position,
+						scope:$scope,
+						type : "error"
+					});
+				});
+			}
 		}
 
 		$scope.GetMessages = function(){

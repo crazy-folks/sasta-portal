@@ -638,9 +638,9 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 				{ field: "auditId", title:'Audit ID', hidden: true },
 				{field : "financialYear",title:'FY'},
 				{ field: "roundName", title:'Round'},
-				{ field: "gramaSabhaDate", title:'GS Date',template: "#= kendo.toString(kendo.parseDate(new Date(gramaSabhaDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-				{ field: "startDate", title:'St. Date',template: "#= kendo.toString(kendo.parseDate(new Date(startDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
-				{ field: "endDtate", title:'End Date',template: "#= kendo.toString(kendo.parseDate(new Date(endDtate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
+				{ field: "gramaSabhaDate", title:'GS Date',template: "#= kendo.toString(kendo.parseDate(new Date(gramaSabhaDate), 'yyyy-MM-dd'), 'dd/MM/yyyy') #"  },
+				{ field: "startDate", title:'St. Date',template: "#= kendo.toString(kendo.parseDate(new Date(startDate), 'yyyy-MM-dd'), 'dd/MM/yyyy') #"  },
+				{ field: "endDtate", title:'End Date',template: "#= kendo.toString(kendo.parseDate(new Date(endDtate), 'yyyy-MM-dd'), 'dd/MM/yyyy') #"  },
 				{ field: "districtName", title : "District"},
 				{ field: "blockName", title : "Block" },
 				{ field: "vpName", title : "VP"},
@@ -889,7 +889,7 @@ app.controller('AuditController',['$http','$window','$scope','$rootScope','notif
 						$scope.selectedBlocks&&(temp=$scope.selectedBlocks.join(','));
 						$http({
 							method: 'GET',
-							url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.DistrictsVillagePanchayats+'&where='+temp
+							url: $scope.crudServiceBaseUrl + '/lookup/getlookup?id='+$rootScope.appConfig.lookupTypes.VillagePanchayats+'&where='+temp
 						}).success(function(data, status, headers, config) {
 							if(!$scope.multiSelectddlVps.options.initialLoad)
 								data&&e.success(data);

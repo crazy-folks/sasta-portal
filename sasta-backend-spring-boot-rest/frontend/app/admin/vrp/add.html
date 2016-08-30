@@ -104,7 +104,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtTotalDays" class="label-adjust">No. of days worked</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtTotalDays" name="txtTotalDays"
+                            <input  type="number"  min="0" class="k-input width-95 validate[required]" id="txtTotalDays" name="txtTotalDays"
                                    data-ng-model="vrp.totalDays" 
                                   />
                         </div>
@@ -113,7 +113,7 @@
                     <div class="form-group no-margin">
                         <div>
                                 <label for="txtPaidAmount" class="label-adjust">Amount Paid</label> 
-                            <input type="number" class="k-input width-95 validate[required]" id="txtPaidAmount" name="txtPaidAmount"
+                            <input  type="number"  min="0" class="k-input width-95 validate[required]" id="txtPaidAmount" name="txtPaidAmount"
                                    data-ng-model="vrp.paidAmount" 
                                   />
                         </div>

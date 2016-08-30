@@ -399,7 +399,7 @@ app.controller('HLCommitteeController',['$http','$window','$scope','$rootScope',
 	    $scope.gridOptions = {
 	        columns: [ 
 		        		{ field: "auditId", title:'Audit ID', hidden: true, editable : false },
-		        		{ field: "dateOfJointSitting", title:'Date of Joint Sitting',template: "#= kendo.toString(kendo.parseDate(new Date(roundStartDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #"  },
+		        		{ field: "dateOfJointSitting", title:'Date of Joint Sitting',template: "#= kendo.toString(kendo.parseDate(new Date(roundStartDate), 'yyyy-MM-dd'), 'dd/MM/yyyy') #"  },
 		        		{ field: "totalParasCount", title:'Total Paras No' },
 		        		{ field: "totalParasAmt", title:'Total Paras Amount'},
 		        		{ field: "paraSettledDuringDSCount", title : "Paras Settled during GS No"},

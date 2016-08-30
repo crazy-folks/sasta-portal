@@ -209,6 +209,14 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
 
         $scope.OnSelectedDistrictValue = function(v){
             $scope.allottedDefaultDistricts = v;
+            $scope.allottedblocks = [];
+            GetLookupValues($rootScope.appConfig.lookupTypes.Blocks,v.value);
+            setTimeout(function(){
+                $scope.defaultBlocks = {
+                    "value": 0,
+                    "text": "Select"
+                };
+            },1000);
         }
 
         $scope.OnSelectedBlockValue = function(v){
@@ -444,8 +452,8 @@ app.controller('ProfileController',['$http','$window','$scope','$rootScope','not
             });
         }
 
-        function GetLookupValues(type){
-            profilefactory.getLookupValues(type).success(function(result){
+        function GetLookupValues(type,where){
+            profilefactory.getLookupValues(type,where).success(function(result){
 
                 if(result instanceof Array){
                     if(type === 7){ // countries
@@ -523,11 +531,11 @@ app.factory('profilefactory',function($http,$q,$rootScope){
     var service = {};
     var crudServiceBaseUrl = $rootScope.appConfig.baseUrl;
 
-    service.getLookupValues = function(id){
+    service.getLookupValues = function(id,w){
+        w = w || '';
         return $http({
             method : 'GET',
-            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id,
-            cache : false
+            url : crudServiceBaseUrl + '/lookup/getlookup?id='+id + '&where=' + (w ? w : '')
         });
     }
 

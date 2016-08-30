@@ -197,15 +197,15 @@
 					                                    <i class="fa fa-eye font-middle-icons"></i>
 					                                </a>
 
-					                                <a ng-show="!sessionConfig.loggedInAs" class="btn btn-simple" ui-sref="admin.profile({id: dataItem.id, mode: 'edit'})">
+					                                <a ng-show="sessionConfig.loggedInAs" class="btn btn-simple" ui-sref="admin.profile({id: dataItem.id, mode: 'edit'})">
 					                                    <i class="fa fa-edit font-middle-icons"></i>
 					                                </a>
 
-					                                <button ng-show="!sessionConfig.loggedInAs" class="btn btn-simple" ng-click="UnLock(dataItem.id)">
+					                                <button ng-show="sessionConfig.loggedInAs" class="btn btn-simple" ng-click="UnLock(dataItem.id)">
 					                                    <i class="fa font-middle-icons" ng-class="dataItem.IsLocked?'fa-unlock':' fa-lock'"></i>
 					                                </button>
 
-					                                <button ng-show="!sessionConfig.loggedInAs" class="btn btn-simple"  ng-click="deleteUser(dataItem.id)">
+					                                <button ng-show="sessionConfig.loggedInAs" class="btn btn-simple"  ng-click="deleteUser(dataItem.id)">
 					                                    <i class="fa fa-times"></i>
 					                                </button>
 
@@ -248,7 +248,7 @@
 				                                    <i class="fa fa-mail-reply"></i>
 				                                </button>
 												<div class="social-links text-center">
-				                                	<a ng-show="!sessionConfig.loggedInAs" href="javascript:void(0);" ng-click="ResetPasswordByAdmin(dataItem.id)">
+				                                	<a ng-show="sessionConfig.loggedInAs" href="javascript:void(0);" ng-click="ResetPasswordByAdmin(dataItem.id)">
 				                                		<i class="fa fa-fw icon-key"></i>
 				                                	</a>												
 				                                	<a ng-if="dataItem.skypeName"  ng-href="{{'skype:'+dataItem.skypeName+'?userinfo'}}">

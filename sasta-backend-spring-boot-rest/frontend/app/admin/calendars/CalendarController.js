@@ -43,22 +43,42 @@ app.controller('CalendarController',['$http','$window','$scope','$rootScope','no
 
 
         $scope.bindCalenders = function(){
+
+
+            var columnOptions = [
+                { field: "id", title:'Calender ID', hidden: true, editable : false },
+                { field: "title", title:'Title', width:"150px"  },
+                { field: "financialId", title:'Financial Name', width:"150px", editor: fyDropDownEditor }
+            ];
+
+            var cmd = [];
+
+            if($rootScope.sessionConfig.canWrite){
+                cmd.push("edit");
+            }
+
+            if($rootScope.sessionConfig.canDelete){
+                cmd.push("destroy");
+            }
+
+            if(cmd.length>0){
+                columnOptions.push({ command: cmd, title: "&nbsp;", width: "250px" });
+            }
+
+            if($rootScope.sessionConfig.canAdd){
+                columnOptions.push({
+                    title : "&nbsp;",
+                    width: '150px',
+                    template: kendo.template($("#toggle-template").html())
+                });
+            }
+
             $scope.gridOptions = {
-                columns: [
-                    { field: "id", title:'Calender ID', hidden: true, editable : false },
-                    { field: "title", title:'Title', width:"150px"  },
-                    { field: "financialId", title:'Financial Name', width:"150px", editor: fyDropDownEditor },
-                    { command: ["edit", "destroy"], title: "&nbsp;", width: "150px" },
-                    {
-                        title : "&nbsp;",
-                        width: '150px',
-                        template: kendo.template($("#toggle-template").html())
-                    }
-                ],
+                columns: columnOptions,
                 pageable: true,
                 filterable :true,
                 groupable : true,
-                toolbar: ["create"],
+                toolbar: $rootScope.sessionConfig.canAdd ? ["create"] : [],
                 editable: "inline",
                 save: function (e) {
 
@@ -198,24 +218,62 @@ app.controller('CalendarController',['$http','$window','$scope','$rootScope','no
         $scope.AddDetiledCalendars= function (dt) {
             var model = {mode: ((dt.id === null) ? "add" : "edit") };
             (dt.id)&&(model.calendarid = dt.id);
+            if(!dt.id){
+                if(!$rootScope.sessionConfig.canAdd){
+                    notify({
+                        messageTemplate: '<span>'+$rootScope.appConfig.messages.addException+'</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope,
+                        type :'error'
+                    });
+                    return;
+                }
+            }else{
+                if(!$rootScope.sessionConfig.canWrite){
+                    notify({
+                        messageTemplate: '<span>'+$rootScope.appConfig.messages.modifyException+'</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope,
+                        type :'error'
+                    });
+                    return;
+                }
+            }
             $state.go("admin.managecalendars",model);
         }
 
         $scope.manageCalender = function(){
+
+            var columnOptions = [
+                { field: "id", title:'Detailed Calender ID', hidden: true, editable : false },
+                { field: "roundNo", title:'Round No'  },
+                { field: "startDate", title:'Start Date', template :"#=kendo.toString(startDate,'dd-MM-yyyy')#"  },
+                { field: "endDate", title:'End Date' , template :"#=kendo.toString(endDate,'dd-MM-yyyy')#" },
+                { field: "gsDate", title:'GS Date', template :"#=kendo.toString(gsDate,'dd-MM-yyyy')#"  },
+                { field: "remarks", title:'Remarks'  },
+                { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }
+            ];
+
+            var cmd = [];
+
+            if($rootScope.sessionConfig.canWrite){
+                cmd.push("edit");
+            }
+
+            if($rootScope.sessionConfig.canDelete){
+                cmd.push("destroy");
+            }
+
+            if(cmd.length>0){
+                columnOptions.push({ command: cmd, title: "&nbsp;", width: "250px" });
+            }
+
             $scope.gridOptions = {
-                columns: [
-                    { field: "id", title:'Detailed Calender ID', hidden: true, editable : false },
-                    { field: "roundNo", title:'Round No'  },
-                    { field: "startDate", title:'Start Date', template :"#=kendo.toString(startDate,'dd-MM-yyyy')#"  },
-                    { field: "endDate", title:'End Date' , template :"#=kendo.toString(endDate,'dd-MM-yyyy')#" },
-                    { field: "gsDate", title:'GS Date', template :"#=kendo.toString(gsDate,'dd-MM-yyyy')#"  },
-                    { field: "remarks", title:'Remarks'  },
-                    { command: ["edit", "destroy"], title: "&nbsp;", width: "250px" }
-                ],
+                columns: columnOptions,
                 pageable: true,
                 filterable :true,
                 groupable : true,
-                toolbar: ["create"],
+                toolbar: $rootScope.sessionConfig.canAdd ? ["create"] : [],
                 editable: "inline",
                 save: function (e) {
 
