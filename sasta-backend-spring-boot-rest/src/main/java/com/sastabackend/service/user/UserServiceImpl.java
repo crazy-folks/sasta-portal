@@ -852,6 +852,7 @@ public class UserServiceImpl implements UserService {
             o.setAllottedBlock(set.getInt("allotted_block"));
             o.setAllottedDistrict(set.getInt("allotted_district"));
             o.setCanRead(set.getBoolean("can_read"));
+            o.setCanAdd(set.getBoolean("can_add"));
             o.setCanWrite(set.getBoolean("can_modify"));
             o.setCanDelete(set.getBoolean("can_delete"));
             o.setLoggedInAs(set.getBoolean("loggedin_as"));
@@ -920,7 +921,7 @@ public class UserServiceImpl implements UserService {
             o.setLandLineNumber(StringUtils.trimToNull(set.getString("land_line_no")));
             o.setPersonalUrl(StringUtils.trimToNull(set.getString("personal_url")));
             o.setIsLocked(set.getBoolean("is_locked"));
-            o.setDateOfJoining(set.getDate("last_login_date"));
+            o.setLastLoginDate(set.getTimestamp("last_login_date"));
             o.setCreateDate(set.getTimestamp("create_date"));
             o.setModifiedDate(set.getTimestamp("modified_date"));
             o.setCreatedBy(set.getLong("created_by"));

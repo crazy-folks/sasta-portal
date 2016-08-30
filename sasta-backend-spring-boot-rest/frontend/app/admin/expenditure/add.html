@@ -41,7 +41,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtVisitedillageCount" class="label-adjust">No Of Village Panchayats Visited By BRP</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtVisitedillageCount" name="txtVisitedillageCount"
+                            <input type="number" min="0" class="k-input width-95 validate[required]" id="txtVisitedillageCount" name="txtVisitedillageCount"
                                    data-ng-model="expenditure.visitedVillageCount" 
                                   />
                         </div>
@@ -51,7 +51,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtappReceivedCount" class="label-adjust">No Of Applications Received</label>
-                            <input type="number" class="k-input width-95  validate[required]" id="txtappReceivedCount" name="txtappReceivedCount"
+                            <input type="number" min="0"  class="k-input width-95  validate[required]" id="txtappReceivedCount" name="txtappReceivedCount"
                                    data-ng-model="expenditure.appReceivedCount" 
                                   />
                         </div>
@@ -61,7 +61,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtAttnedAppCount" class="label-adjust">No Of Applicants Attended Exam</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtAttenedAppCount" name="txtAttenedAppCount"
+                            <input type="number" min="0"  class="k-input width-95 validate[required]" id="txtAttenedAppCount" name="txtAttenedAppCount"
                                    data-ng-model="expenditure.attendedAppCount"
                                   />
                         </div>
@@ -71,7 +71,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtRefreshmentCharges" class="label-adjust">Refreshment Charges </label>
-                            <input type="number" class="k-input width-95  validate[required]" id="txtRefreshmentCharges" name="txtRefreshmentCharges"
+                            <input type="number" min="0"  class="k-input width-95  validate[required]" id="txtRefreshmentCharges" name="txtRefreshmentCharges"
                                    data-ng-model="expenditure.refreshmentCharges"
                                   />
                         </div>
@@ -81,7 +81,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtSelectedVrpCount" class="label-adjust">No Of  VRP's Selected</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtSelectedVrpCount" name="txtSelectedVrpCount"
+                            <input type="number" min="0"  class="k-input width-95 validate[required]" id="txtSelectedVrpCount" name="txtSelectedVrpCount"
                                    data-ng-model="expenditure.selectedVrpCount" 
                                   />
                         </div>
@@ -91,7 +91,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtPaidAmount" class="label-adjust">Total Amount Paid To VRP's</label>
-                            <input type="number" class="k-input width-95  validate[required]" id="txtPaidAmount" name="txtPaidAmount"
+                            <input type="number" min="0"  class="k-input width-95  validate[required]" id="txtPaidAmount" name="txtPaidAmount"
                             data-ng-model="expenditure.paidedAmount"/>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtPhotographyCharge" class="label-adjust">Photography Charges</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtPhotographyCharge" name="txtPhotographyCharge"
+                            <input type="number" min="0"  class="k-input width-95 validate[required]" id="txtPhotographyCharge" name="txtPhotographyCharge"
                                    data-ng-model="expenditure.photographyCharges" ng-maxlength="50" 
                                   />
                         </div>
@@ -110,7 +110,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtVideoCharges" class="label-adjust">Video Charges</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtVideoCharges" name="txtVideoCharges"
+                            <input type="number" min="0"  class="k-input width-95 validate[required]" id="txtVideoCharges" name="txtVideoCharges"
                                    data-ng-model="expenditure.videosCharges"
                                   />
                         </div>
@@ -120,7 +120,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtppleafLets" class="label-adjust">Publicity, Posters & Leaflets</label>
-                            <input type="number" class="k-input width-95  validate[required]" id="txtppleafLets" name="txtppleafLets"
+                            <input type="number" min="0"  class="k-input width-95  validate[required]" id="txtppleafLets" name="txtppleafLets"
                                    data-ng-model="expenditure.ppleafLets" ng-maxlength="50" 
                                   />
                         </div>
@@ -130,7 +130,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtStationary" class="label-adjust">Stationary</label>
-                            <input type="number" class="k-input width-95 validate[required]" id="txtStationary" name="txtStationary"
+                            <input type="number" min="0"  class="k-input width-95 validate[required]" id="txtStationary" name="txtStationary"
                                    data-ng-model="expenditure.stationary"/>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                     <div class="form-group no-margin">
                         <div>
                             <label for="txtOthers" class="label-adjust">Others</label>
-                            <input type="number" class="k-input width-95  validate[required]" id="txtOthers" name="txtOthers"
+                            <input type="number" min="0"  class="k-input width-95  validate[required]" id="txtOthers" name="txtOthers"
                                    data-ng-model="expenditure.others"/>
                         </div>
                     </div>

@@ -148,35 +148,53 @@
         };
 
         $scope.CreateUser = function(){
-            if($scope.jQueryValidator.doValidate()){
-                 $scope.user.reportingId = $scope.defaultReportingTo.value;
-                $scope.user.recruitmentId = $scope.defaultRecruitementType.value;
-                $scope.user.allottedDistrict = $scope.defaultDistricts.value;
-                $scope.user.allottedBlock = $scope.defaultBlocks.value;
-                $scope.user.genderId = $scope.defaultGenders.value;
-                $scope.user.departmentId = $scope.defaultDepartments.value;
-                $scope.user.stateId = $scope.defaultStates.value;
-                $scope.user.countryId = $scope.defaultCountries.value;
-                $scope.user.userGroupId = $scope.defaultEntityGroups.value;
-                var response = userfactory.AddBasicUserDetails($scope.user);
-                response.success(function(result){
-                    if(result.status){
-                        notify({
-                            messageTemplate: '<span>Successfully created a user!</span>',
-                            position: $rootScope.appConfig.notifyConfig.position,
-                            scope:$scope
-                        });
-                        $scope.Reset();
-                    }else{
-                        notify({
-                            messageTemplate: '<span>'+result.data+'</span>',
-                            position: $rootScope.appConfig.notifyConfig.position,
-                            scope:$scope
-                        });
-                    }
-                }).error(function(error,status){
-                    $scope.$emit("ShowError","Unable to update states!");
+
+            if(!$rootScope.sessionConfig.canAdd){
+                notify({
+                    messageTemplate: '<span>'+$rootScope.appConfig.messages.addException+'</span>',
+                    position: $rootScope.appConfig.notifyConfig.position,
+                    scope:$scope,
+                    type :'error'
                 });
+                return;
+            }else{
+                if($scope.jQueryValidator.doValidate()){
+                    $scope.user.reportingId = $scope.defaultReportingTo.value;
+                    $scope.user.recruitmentId = $scope.defaultRecruitementType.value;
+                    $scope.user.allottedDistrict = $scope.defaultDistricts.value;
+                    $scope.user.allottedBlock = $scope.defaultBlocks.value;
+                    $scope.user.genderId = $scope.defaultGenders.value;
+                    $scope.user.departmentId = $scope.defaultDepartments.value;
+                    $scope.user.stateId = $scope.defaultStates.value;
+                    $scope.user.countryId = $scope.defaultCountries.value;
+                    $scope.user.userGroupId = $scope.defaultEntityGroups.value;
+                    var response = userfactory.AddBasicUserDetails($scope.user);
+                    response.success(function(result){
+                        if(result.status){
+                            notify({
+                                messageTemplate: '<span>Successfully created a user!</span>',
+                                position: $rootScope.appConfig.notifyConfig.position,
+                                scope:$scope,
+                                type : 'success'
+                            });
+                            $scope.Reset();
+                        }else{
+                            notify({
+                                messageTemplate: '<span>'+result.data+'</span>',
+                                position: $rootScope.appConfig.notifyConfig.position,
+                                scope:$scope,
+                                type : 'error'
+                            });
+                        }
+                    }).error(function(error,status){
+                        notify({
+                            messageTemplate: '<span>unable to add user!</span>',
+                            position: $rootScope.appConfig.notifyConfig.position,
+                            scope:$scope,
+                            type : 'error'
+                        });
+                    });
+                }
             }
         };
 

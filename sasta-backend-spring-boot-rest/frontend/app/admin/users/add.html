@@ -1,5 +1,6 @@
- <div class="pageheader">
+<div class="pageheader">
     <h1>Basic User Details</h1>
+
     <div class="breadcrumb-wrapper hidden-xs">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
@@ -12,166 +13,198 @@
 </div>
 
 <section id="main-content" class="animated fadeInRight">
-	<!-- pass in the variable if our form is valid or invalid -->
-	<form name="userForm" id="userForm">
-	    <div class="row">
-	        <div class="col-md-12  col-lg-12">
-	        	<div class="row">
-	        		<div class="col-md-6">
-			              <div class="panel panel-default">
-			                <div class="panel-heading">
-			                    <h3 class="panel-title">Basic Details</h3>
-			                    <div class="actions pull-right">
-			                    <i data-fullscreen-widget class="fa fa-expand"></i>
-			                        <i data-widget-toggle class="fa fa-chevron-down"></i>
-			                        <i data-widget-close class="fa fa-times"></i>
-			                    </div>
-			                </div>
-			                <div class="panel-body">
-		                        <!-- FIRST NAME -->
-		                        <div class="form-group">
-		                            <label>First Name*</label>
-		                            <input type="text" name="firstName" class="k-input width-95 validate[required]" ng-model="user.firstName"/>
-		                        </div>	
+    <!-- pass in the variable if our form is valid or invalid -->
+    <form name="userForm" id="userForm">
+        <div class="row">
+            <div class="col-md-12  col-lg-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Basic Details</h3>
 
-		                        <!-- LAST NAME -->
-		                        <div class="form-group">
-		                            <label>Last Name*</label>
-		                            <input type="text" name="lastName" class="k-input width-95 validate[required]" ng-model="user.lastName"/>
-		                        </div>
+                                <div class="actions pull-right">
+                                    <i data-fullscreen-widget class="fa fa-expand"></i>
+                                    <i data-widget-toggle class="fa fa-chevron-down"></i>
+                                    <i data-widget-close class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <!-- FIRST NAME -->
+                                <div class="form-group">
+                                    <label>First Name*</label>
+                                    <input type="text" name="firstName" class="k-input width-95 validate[required]"
+                                           ng-model="user.firstName"/>
+                                </div>
 
-		                        <!-- SCREEN NAME -->
-		                        <div class="form-group">
-		                            <label>Screen Name*</label>
-		                            <input type="text" name="screenName" class="k-input width-95 validate[required]" ng-model="user.screenName">
-		                        </div>
+                                <!-- LAST NAME -->
+                                <div class="form-group">
+                                    <label>Last Name*</label>
+                                    <input type="text" name="lastName" class="k-input width-95 validate[required]"
+                                           ng-model="user.lastName"/>
+                                </div>
 
-		                        <!-- EMAIL -->
-		                        <div class="form-group">
-		                            <label for="email">Email*</label>
-		                            <input type="email" autocomplete="off" name="email" class="k-input width-95 validate[required,custom[email]]" ng-model="user.email">
-		                        </div>
+                                <!-- SCREEN NAME -->
+                                <div class="form-group">
+                                    <label>Screen Name*</label>
+                                    <input type="text" name="screenName" class="k-input width-95 validate[required]"
+                                           ng-model="user.screenName">
+                                </div>
 
-		                        <!-- EMAIL -->
-		                        <div class="form-group">
-		                            <label>Password*</label>
-		                            <input type="password" autocomplete="off" name="password" class="k-input width-95 validate[required]" ng-model="user.password">
-		                        </div>
-		                        <!-- Gender -->
-	                            <div class="form-group">
-	                            	<label for="selGender">Gender*</label>
-	                                <select class="k-input width-95 validate[required]" name="selGender" ng-model="defaultGenders"  ng-options="obj.text for obj in Genders track by obj.value"  required>
-	                                </select>
-	                            </div>
+                                <!-- EMAIL -->
+                                <div class="form-group">
+                                    <label for="email">Email*</label>
+                                    <input type="email" autocomplete="off" name="email"
+                                           class="k-input width-95 validate[required,custom[email]]"
+                                           ng-model="user.email">
+                                </div>
 
-		                        <!-- STATE -->
-	                            <div class="form-group">
-	                            	<label for="selState">State*</label>
-					                <select name="selState" id="selState" class="k-input width-95 validate[required]" ng-model="defaultStates" ng-options="obj.text for obj in states track by obj.value" >
-					                </select>	                                	
-	                            </div>	
+                                <!-- EMAIL -->
+                                <div class="form-group">
+                                    <label>Password*</label>
+                                    <input type="password" autocomplete="off" name="password"
+                                           class="k-input width-95 validate[required]" ng-model="user.password">
+                                </div>
+                                <!-- Gender -->
+                                <div class="form-group">
+                                    <label for="selGender">Gender*</label>
+                                    <select class="k-input width-95 validate[required]" name="selGender"
+                                            ng-model="defaultGenders"
+                                            ng-options="obj.text for obj in Genders track by obj.value" required>
+                                    </select>
+                                </div>
 
-		                        <!-- COUNTRY -->
-	                            <div class="form-group">
-	                            	<label for="selCountry">Country*</label>
-					                <select name="selCountry" id="selCountry" class="k-input width-95 validate[required]" ng-model="defaultCountries" ng-options="obj.text for obj in countries track by obj.value" >
-					                </select>	                                	
-	                            </div>
+                                <!-- STATE -->
+                                <div class="form-group">
+                                    <label for="selState">State*</label>
+                                    <select name="selState" id="selState" class="k-input width-95 validate[required]"
+                                            ng-model="defaultStates"
+                                            ng-options="obj.text for obj in states track by obj.value">
+                                    </select>
+                                </div>
 
-		                        <!-- JOB TITLE -->
-		                        <div class="form-group">
-		                            <label>Job Title*</label>
-		                            <input type="text" name="jobTitle" class="k-input width-95 validate[required]" ng-model="user.jobTitle">
-		                        </div>
-			                </div>
-			            </div>      			
-	        		</div>
+                                <!-- COUNTRY -->
+                                <div class="form-group">
+                                    <label for="selCountry">Country*</label>
+                                    <select name="selCountry" id="selCountry"
+                                            class="k-input width-95 validate[required]" ng-model="defaultCountries"
+                                            ng-options="obj.text for obj in countries track by obj.value">
+                                    </select>
+                                </div>
 
-	        		<div class="col-md-6">
-			              <div class="panel panel-default">
-			                <div class="panel-heading">
-			                    <h3 class="panel-title">Other Details</h3>
-			                    <div class="actions pull-right">
-			                    <i data-fullscreen-widget class="fa fa-expand"></i>
-			                        <i data-widget-toggle class="fa fa-chevron-down"></i>
-			                        <i data-widget-close class="fa fa-times"></i>
-			                    </div>
-			                </div>
-			                <div class="panel-body">
-		                        <!-- USER GROUP -->
-	                            <div class="form-group">
-	                            	<label for="selUserGroup">User Group*</label>
-					                <select name="selUserGroup" id="selUserGroup" class="k-input width-95 validate[required]" ng-model="defaultEntityGroups" ng-options="obj.text for obj in entityGroups track by obj.value" >
-					                </select>	                                	
-	                            </div>
+                                <!-- JOB TITLE -->
+                                <div class="form-group">
+                                    <label>Job Title*</label>
+                                    <input type="text" name="jobTitle" class="k-input width-95 validate[required]"
+                                           ng-model="user.jobTitle">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-		                        <!-- DATE OF JOINING -->
-		                        <div class="form-group">
-		                            <label for="dateOfJoining">Date Of Joining*</label>
-		                            <input type="text" name="dateOfJoining" class="k-input width-95 validate[required]" ng-model="user.dateOfJoining" datepicker-popup="yyyy-MM-dd" ng-readonly="true" is-open="Opened" ng-click="Opened=true"/>
-		                        </div>
-		                        <!-- TEAM NAME -->
-		                        <div class="form-group">
-		                            <label for="teamName">Team Name*</label>
-		                            <input type="text" name="teamName" class="k-input width-95 validate[required]" ng-model="user.teamName">
-		                        </div>
-		                        <!-- EMPLOYEE ID -->
-		                        <div class="form-group">
-		                            <label for="employeeId">Employee Id*</label>
-		                            <input type="text" name="employeeId" class="k-input width-95 validate[required]" ng-model="user.employeeId">
-		                        </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Other Details</h3>
 
-		                        <!-- DEPARTMENT -->
-	                            <div class="form-group">
-	                            	<label for="selDepartment">Department*</label>
-					                <select name="selDepartment" id="selDepartment" class="k-input width-95 validate[required]" ng-model="defaultDepartments" ng-options="obj.text for obj in departments track by obj.value" >
-					                </select>	                                	
-	                            </div>
+                                <div class="actions pull-right">
+                                    <i data-fullscreen-widget class="fa fa-expand"></i>
+                                    <i data-widget-toggle class="fa fa-chevron-down"></i>
+                                    <i data-widget-close class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <!-- USER GROUP -->
+                                <div class="form-group">
+                                    <label for="selUserGroup">User Group*</label>
+                                    <select name="selUserGroup" id="selUserGroup"
+                                            class="k-input width-95 validate[required]" ng-model="defaultEntityGroups"
+                                            ng-options="obj.text for obj in entityGroups track by obj.value">
+                                    </select>
+                                </div>
 
-		                        <!-- REPORTING TO -->
-	                            <div class="form-group">
-	                            	<label for="selReportingTo">Reporting To</label>
-					                <select name="selReportingTo" id="selReportingTo" class="k-input width-95" ng-model="defaultReportingTo" ng-options="obj.text for obj in reportingto track by obj.value" >
-					                </select>	                                	
-	                            </div>
+                                <!-- DATE OF JOINING -->
+                                <div class="form-group">
+                                    <label for="dateOfJoining">Date Of Joining*</label>
+                                    <input type="text" name="dateOfJoining" class="k-input width-95 validate[required]"
+                                           ng-model="user.dateOfJoining" datepicker-popup="yyyy-MM-dd"
+                                           ng-readonly="true" is-open="Opened" ng-click="Opened=true"/>
+                                </div>
+                                <!-- TEAM NAME -->
+                                <div class="form-group">
+                                    <label for="teamName">Team Name*</label>
+                                    <input type="text" name="teamName" class="k-input width-95 validate[required]"
+                                           ng-model="user.teamName">
+                                </div>
+                                <!-- EMPLOYEE ID -->
+                                <div class="form-group">
+                                    <label for="employeeId">Employee Id*</label>
+                                    <input type="text" name="employeeId" class="k-input width-95 validate[required]"
+                                           ng-model="user.employeeId">
+                                </div>
 
-		                        <!-- ALLOTTED DISTRICT -->
-	                            <div class="form-group">
-	                            	<label for="selAllottedDistrict">Allotted District</label>
-					                <select name="selAllottedDistrict" id="selAllottedDistrict" class="k-input width-95" ng-model="defaultDistricts" ng-options="obj.text for obj in allotteddistricts track by obj.value" >
-					                </select>	                                	
-	                            </div>
+                                <!-- DEPARTMENT -->
+                                <div class="form-group">
+                                    <label for="selDepartment">Department*</label>
+                                    <select name="selDepartment" id="selDepartment"
+                                            class="k-input width-95 validate[required]" ng-model="defaultDepartments"
+                                            ng-options="obj.text for obj in departments track by obj.value">
+                                    </select>
+                                </div>
 
-		                        <!-- ALLOTTED BLOCK -->
-	                            <div class="form-group">
-	                            	<label for="selAllottedBlock">Allotted Block</label>
-					                <select name="selAllottedBlock" id="selAllottedBlock" class="k-input width-95" ng-model="defaultBlocks" ng-options="obj.text for obj in allottedblocks track by obj.value" >
-					                </select>	                                	
-	                            </div>	   
+                                <!-- REPORTING TO -->
+                                <div class="form-group">
+                                    <label for="selReportingTo">Reporting To</label>
+                                    <select name="selReportingTo" id="selReportingTo" class="k-input width-95"
+                                            ng-model="defaultReportingTo"
+                                            ng-options="obj.text for obj in reportingto track by obj.value">
+                                    </select>
+                                </div>
 
-		                        <!-- Recruitement Type -->
-	                            <div class="form-group">
-	                            	<label for="selRecruitementType">Recruitement Type</label>
-					                <select name="selRecruitementType" id="selRecruitementType" class="k-input width-95" ng-model="defaultRecruitementType" ng-options="obj.text for obj in recruitementType track by obj.value" >		                
-					                </select>	                                	
-	                            </div>
-			                </div>
-			            </div>      			
-	        		</div>
-	        	</div>
-	        </div>
-	        <div class="col-md-12  col-lg-12">
-		        <div class="row">
-		        	<div class="col-sm-12 text-right">
-				         <div class="panel panel-default">
-				        	<div class="panel-body">
-					        	<input  ng-show="sessionConfig.canWrite" type="button" class="btn btn-success btn-sm" value="Save" ng-click="CreateUser();"/>
-								<input type="button" class="btn btn-danger btn-sm" ng-click="Reset();" value="Reset" /> 
-				        	</div>
-				        </div>       		
-		        	</div>     	
-		        </div>	       
-	        </div>
-	    </div>
-	</form>    
+                                <!-- ALLOTTED DISTRICT -->
+                                <div class="form-group">
+                                    <label for="selAllottedDistrict">Allotted District</label>
+                                    <select name="selAllottedDistrict" id="selAllottedDistrict" class="k-input width-95"
+                                            ng-model="defaultDistricts"
+                                            ng-options="obj.text for obj in allotteddistricts track by obj.value">
+                                    </select>
+                                </div>
+
+                                <!-- ALLOTTED BLOCK -->
+                                <div class="form-group">
+                                    <label for="selAllottedBlock">Allotted Block</label>
+                                    <select name="selAllottedBlock" id="selAllottedBlock" class="k-input width-95"
+                                            ng-model="defaultBlocks"
+                                            ng-options="obj.text for obj in allottedblocks track by obj.value">
+                                    </select>
+                                </div>
+
+                                <!-- Recruitement Type -->
+                                <div class="form-group">
+                                    <label for="selRecruitementType">Recruitement Type</label>
+                                    <select name="selRecruitementType" id="selRecruitementType" class="k-input width-95"
+                                            ng-model="defaultRecruitementType"
+                                            ng-options="obj.text for obj in recruitementType track by obj.value">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12  col-lg-12">
+                <div class="row">
+                    <div class="col-sm-12 text-right">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <input ng-show="sessionConfig.canWrite" type="button" class="btn btn-success btn-sm"
+                                       value="Save" ng-click="CreateUser();"/>
+                                <input type="button" class="btn btn-danger btn-sm" ng-click="Reset();" value="Reset"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </section>

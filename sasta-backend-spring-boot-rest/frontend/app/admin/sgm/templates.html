@@ -1,5 +1,6 @@
 <div class="pageheader">
     <h1>Audit Special Gram Shaba Entries</h1>
+
     <div class="breadcrumb-wrapper hidden-xs">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
@@ -15,48 +16,52 @@
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <!--button start-->
-                  <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                          <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
                             <h3 class="panel-title">Audit Special Gram Shaba Entries</h3>
+
                             <div class="actions pull-right">
-                            <i data-fullscreen-widget class="fa fa-expand"></i>
+                                <i data-fullscreen-widget class="fa fa-expand"></i>
                                 <i data-widget-toggle class="fa fa-chevron-down"></i>
                                 <i data-widget-close class="fa fa-times"></i>
                             </div>
-                          </div>
-                          <div class="panel-body">
-                          		<div>
-                          			<button type="button" class="btn btn-success btn-sm" ng-click="OpenAuditWindow();">Add</button>
-                                    <a back class="back-btn" data-ng-click="OnBack()">
-                                        <i data-widget-toggle class="fa fa-reply"></i>
-                                        Back to Audit
-                                    </a>
-                          		</div>
-                                <div kendo-grid="grid" k-options="gridOptions">
-                                </div>
-                          </div>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <button  ng-show="sessionConfig.canAdd"   type="button" class="btn btn-success btn-sm" ng-click="OpenAuditWindow();">Add
+                                </button>
+                                <a back class="back-btn" data-ng-click="OnBack()">
+                                    <i data-widget-toggle class="fa fa-reply"></i>
+                                    Back to Audit
+                                </a>
+                            </div>
+                            <div kendo-grid="grid" k-options="gridOptions">
+                            </div>
                         </div>
                     </div>
-                  </div>
+                </div>
+            </div>
             <!--button end-->
         </div>
     </div>
 </section>
 
 <div kendo-window="addAuditWindow" k-options="kaddWindowOptions">
-  
+
 </div>
 
 <div kendo-window="editAuditWindow" k-options="keditWindowOptions">
-  
+
 </div>
 <script id="toggle-template" type="text/x-kendo-template">
     <div class="icon-settings" ng-mouseover="showContextMenu($event,grid);">
-       <ul>
-            <li ng-show="sessionConfig.canWrite"><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit SGM</a></li>
-            <li ng-show="sessionConfig.canDelete"><a href="javascript:void(0)"  ng-click="OnDelete(dataItem)">Delete SGM</a></li>
-      </ul>    
+        <ul>
+            <li ng-show="sessionConfig.canWrite"><a href="javascript:void(0)" ng-click="EditData(dataItem);">Edit
+                SGM</a></li>
+            <li ng-show="sessionConfig.canDelete"><a href="javascript:void(0)" ng-click="OnDelete(dataItem)">Delete
+                SGM</a></li>
+        </ul>
     </div>
 </script>

@@ -68,78 +68,105 @@ function PageConfigController($http,$window,$scope,$rootScope,notify,$location,$
 
 
     $scope.UpdatePageConfig  = function() {
-        var content = ($scope.defaultOptions.value||'').replace(/<(?:.|\n)*?>/gm, '');
-        if(validateContent(content)){
-            $scope.defaultOptions.modifyBy = $rootScope.sessionConfig.userId;
-            var response = $scope.pageconfigfactory.doUpdateData($scope.defaultOptions)
-            response.success(function (result) {
-                var index = result.data.indexOf('Duplicate entry');
-                if (result.status) {
-                    notify({
-                        messageTemplate: '<span>' + result.data + '</span>',
-                        position: $rootScope.appConfig.notifyConfig.position,
-                        scope: $scope
-                    });
-                    $scope.grid.dataSource.read();
-                    $scope.doReset();
-                }
-                else {
-                    var message = "<span>Unable to update page configuration!</span>";
-                    if (index > 0) {
-                        message = "<span>duplicate entries not allowed!</span>";
-                    }
-                    notify({
-                        messageTemplate: message,
-                        position: $rootScope.appConfig.notifyConfig.position,
-                        scope: $scope
-                    });
-                }
 
-            }).error(function (error, status) {
-                notify({
-                    messageTemplate: '<span>Unable to update page configuration!</span>',
-                    position: $rootScope.appConfig.notifyConfig.position,
-                    scope: $scope
-                });
+        if(!$rootScope.sessionConfig.canWrite){
+            notify({
+                messageTemplate: '<span>'+$rootScope.appConfig.messages.modifyException+'</span>',
+                position: $rootScope.appConfig.notifyConfig.position,
+                scope:$scope,
+                type :'error'
             });
-        }
+            return;
+        }else{
+            var content = ($scope.defaultOptions.value||'').replace(/<(?:.|\n)*?>/gm, '');
+            if(validateContent(content)){
+                $scope.defaultOptions.modifyBy = $rootScope.sessionConfig.userId;
+                var response = $scope.pageconfigfactory.doUpdateData($scope.defaultOptions)
+                response.success(function (result) {
+                    var index = result.data.indexOf('Duplicate entry');
+                    if (result.status) {
+                        notify({
+                            messageTemplate: '<span>' + result.data + '</span>',
+                            position: $rootScope.appConfig.notifyConfig.position,
+                            scope: $scope,
+                            type :'success'
+                        });
+                        $scope.grid.dataSource.read();
+                        $scope.doReset();
+                    }
+                    else {
+                        var message = "<span>Unable to update page configuration!</span>";
+                        if (index > 0) {
+                            message = "<span>duplicate entries not allowed!</span>";
+                        }
+                        notify({
+                            messageTemplate: message,
+                            position: $rootScope.appConfig.notifyConfig.position,
+                            scope: $scope,
+                            type :'error'
+                        });
+                    }
 
+                }).error(function (error, status) {
+                    notify({
+                        messageTemplate: '<span>Unable to update page configuration!</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope: $scope,
+                        type :'error'
+                    });
+                });
+            }
+        }
     }
 
     $scope.addPageConfig = function(){
-        var content = ($scope.defaultOptions.value||'').replace(/<(?:.|\n)*?>/gm, '');
-        if(validateContent(content)){
-            var response = $scope.pageconfigfactory.doSubmitData($scope.defaultOptions)
-            response.success(function(result){
-                var index = result.data.indexOf('Duplicate entry');
-                if(result.status){
-                    notify({
-                        messageTemplate: '<span>'+result.data+'</span>',
-                        position: $rootScope.appConfig.notifyConfig.position,
-                        scope:$scope
-                    });
-                    $scope.grid.dataSource.read();
-                    $scope.doReset();
-                }
-                else{
-                    var message = "<span>Unable to add page configuration!</span>";
-                    if(index>0){
-                        message = "<span>duplicate entries not allowed!</span>";
-                    }
-                    notify({
-                        messageTemplate: message,
-                        position: $rootScope.appConfig.notifyConfig.position,
-                        scope:$scope
-                    });
-                }
 
-            }).error(function(error,status){
-                notify({
-                    messageTemplate: '<span>Unable to add page configuration!</span>',
-                    position: $rootScope.appConfig.notifyConfig.position,
-                    scope:$scope
-                });
+        if(!$rootScope.sessionConfig.canAdd){
+            notify({
+                messageTemplate: '<span>'+$rootScope.appConfig.messages.addException+'</span>',
+                position: $rootScope.appConfig.notifyConfig.position,
+                scope:$scope,
+                type :'error'
             });
+            return;
+        }else{
+            var content = ($scope.defaultOptions.value||'').replace(/<(?:.|\n)*?>/gm, '');
+            if(validateContent(content)){
+                var response = $scope.pageconfigfactory.doSubmitData($scope.defaultOptions)
+                response.success(function(result){
+                    var index = result.data.indexOf('Duplicate entry');
+                    if(result.status){
+                        notify({
+                            messageTemplate: '<span>'+result.data+'</span>',
+                            position: $rootScope.appConfig.notifyConfig.position,
+                            scope:$scope,
+                            type :'success'
+                        });
+                        $scope.grid.dataSource.read();
+                        $scope.doReset();
+                    }
+                    else{
+                        var message = "<span>Unable to add page configuration!</span>";
+                        if(index>0){
+                            message = "<span>duplicate entries not allowed!</span>";
+                        }
+                        notify({
+                            messageTemplate: message,
+                            position: $rootScope.appConfig.notifyConfig.position,
+                            scope:$scope,
+                            type :'error'
+                        });
+                    }
+
+                }).error(function(error,status){
+                    notify({
+                        messageTemplate: '<span>Unable to add page configuration!</span>',
+                        position: $rootScope.appConfig.notifyConfig.position,
+                        scope:$scope,
+                        type :'error'
+                    });
+                });
+            }
         }
     }
 
@@ -150,8 +177,8 @@ function PageConfigController($http,$window,$scope,$rootScope,notify,$location,$
             { field: "label", title:'Label',width:'100px'   },
             { field: "createdByName", title:'Created By',width:'100px'   },
             { field: "modifiedByName", title:'Modified By',width:'100px'   },
-            { field: "createdDate", title : "Created Date",width:'60px' , template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-            { field: "modifiedDate", title : "Modified Date",width:'60px', template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
+            { field: "createdDate", title : "Created Date",width:'60px' , template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+            { field: "modifiedDate", title : "Modified Date",width:'60px', template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
             {
                 title : "&nbsp;",
                 width: '60px',

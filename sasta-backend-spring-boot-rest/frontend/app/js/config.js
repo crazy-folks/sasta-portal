@@ -646,7 +646,13 @@ angular.module('sastaboard')
                 deffered.reject([]);
             });
             return deffered.promise;
-        })()
+        })(),
+        messages : {
+            addException :"You don\'t have access to add new entries!",
+            modifyException :"You don\'t have access to modify entries!",
+            deleteException :"You don\'t have access to delete entries!",
+            readException :"You don\'t have access to read entries!"
+        }
     })
     .value("sessionConfig", {})
     .run(['$rootScope', '$state','$templateCache','appConfig','sessionConfig','authfactory','storage','notify',
@@ -710,11 +716,6 @@ angular.module('sastaboard')
             }            
         }
       });
-
-    $rootScope.$on("$includeContentLoaded", function(event, templateName){
-        $rootScope.$emit('UNLOAD');
-    });
-
 }]);
 
 app.factory('noCacheInterceptor', function () {

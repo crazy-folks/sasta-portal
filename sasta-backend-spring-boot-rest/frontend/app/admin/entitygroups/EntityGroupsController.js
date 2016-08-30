@@ -212,8 +212,8 @@ app.controller('EntityGroupsController',['$http','$window','$scope','$rootScope'
 		        		{ field: "modifiedByName", title:'Modified By'  },
 		        		{ field: "createdBy", title : "Created By", hidden : true },
 		        		{ field: "modifiedBy", title : "Modified By", hidden : true },
-		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
-		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'MM/dd/yyyy') #" },
+		        		{ field: "createdDate", title : "Created Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(createdDate), 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
+		        		{ field: "modifiedDate", title : "Modified Date", editable : false, template: "#= kendo.toString(kendo.parseDate(new Date(modifiedDate), 'yyyy-MM-dd'), 'dd/MM/yyyy') #" },
 		        		{
  							title : "",
 		                    width: '30px',

@@ -251,12 +251,16 @@ app.controller('BaseController', ['$window','$scope','$rootScope','storage','not
     $scope.ABOUT_US_CONTENT = "";
 
     $scope.GetKeyByValue = function(key){
-        setTimeout(function(){
+        if(($scope.pageData||[]).length>0){
             if(key === 'HOME_PAGE_CONTENT')
                 $scope.HOME_PAGE_CONTENT = $scope.trustAsHtml(filterFilter($scope.pageData,key,true)[0].value);
             else if(key === 'ABOUT_US_CONTENT')
                 $scope.ABOUT_US_CONTENT = $scope.trustAsHtml(filterFilter($scope.pageData,key,true)[0].value);
-        },100);
+        }else{
+            setTimeout(function(){
+                $scope.GetKeyByValue(key);
+            },2000);
+        }
     }
 
     $scope.GetTop3News();
@@ -357,6 +361,14 @@ app.factory('notify',['$timeout','$http','$compile','$templateCache','$rootScope
             args.templateUrl = args.templateUrl ? args.templateUrl : defaultTemplateUrl;
             args.container = args.container ? args.container : container;
             args.classes = args.classes ? args.classes : '';
+
+            if(args.type === "success"){
+                args.classes = "success";
+            }else if(args.type === "error"){
+                args.classes = "error";
+            }else if(args.type === "warning"){
+                args.classes = "warning";
+            }
 
             var scope = args.scope ? args.scope.$new() : $rootScope.$new();
             scope.$position = args.position ? args.position : position;

@@ -21,7 +21,7 @@
                             <div class="actions pull-right"> <i data-fullscreen-widget class="fa fa-expand"></i> <i data-widget-toggle class="fa fa-chevron-down"></i> <i data-widget-close class="fa fa-times"></i> </div>
                         </div>
                         <div class="panel-body">
-                            <div>
+                            <div ng-show="sessionConfig.canAdd">
                                 <button type="button" class="btn btn-success btn-sm" ng-click="OpenAuditWindow();">Add</button>
                             </div>
                             <div class="row">

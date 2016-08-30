@@ -1,5 +1,6 @@
 <div class="pageheader">
     <h1 ng-bind="pageTitle"></h1>
+
     <div class="breadcrumb-wrapper hidden-xs">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
@@ -15,30 +16,34 @@
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <!--button start-->
-                  <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                          <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
                             <h3 class="panel-title" ng-bind="pageTitle"></h3>
+
                             <div class="actions pull-right">
-                            <i data-fullscreen-widget class="fa fa-expand"></i>
+                                <i data-fullscreen-widget class="fa fa-expand"></i>
                                 <i data-widget-toggle class="fa fa-chevron-down"></i>
                                 <i data-widget-close class="fa fa-times"></i>
                             </div>
-                          </div>
-                          <div class="panel-body">
-                              <div class="panel panel-default"  ng-repeat="newsObject in news" >
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel panel-default" ng-repeat="newsObject in news">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="panel panel-default">
                                             <div class="panel-heading news-panel">
                                                 <h3 class="panel-title" ng-bind="newsObject.title"></h3>
+
                                                 <div class="actions pull-right">
-                                                    <i  ng-show="sessionConfig.canWrite" class="fa icon-note" ng-click="OnEdit(newsObject)"></i>
-                                                    <i  ng-show="sessionConfig.canDelete" class="fa fa-times" ng-click="deleteNews(newsObject)"></i>
+                                                    <i ng-show="sessionConfig.canWrite" class="fa icon-note"
+                                                       ng-click="OnEdit(newsObject)"></i>
+                                                    <i ng-show="sessionConfig.canDelete" class="fa fa-times"
+                                                       ng-click="deleteNews(newsObject)"></i>
                                                 </div>
-                                            </div>  
-                                            <div class="news-banner">                          
+                                            </div>
+                                            <div class="news-banner">
                                                 <div class="col-md-2">
                                                     <img no-cache-src="{{newsObject.imageName}}">
                                                 </div>
@@ -46,19 +51,25 @@
                                                     <div class="col-md-12" ng-bind-html="newsObject.content">
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <div style="float:left;padding: 5px 10px;"> Posted By : <div style="float: right;    padding: 0px 10px;" ng-bind="newsObject.createdByName"></div></div>
-                                                        <div  style="float:left;padding: 5px 10px;"> Posted On : <div style="float: right;    padding: 0px 10px;"  ng-bind="formatDateString(newsObject.createdDate)"></div></div>
+                                                        <div style="float:left;padding: 5px 10px;"> Posted By :
+                                                            <div style="float: right;    padding: 0px 10px;"
+                                                                 ng-bind="newsObject.createdByName"></div>
+                                                        </div>
+                                                        <div style="float:left;padding: 5px 10px;"> Posted On :
+                                                            <div style="float: right;    padding: 0px 10px;"
+                                                                 ng-bind="formatDateString(newsObject.createdDate)"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                     </div>
-                                </div>                         
-                              </div>
-                          </div>                          
+                                </div>
+                            </div>
                         </div>
                     </div>
-                  </div>
+                </div>
+            </div>
             <!--button end-->
         </div>
     </div>

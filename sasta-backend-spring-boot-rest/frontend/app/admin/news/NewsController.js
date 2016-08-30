@@ -105,56 +105,84 @@ app.controller('NewsController',['$http','$window','$scope','$rootScope','notify
 		}
 
 		$scope.addNews = function(){
-			$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '');
-			var response = newsFactory.AddNews($scope.defaultOptions);
-			response.success(function(result){
-				if(result.status){
-			  		notify({
-			            messageTemplate: '<span>'+result.data+'</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });				
-				}
-			    else
-			  		notify({
-			            messageTemplate: '<span>Unable to add news!</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });		
-			}).error(function(error,status){
-		  		notify({
-		            messageTemplate: '<span>Unable to add news!</span>',
-		            position: $rootScope.appConfig.notifyConfig.position,
-		            scope:$scope
-		        });
-	        });	
+
+			if(!$rootScope.sessionConfig.canAdd){
+				notify({
+					messageTemplate: '<span>'+$rootScope.appConfig.messages.addException+'</span>',
+					position: $rootScope.appConfig.notifyConfig.position,
+					scope:$scope,
+					type :'error'
+				});
+				return;
+			}else{
+				$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '');
+				var response = newsFactory.AddNews($scope.defaultOptions);
+				response.success(function(result){
+					if(result.status){
+						notify({
+							messageTemplate: '<span>'+result.data+'</span>',
+							position: $rootScope.appConfig.notifyConfig.position,
+							scope:$scope,
+							type :'success'
+						});
+					}
+					else
+						notify({
+							messageTemplate: '<span>Unable to add news!</span>',
+							position: $rootScope.appConfig.notifyConfig.position,
+							scope:$scope,
+							type :'error'
+						});
+				}).error(function(error,status){
+					notify({
+						messageTemplate: '<span>Unable to add news!</span>',
+						position: $rootScope.appConfig.notifyConfig.position,
+						scope:$scope,
+						type :'error'
+					});
+				});
+			}
 		}
 
 		$scope.UpdateNews = function(){
-			$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '')
-			var response = newsFactory.UpdateNews($scope.defaultOptions);
-			response.success(function(result){
-				if(result.status){
-			  		notify({
-			            messageTemplate: '<span>'+result.data+'</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });
-			        $state.go("news.newslist",{mode:'list'});		
-				}
-			    else
-			  		notify({
-			            messageTemplate: '<span>Unable to delete news!</span>',
-			            position: $rootScope.appConfig.notifyConfig.position,
-			            scope:$scope
-			        });		
-			}).error(function(error,status){
-		  		notify({
-		            messageTemplate: '<span>Unable to delete news!</span>',
-		            position: $rootScope.appConfig.notifyConfig.position,
-		            scope:$scope
-		        });
-	        });	
+
+			if(!$rootScope.sessionConfig.canWrite){
+				notify({
+					messageTemplate: '<span>'+$rootScope.appConfig.messages.modifyException+'</span>',
+					position: $rootScope.appConfig.notifyConfig.position,
+					scope:$scope,
+					type :'error'
+				});
+				return;
+			}else{
+				$scope.defaultOptions.content = ($scope.defaultOptions.content||'').replace(/<(?:.|\n)*?>/gm, '')
+				var response = newsFactory.UpdateNews($scope.defaultOptions);
+				response.success(function(result){
+					if(result.status){
+						notify({
+							messageTemplate: '<span>'+result.data+'</span>',
+							position: $rootScope.appConfig.notifyConfig.position,
+							scope:$scope,
+							type :'success'
+						});
+						$state.go("news.newslist",{mode:'list'});
+					}
+					else
+						notify({
+							messageTemplate: '<span>Unable to delete news!</span>',
+							position: $rootScope.appConfig.notifyConfig.position,
+							scope:$scope,
+							type :'error'
+						});
+				}).error(function(error,status){
+					notify({
+						messageTemplate: '<span>Unable to delete news!</span>',
+						position: $rootScope.appConfig.notifyConfig.position,
+						scope:$scope,
+						type :'error'
+					});
+				});
+			}
 		}
 
 		$scope.deleteNews = function(model){
