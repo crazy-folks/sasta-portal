@@ -256,92 +256,92 @@ app.controller('GrievanceReportController',['$http','$window','$scope','$rootSco
 		        		{ field: "districtName", locked: true, groupable:true,width: '90px', title:'District'},
 		        		{ field: "blockName", locked: true, groupable:true,width: '90px', title:'Block'},
 		        		{ field: "vpName", locked: true, groupable:true,width: '120px', title:'Panchayat'},
-		        		{ field: "totalReceivedGrievancesHF", title:'Grievances In Household Verification', groupable:false,width: '250px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "totalReceivedGrievancesMeeting", title:'Grievances In GS', groupable:false,width: '140px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "totalReceivedGrievancesHF", title:'Grievances received during Household verification', groupable:false,width: '250px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "totalReceivedGrievancesMeeting", title:'Grievances received during GS meeting', groupable:false,width: '140px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{ field: "hfTotal",title: 'Total',groupable:false,width: '140px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#"},
-		        		{ field: "reqForNewJc", title:'Request For JC', groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "reqForMoreThan100Days", title : "More than 100 days", groupable:false,width: '200px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "reqForConstructionIHHL", title : "IHHL", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "reqForConstructionIAYHouse", title : "IAY", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "reqForConstructionCattleShelter", title : "Cattle shelter", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "demandForWork", title : "MNREGA Work", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "demandForRenewelJc", title : "Renewal", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "demandForIndividualBenefitScheme", title : "Other Schemes", groupable:false,width: '180px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "demandForWagesIncrease", title : "Wage Increase", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "reqForNewJc", title:'Request for new Job card', groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "reqForMoreThan100Days", title : "Request for work for more than 100 days", groupable:false,width: '200px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "reqForConstructionIHHL", title : "Request for constructions of IHHL", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "reqForConstructionIAYHouse", title : "Request for construction of IAY house", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "reqForConstructionCattleShelter", title : "Request for the construction of cattle shelter", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "demandForWork", title : "Demand for MNREGA work", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "demandForRenewelJc", title : "Demand for renewal of job card", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "demandForIndividualBenefitScheme", title : "Demand for individual benefit schemes", groupable:false,width: '180px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "demandForWagesIncrease", title : "Demand for Wage increase", groupable:false,width: '150px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 
-		        		{ field: "demandForPds", title : "PDS", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "demandForLibraryBuilding", title : "Library Building", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "nonProvisionOfWorkSiteFacilities", title : "Worksite Facilities", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "complaintAgainstBankingCorrespondent", title : "Complaint Against BC", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "oapnotProvidedJc", title : "JC to OAP", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "oapnotProvidedWork", title : "Work to OAP", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "complaintsAgainstWorksiteFacilidator", title : "Complaint Against WSF", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "complaintsAgainstVPPresident", title : "Complaint Against VP President", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "complaintsAgainstUnionOverseer", title : "Complaint Against UOS", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "complaintsAgainstBDOVP", title : "Complaint Against BDO (VP)", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        		{ field: "complaintsAgainstVPSecretory", title : "Complaint Against VP Secretary", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "demandForPds", title : "Demand for PDS", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "demandForLibraryBuilding", title : "Demand for library building", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "nonProvisionOfWorkSiteFacilities", title : "Non provision of work site facilities", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "complaintAgainstBankingCorrespondent", title : "Complaint against Banking correspondent", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "oapnotProvidedJc", title : "OAP not provided job card", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "oapnotProvidedWork", title : "OAP not provided work", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "complaintsAgainstWorksiteFacilidator", title : "Complaints against worksite facilitator", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "complaintsAgainstVPPresident", title : "Complaints against VP president", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "complaintsAgainstUnionOverseer", title : "Complaints against Union Overseer", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "complaintsAgainstBDOVP", title : "Complaint against BDO VP", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        		{ field: "complaintsAgainstVPSecretory", title : "Complaint against VP Secretary", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{ field: "others", title : "Others", groupable:false,width: '130px', aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
 		        		{
-		        			title : "Delayed Payment",
+		        			title : "Delay in wage payment",
 		        			columns :[
-		        				{ field: "delayWagesPaymentCount",headerTemplate: "No", title : "Delayed Payment No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "delayWagesPaymentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Delayed Payment Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        				{ field: "delayWagesPaymentCount",headerTemplate: "No", title : "Delay in wage payment No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "delayWagesPaymentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Delay in wage payment Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        			]
 		        		},
 		        		{
-		        			title : "Differently Abled Not Paid In Full",
+		        			title : "Full entitlement not given to differently abled",
 		        			columns :[
-		        				{ field: "fullEntitlementNotGivenCount", headerTemplate : "No", title : "Differently Abled Not Paid In Full No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "fullEntitlementNotGivenAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Differently Abled Not Paid In Full Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        				{ field: "fullEntitlementNotGivenCount", headerTemplate : "No", title : "Full entitlement not given to differently abled No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "fullEntitlementNotGivenAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Full entitlement not given to differently abled Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        			]
 		        		},
 		        		{
-		        			title : "Payment Less Than Value In M book",
+		        			title : "Less than payment value recorded in M-Book",
 		        			columns :[
-		        				{ field: "lessPaymentValueRecordedMBookCount", headerTemplate : "No", title : "Payment Less Than Value In M book No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "lessPaymentValueRecordedMBookAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Payment Less Than Value In M book Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        				{ field: "lessPaymentValueRecordedMBookCount", headerTemplate : "No", title : "Less than payment value recorded in M-Book No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "lessPaymentValueRecordedMBookAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Less than payment value recorded in M-Book Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        			]
 		        		},
 		        		{
-		        			title : "Wages for days less than worked",
+		        			title : "Wages drawn for days less than actual no of days worked",
 		        			columns :[
-		        				{ field: "wagesDrawnLessThanActualNoDaysCount", headerTemplate : "No", title:"Wages for days less than worked No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "wagesDrawnLessThanActualNoDaysAmt",format: '{0:n0}', headerTemplate : "Amount", title:"Wages for days less than worked Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        				{ field: "wagesDrawnLessThanActualNoDaysCount", headerTemplate : "No", title:"Wages drawn for days less than actual no of days worked No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "wagesDrawnLessThanActualNoDaysAmt",format: '{0:n0}', headerTemplate : "Amount", title:"Wages drawn for days less than actual no of days worked Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        			]
 		        		},
 		        		{
-		        			title : "Workers Not Paid",
+		        			title : "Wages not paid to workers who actually worked",
 		        			columns :[
-		        				{ field: "wagesNotPaidWorkersActuallyWorkedCount", headerTemplate : "No",title : "Workers Not Paid No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "wagesNotPaidWorkersActuallyWorkedAmt",format: '{0:n0}', headerTemplate : "Amount",title : "Workers Not Paid Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        				{ field: "wagesNotPaidWorkersActuallyWorkedCount", headerTemplate : "No",title : "Wages not paid to workers who actually worked No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "wagesNotPaidWorkersActuallyWorkedAmt",format: '{0:n0}', headerTemplate : "Amount",title : "Wages not paid to workers who actually worked Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        			]
 		        		},
 		        		{
-		        			title : "Transport Allowance",
+		        			title : "Transport allowance not given",
 		        			columns :[
-		        				{ field: "transportAllowanceNotGivenCount", headerTemplate : "No",title : "Transport Allowance No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "transportAllowanceNotGivenAmt",format: '{0:n0}', headerTemplate : "Amount",title : "Transport Allowance Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        				{ field: "transportAllowanceNotGivenCount", headerTemplate : "No",title : "Transport allowance not given No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "transportAllowanceNotGivenAmt",format: '{0:n0}', headerTemplate : "Amount",title : "Transport allowance not given Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        			]
 		        		},
 		        		{
-		        			title : "Injury Compensation",
+		        			title : "No compensation for injured at worksite",
 		        			columns :[
-		        				{ field: "noCompensationInjuredAtWorksiteCount", headerTemplate : "No", title : "Injury Compensation No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "noCompensationInjuredAtWorksiteAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Injury Compensation Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        				{ field: "noCompensationInjuredAtWorksiteCount", headerTemplate : "No", title : "No compensation for injured at worksite No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "noCompensationInjuredAtWorksiteAmt",format: '{0:n0}', headerTemplate : "Amount", title : "No compensation for injured at worksite Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        			]
 		        		},
 		        		{
-		        			title : "Death Compensation",
+		        			title : "No compensation for death at worksite",
 		        			columns :[
-		        				{ field: "noCompensationDeadAtWorksiteCount", headerTemplate : "No", title : "Death Compensation No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "noCompensationDeadAtWorksiteAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Death Compensation Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        				{ field: "noCompensationDeadAtWorksiteCount", headerTemplate : "No", title : "No compensation for death at worksite No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "noCompensationDeadAtWorksiteAmt",format: '{0:n0}', headerTemplate : "Amount", title : "No compensation for death at worksite Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        			]
 		        		},
 		        		{
-		        			title : "Payment  to IHHL work",
+		        			title : "No of requests for payment of completed IHHL work",
 		        			columns :[
-		        				{ field: "reqPaymentCompletedIHHLWorkCount", headerTemplate : "No",title: "Payment  to IHHL work No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "reqPaymentCompletedIHHLWorkAmt",format: '{0:n0}', headerTemplate : "Amount",title: "Payment  to IHHL work Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+		        				{ field: "reqPaymentCompletedIHHLWorkCount", headerTemplate : "No",title: "No of requests for payment of completed IHHL work No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "reqPaymentCompletedIHHLWorkAmt",format: '{0:n0}', headerTemplate : "Amount",title: "No of requests for payment of completed IHHL work Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
 		        			]
 		        		},
 		        		{

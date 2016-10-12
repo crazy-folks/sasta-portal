@@ -76,6 +76,8 @@ public class MisAppropriation implements  CommonProperties {
     private java.math.BigDecimal wages_drawn_more_than_actual_working_day_amt;
     private Integer work_done_by_contractors_count;
     private java.math.BigDecimal work_done_by_contractors_amt;
+    private Integer others_count;
+    private java.math.BigDecimal others_amt;
     private java.sql.Timestamp created_date;
     private java.sql.Timestamp modified_date;
     private Long created_by;
@@ -579,6 +581,22 @@ public class MisAppropriation implements  CommonProperties {
 
     public void setWorkDoneByContractorsAmt(BigDecimal work_done_by_contractors_amt) {
         this.work_done_by_contractors_amt = work_done_by_contractors_amt;
+    }
+
+    public Integer getOthersCount() {
+        return this.others_count;
+    }
+
+    public void setOthersCount(Integer others_count) {
+        this.others_count = others_count;
+    }
+
+    public BigDecimal getOthersAmount() {
+        return this.others_amt;
+    }
+
+    public void setOthersAmount(BigDecimal others_amt) {
+        this.others_amt = others_amt;
     }
 
     @Override

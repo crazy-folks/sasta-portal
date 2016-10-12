@@ -250,148 +250,154 @@ app.controller('DeviationReportController',['$http','$window','$scope','$rootSco
                 proxyURL: "http://demos.telerik.com/kendo-ui/service/export",
                 filterable: true,
                 allPages: true
-            },	    	
-	        columns: [ 
-		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
-		        		{ field: "financialYear", locked: true, groupable:true,width: '130px', title:'FY', footerTemplate: "Total :"},
-		        		{ field: "roundName", locked: true, groupable:true,width: '130px', title:'Round'},
-		        		{ field: "districtName", locked: true, groupable:true,width: '130px', title:'District'},
-		        		{ field: "blockName", locked: true, groupable:true,width: '130px', title:'Block'},
-		        		{ field: "vpName", locked: true, groupable:true,width: '130px', title:'Panchayat'},
-		        		{
-		        			title : "JC Misused",
-		        			columns :[
-		        				{ field: "jcMisusedByOthersCount",headerTemplate: "No", title : "JC Misused No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "jcMisusedByOthersAmt",format: '{0:n0}', headerTemplate : "Amount", title : "JC Misused Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Payment witout JC",
-		        			columns :[
-		        				{ field: "wagesPaidWorkersWithoutJcCount",headerTemplate: "No", title : "Payment witout JC No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "wagesPaidWorkersWithoutJcAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Payment witout JC Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Wages paid without measurement",
-		        			columns :[
-		        				{ field: "wagesPaidWithoutRecordMesurementCount",headerTemplate: "No", title : "Wages paid without measurement No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "wagesPaidWithoutRecordMesurementAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages paid without measurement Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Wages paid in excess of M Book",
-		        			columns :[
-		        				{ field: "wagesPaidExcessMBooksValueCount",headerTemplate: "No", title : "Wages paid in excess of M Book No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "wagesPaidExcessMBooksValueAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages paid in excess of M Book Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Signature Variation NMR and Register I",
-		        			columns :[
-		        				{ field: "variationsBetweenNMRRegisterCount",headerTemplate: "No", title : "Signature Variation No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "variationsBetweenNMRRegisterAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Signature Variation Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "NMR Overwriting",
-		        			columns :[
-		        				{ field: "nmroverWritingCorrectionsCount",headerTemplate: "No", title : "NMR Overwriting No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "nmroverWritingCorrectionsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Overwriting Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Ineligible Workers",
-		        			columns :[
-		        				{ field: "inEligibleWorkersIncludeUnder18Count",headerTemplate: "No", title : "Ineligible Workers No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "inEligibleWorkersIncludeUnder18Amt",format: '{0:n0}', headerTemplate : "Amount", title : "Ineligible Workers Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Diff online NMR & Physical NMR",
-		        			columns :[
-		        				{ field: "diffOnlineNMRPhysicalNMRCount",headerTemplate: "No", title : "Diff online NMR & Physical NMR No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "diffOnlineNMRPhysicalNMRAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Diff online NMR & Physical NMR Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "WSF Payment from scheme amount",
-		        			columns :[
-		        				{ field: "wagesPaymentFromSchemeCount",headerTemplate: "No", title : "WSF Payment No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "wagesPaymentFromSchemeAmt",format: '{0:n0}', headerTemplate : "Amount", title : "WSF Payment Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "FTO Amount more than NMR",
-		        			columns :[
-		        				{ field: "amountMoreThanNMRFTOCount",headerTemplate: "No", title : "FTO NMR No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "amountMoreThanNMRFTOAmt",format: '{0:n0}', headerTemplate : "Amount", title : "FTO NMR Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "NMR Not Produced For Audit",
-		        			columns :[
-		        				{ field: "nmrnotProducedForAuditCount",headerTemplate: "No", title : "NMR Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "nmrnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "M Books Not Produced For Audit",
-		        			columns :[
-		        				{ field: "mbooksNotProducedForAuditCount",headerTemplate: "No", title : "M Books Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "mbooksNotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "M Books Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Shortage In Measurements",
-		        			columns :[
-		        				{ field: "shortageMeasurementsCount",headerTemplate: "No", title : "Shortage In Measurements No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "shortageMeasurementsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Shortage In Measurements Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Works without GS approval",
-		        			columns :[
-		        				{ field: "worksTakenUpWithoutGbApprovalCount",headerTemplate: "No", title : "Works without GS approval No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "worksTakenUpWithoutGbApprovalAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Works without GS approval Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Estimates Not Produced For Audit",
-		        			columns :[
-		        				{ field: "estimatesNotProducedForAuditCount",headerTemplate: "No", title : "Estimates Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "estimatesNotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Estimates Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "AS Not Produced For Audit",
-		        			columns :[
-		        				{ field: "asnotProducedForAuditCount",headerTemplate: "No", title : "AS Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "asnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "AS Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "TS Not Produced For Audit",
-		        			columns :[
-		        				{ field: "tsnotProducedForAuditCount",headerTemplate: "No", title : "TS Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "tsnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "TS Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Non Adoption Of Schedule Of Rate",
-		        			columns :[
-		        				{ field: "noneAdoptionOfScheduleRateCount",headerTemplate: "No", title : "Non Adoption Of Schedule No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "noneAdoptionOfScheduleRateAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Non Adoption Of Schedule Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		},
-		        		{
-		        			title : "Total",
-		        			columns :[
-		        				{ field: "totalCount",headerTemplate: "No", title : "Total Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "totalAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Total Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-		        			]
-		        		}
-		        	],
+            },
+			columns: [
+				{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
+				{ field: "financialYear", locked: true, groupable:true,width: '130px', title:'FY', footerTemplate: "Total :"},
+				{ field: "roundName", locked: true, groupable:true,width: '130px', title:'Round'},
+				{ field: "districtName", locked: true, groupable:true,width: '130px', title:'District'},
+				{ field: "blockName", locked: true, groupable:true,width: '130px', title:'Block'},
+				{ field: "vpName", locked: true, groupable:true,width: '130px', title:'Panchayat'},
+				{
+					title : "Job cards misused by others",
+					columns :[
+						{ field: "jcMisusedByOthersCount",headerTemplate: "No", title : "Job cards misused by others No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "jcMisusedByOthersAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Job cards misused by others Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Wages paid to workers without job cards",
+					columns :[
+						{ field: "wagesPaidWorkersWithoutJcCount",headerTemplate: "No", title : "Wages paid to workers without job cards No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "wagesPaidWorkersWithoutJcAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages paid to workers without job cards Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Wages paid without recording measurements",
+					columns :[
+						{ field: "wagesPaidWithoutRecordMesurementCount",headerTemplate: "No", title : "Wages paid without recording measurements No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "wagesPaidWithoutRecordMesurementAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages paid without recording measurements Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Wages paid in excess of M-Book value",
+					columns :[
+						{ field: "wagesPaidExcessMBooksValueCount",headerTemplate: "No", title : "Wages paid in excess of M-Book value No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "wagesPaidExcessMBooksValueAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages paid in excess of M-Book value Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Variations in signatures between NMR & Register I",
+					columns :[
+						{ field: "variationsBetweenNMRRegisterCount",headerTemplate: "No", title : "Variations in signatures between NMR & Register I No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "variationsBetweenNMRRegisterAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Variations in signatures between NMR & Register I Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "NMR Overwriting",
+					columns :[
+						{ field: "nmroverWritingCorrectionsCount",headerTemplate: "No", title : "NMR Overwriting No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "nmroverWritingCorrectionsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Overwriting Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Ineligible workers including under 18 years",
+					columns :[
+						{ field: "inEligibleWorkersIncludeUnder18Count",headerTemplate: "No", title : "Ineligible workers including under 18 years No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "inEligibleWorkersIncludeUnder18Amt",format: '{0:n0}', headerTemplate : "Amount", title : "Ineligible workers including under 18 years Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Difference between online NMR & physical NMR",
+					columns :[
+						{ field: "diffOnlineNMRPhysicalNMRCount",headerTemplate: "No", title : "Difference between online NMR & physical NMR No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "diffOnlineNMRPhysicalNMRAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Difference between online NMR & physical NMR Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "WSF Payment from scheme amount",
+					columns :[
+						{ field: "wagesPaymentFromSchemeCount",headerTemplate: "No", title : "WSF Payment No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "wagesPaymentFromSchemeAmt",format: '{0:n0}', headerTemplate : "Amount", title : "WSF Payment Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Amount more than NMR in FTO",
+					columns :[
+						{ field: "amountMoreThanNMRFTOCount",headerTemplate: "No", title : "Amount more than NMR in FTO No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "amountMoreThanNMRFTOAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Amount more than NMR in FTO Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "NMR Not Produced For Audit",
+					columns :[
+						{ field: "nmrnotProducedForAuditCount",headerTemplate: "No", title : "NMR Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "nmrnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "M Books Not Produced For Audit",
+					columns :[
+						{ field: "mbooksNotProducedForAuditCount",headerTemplate: "No", title : "M Books Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "mbooksNotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "M Books Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Shortage In Measurements",
+					columns :[
+						{ field: "shortageMeasurementsCount",headerTemplate: "No", title : "Shortage In Measurements No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "shortageMeasurementsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Shortage In Measurements Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Works without GS approval",
+					columns :[
+						{ field: "worksTakenUpWithoutGbApprovalCount",headerTemplate: "No", title : "Works without GS approval No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "worksTakenUpWithoutGbApprovalAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Works without GS approval Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Estimates Not Produced For Audit",
+					columns :[
+						{ field: "estimatesNotProducedForAuditCount",headerTemplate: "No", title : "Estimates Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "estimatesNotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Estimates Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "AS Not Produced For Audit",
+					columns :[
+						{ field: "asnotProducedForAuditCount",headerTemplate: "No", title : "AS Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "asnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "AS Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "TS Not Produced For Audit",
+					columns :[
+						{ field: "tsnotProducedForAuditCount",headerTemplate: "No", title : "TS Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "tsnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "TS Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Non Adoption Of Schedule Of Rate",
+					columns :[
+						{ field: "noneAdoptionOfScheduleRateCount",headerTemplate: "No", title : "Non Adoption Of Schedule No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "noneAdoptionOfScheduleRateAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Non Adoption Of Schedule Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},{
+					title : "Others",
+					columns :[
+						{ field: "othersCount",headerTemplate: "Others Count", title : "Others Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "othersAmount",format: '{0:n0}',headerTemplate : "Others Amount", title : "Others Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				},
+				{
+					title : "Total",
+					columns :[
+						{ field: "totalCount",headerTemplate: "No", title : "Total Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+						{ field: "totalAmount",format: '{0:n0}', headerTemplate : "Amount", title : "Total Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+					]
+				}
+			],
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,
@@ -470,7 +476,9 @@ app.controller('DeviationReportController',['$http','$window','$scope','$rootSco
 							  estimatesNotProducedForAuditAmt: { type: "number" },
 							  noneAdoptionOfScheduleRateCount: { type: "number" },
 							  noneAdoptionOfScheduleRateAmt: { type: "number" },
-							  wagesPaidWorkersWithoutJcAmt: { type: "number" }
+							  wagesPaidWorkersWithoutJcAmt: { type: "number" },
+							  othersCount: { type: "number" },
+							  othersAmount: { type: "number" }
                         }
                     },
                     parse : function(d){
@@ -493,7 +501,9 @@ app.controller('DeviationReportController',['$http','$window','$scope','$rootSco
 				            (elem.worksTakenUpWithoutGbApprovalAmt||0)+
 				            (elem.estimatesNotProducedForAuditAmt||0)+
 				            (elem.noneAdoptionOfScheduleRateAmt||0)+
-				            (elem.wagesPaidWorkersWithoutJcAmt||0);
+				            (elem.wagesPaidWorkersWithoutJcAmt||0)+
+							(elem.othersAmount || 0 );
+
 				            /*Total Count*/
 				            elem.totalCount = (elem.jcMisusedByOthersCount||0)+
 				            (elem.amountMoreThanNMRFTOCount||0)+
@@ -512,7 +522,8 @@ app.controller('DeviationReportController',['$http','$window','$scope','$rootSco
 				            (elem.mbooksNotProducedForAuditCount||0)+
 				            (elem.worksTakenUpWithoutGbApprovalCount||0)+
 				            (elem.estimatesNotProducedForAuditCount||0)+
-				            (elem.noneAdoptionOfScheduleRateCount||0);
+				            (elem.noneAdoptionOfScheduleRateCount||0)+
+							(elem.othersCount || 0 );
 
 				        });
 				        return d;                	
@@ -556,6 +567,8 @@ app.controller('DeviationReportController',['$http','$window','$scope','$rootSco
 						{ field: "noneAdoptionOfScheduleRateCount", aggregate: "sum" },
 						{ field: "noneAdoptionOfScheduleRateAmt", aggregate: "sum" },
 						{ field: "wagesPaidWorkersWithoutJcAmt", aggregate: "sum" },
+						{ field: "othersCount", aggregate: "sum"},
+						{ field: "othersAmount", aggregate: "sum"},
 						{ field: "totalCount", aggregate: "sum"},
 						{ field: "totalAmount", aggregate: "sum"}
                     ]
@@ -597,6 +610,8 @@ app.controller('DeviationReportController',['$http','$window','$scope','$rootSco
 					{ field: "noneAdoptionOfScheduleRateCount", aggregate: "sum" },
 					{ field: "noneAdoptionOfScheduleRateAmt", aggregate: "sum" },
 					{ field: "wagesPaidWorkersWithoutJcAmt", aggregate: "sum" },
+					{ field: "othersCount", aggregate: "sum"},
+					{ field: "othersAmount", aggregate: "sum"},
 					{ field: "totalCount", aggregate: "sum"},
 					{ field: "totalAmount", aggregate: "sum"}	                
 	            ]	           

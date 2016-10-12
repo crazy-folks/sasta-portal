@@ -188,6 +188,11 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
                         new SqlParameter("wagesdrawnmorethanactualworkingdayamt", Types.DECIMAL),
                         new SqlParameter("workdonebycontractorscount", Types.INTEGER),
                         new SqlParameter("workdonebycontractorsamt", Types.DECIMAL),
+                        /**
+                         * Newly Added Columns
+                         */
+                        new SqlParameter("otherscount", Types.INTEGER),
+                        new SqlParameter("othersamount", Types.DECIMAL),
 
                         new SqlParameter("createdby", Types.BIGINT),
                         new SqlOutParameter("flag", Types.BIT)
@@ -254,6 +259,13 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
         inParamMap.put("wagesdrawnmorethanactualworkingdayamt", mis.getWagesDrawnMoreThanActualWorkingDayAmt());
         inParamMap.put("workdonebycontractorscount",mis.getWorkDoneByContractorsCount() );
         inParamMap.put("workdonebycontractorsamt", mis.getWorkDoneByContractorsAmt());
+
+        /**
+         * Newly Added Columns
+         */
+        inParamMap.put("otherscount",mis.getOthersCount() );
+        inParamMap.put("othersamount", mis.getOthersAmount());
+
         inParamMap.put("createdby", mis.getCreatedBy());
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
@@ -331,6 +343,12 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
                         new SqlParameter("workdonebycontractorscount", Types.INTEGER),
                         new SqlParameter("workdonebycontractorsamt", Types.DECIMAL),
 
+                        /**
+                         * Newly Added Columns
+                         */
+                        new SqlParameter("otherscount", Types.INTEGER),
+                        new SqlParameter("othersamount", Types.DECIMAL),
+
                         new SqlParameter("modifiedby", Types.BIGINT),
 						new SqlParameter("isactive", Types.BIT),
                         new SqlOutParameter("flag", Types.BIT)
@@ -398,6 +416,13 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
         inParamMap.put("wagesdrawnmorethanactualworkingdayamt", mis.getWagesDrawnMoreThanActualWorkingDayAmt());
         inParamMap.put("workdonebycontractorscount",mis.getWorkDoneByContractorsCount() );
         inParamMap.put("workdonebycontractorsamt", mis.getWorkDoneByContractorsAmt());
+
+        /**
+         * Newly Added Columns
+         */
+        inParamMap.put("otherscount",mis.getOthersCount() );
+        inParamMap.put("othersamount", mis.getOthersAmount());
+
         inParamMap.put("modifiedby", mis.getModifiedBy());
         inParamMap.put("isactive", mis.getStatus());
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
@@ -525,6 +550,13 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
             o.setWagesDrawnMoreThanActualWorkingDayAmt(set.getBigDecimal("wages_drawn_more_than_actual_working_day_amt"));
             o.setWorkDoneByContractorsCount(set.getInt("work_done_by_contractors_count"));
             o.setWorkDoneByContractorsAmt(set.getBigDecimal("work_done_by_contractors_amt"));
+
+            /**
+             * Newly Added columns based on customer request
+             */
+            o.setOthersCount(set.getInt("others_count"));
+            o.setOthersAmount(set.getBigDecimal("others_amt"));
+
             if(hasColumn("created_date"))
                 o.setCreatedDate(set.getTimestamp("created_date"));
             if(hasColumn("modified_date"))
@@ -625,6 +657,10 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
             o.setWagesDrawnMoreThanActualWorkingDayAmt(set.getBigDecimal("wages_drawn_more_than_actual_working_day_amt"));
             o.setWorkDoneByContractorsCount(set.getInt("work_done_by_contractors_count"));
             o.setWorkDoneByContractorsAmt(set.getBigDecimal("work_done_by_contractors_amt"));
+
+            o.setOthersCount(set.getInt("others_count"));
+            o.setOthersAmount(set.getBigDecimal("others_amt"));
+
             if(hasColumn("created_date"))
                 o.setCreatedDate(set.getTimestamp("created_date"));
             if(hasColumn("modified_date"))
