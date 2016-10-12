@@ -518,114 +518,109 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 	    }
 
 	    $scope.gridOptions = {
-	        columns: [ 
-		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
-		        		{ field: "financialYear", groupable:true,width: '80px', title:'FY'},
-		        		{ field: "roundName", groupable:true,width: '90px', title:'Round'},
-		        		{ field: "districtName", groupable:true,width: '90px', title:'District'},
-		        		{ field: "blockName", groupable:true,width: '90px', title:'Block'},
-		        		{ field: "vpName", groupable:true,width: '100px', title:'Panchayat'},
-		        		{ field: "totalReceivedGrievancesHF", title:'Grievances In Household Verification', groupable:false,width: '250px'  },
-		        		{ field: "totalReceivedGrievancesMeeting", title:'Grievances In GS', groupable:false,width: '140px'  },
-		        		{ field: "hfTotal",title: 'Total',groupable:false,width: '140px' },
-		        		{ field: "reqForNewJc", title:'Request For JC', groupable:false,width: '130px'  },
-		        		{ field: "reqForMoreThan100Days", title : "More than 100 days", groupable:false,width: '200px'  },
-		        		{ field: "reqForConstructionIHHL", title : "IHHL", groupable:false,width: '150px'  },
-		        		{ field: "reqForConstructionIAYHouse", title : "IAY", groupable:false,width: '150px'  },
-		        		{ field: "reqForConstructionCattleShelter", title : "Cattle shelter", groupable:false,width: '150px'  },
-		        		{ field: "demandForWork", title : "MNREGA Work", groupable:false,width: '150px'  },
-		        		{ field: "demandForRenewelJc", title : "Renewal", groupable:false,width: '150px'  },
-		        		{ field: "demandForIndividualBenefitScheme", title : "Other Schemes", groupable:false,width: '180px'  },
-		        		{ field: "demandForWagesIncrease", title : "Wage Increase", groupable:false,width: '150px'  },
+			columns: [
+				{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
+				{ field: "financialYear", locked: true, groupable:true,width: '80px', title:'FY', footerTemplate: "Total :"},
+				{ field: "roundName", locked: true, groupable:true,width: '90px', title:'Round'},
+				{ field: "districtName", locked: true, groupable:true,width: '90px', title:'District'},
+				{ field: "blockName", locked: true, groupable:true,width: '90px', title:'Block'},
+				{ field: "vpName", locked: true, groupable:true,width: '120px', title:'Panchayat'},
+				{ field: "totalReceivedGrievancesHF", title:'Grievances received during Household verification', groupable:false,width: '250px' },
+				{ field: "totalReceivedGrievancesMeeting", title:'Grievances received during GS meeting', groupable:false,width: '140px' },
+				{ field: "hfTotal",title: 'Total',groupable:false,width: '140px'},
+				{ field: "reqForNewJc", title:'Request for new Job card', groupable:false,width: '130px' },
+				{ field: "reqForMoreThan100Days", title : "Request for work for more than 100 days", groupable:false,width: '200px' },
+				{ field: "reqForConstructionIHHL", title : "Request for constructions of IHHL", groupable:false,width: '150px' },
+				{ field: "reqForConstructionIAYHouse", title : "Request for construction of IAY house", groupable:false,width: '150px' },
+				{ field: "reqForConstructionCattleShelter", title : "Request for the construction of cattle shelter", groupable:false,width: '150px' },
+				{ field: "demandForWork", title : "Demand for MNREGA work", groupable:false,width: '150px' },
+				{ field: "demandForRenewelJc", title : "Demand for renewal of job card", groupable:false,width: '150px' },
+				{ field: "demandForIndividualBenefitScheme", title : "Demand for individual benefit schemes", groupable:false,width: '180px' },
+				{ field: "demandForWagesIncrease", title : "Demand for Wage increase", groupable:false,width: '150px' },
 
-		        		{ field: "demandForPds", title : "PDS", groupable:false,width: '130px'  },
-		        		{ field: "demandForLibraryBuilding", title : "Library Building", groupable:false,width: '130px'  },
-		        		{ field: "nonProvisionOfWorkSiteFacilities", title : "Worksite Facilities", groupable:false,width: '130px'  },
-		        		{ field: "complaintAgainstBankingCorrespondent", title : "Complaint Against BC", groupable:false,width: '130px'  },
-		        		{ field: "oapnotProvidedJc", title : "JC to OAP", groupable:false,width: '130px'  },
-		        		{ field: "oapnotProvidedWork", title : "Work to OAP", groupable:false,width: '130px'  },
-		        		{ field: "complaintsAgainstWorksiteFacilidator", title : "Complaint Against WSF", groupable:false,width: '130px'  },
-		        		{ field: "complaintsAgainstVPPresident", title : "Complaint Against VP President", groupable:false,width: '130px'  },
-		        		{ field: "complaintsAgainstUnionOverseer", title : "Complaint Against UOS", groupable:false,width: '130px'  },
-		        		{ field: "complaintsAgainstBDOVP", title : "Complaint Against BDO (VP)", groupable:false,width: '130px'  },
-		        		{ field: "complaintsAgainstVPSecretory", title : "Complaint Against VP Secretary", groupable:false,width: '130px'  },
-		        		{ field: "others", title : "Others", groupable:false,width: '130px'  },
-		        		{
-		        			title : "Delayed Payment",
-		        			columns :[
-		        				{ field: "delayWagesPaymentCount",headerTemplate: "No", title : "Delayed Payment No",width: '130px', groupable:false  },
-		        				{ field: "delayWagesPaymentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Delayed Payment Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
-		        			title : "Differently Abled Not Paid In Full",
-		        			columns :[
-		        				{ field: "fullEntitlementNotGivenCount", headerTemplate : "No", title : "Differently Abled Not Paid In Full No",width: '130px', groupable:false  },
-		        				{ field: "fullEntitlementNotGivenAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Differently Abled Not Paid In Full Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
-		        			title : "Payment Less Than Value In M book",
-		        			columns :[
-		        				{ field: "lessPaymentValueRecordedMBookCount", headerTemplate : "No", title : "Payment Less Than Value In M book No",width: '130px', groupable:false  },
-		        				{ field: "lessPaymentValueRecordedMBookAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Payment Less Than Value In M book Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
-		        			title : "Wages for days less than worked",
-		        			columns :[
-		        				{ field: "wagesDrawnLessThanActualNoDaysCount", headerTemplate : "No", title:"Wages for days less than worked No",width: '130px', groupable:false  },
-		        				{ field: "wagesDrawnLessThanActualNoDaysAmt",format: '{0:n0}', headerTemplate : "Amount", title:"Wages for days less than worked Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
-		        			title : "Workers Not Paid",
-		        			columns :[
-		        				{ field: "wagesNotPaidWorkersActuallyWorkedCount", headerTemplate : "No",title : "Workers Not Paid No",width: '130px', groupable:false  },
-		        				{ field: "wagesNotPaidWorkersActuallyWorkedAmt",format: '{0:n0}', headerTemplate : "Amount",title : "Workers Not Paid Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
-		        			title : "Transport Allowance",
-		        			columns :[
-		        				{ field: "transportAllowanceNotGivenCount", headerTemplate : "No",title : "Transport Allowance No",width: '130px', groupable:false  },
-		        				{ field: "transportAllowanceNotGivenAmt",format: '{0:n0}', headerTemplate : "Amount",title : "Transport Allowance Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
-		        			title : "Injury Compensation",
-		        			columns :[
-		        				{ field: "noCompensationInjuredAtWorksiteCount", headerTemplate : "No", title : "Injury Compensation No",width: '130px', groupable:false  },
-		        				{ field: "noCompensationInjuredAtWorksiteAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Injury Compensation Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
-		        			title : "Death Compensation",
-		        			columns :[
-		        				{ field: "noCompensationDeadAtWorksiteCount", headerTemplate : "No", title : "Death Compensation No",width: '130px', groupable:false  },
-		        				{ field: "noCompensationDeadAtWorksiteAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Death Compensation Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
-		        			title : "Payment  to IHHL work",
-		        			columns :[
-		        				{ field: "reqPaymentCompletedIHHLWorkCount", headerTemplate : "No",title: "Payment  to IHHL work No",width: '130px', groupable:false  },
-		        				{ field: "reqPaymentCompletedIHHLWorkAmt",format: '{0:n0}', headerTemplate : "Amount",title: "Payment  to IHHL work Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
-		        			title : "Total",
-		        			columns :[
-		        				{ field: "TotalNo", headerTemplate : "No",title: "Total No",width: '130px', groupable:false  },
-		        				{ field: "TotalAmt",format: '{0:n0}', headerTemplate : "Amount",title: "Total Amount",width: '130px', groupable:false },
-		        			]
-		        		},
-		        		{
- 							title : "",
-		                    width: '30px',
-		                    template: kendo.template($("#toggle-template").html())
-		                }
-		        	],
+				{ field: "demandForPds", title : "Demand for PDS", groupable:false,width: '130px' },
+				{ field: "demandForLibraryBuilding", title : "Demand for library building", groupable:false,width: '130px' },
+				{ field: "nonProvisionOfWorkSiteFacilities", title : "Non provision of work site facilities", groupable:false,width: '130px' },
+				{ field: "complaintAgainstBankingCorrespondent", title : "Complaint against Banking correspondent", groupable:false,width: '130px' },
+				{ field: "oapnotProvidedJc", title : "OAP not provided job card", groupable:false,width: '130px' },
+				{ field: "oapnotProvidedWork", title : "OAP not provided work", groupable:false,width: '130px' },
+				{ field: "complaintsAgainstWorksiteFacilidator", title : "Complaints against worksite facilitator", groupable:false,width: '130px' },
+				{ field: "complaintsAgainstVPPresident", title : "Complaints against VP president", groupable:false,width: '130px' },
+				{ field: "complaintsAgainstUnionOverseer", title : "Complaints against Union Overseer", groupable:false,width: '130px' },
+				{ field: "complaintsAgainstBDOVP", title : "Complaint against BDO VP", groupable:false,width: '130px' },
+				{ field: "complaintsAgainstVPSecretory", title : "Complaint against VP Secretary", groupable:false,width: '130px' },
+				{ field: "others", title : "Others", groupable:false,width: '130px' },
+				{
+					title : "Delay in wage payment",
+					columns :[
+						{ field: "delayWagesPaymentCount",headerTemplate: "No", title : "Delay in wage payment No",width: '130px', groupable:false },
+						{ field: "delayWagesPaymentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Delay in wage payment Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "Full entitlement not given to differently abled",
+					columns :[
+						{ field: "fullEntitlementNotGivenCount", headerTemplate : "No", title : "Full entitlement not given to differently abled No",width: '130px', groupable:false },
+						{ field: "fullEntitlementNotGivenAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Full entitlement not given to differently abled Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "Less than payment value recorded in M-Book",
+					columns :[
+						{ field: "lessPaymentValueRecordedMBookCount", headerTemplate : "No", title : "Less than payment value recorded in M-Book No",width: '130px', groupable:false },
+						{ field: "lessPaymentValueRecordedMBookAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Less than payment value recorded in M-Book Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "Wages drawn for days less than actual no of days worked",
+					columns :[
+						{ field: "wagesDrawnLessThanActualNoDaysCount", headerTemplate : "No", title:"Wages drawn for days less than actual no of days worked No",width: '130px', groupable:false },
+						{ field: "wagesDrawnLessThanActualNoDaysAmt",format: '{0:n0}', headerTemplate : "Amount", title:"Wages drawn for days less than actual no of days worked Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "Wages not paid to workers who actually worked",
+					columns :[
+						{ field: "wagesNotPaidWorkersActuallyWorkedCount", headerTemplate : "No",title : "Wages not paid to workers who actually worked No",width: '130px', groupable:false },
+						{ field: "wagesNotPaidWorkersActuallyWorkedAmt",format: '{0:n0}', headerTemplate : "Amount",title : "Wages not paid to workers who actually worked Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "Transport allowance not given",
+					columns :[
+						{ field: "transportAllowanceNotGivenCount", headerTemplate : "No",title : "Transport allowance not given No",width: '130px', groupable:false },
+						{ field: "transportAllowanceNotGivenAmt",format: '{0:n0}', headerTemplate : "Amount",title : "Transport allowance not given Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "No compensation for injured at worksite",
+					columns :[
+						{ field: "noCompensationInjuredAtWorksiteCount", headerTemplate : "No", title : "No compensation for injured at worksite No",width: '130px', groupable:false },
+						{ field: "noCompensationInjuredAtWorksiteAmt",format: '{0:n0}', headerTemplate : "Amount", title : "No compensation for injured at worksite Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "No compensation for death at worksite",
+					columns :[
+						{ field: "noCompensationDeadAtWorksiteCount", headerTemplate : "No", title : "No compensation for death at worksite No",width: '130px', groupable:false },
+						{ field: "noCompensationDeadAtWorksiteAmt",format: '{0:n0}', headerTemplate : "Amount", title : "No compensation for death at worksite Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "No of requests for payment of completed IHHL work",
+					columns :[
+						{ field: "reqPaymentCompletedIHHLWorkCount", headerTemplate : "No",title: "No of requests for payment of completed IHHL work No",width: '130px', groupable:false },
+						{ field: "reqPaymentCompletedIHHLWorkAmt",format: '{0:n0}', headerTemplate : "Amount",title: "No of requests for payment of completed IHHL work Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "Total",
+					columns :[
+						{ field: "TotalNo", headerTemplate : "No",title: "Total No",width: '130px', groupable:false },
+						{ field: "TotalAmt",format: '{0:n0}', headerTemplate : "Amount",title: "Total Amount",width: '130px', groupable:false },
+					]
+				}
+			],
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,

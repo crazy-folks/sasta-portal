@@ -170,6 +170,12 @@ public class DeviationServiceImpl implements DeviationService {
                         new SqlParameter("TSnotproducedforauditamt",Types.DECIMAL),
                         new SqlParameter("noneadoptionofscheduleratecount",Types.INTEGER),
                         new SqlParameter("noneadoptionofschedulerateamt",Types.DECIMAL),
+                        /**
+                         * Newly Added Columns
+                         */
+                        new SqlParameter("otherscount", Types.INTEGER),
+                        new SqlParameter("othersamount", Types.DECIMAL),
+
                         new SqlParameter("createdby",Types.BIGINT),
                         new SqlOutParameter("flag", Types.BIT)
                 );
@@ -211,6 +217,13 @@ public class DeviationServiceImpl implements DeviationService {
         inParamMap.put("TSnotproducedforauditamt",dv.getTSNotProducedForAuditAmt());
         inParamMap.put("noneadoptionofscheduleratecount",dv.getNoneAdoptionOfScheduleRateCount());
         inParamMap.put("noneadoptionofschedulerateamt",dv.getNoneAdoptionOfScheduleRateAmt());
+
+        /**
+         * Newly Added Columns
+         */
+        inParamMap.put("otherscount",dv.getOthersCount());
+        inParamMap.put("othersamount", dv.getOthersAmount());
+
         inParamMap.put("createdby",dv.getCreatedBy());
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
         simplejdbcCall.compile();
@@ -263,6 +276,12 @@ public class DeviationServiceImpl implements DeviationService {
                         new SqlParameter("TSnotproducedforauditamt",Types.DECIMAL),
                         new SqlParameter("noneadoptionofscheduleratecount",Types.INTEGER),
                         new SqlParameter("noneadoptionofschedulerateamt",Types.DECIMAL),
+                        /**
+                         * Newly Added Columns
+                         */
+                        new SqlParameter("otherscount", Types.INTEGER),
+                        new SqlParameter("othersamount", Types.DECIMAL),
+
                         new SqlParameter("modifiedby", Types.BIGINT),
                         new SqlParameter("isactive", Types.BIT),
                         new SqlOutParameter("flag", Types.BIT)
@@ -306,6 +325,13 @@ public class DeviationServiceImpl implements DeviationService {
         inParamMap.put("TSnotproducedforauditamt",dv.getTSNotProducedForAuditAmt());
         inParamMap.put("noneadoptionofscheduleratecount",dv.getNoneAdoptionOfScheduleRateCount());
         inParamMap.put("noneadoptionofschedulerateamt",dv.getNoneAdoptionOfScheduleRateAmt());
+
+        /**
+         * Newly Added Columns
+         */
+        inParamMap.put("otherscount",dv.getOthersCount());
+        inParamMap.put("othersamount", dv.getOthersAmount());
+
         inParamMap.put("modifiedby",dv.getModifiedBy());
         inParamMap.put("isactive",dv.getStatus());
         SqlParameterSource paramMap = new MapSqlParameterSource(inParamMap);
@@ -409,6 +435,13 @@ public class DeviationServiceImpl implements DeviationService {
             o.setTSNotProducedForAuditAmt(set.getBigDecimal("TS_not_produced_for_audit_amt"));
             o.setNoneAdoptionOfScheduleRateCount(set.getInt("none_adoption_ofschedule_rate_count"));
             o.setNoneAdoptionOfScheduleRateAmt(set.getBigDecimal("none_adoption_ofschedule_rate_amt"));
+
+            /**
+             * Newly Added columns based on customer request
+             */
+            o.setOthersCount(set.getInt("others_count"));
+            o.setOthersAmount(set.getBigDecimal("others_amt"));
+
             if(hasColumn("created_date"))
                 o.setCreatedDate(set.getTimestamp("created_date"));
             if(hasColumn("modified_date"))
@@ -428,7 +461,7 @@ public class DeviationServiceImpl implements DeviationService {
 
     protected static final class DeviationMapper implements RowMapper {
 
-        public Object mapRow(ResultSet set, int rowNo)throws SQLException {
+        public Object mapRow(ResultSet set, int rowNo) throws SQLException {
             System.out.println("Read Row :" + rowNo);
             Deviation o = new Deviation();
             o.setId(set.getLong("id"));
@@ -483,6 +516,13 @@ public class DeviationServiceImpl implements DeviationService {
             o.setTSNotProducedForAuditAmt(set.getBigDecimal("TS_not_produced_for_audit_amt"));
             o.setNoneAdoptionOfScheduleRateCount(set.getInt("none_adoption_ofschedule_rate_count"));
             o.setNoneAdoptionOfScheduleRateAmt(set.getBigDecimal("none_adoption_ofschedule_rate_amt"));
+
+            /**
+             * Newly Added columns based on customer request
+             */
+            o.setOthersCount(set.getInt("others_count"));
+            o.setOthersAmount(set.getBigDecimal("others_amt"));
+
             o.setCreatedDate(set.getTimestamp("created_date"));
             o.setModifiedDate(set.getTimestamp("modified_date"));
             o.setCreatedBy(set.getLong("created_by"));

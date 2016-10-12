@@ -192,6 +192,8 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 				 "missingCanalCount" : null,
 				 "missingFarmPondCount" : null,
 				 "missingGoatShedCount" : null,
+				 "othersCount": null,
+				 "othersAmount": null,
 				 "createdBy" : null,
 				 "roundId" : null,
 				 "roundName" : null,
@@ -275,6 +277,8 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 				 "missingCanalCount" : null,
 				 "missingFarmPondCount" : null,
 				 "missingGoatShedCount" : null,
+				 "othersCount": null,
+				 "othersAmount": null,
 				 "createdBy" : null,
 				 "roundId" : null,
 				 "roundName" : null,
@@ -396,6 +400,8 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 					missingCanalCount: data.missingCanalCount,
 					missingFarmPondCount: data.missingFarmPondCount,
 					missingGoatShedCount: data.missingGoatShedCount,
+					othersCount: data.othersCount,
+					othersAmount: data.othersAmount,
 					createdBy: $rootScope.sessionConfig.userId,
 					roundId: data.roundId,
 					roundName: data.roundName,
@@ -555,6 +561,8 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 				missingCanalCount: data.missingCanalCount,
 				missingFarmPondCount: data.missingFarmPondCount,
 				missingGoatShedCount: data.missingGoatShedCount,
+				othersCount: data.othersCount,
+				othersAmount: data.othersAmount,
 				createdBy: $rootScope.sessionConfig.userId,
 				roundId: data.roundId,
 				roundName: data.roundName,
@@ -569,200 +577,206 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 	    }
 
 	    $scope.gridOptions = {
-	        columns: [ 
-		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
-		        		{ field: "financialYear", groupable:true,width: '130px', title:'FY'},
-		        		{ field: "roundName", groupable:true,width: '130px', title:'Round'},
-		        		{ field: "districtName", groupable:true,width: '130px', title:'District'},
-		        		{ field: "blockName", groupable:true,width: '130px', title:'Block'},
-		        		{ field: "vpName", groupable:true,width: '130px', title:'Panchayat'},
-		        		{
-		        			title : "Mulitple JC",
-		        			columns :[
-		        				{ field: "multipleJcIssuedWorkersCount",headerTemplate: "No", title : "Mulitple JC No",width: '130px', groupable:false },
-		        				{ field: "multipleJcIssuedWorkersAmt",format: '{0:n0}',headerTemplate : "Amount", title : "Mulitple JC Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Wages to dead",
-		        			columns :[
-		        				{ field: "wagedToDeadCount",headerTemplate: "No", title : "Wages to dead No",width: '130px', groupable:false },
-		        				{ field: "wagedToDeadAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to dead Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Wages to non-existent",
-		        			columns :[
-		        				{ field: "wagesNonExistentCount",headerTemplate: "No", title : "Wages to non-existent No",width: '130px', groupable:false },
-		        				{ field: "wagesNonExistentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to non-existent Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Wages to migrated",
-		        			columns :[
-		        				{ field: "wagesMigratedCount",headerTemplate: "No", title : "Wages to migrated No",width: '130px', groupable:false },
-		        				{ field: "wagesMigratedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to migrated Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Wages to wrong account",
-		        			columns :[
-		        				{ field: "wagesCreditedWrongAccountsCount",headerTemplate: "No", title : "Wages to wrong account No",width: '130px', groupable:false },
-		        				{ field: "wagesCreditedWrongAccountsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to wrong account Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Double Wages",
-		        			columns :[
-		        				{ field: "doubleWagessCount",headerTemplate: "No", title : "Double Wages No",width: '130px', groupable:false },
-		        				{ field: "doubleWagesAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Double Wages Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Wages to people who didn't work",
-		        			columns :[
-		        				{ field: "wagesPaidToNotWorkedCount",headerTemplate: "No", title : "Wages to people who didn't work No",width: '130px', groupable:false },
-		        				{ field: "wagesPaidToNotWorkedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to people who didn't work Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Double Wages to WSF",
-		        			columns :[
-		        				{ field: "doubleWagesWSFCount",headerTemplate: "No", title : "Double Wages to WSF No",width: '130px', groupable:false },
-		        				{ field: "doubleWagesWSFAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Double Wages to WSF Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Wages same A/C",
-		        			columns :[
-		        				{ field: "wagesPaidSameAccCount",headerTemplate: "No", title : "Wages same A/C No",width: '130px', groupable:false },
-		        				{ field: "wagesPaidSameAccAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages same A/C Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Bogus names in FTO",
-		        			columns :[
-		        				{ field: "inclusionBogousFTOCount",headerTemplate: "No", title : "Bogus names in FTO No",width: '130px', groupable:false },
-		        				{ field: "inclusionBogousFTOAmt", headerTemplate : "Amount", title : "Bogus names in FTO Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing Tank / Eri",
-		        			columns :[
-		        				{ field: "missingTanksEriCount",headerTemplate: "No", title : "Missing Tank / Eri No",width: '130px', groupable:false },
-		        				{ field: "missingTanksEriAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Tank / Eri Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing Canals",
-		        			columns :[
-		        				{ field: "missingCanalCount",headerTemplate: "No", title : "Missing Canals No",width: '130px', groupable:false },
-		        				{ field: "missingCanalAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Canals Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing Roads",
-		        			columns :[
-		        				{ field: "missingRoadsCount",headerTemplate: "No", title : "Missing Roads No",width: '130px', groupable:false },
-		        				{ field: "missingRoadsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Roads Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing Plantations",
-		        			columns :[
-		        				{ field: "missingPlantationsCount",headerTemplate: "No", title : "Missing Plantations No",width: '130px', groupable:false },
-		        				{ field: "missingPlantationsAmt", headerTemplate : "Amount", title : "Missing Plantations Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing IHHLs",
-		        			columns :[
-		        				{ field: "missingIHHLSCount",headerTemplate: "No", title : "Missing IHHLs No",width: '130px', groupable:false },
-		        				{ field: "missingIHHLSAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing IHHLs Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing Farm Pond",
-		        			columns :[
-		        				{ field: "missingFarmPondCount",headerTemplate: "No", title : "Missing Farm Pond No",width: '130px', groupable:false },
-		        				{ field: "missingFarmPondAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Farm Pond Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing Cattle shed",
-		        			columns :[
-		        				{ field: "missingCattleShedCount",headerTemplate: "No", title : "Missing Cattle shed No",width: '130px', groupable:false },
-		        				{ field: "missingCattleShedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Cattle shed Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing Goat shed",
-		        			columns :[
-		        				{ field: "missingGoatShedCount",headerTemplate: "No", title : "Missing Goat shed No",width: '130px', groupable:false },
-		        				{ field: "missingGoatShedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Goat shed Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing poultry",
-		        			columns :[
-		        				{ field: "missingPoultryCount",headerTemplate: "No", title : "Missing poultry No",width: '130px', groupable:false },
-		        				{ field: "missingPoultryAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing poultry Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing MGNREGA Component in IAY",
-		        			columns :[
-		        				{ field: "missingMgnregaComponentIAYCount",headerTemplate: "No", title : "Missing IAY No",width: '130px', groupable:false },
-		        				{ field: "missingMgnregaComponentIAYAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing IAY Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Missing MGNREGA Component in GH",
-		        			columns :[
-		        				{ field: "missingMgnregaComponentGHCount",headerTemplate: "No", title : "Missing GH No",width: '130px', groupable:false },
-		        				{ field: "missingMgnregaComponentGHAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing GH Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Misapprop. by VPt President",
-		        			columns :[
-		        				{ field: "misappropriationByVPTPresidentCount",headerTemplate: "No", title : "Misapprop. by VPt President No",width: '130px', groupable:false },
-		        				{ field: "misappropriationByVPTPresidentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Misapprop. by VPt President Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Misapprop. by VPt Secretary",
-		        			columns :[
-		        				{ field: "misappropriationByVPTSecretoryCount",headerTemplate: "No", title : "Misapprop. by VPt Secretary No",width: '130px', groupable:false },
-		        				{ field: "misappropriationByVPTSecretoryAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Misapprop. by VPt Secretary Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Amount Drawn twice same work",
-		        			columns :[
-		        				{ field: "amountDrawnSameWorkCount",headerTemplate: "No", title : "Amount Drawn twice No",width: '130px', groupable:false },
-		        				{ field: "amountDrawnSameWorkAmt",format: '{0:n0}', headerTemplate : "Amount", title : " Amount Drawn twice Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Wages to old IHHLs",
-		        			columns :[
-		        				{ field: "wagesDisbursedPrevConstructedIHHLSCount",headerTemplate: "No", title : "Wages to old IHHLs No",width: '130px', groupable:false },
-		        				{ field: "wagesDisbursedPrevConstructedIHHLSAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to o ldIHHLs Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Bogus entries in FTO",
-		        			columns :[
-		        				{ field: "bogusEntriesFTOCorretingFluidCount",headerTemplate: "No", title : "Bogus entries in FTO No",width: '130px', groupable:false },
-		        				{ field: "bogusEntriesFTOCorretingFluidAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Bogus entries in FTO Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Machinery",
-		        			columns :[
-		        				{ field: "machineryUsedCount",headerTemplate: "No", title : "Machinery No",width: '130px', groupable:false },
-		        				{ field: "machineryUsedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Machinery Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Wages more than actual days",
-		        			columns :[
-		        				{ field: "wagesDrawnMoreThanActualWorkingDayCount",headerTemplate: "No", title : "Wages more than actual days No",width: '130px', groupable:false },
-		        				{ field: "wagesDrawnMoreThanActualWorkingDayAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages more than actual days Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Work by contrators",
-		        			columns :[
-		        				{ field: "workDoneByContractorsCount",headerTemplate: "No", title : "Work by contrators No",width: '130px', groupable:false },
-		        				{ field: "workDoneByContractorsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Work by contrators Amount",width: '130px', groupable:false  }
-		        			]
-		        		},{
-		        			title : "Total",
-		        			columns :[
-		        				{ field: "TotalNo",headerTemplate: "No", title : "No",width: '130px', groupable:false },
-		        				{ field: "TotalAmt",format: '{0:n0}',headerTemplate : "Amount", title : "Amount",width: '130px', groupable:false  }
-		        			]
-		        		},
-		        		{
- 							title : "",
-		                    width: '30px',
-		                    template: kendo.template($("#toggle-template").html())
-		                }
-		        	],
+			columns: [
+				{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
+				{ field: "financialYear", locked: true, groupable:true,width: '130px', title:'FY', footerTemplate: "Total :"},
+				{ field: "roundName", locked: true, groupable:true,width: '130px', title:'Round'},
+				{ field: "districtName", locked: true, groupable:true,width: '130px', title:'District'},
+				{ field: "blockName", locked: true, groupable:true,width: '130px', title:'Block'},
+				{ field: "vpName", locked: true, groupable:true,width: '130px', title:'Panchayat'},
+				{
+					title : "Multiple job cards issued to workers more than 100 days",
+					columns :[
+						{ field: "multipleJcIssuedWorkersCount",headerTemplate: "No", title : "Multiple job cards issued to workers more than 100 days No",width: '130px', groupable:false},
+						{ field: "multipleJcIssuedWorkersAmt",format: '{0:n0}',headerTemplate : "Amount", title : "Multiple job cards issued to workers more than 100 days Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Wages to dead",
+					columns :[
+						{ field: "wagedToDeadCount",headerTemplate: "No", title : "Wages to dead No",width: '130px', groupable:false},
+						{ field: "wagedToDeadAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to dead Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Wages to non-existent",
+					columns :[
+						{ field: "wagesNonExistentCount",headerTemplate: "No", title : "Wages to non-existent No",width: '130px', groupable:false},
+						{ field: "wagesNonExistentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to non-existent Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Wages to migrated",
+					columns :[
+						{ field: "wagesMigratedCount",headerTemplate: "No", title : "Wages to migrated No",width: '130px', groupable:false},
+						{ field: "wagesMigratedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to migrated Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Wages to wrong account",
+					columns :[
+						{ field: "wagesCreditedWrongAccountsCount",headerTemplate: "No", title : "Wages to wrong account No",width: '130px', groupable:false},
+						{ field: "wagesCreditedWrongAccountsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to wrong account Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Double Wages",
+					columns :[
+						{ field: "doubleWagessCount",headerTemplate: "No", title : "Double Wages No",width: '130px', groupable:false},
+						{ field: "doubleWagesAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Double Wages Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Wages to people who didn't work",
+					columns :[
+						{ field: "wagesPaidToNotWorkedCount",headerTemplate: "No", title : "Wages to people who didn't work No",width: '130px', groupable:false},
+						{ field: "wagesPaidToNotWorkedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to people who didn't work Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Double Wages to WSF",
+					columns :[
+						{ field: "doubleWagesWSFCount",headerTemplate: "No", title : "Double Wages to WSF No",width: '130px', groupable:false},
+						{ field: "doubleWagesWSFAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Double Wages to WSF Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Wages paid to same account number",
+					columns :[
+						{ field: "wagesPaidSameAccCount",headerTemplate: "No", title : "Wages paid to same account number No",width: '130px', groupable:false},
+						{ field: "wagesPaidSameAccAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages paid to same account number Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Inclusion of bogus names in FTO",
+					columns :[
+						{ field: "inclusionBogousFTOCount",headerTemplate: "No", title : "Inclusion of bogus names in FTO No",width: '130px', groupable:false},
+						{ field: "inclusionBogousFTOAmt", headerTemplate : "Amount", title : "Inclusion of bogus names in FTO Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing Tank / Eri",
+					columns :[
+						{ field: "missingTanksEriCount",headerTemplate: "No", title : "Missing Tank / Eri No",width: '130px', groupable:false},
+						{ field: "missingTanksEriAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Tank / Eri Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing Canals",
+					columns :[
+						{ field: "missingCanalCount",headerTemplate: "No", title : "Missing Canals No",width: '130px', groupable:false},
+						{ field: "missingCanalAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Canals Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing Roads",
+					columns :[
+						{ field: "missingRoadsCount",headerTemplate: "No", title : "Missing Roads No",width: '130px', groupable:false},
+						{ field: "missingRoadsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Roads Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing Plantations",
+					columns :[
+						{ field: "missingPlantationsCount",headerTemplate: "No", title : "Missing Plantations No",width: '130px', groupable:false},
+						{ field: "missingPlantationsAmt", headerTemplate : "Amount", title : "Missing Plantations Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing IHHLs",
+					columns :[
+						{ field: "missingIHHLSCount",headerTemplate: "No", title : "Missing IHHLs No",width: '130px', groupable:false},
+						{ field: "missingIHHLSAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing IHHLs Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing Farm Pond",
+					columns :[
+						{ field: "missingFarmPondCount",headerTemplate: "No", title : "Missing Farm Pond No",width: '130px', groupable:false},
+						{ field: "missingFarmPondAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Farm Pond Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing Cattle shed",
+					columns :[
+						{ field: "missingCattleShedCount",headerTemplate: "No", title : "Missing Cattle shed No",width: '130px', groupable:false},
+						{ field: "missingCattleShedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Cattle shed Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing Goat shed",
+					columns :[
+						{ field: "missingGoatShedCount",headerTemplate: "No", title : "Missing Goat shed No",width: '130px', groupable:false},
+						{ field: "missingGoatShedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing Goat shed Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing poultry",
+					columns :[
+						{ field: "missingPoultryCount",headerTemplate: "No", title : "Missing poultry No",width: '130px', groupable:false},
+						{ field: "missingPoultryAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing poultry Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing MGNREGA Component in IAY",
+					columns :[
+						{ field: "missingMgnregaComponentIAYCount",headerTemplate: "No", title : "Missing IAY No",width: '130px', groupable:false},
+						{ field: "missingMgnregaComponentIAYAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing IAY Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Missing MGNREGA component in Green house",
+					columns :[
+						{ field: "missingMgnregaComponentGHCount",headerTemplate: "No", title : "Missing MGNREGA component in Green house No",width: '130px', groupable:false},
+						{ field: "missingMgnregaComponentGHAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing MGNREGA component in Green house Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Misappropriation by VPt President",
+					columns :[
+						{ field: "misappropriationByVPTPresidentCount",headerTemplate: "No", title : "Misappropriation by VPt President No",width: '130px', groupable:false},
+						{ field: "misappropriationByVPTPresidentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Misappropriation by VPt President Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Misappropriation by VPt Secretary",
+					columns :[
+						{ field: "misappropriationByVPTSecretoryCount",headerTemplate: "No", title : "Misappropriation by VPt Secretary No",width: '130px', groupable:false},
+						{ field: "misappropriationByVPTSecretoryAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Misappropriation by VPt Secretary Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Amount Drawn twice for same work",
+					columns :[
+						{ field: "amountDrawnSameWorkCount",headerTemplate: "No", title : "Amount Drawn twice for same work No",width: '130px', groupable:false},
+						{ field: "amountDrawnSameWorkAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Amount Drawn twice for same work Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Wages disbursed for previously constructed IHHLs",
+					columns :[
+						{ field: "wagesDisbursedPrevConstructedIHHLSCount",headerTemplate: "No", title : "Wages disbursed for previously constructed IHHLs No",width: '130px', groupable:false},
+						{ field: "wagesDisbursedPrevConstructedIHHLSAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages disbursed for previously constructed IHHLs Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Bogus entries made in FTO by using correcting Fluid",
+					columns :[
+						{ field: "bogusEntriesFTOCorretingFluidCount",headerTemplate: "No", title : "Bogus entries made in FTO by using correcting Fluid No",width: '130px', groupable:false},
+						{ field: "bogusEntriesFTOCorretingFluidAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Bogus entries made in FTO by using correcting Fluid Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Machinery used",
+					columns :[
+						{ field: "machineryUsedCount",headerTemplate: "No", title : "Machinery used No",width: '130px', groupable:false},
+						{ field: "machineryUsedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Machinery used Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Wages drawn more than actual no of working days",
+					columns :[
+						{ field: "wagesDrawnMoreThanActualWorkingDayCount",headerTemplate: "No", title : "Wages drawn more than actual no of working days No",width: '130px', groupable:false},
+						{ field: "wagesDrawnMoreThanActualWorkingDayAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages drawn more than actual no of working days Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Wok done by contractors",
+					columns :[
+						{ field: "workDoneByContractorsCount",headerTemplate: "No", title : "Wok done by contractors No",width: '130px', groupable:false},
+						{ field: "workDoneByContractorsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wok done by contractors Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Contractors",
+					columns :[
+						{ field: "workDoneByContractorsCount",headerTemplate: "No", title : "Wok done by contractors No",width: '130px', groupable:false},
+						{ field: "workDoneByContractorsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wok done by contractors Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "Others",
+					columns :[
+						{ field: "othersCount",headerTemplate: "Others Count", title : "Others Count",width: '130px', groupable:false},
+						{ field: "othersAmount",format: '{0:n0}',headerTemplate : "Others Amount", title : "Others Amount",width: '130px', groupable:false }
+					]
+				},
+				{
+					title : "",
+					width: '30px',
+					template: kendo.template($("#toggle-template").html())
+				}
+			],
 	        pageable: true,
 	        filterable :true,
 	        groupable : true,
@@ -858,6 +872,8 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 						      bogusEntriesFTOCorretingFluidAmt: { type: "number" },
 						      wagesDrawnMoreThanActualWorkingDayCount: { type: "number" },
 						      wagesDrawnMoreThanActualWorkingDayAmt: { type: "number" },
+							  othersCount: { type: "number" },
+							  othersAmount: { type: "number" },
 						      TotalNo: { type: "number" },
 						      TotalAmt: { type: "number" }
                         }
@@ -892,7 +908,8 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 							(elem.misappropriationByVPTSecretoryAmt|| 0 )+
 							(elem.wagesDisbursedPrevConstructedIHHLSAmt|| 0 )+
 							(elem.bogusEntriesFTOCorretingFluidAmt|| 0 )+
-							(elem.wagesDrawnMoreThanActualWorkingDayAmt|| 0 );
+							(elem.wagesDrawnMoreThanActualWorkingDayAmt|| 0 )+
+							(elem.othersAmount || 0 );
 
 						elem.TotalNo =   (elem.wagedToDeadCount|| 0 )+
 							  (elem.wagesNonExistentCount|| 0 )+
@@ -922,7 +939,8 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 							  (elem.misappropriationByVPTSecretoryCount|| 0 )+
 							  (elem.wagesDisbursedPrevConstructedIHHLSCount|| 0 )+
 							  (elem.bogusEntriesFTOCorretingFluidCount|| 0 )+
-							  (elem.wagesDrawnMoreThanActualWorkingDayCount|| 0 );
+							  (elem.wagesDrawnMoreThanActualWorkingDayCount|| 0 )+
+							  (elem.othersCount || 0 );
 				        });
 				        return d;
 				    }

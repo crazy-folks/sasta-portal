@@ -269,7 +269,7 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
                     //forceProxy: true
                 });
 			},*/
-	        columns: [ 
+	        columns: [
 		        		{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
 		        		{ field: "financialYear", locked: true, groupable:true,width: '130px', title:'FY', footerTemplate: "Total :"},
 		        		{ field: "roundName", locked: true, groupable:true,width: '130px', title:'Round'},
@@ -277,10 +277,10 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 		        		{ field: "blockName", locked: true, groupable:true,width: '130px', title:'Block'},
 		        		{ field: "vpName", locked: true, groupable:true,width: '130px', title:'Panchayat'},
 		        		{
-		        			title : "Mulitple JC",
+		        			title : "Multiple job cards issued to workers more than 100 days",
 		        			columns :[
-		        				{ field: "multipleJcIssuedWorkersCount",headerTemplate: "No", title : "Mulitple JC No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "multipleJcIssuedWorkersAmt",format: '{0:n0}',headerTemplate : "Amount", title : "Mulitple JC Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "multipleJcIssuedWorkersCount",headerTemplate: "No", title : "Multiple job cards issued to workers more than 100 days No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "multipleJcIssuedWorkersAmt",format: '{0:n0}',headerTemplate : "Amount", title : "Multiple job cards issued to workers more than 100 days Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
 		        			title : "Wages to dead",
@@ -325,16 +325,16 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 		        				{ field: "doubleWagesWSFAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Double Wages to WSF Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Wages same A/C",
+		        			title : "Wages paid to same account number",
 		        			columns :[
-		        				{ field: "wagesPaidSameAccCount",headerTemplate: "No", title : "Wages same A/C No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "wagesPaidSameAccAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages same A/C Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "wagesPaidSameAccCount",headerTemplate: "No", title : "Wages paid to same account number No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "wagesPaidSameAccAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages paid to same account number Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Bogus names in FTO",
+		        			title : "Inclusion of bogus names in FTO",
 		        			columns :[
-		        				{ field: "inclusionBogousFTOCount",headerTemplate: "No", title : "Bogus names in FTO No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "inclusionBogousFTOAmt", headerTemplate : "Amount", title : "Bogus names in FTO Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "inclusionBogousFTOCount",headerTemplate: "No", title : "Inclusion of bogus names in FTO No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "inclusionBogousFTOAmt", headerTemplate : "Amount", title : "Inclusion of bogus names in FTO Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
 		        			title : "Missing Tank / Eri",
@@ -397,60 +397,66 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 		        				{ field: "missingMgnregaComponentIAYAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing IAY Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Missing MGNREGA Component in GH",
+		        			title : "Missing MGNREGA component in Green house",
 		        			columns :[
-		        				{ field: "missingMgnregaComponentGHCount",headerTemplate: "No", title : "Missing GH No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "missingMgnregaComponentGHAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing GH Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "missingMgnregaComponentGHCount",headerTemplate: "No", title : "Missing MGNREGA component in Green house No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "missingMgnregaComponentGHAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Missing MGNREGA component in Green house Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Misapprop. by VPt President",
+		        			title : "Misappropriation by VPt President",
 		        			columns :[
-		        				{ field: "misappropriationByVPTPresidentCount",headerTemplate: "No", title : "Misapprop. by VPt President No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "misappropriationByVPTPresidentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Misapprop. by VPt President Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "misappropriationByVPTPresidentCount",headerTemplate: "No", title : "Misappropriation by VPt President No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "misappropriationByVPTPresidentAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Misappropriation by VPt President Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Misapprop. by VPt Secretary",
+		        			title : "Misappropriation by VPt Secretary",
 		        			columns :[
-		        				{ field: "misappropriationByVPTSecretoryCount",headerTemplate: "No", title : "Misapprop. by VPt Secretary No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "misappropriationByVPTSecretoryAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Misapprop. by VPt Secretary Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "misappropriationByVPTSecretoryCount",headerTemplate: "No", title : "Misappropriation by VPt Secretary No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "misappropriationByVPTSecretoryAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Misappropriation by VPt Secretary Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Amount Drawn twice same work",
+		        			title : "Amount Drawn twice for same work",
 		        			columns :[
-		        				{ field: "amountDrawnSameWorkCount",headerTemplate: "No", title : "Amount Drawn twice No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "amountDrawnSameWorkAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Amount Drawn twice Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "amountDrawnSameWorkCount",headerTemplate: "No", title : "Amount Drawn twice for same work No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "amountDrawnSameWorkAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Amount Drawn twice for same work Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Wages to old IHHLs",
+		        			title : "Wages disbursed for previously constructed IHHLs",
 		        			columns :[
-		        				{ field: "wagesDisbursedPrevConstructedIHHLSCount",headerTemplate: "No", title : "Wages to old IHHLs No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "wagesDisbursedPrevConstructedIHHLSAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages to o ldIHHLs Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "wagesDisbursedPrevConstructedIHHLSCount",headerTemplate: "No", title : "Wages disbursed for previously constructed IHHLs No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "wagesDisbursedPrevConstructedIHHLSAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages disbursed for previously constructed IHHLs Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Bogus entries in FTO",
+		        			title : "Bogus entries made in FTO by using correcting Fluid",
 		        			columns :[
-		        				{ field: "bogusEntriesFTOCorretingFluidCount",headerTemplate: "No", title : "Bogus entries in FTO No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "bogusEntriesFTOCorretingFluidAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Bogus entries in FTO Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "bogusEntriesFTOCorretingFluidCount",headerTemplate: "No", title : "Bogus entries made in FTO by using correcting Fluid No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "bogusEntriesFTOCorretingFluidAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Bogus entries made in FTO by using correcting Fluid Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Machinery",
+		        			title : "Machinery used",
 		        			columns :[
-		        				{ field: "machineryUsedCount",headerTemplate: "No", title : "Machinery No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "machineryUsedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Machinery Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "machineryUsedCount",headerTemplate: "No", title : "Machinery used No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "machineryUsedAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Machinery used Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Wages more than actual days",
+		        			title : "Wages drawn more than actual no of working days",
 		        			columns :[
-		        				{ field: "wagesDrawnMoreThanActualWorkingDayCount",headerTemplate: "No", title : "Wages more than actual days No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "wagesDrawnMoreThanActualWorkingDayAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages more than actual days Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "wagesDrawnMoreThanActualWorkingDayCount",headerTemplate: "No", title : "Wages drawn more than actual no of working days No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "wagesDrawnMoreThanActualWorkingDayAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wages drawn more than actual no of working days Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
-		        			title : "Work by contrators",
+		        			title : "Wok done by contractors",
 		        			columns :[
-		        				{ field: "workDoneByContractorsCount",headerTemplate: "No", title : "Work by contrators No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-		        				{ field: "workDoneByContractorsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Work by contrators Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+		        				{ field: "workDoneByContractorsCount",headerTemplate: "No", title : "Wok done by contractors No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+		        				{ field: "workDoneByContractorsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wok done by contractors Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
+							title : "Others",
+							columns :[
+								{ field: "othersCount",headerTemplate: "Others Count", title : "Others Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+								{ field: "othersAmount",format: '{0:n0}',headerTemplate : "Others Amount", title : "Others Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+							]
+						},{
 		        			title : "Total",
 		        			columns :[
 		        				{ field: "TotalNo",headerTemplate: "No", title : "No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
@@ -561,6 +567,8 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 						      bogusEntriesFTOCorretingFluidAmt: { type: "number" },
 						      wagesDrawnMoreThanActualWorkingDayCount: { type: "number" },
 						      wagesDrawnMoreThanActualWorkingDayAmt: { type: "number" },
+							  othersCount: { type: "number" },
+							  othersAmount: { type: "number" },
 						      TotalNo: { type: "number" },
 						      TotalAmt: { type: "number" }
                         }
@@ -595,7 +603,8 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 							(elem.misappropriationByVPTSecretoryAmt|| 0 )+
 							(elem.wagesDisbursedPrevConstructedIHHLSAmt|| 0 )+
 							(elem.bogusEntriesFTOCorretingFluidAmt|| 0 )+
-							(elem.wagesDrawnMoreThanActualWorkingDayAmt|| 0 );
+							(elem.wagesDrawnMoreThanActualWorkingDayAmt|| 0 )+
+							(elem.othersAmount || 0 );
 
 						elem.TotalNo =   (elem.wagedToDeadCount|| 0 )+
 							  (elem.wagesNonExistentCount|| 0 )+
@@ -625,7 +634,8 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 							  (elem.misappropriationByVPTSecretoryCount|| 0 )+
 							  (elem.wagesDisbursedPrevConstructedIHHLSCount|| 0 )+
 							  (elem.bogusEntriesFTOCorretingFluidCount|| 0 )+
-							  (elem.wagesDrawnMoreThanActualWorkingDayCount|| 0 );
+							  (elem.wagesDrawnMoreThanActualWorkingDayCount|| 0 )+
+							  (elem.othersCount || 0 );
 				        });
 				        return d;
 				    }
@@ -690,6 +700,8 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 						{ field: "bogusEntriesFTOCorretingFluidAmt", aggregate: "sum" },
 						{ field: "wagesDrawnMoreThanActualWorkingDayCount", aggregate: "sum" },
 						{ field: "wagesDrawnMoreThanActualWorkingDayAmt", aggregate: "sum" },
+						{ field: "othersCount", aggregate: "sum" },
+						{ field: "othersAmount", aggregate: "sum" },
 						{ field: "TotalNo", aggregate: "sum" },
 						{ field: "TotalAmt", aggregate: "sum" }
                     ]
@@ -753,6 +765,8 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 					{ field: "bogusEntriesFTOCorretingFluidAmt", aggregate: "sum" },
 					{ field: "wagesDrawnMoreThanActualWorkingDayCount", aggregate: "sum" },
 					{ field: "wagesDrawnMoreThanActualWorkingDayAmt", aggregate: "sum" },
+					{ field: "othersCount", aggregate: "sum" },
+					{ field: "othersAmount", aggregate: "sum" },
 					{ field: "TotalNo", aggregate: "sum" },
 					{ field: "TotalAmt", aggregate: "sum" }
 	            ]	           
