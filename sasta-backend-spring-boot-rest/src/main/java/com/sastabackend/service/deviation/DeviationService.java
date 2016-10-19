@@ -13,4 +13,6 @@ public interface DeviationService {
     ResponseModel Add(Deviation dv);
     ResponseModel Update(Deviation dv);
     ResponseModel getDeviationsReports(ReportsProperty prop);
+    ResponseModel getDeviationRecordProducedReports(ReportsProperty prop);
+    ResponseModel getDeviationRecordNotProducedReports(ReportsProperty prop);
 }

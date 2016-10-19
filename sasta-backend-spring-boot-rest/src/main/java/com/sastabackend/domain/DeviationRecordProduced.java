@@ -7,17 +7,15 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
- * Created by SARVA on 26/Dec/2015.
+ * Created by Sarvaratchagan on 10/13/2016.
  */
-@Entity(name = "deviation")
-public class Deviation implements CommonProperties {
-    @Id
-    @NotNull
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "id", nullable = false, updatable = false)
-    private Long id;
 
+public class DeviationRecordProduced  implements CommonProperties {
+
+
+    private Long id;
     private Long audit_id;
+
     private Integer jc_misused_by_others_count;
     private java.math.BigDecimal jc_misused_by_others_amt;
     private Integer wages_paid_workers_without_jc_count;
@@ -48,18 +46,6 @@ public class Deviation implements CommonProperties {
     private java.math.BigDecimal none_adoption_ofschedule_rate_amt;
 
 
-    private Integer works_takenup_without_gb_approval_count;
-    private java.math.BigDecimal works_takenup_without_gb_approval_amt;
-    private Integer estimates_not_produced_for_audit_count;
-    private java.math.BigDecimal estimates_not_produced_for_audit_amt;
-    private Integer AS_not_produced_for_audit_count;
-    private java.math.BigDecimal AS_not_produced_for_audit_amt;
-    private Integer TS_not_produced_for_audit_count;
-    private java.math.BigDecimal TS_not_produced_for_audit_amt;
-    private Integer others_count;
-    private java.math.BigDecimal others_amt;
-
-
     private java.sql.Timestamp created_date;
     private java.sql.Timestamp modified_date;
     private Long created_by;
@@ -83,7 +69,7 @@ public class Deviation implements CommonProperties {
     private Integer vp_id;
     private String vp_name;
 
-    public Deviation(){}
+    public DeviationRecordProduced(){}
 
     public Long getId() {
         return id;
@@ -309,69 +295,6 @@ public class Deviation implements CommonProperties {
         this.shortage_measurements_amt = shortage_measurements_amt;
     }
 
-    public Integer getWorksTakenUpWithoutGbApprovalCount() {
-        return works_takenup_without_gb_approval_count;
-    }
-
-    public void setWorksTakenUpWithoutGbApprovalCount(Integer works_takenup_without_gb_approval_count) {
-        this.works_takenup_without_gb_approval_count = works_takenup_without_gb_approval_count;
-    }
-
-    public BigDecimal getWorksTakenUpWithoutGbApprovalAmt() {
-        return works_takenup_without_gb_approval_amt;
-    }
-
-    public void setWorksTakenUpWithoutGbApprovalAmt(BigDecimal works_takenup_without_gb_approval_amt) {
-        this.works_takenup_without_gb_approval_amt = works_takenup_without_gb_approval_amt;
-    }
-
-    public Integer getEstimatesNotProducedForAuditCount() {
-        return estimates_not_produced_for_audit_count;
-    }
-
-    public void setEstimatesNotProducedForAuditCount(Integer estimates_not_produced_for_audit_count) {
-        this.estimates_not_produced_for_audit_count = estimates_not_produced_for_audit_count;
-    }
-
-    public BigDecimal getEstimatesNotProducedForAuditAmt() {
-        return estimates_not_produced_for_audit_amt;
-    }
-
-    public void setEstimatesNotProducedForAuditAmt(BigDecimal estimates_not_produced_for_audit_amt) {
-        this.estimates_not_produced_for_audit_amt = estimates_not_produced_for_audit_amt;
-    }
-
-    public Integer getASNotProducedForAuditCount() {
-        return AS_not_produced_for_audit_count;
-    }
-
-    public void setASNotProducedForAuditCount(Integer AS_not_produced_for_audit_count) {
-        this.AS_not_produced_for_audit_count = AS_not_produced_for_audit_count;
-    }
-
-    public BigDecimal getASNotProducedForAuditAmt() {
-        return AS_not_produced_for_audit_amt;
-    }
-
-    public void setASNotProducedForAuditAmt(BigDecimal AS_not_produced_for_audit_amt) {
-        this.AS_not_produced_for_audit_amt = AS_not_produced_for_audit_amt;
-    }
-
-    public Integer getTSNotProducedForAuditCount() {
-        return TS_not_produced_for_audit_count;
-    }
-
-    public void setTSNotProducedForAuditCount(Integer TS_not_produced_for_audit_count) {
-        this.TS_not_produced_for_audit_count = TS_not_produced_for_audit_count;
-    }
-
-    public BigDecimal getTSNotProducedForAuditAmt() {
-        return TS_not_produced_for_audit_amt;
-    }
-
-    public void setTSNotProducedForAuditAmt(BigDecimal TS_not_produced_for_audit_amt) {
-        this.TS_not_produced_for_audit_amt = TS_not_produced_for_audit_amt;
-    }
 
     public Integer getNoneAdoptionOfScheduleRateCount() {
         return none_adoption_ofschedule_rate_count;
@@ -387,22 +310,6 @@ public class Deviation implements CommonProperties {
 
     public void setNoneAdoptionOfScheduleRateAmt(BigDecimal none_adoption_ofschedule_rate_amt) {
         this.none_adoption_ofschedule_rate_amt = none_adoption_ofschedule_rate_amt;
-    }
-
-    public Integer getOthersCount() {
-        return this.others_count;
-    }
-
-    public void setOthersCount(Integer others_count) {
-        this.others_count = others_count;
-    }
-
-    public BigDecimal getOthersAmount() {
-        return this.others_amt;
-    }
-
-    public void setOthersAmount(BigDecimal others_amt) {
-        this.others_amt = others_amt;
     }
 
     @Override
@@ -579,11 +486,11 @@ public class Deviation implements CommonProperties {
         this.vp_name = vp_name;
     }
 
+
     @Override
     public String toString() {
-        return "Deviation{" +
-                "ineligible_workers_include_under18_count=" + ineligible_workers_include_under18_count +
-                ", id=" + id +
+        return "DeviationRecordProduced{" +
+                "id=" + id +
                 ", audit_id=" + audit_id +
                 ", jc_misused_by_others_count=" + jc_misused_by_others_count +
                 ", jc_misused_by_others_amt=" + jc_misused_by_others_amt +
@@ -597,6 +504,7 @@ public class Deviation implements CommonProperties {
                 ", variations_between_NMR_register_amt=" + variations_between_NMR_register_amt +
                 ", NMR_overwriting_corrections_count=" + NMR_overwriting_corrections_count +
                 ", NMR_overwriting_corrections_amt=" + NMR_overwriting_corrections_amt +
+                ", ineligible_workers_include_under18_count=" + ineligible_workers_include_under18_count +
                 ", ineligible_workers_include_under18_amt=" + ineligible_workers_include_under18_amt +
                 ", diff_onlineNMR_physicalNMR_count=" + diff_onlineNMR_physicalNMR_count +
                 ", diff_onlineNMR_physicalNMR_amt=" + diff_onlineNMR_physicalNMR_amt +
@@ -610,14 +518,6 @@ public class Deviation implements CommonProperties {
                 ", mbooks_not_produced_for_audit_amt=" + mbooks_not_produced_for_audit_amt +
                 ", shortage_measurements_count=" + shortage_measurements_count +
                 ", shortage_measurements_amt=" + shortage_measurements_amt +
-                ", works_takenup_without_gb_approval_count=" + works_takenup_without_gb_approval_count +
-                ", works_takenup_without_gb_approval_amt=" + works_takenup_without_gb_approval_amt +
-                ", estimates_not_produced_for_audit_count=" + estimates_not_produced_for_audit_count +
-                ", estimates_not_produced_for_audit_amt=" + estimates_not_produced_for_audit_amt +
-                ", AS_not_produced_for_audit_count=" + AS_not_produced_for_audit_count +
-                ", AS_not_produced_for_audit_amt=" + AS_not_produced_for_audit_amt +
-                ", TS_not_produced_for_audit_count=" + TS_not_produced_for_audit_count +
-                ", TS_not_produced_for_audit_amt=" + TS_not_produced_for_audit_amt +
                 ", none_adoption_ofschedule_rate_count=" + none_adoption_ofschedule_rate_count +
                 ", none_adoption_ofschedule_rate_amt=" + none_adoption_ofschedule_rate_amt +
                 ", created_date=" + created_date +
