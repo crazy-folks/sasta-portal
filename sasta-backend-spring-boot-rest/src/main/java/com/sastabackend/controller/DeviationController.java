@@ -73,4 +73,16 @@ public class DeviationController {
         return deviationService.getDeviationsReports(prop);
     }
 
+    @ApiOperation(value = "Read All Deviation Record Produced Reports based on end user search criteria", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/deviationrecordproducedreports", method = RequestMethod.POST)
+    public ResponseModel getDeviationRecordProducedReports(@RequestBody ReportsProperty prop) {
+        return deviationService.getDeviationRecordProducedReports(prop);
+    }
+
+    @ApiOperation(value = "Read All Deviation Record Not Produced based on end user search criteria", response = ResponseModel.class, httpMethod = "POST")
+    @RequestMapping(value = "/deviationrecordnotproducedreports", method = RequestMethod.POST)
+    public ResponseModel getDeviationRecordNotProducedReports(@RequestBody ReportsProperty prop) {
+        return deviationService.getDeviationRecordNotProducedReports(prop);
+    }
+
 }

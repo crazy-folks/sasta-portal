@@ -390,13 +390,21 @@ function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvid
             },
             controller : 'GrievanceReportController as grvRptCtl'
         })
-        .state('reports.deviationsreports', {
-            url: "/deviationsreports",
+        .state('reports.deviationsrecordnotproducedreports', {
+            url: "/deviationsrecordnotproducedreports",
             templateUrl: "admin/reports/reports.html",
             data: {
-                pageTitle: 'Deviations Reports'
+                pageTitle: 'Deviation Record Not Produced  Reports'
             },
-            controller : 'DeviationReportController as devRptCtl'
+            controller : 'DeviationRecordNotProducedReportsController as devRecordNotProducedRptCtl'
+        })
+        .state('reports.deviationsrecordproducedreports', {
+            url: "/deviationsrecordproducedreports",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'Deviation Record Produced  Reports'
+            },
+            controller : 'DeviationRecordProducedReportsController as devRecordProducedRptCtl'
         })
         .state('reports.misappropriationsreports', {
             url: "/misappropriationsreports",

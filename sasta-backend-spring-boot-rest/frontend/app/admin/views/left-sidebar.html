@@ -197,8 +197,14 @@
                 </li>
 
                 <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
-                    <a href="javascript:;" ui-sref="reports.deviationsreports" title="Deviations Reports">
-                        Deviations
+                    <a href="javascript:;" ui-sref="reports.deviationsrecordnotproducedreports" title="Deviation Record Not Produced  Reports">
+                        Deviation Record Not Produced  Reports
+                    </a>
+                </li>
+
+                <li ng-show="sessionConfig.loggedInAs||(sessionConfig.isDistrictLevelPerson)"  ui-sref-active="active">
+                    <a href="javascript:;" ui-sref="reports.deviationsrecordproducedreports" title="Deviation Record Produced  Reports">
+                        Deviation Record Produced  Reports
                     </a>
                 </li>
 
