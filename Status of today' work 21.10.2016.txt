@@ -1,0 +1,2 @@
+Today i refer the concepts of Triggers , Index , View and Materialized View and also saw the stored procedure input & ouput variables
+That's it.
