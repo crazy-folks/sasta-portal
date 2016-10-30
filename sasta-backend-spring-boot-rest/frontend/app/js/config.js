@@ -390,6 +390,14 @@ function config($locationProvider,$stateProvider, $urlRouterProvider,$httpProvid
             },
             controller : 'GrievanceReportController as grvRptCtl'
         })
+        .state('reports.deviations', {
+            url: "/deviations",
+            templateUrl: "admin/reports/reports.html",
+            data: {
+                pageTitle: 'Deviations'
+            },
+            controller : 'DeviationReportController as devCtl'
+        })
         .state('reports.deviationsrecordnotproducedreports', {
             url: "/deviationsrecordnotproducedreports",
             templateUrl: "admin/reports/reports.html",

@@ -502,7 +502,7 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 	    $scope.gridOptions = {
 			columns: [
 				{ field: "id", title:'Audit ID', menu:false, hidden: true, editable : false },
-				{ field: "financialYear", locked: true, groupable:true,width: '130px', title:'FY', footerTemplate: "Total :"},
+				{ field: "financialYear", locked: true, groupable:true,width: '130px', title:'FY'},
 				{ field: "roundName", locked: true, groupable:true,width: '130px', title:'Round'},
 				{ field: "districtName", locked: true, groupable:true,width: '130px', title:'District'},
 				{ field: "blockName", locked: true, groupable:true,width: '130px', title:'Block'},
@@ -632,7 +632,8 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 						{ field: "noneAdoptionOfScheduleRateCount",headerTemplate: "No", title : "Non Adoption Of Schedule No",width: '130px', groupable:false },
 						{ field: "noneAdoptionOfScheduleRateAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Non Adoption Of Schedule Amount",width: '130px', groupable:false },
 					]
-				},{
+				},
+				{
 					title : "Others",
 					columns :[
 						{ field: "othersCount",headerTemplate: "Others Count", title : "Others Count",width: '130px', groupable:false},
@@ -648,13 +649,13 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				},
 				{
 					title : "",
-					width: '30px',
+					width: '60px',
 					template: kendo.template($("#toggle-template").html())
 				}
 			],
 	        pageable: true,
 	        filterable :true,
-	        groupable : true,
+	        groupable : false,
 	        pageSize: 30,
             pageable: {
                 refresh: true,
