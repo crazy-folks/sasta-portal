@@ -619,6 +619,11 @@ app.controller('GrievanceController',['$http','$window','$scope','$rootScope','n
 						{ field: "TotalNo", headerTemplate : "No",title: "Total No",width: '130px', groupable:false },
 						{ field: "TotalAmt",format: '{0:n0}', headerTemplate : "Amount",title: "Total Amount",width: '130px', groupable:false },
 					]
+				},
+				{
+					title : "",
+					width: '60px',
+					template: kendo.template($("#toggle-template").html())
 				}
 			],
 	        pageable: true,
