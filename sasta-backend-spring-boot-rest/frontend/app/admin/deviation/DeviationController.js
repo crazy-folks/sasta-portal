@@ -138,11 +138,9 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				"auditId" : 1,
 				"modifiedBy" : null,
 				"blockName" : null,
-				"nmroverWritingCorrectionsAmt" : null,
 				"estimatesNotProducedForAuditCount" : null,
 				"worksTakenUpWithoutGbApprovalCount" : null,
 				"noneAdoptionOfScheduleRateAmt" : null,
-				"nmroverWritingCorrectionsCount" : null,
 				"worksTakenUpWithoutGbApprovalAmt" : null,
 				"noneAdoptionOfScheduleRateCount" : null,
 				"wagesPaidExcessMBooksValueCount" : null,
@@ -155,7 +153,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				"wagesPaymentFromSchemeCount" : null,
 				"wagesPaidWorkersWithoutJcCount" : null,
 				"variationsBetweenNMRRegisterCount" : null,
-				"nmrnotProducedForAuditCount" : null,
 				"diffOnlineNMRPhysicalNMRCount" : null,
 				"variationsBetweenNMRRegisterAmt" : null,
 				"inEligibleWorkersIncludeUnder18Count" : null,
@@ -170,7 +167,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				"asnotProducedForAuditAmt" : null,
 				"jcMisusedByOthersAmt" : null,
 				"shortageMeasurementsAmt" : null,
-				"nmrnotProducedForAuditAmt" : null,
 				"shortageMeasurementsCount" : null,
 				"asnotProducedForAuditCount" : null,
 				"tsnotProducedForAuditAmt" : null,
@@ -201,11 +197,9 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				"auditId" : 1,
 				"modifiedBy" : null,
 				"blockName" : null,
-				"nmroverWritingCorrectionsAmt" : null,
 				"estimatesNotProducedForAuditCount" : null,
 				"worksTakenUpWithoutGbApprovalCount" : null,
 				"noneAdoptionOfScheduleRateAmt" : null,
-				"nmroverWritingCorrectionsCount" : null,
 				"worksTakenUpWithoutGbApprovalAmt" : null,
 				"noneAdoptionOfScheduleRateCount" : null,
 				"wagesPaidExcessMBooksValueCount" : null,
@@ -218,7 +212,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				"wagesPaymentFromSchemeCount" : null,
 				"wagesPaidWorkersWithoutJcCount" : null,
 				"variationsBetweenNMRRegisterCount" : null,
-				"nmrnotProducedForAuditCount" : null,
 				"diffOnlineNMRPhysicalNMRCount" : null,
 				"variationsBetweenNMRRegisterAmt" : null,
 				"inEligibleWorkersIncludeUnder18Count" : null,
@@ -233,7 +226,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				"asnotProducedForAuditAmt" : null,
 				"jcMisusedByOthersAmt" : null,
 				"shortageMeasurementsAmt" : null,
-				"nmrnotProducedForAuditAmt" : null,
 				"shortageMeasurementsCount" : null,
 				"asnotProducedForAuditCount" : null,
 				"tsnotProducedForAuditAmt" : null,
@@ -442,11 +434,9 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 					auditId : data.auditId,
 					modifiedBy : data.modifiedBy,
 					blockName : data.blockName,
-					nmroverWritingCorrectionsAmt : data.nmroverWritingCorrectionsAmt,
 					estimatesNotProducedForAuditCount : data.estimatesNotProducedForAuditCount,
 					worksTakenUpWithoutGbApprovalCount : data.worksTakenUpWithoutGbApprovalCount,
 					noneAdoptionOfScheduleRateAmt : data.noneAdoptionOfScheduleRateAmt,
-					nmroverWritingCorrectionsCount : data.nmroverWritingCorrectionsCount,
 					worksTakenUpWithoutGbApprovalAmt : data.worksTakenUpWithoutGbApprovalAmt,
 					noneAdoptionOfScheduleRateCount : data.noneAdoptionOfScheduleRateCount,
 					wagesPaidExcessMBooksValueCount : data.wagesPaidExcessMBooksValueCount,
@@ -459,7 +449,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 					wagesPaymentFromSchemeCount : data.wagesPaymentFromSchemeCount,
 					wagesPaidWorkersWithoutJcCount : data.wagesPaidWorkersWithoutJcCount,
 					variationsBetweenNMRRegisterCount : data.variationsBetweenNMRRegisterCount,
-					nmrnotProducedForAuditCount : data.nmrnotProducedForAuditCount,
 					diffOnlineNMRPhysicalNMRCount : data.diffOnlineNMRPhysicalNMRCount,
 					variationsBetweenNMRRegisterAmt : data.variationsBetweenNMRRegisterAmt,
 					inEligibleWorkersIncludeUnder18Count : data.inEligibleWorkersIncludeUnder18Count,
@@ -474,7 +463,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 					asnotProducedForAuditAmt : data.asnotProducedForAuditAmt,
 					jcMisusedByOthersAmt : data.jcMisusedByOthersAmt,
 					shortageMeasurementsAmt : data.shortageMeasurementsAmt,
-					nmrnotProducedForAuditAmt : data.nmrnotProducedForAuditAmt,
 					shortageMeasurementsCount : data.shortageMeasurementsCount,
 					asnotProducedForAuditCount : data.asnotProducedForAuditCount,
 					tsnotProducedForAuditAmt : data.tsnotProducedForAuditAmt,
@@ -543,13 +531,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 					]
 				},
 				{
-					title : "NMR Overwriting",
-					columns :[
-						{ field: "nmroverWritingCorrectionsCount",headerTemplate: "No", title : "NMR Overwriting No",width: '130px', groupable:false },
-						{ field: "nmroverWritingCorrectionsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Overwriting Amount",width: '130px', groupable:false },
-					]
-				},
-				{
 					title : "Ineligible workers including under 18 years",
 					columns :[
 						{ field: "inEligibleWorkersIncludeUnder18Count",headerTemplate: "No", title : "Ineligible workers including under 18 years No",width: '130px', groupable:false },
@@ -575,13 +556,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 					columns :[
 						{ field: "amountMoreThanNMRFTOCount",headerTemplate: "No", title : "Amount more than NMR in FTO No",width: '130px', groupable:false },
 						{ field: "amountMoreThanNMRFTOAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Amount more than NMR in FTO Amount",width: '130px', groupable:false },
-					]
-				},
-				{
-					title : "NMR Not Produced For Audit",
-					columns :[
-						{ field: "nmrnotProducedForAuditCount",headerTemplate: "No", title : "NMR Not Produced For Audit No",width: '130px', groupable:false },
-						{ field: "nmrnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Not Produced For Audit Amount",width: '130px', groupable:false },
 					]
 				},
 				{
@@ -694,7 +668,6 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 							  wagesPaymentFromSchemeAmt: { type: "number" },
 							  amountMoreThanNMRFTOCount: { type: "number" },
 							  amountMoreThanNMRFTOAmt: { type: "number" },
-							  nmrnotProducedForAuditAmt: { type: "number" },
 							  shortageMeasurementsCount: { type: "number" },
 							  shortageMeasurementsAmt: { type: "number" },
 							  asnotProducedForAuditCount: { type: "number" },
@@ -708,14 +681,11 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 							  wagesPaidExcessMBooksValueAmt: { type: "number" },
 							  variationsBetweenNMRRegisterCount: { type: "number" },
 							  variationsBetweenNMRRegisterAmt: { type: "number" },
-							  nmroverWritingCorrectionsCount: { type: "number" },
-							  nmroverWritingCorrectionsAmt: { type: "number" },
 							  inEligibleWorkersIncludeUnder18Count: { type: "number" },
 							  inEligibleWorkersIncludeUnder18Amt: { type: "number" },
 							  diffOnlineNMRPhysicalNMRCount: { type: "number" },
 							  diffOnlineNMRPhysicalNMRAmt: { type: "number" },
 							  wagesPaymentFromSchemeCount: { type: "number" },
-							  nmrnotProducedForAuditCount: { type: "number" },
 							  mbooksNotProducedForAuditCount: { type: "number" },
 							  mbooksNotProducedForAuditAmt: { type: "number" },
 							  worksTakenUpWithoutGbApprovalCount: { type: "number" },
@@ -735,14 +705,12 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				            elem.totalAmount = (elem.jcMisusedByOthersAmt||0)+
 				            (elem.wagesPaymentFromSchemeAmt||0)+
 				            (elem.amountMoreThanNMRFTOAmt||0)+
-				            (elem.nmrnotProducedForAuditAmt||0)+
 				            (elem.shortageMeasurementsAmt||0)+
 				            (elem.asnotProducedForAuditAmt||0)+
 				            (elem.tsnotProducedForAuditAmt||0)+
 				            (elem.wagesPaidWithoutRecordMesurementAmt||0)+
 				            (elem.wagesPaidExcessMBooksValueAmt||0)+
 				            (elem.variationsBetweenNMRRegisterAmt||0)+
-				            (elem.nmroverWritingCorrectionsAmt||0)+
 				            (elem.inEligibleWorkersIncludeUnder18Amt||0)+
 				            (elem.diffOnlineNMRPhysicalNMRAmt||0)+
 				            (elem.mbooksNotProducedForAuditAmt||0)+
@@ -762,11 +730,9 @@ app.controller('DeviationController',['$http','$window','$scope','$rootScope','n
 				            (elem.wagesPaidWithoutRecordMesurementCount||0)+
 				            (elem.wagesPaidExcessMBooksValueCount||0)+
 				            (elem.variationsBetweenNMRRegisterCount||0)+
-				            (elem.nmroverWritingCorrectionsCount||0)+
 				            (elem.inEligibleWorkersIncludeUnder18Count||0)+
 				            (elem.diffOnlineNMRPhysicalNMRCount||0)+
 				            (elem.wagesPaymentFromSchemeCount||0)+
-				            (elem.nmrnotProducedForAuditCount||0)+
 				            (elem.mbooksNotProducedForAuditCount||0)+
 				            (elem.worksTakenUpWithoutGbApprovalCount||0)+
 				            (elem.estimatesNotProducedForAuditCount||0)+

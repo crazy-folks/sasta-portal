@@ -294,13 +294,6 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                     ]
                 },
                 {
-                    title : "NMR Overwriting",
-                    columns :[
-                        { field: "nmroverWritingCorrectionsCount",headerTemplate: "No", title : "NMR Overwriting No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-                        { field: "nmroverWritingCorrectionsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Overwriting Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-                    ]
-                },
-                {
                     title : "Ineligible workers including under 18 years",
                     columns :[
                         { field: "inEligibleWorkersIncludeUnder18Count",headerTemplate: "No", title : "Ineligible workers including under 18 years No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
@@ -326,13 +319,6 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                     columns :[
                         { field: "amountMoreThanNMRFTOCount",headerTemplate: "No", title : "Amount more than NMR in FTO No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
                         { field: "amountMoreThanNMRFTOAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Amount more than NMR in FTO Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
-                    ]
-                },
-                {
-                    title : "NMR Not Produced For Audit",
-                    columns :[
-                        { field: "nmrnotProducedForAuditCount",headerTemplate: "No", title : "NMR Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-                        { field: "nmrnotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
@@ -412,7 +398,6 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                             wagesPaymentFromSchemeAmt: { type: "number" },
                             amountMoreThanNMRFTOCount: { type: "number" },
                             amountMoreThanNMRFTOAmt: { type: "number" },
-                            nmrnotProducedForAuditAmt: { type: "number" },
                             shortageMeasurementsCount: { type: "number" },
                             shortageMeasurementsAmt: { type: "number" },
                             wagesPaidWorkersWithoutJcCount: { type: "number" },
@@ -422,14 +407,11 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                             wagesPaidExcessMBooksValueAmt: { type: "number" },
                             variationsBetweenNMRRegisterCount: { type: "number" },
                             variationsBetweenNMRRegisterAmt: { type: "number" },
-                            nmroverWritingCorrectionsCount: { type: "number" },
-                            nmroverWritingCorrectionsAmt: { type: "number" },
                             inEligibleWorkersIncludeUnder18Count: { type: "number" },
                             inEligibleWorkersIncludeUnder18Amt: { type: "number" },
                             diffOnlineNMRPhysicalNMRCount: { type: "number" },
                             diffOnlineNMRPhysicalNMRAmt: { type: "number" },
                             wagesPaymentFromSchemeCount: { type: "number" },
-                            nmrnotProducedForAuditCount: { type: "number" },
                             mbooksNotProducedForAuditCount: { type: "number" },
                             mbooksNotProducedForAuditAmt: { type: "number" },
                             noneAdoptionOfScheduleRateCount: { type: "number" },
@@ -443,12 +425,10 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                             elem.totalAmount = (elem.jcMisusedByOthersAmt||0)+
                                 (elem.wagesPaymentFromSchemeAmt||0)+
                                 (elem.amountMoreThanNMRFTOAmt||0)+
-                                (elem.nmrnotProducedForAuditAmt||0)+
                                 (elem.shortageMeasurementsAmt||0)+
                                 (elem.wagesPaidWithoutRecordMesurementAmt||0)+
                                 (elem.wagesPaidExcessMBooksValueAmt||0)+
                                 (elem.variationsBetweenNMRRegisterAmt||0)+
-                                (elem.nmroverWritingCorrectionsAmt||0)+
                                 (elem.inEligibleWorkersIncludeUnder18Amt||0)+
                                 (elem.diffOnlineNMRPhysicalNMRAmt||0)+
                                 (elem.mbooksNotProducedForAuditAmt||0)+
@@ -463,11 +443,9 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                                 (elem.wagesPaidWithoutRecordMesurementCount||0)+
                                 (elem.wagesPaidExcessMBooksValueCount||0)+
                                 (elem.variationsBetweenNMRRegisterCount||0)+
-                                (elem.nmroverWritingCorrectionsCount||0)+
                                 (elem.inEligibleWorkersIncludeUnder18Count||0)+
                                 (elem.diffOnlineNMRPhysicalNMRCount||0)+
                                 (elem.wagesPaymentFromSchemeCount||0)+
-                                (elem.nmrnotProducedForAuditCount||0)+
                                 (elem.mbooksNotProducedForAuditCount||0)+
                                 (elem.noneAdoptionOfScheduleRateCount||0);
 
@@ -482,7 +460,6 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                         { field: "wagesPaymentFromSchemeAmt", aggregate: "sum" },
                         { field: "amountMoreThanNMRFTOCount", aggregate: "sum" },
                         { field: "amountMoreThanNMRFTOAmt", aggregate: "sum" },
-                        { field: "nmrnotProducedForAuditAmt", aggregate: "sum" },
                         { field: "shortageMeasurementsCount", aggregate: "sum" },
                         { field: "shortageMeasurementsAmt", aggregate: "sum" },
                         { field: "wagesPaidWorkersWithoutJcCount", aggregate: "sum" },
@@ -492,14 +469,11 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                         { field: "wagesPaidExcessMBooksValueAmt", aggregate: "sum" },
                         { field: "variationsBetweenNMRRegisterCount", aggregate: "sum" },
                         { field: "variationsBetweenNMRRegisterAmt", aggregate: "sum" },
-                        { field: "nmroverWritingCorrectionsCount", aggregate: "sum" },
-                        { field: "nmroverWritingCorrectionsAmt", aggregate: "sum" },
                         { field: "inEligibleWorkersIncludeUnder18Count", aggregate: "sum" },
                         { field: "inEligibleWorkersIncludeUnder18Amt", aggregate: "sum" },
                         { field: "diffOnlineNMRPhysicalNMRCount", aggregate: "sum" },
                         { field: "diffOnlineNMRPhysicalNMRAmt", aggregate: "sum" },
                         { field: "wagesPaymentFromSchemeCount", aggregate: "sum" },
-                        { field: "nmrnotProducedForAuditCount", aggregate: "sum" },
                         { field: "mbooksNotProducedForAuditCount", aggregate: "sum" },
                         { field: "mbooksNotProducedForAuditAmt", aggregate: "sum" },
                         { field: "noneAdoptionOfScheduleRateCount", aggregate: "sum" },
@@ -515,7 +489,6 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                     { field: "wagesPaymentFromSchemeAmt", aggregate: "sum" },
                     { field: "amountMoreThanNMRFTOCount", aggregate: "sum" },
                     { field: "amountMoreThanNMRFTOAmt", aggregate: "sum" },
-                    { field: "nmrnotProducedForAuditAmt", aggregate: "sum" },
                     { field: "shortageMeasurementsCount", aggregate: "sum" },
                     { field: "shortageMeasurementsAmt", aggregate: "sum" },
                     { field: "wagesPaidWorkersWithoutJcCount", aggregate: "sum" },
@@ -525,14 +498,11 @@ app.controller('DeviationRecordProducedReportsController',['$http','$window','$s
                     { field: "wagesPaidExcessMBooksValueAmt", aggregate: "sum" },
                     { field: "variationsBetweenNMRRegisterCount", aggregate: "sum" },
                     { field: "variationsBetweenNMRRegisterAmt", aggregate: "sum" },
-                    { field: "nmroverWritingCorrectionsCount", aggregate: "sum" },
-                    { field: "nmroverWritingCorrectionsAmt", aggregate: "sum" },
                     { field: "inEligibleWorkersIncludeUnder18Count", aggregate: "sum" },
                     { field: "inEligibleWorkersIncludeUnder18Amt", aggregate: "sum" },
                     { field: "diffOnlineNMRPhysicalNMRCount", aggregate: "sum" },
                     { field: "diffOnlineNMRPhysicalNMRAmt", aggregate: "sum" },
                     { field: "wagesPaymentFromSchemeCount", aggregate: "sum" },
-                    { field: "nmrnotProducedForAuditCount", aggregate: "sum" },
                     { field: "mbooksNotProducedForAuditCount", aggregate: "sum" },
                     { field: "mbooksNotProducedForAuditAmt", aggregate: "sum" },
                     { field: "noneAdoptionOfScheduleRateCount", aggregate: "sum" },

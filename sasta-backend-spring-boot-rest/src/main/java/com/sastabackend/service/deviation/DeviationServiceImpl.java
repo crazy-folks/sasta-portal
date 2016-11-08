@@ -229,8 +229,6 @@ public class DeviationServiceImpl implements DeviationService {
         inParamMap.put("wagespaidexcessmbooksvalueamt",dv.getWagesPaidExcessMBooksValueAmt());
         inParamMap.put("variationsbetweenNMRregistercount",dv.getVariationsBetweenNMRRegisterCount());
         inParamMap.put("variationsbetweenNMRregisteramt",dv.getVariationsBetweenNMRRegisterAmt());
-        inParamMap.put("NMRoverwritingcorrectionscount",dv.getNMROverWritingCorrectionsCount());
-        inParamMap.put("NMRoverwritingcorrectionsamt",dv.getNMROverWritingCorrectionsAmt());
         inParamMap.put("ineligibleworkersincludeunder18count",dv.getInEligibleWorkersIncludeUnder18Count());
         inParamMap.put("ineligibleworkersincludeunder18amt",dv.getInEligibleWorkersIncludeUnder18Amt());
         inParamMap.put("diffonlineNMRphysicalNMRcount",dv.getDiffOnlineNMRPhysicalNMRCount());
@@ -239,8 +237,6 @@ public class DeviationServiceImpl implements DeviationService {
         inParamMap.put("wagespaymentfromschemeamt",dv.getWagesPaymentFromSchemeAmt());
         inParamMap.put("amountmorethanNMRFTOcount",dv.getAmountMoreThanNMRFTOCount());
         inParamMap.put("amountmorethanNMRFTOamt",dv.getAmountMoreThanNMRFTOAmt());
-        inParamMap.put("NMRnotproducedforauditcount",dv.getNMRNotProducedForAuditCount());
-        inParamMap.put("NMRnotproducedforauditamt",dv.getNMRNotProducedForAuditAmt());
         inParamMap.put("mbooksnotproducedforauditcount",dv.getMbooksNotProducedForAuditCount());
         inParamMap.put("mbooksnotproducedforauditamt", dv.getMbooksNotProducedForAuditAmt());
         inParamMap.put("shortagemeasurementscount",dv.getShortageMeasurementsCount());
@@ -337,8 +333,6 @@ public class DeviationServiceImpl implements DeviationService {
         inParamMap.put("wagespaidexcessmbooksvalueamt",dv.getWagesPaidExcessMBooksValueAmt());
         inParamMap.put("variationsbetweenNMRregistercount",dv.getVariationsBetweenNMRRegisterCount());
         inParamMap.put("variationsbetweenNMRregisteramt",dv.getVariationsBetweenNMRRegisterAmt());
-        inParamMap.put("NMRoverwritingcorrectionscount",dv.getNMROverWritingCorrectionsCount());
-        inParamMap.put("NMRoverwritingcorrectionsamt",dv.getNMROverWritingCorrectionsAmt());
         inParamMap.put("ineligibleworkersincludeunder18count",dv.getInEligibleWorkersIncludeUnder18Count());
         inParamMap.put("ineligibleworkersincludeunder18amt",dv.getInEligibleWorkersIncludeUnder18Amt());
         inParamMap.put("diffonlineNMRphysicalNMRcount",dv.getDiffOnlineNMRPhysicalNMRCount());
@@ -347,8 +341,6 @@ public class DeviationServiceImpl implements DeviationService {
         inParamMap.put("wagespaymentfromschemeamt",dv.getWagesPaymentFromSchemeAmt());
         inParamMap.put("amountmorethanNMRFTOcount",dv.getAmountMoreThanNMRFTOCount());
         inParamMap.put("amountmorethanNMRFTOamt",dv.getAmountMoreThanNMRFTOAmt());
-        inParamMap.put("NMRnotproducedforauditcount",dv.getNMRNotProducedForAuditCount());
-        inParamMap.put("NMRnotproducedforauditamt",dv.getNMRNotProducedForAuditAmt());
         inParamMap.put("mbooksnotproducedforauditcount",dv.getMbooksNotProducedForAuditCount());
         inParamMap.put("mbooksnotproducedforauditamt", dv.getMbooksNotProducedForAuditAmt());
         inParamMap.put("shortagemeasurementscount",dv.getShortageMeasurementsCount());
@@ -535,8 +527,6 @@ public class DeviationServiceImpl implements DeviationService {
             o.setWagesPaidExcessMBooksValueAmt(set.getBigDecimal("wages_paid_excess_mbooks_value_amt"));
             o.setVariationsBetweenNMRRegisterCount(set.getInt("variations_between_NMR_register_count"));
             o.setVariationsBetweenNMRRegisterAmt(set.getBigDecimal("variations_between_NMR_register_amt"));
-            o.setNMROverWritingCorrectionsCount(set.getInt("NMR_overwriting_corrections_count"));
-            o.setNMROverWritingCorrectionsAmt(set.getBigDecimal("NMR_overwriting_corrections_amt"));
             o.setInEligibleWorkersIncludeUnder18Count(set.getInt("ineligible_workers_include_under18_count"));
             o.setInEligibleWorkersIncludeUnder18Amt(set.getBigDecimal("ineligible_workers_include_under18_amt"));
             o.setDiffOnlineNMRPhysicalNMRCount(set.getInt("diff_onlineNMR_physicalNMR_count"));
@@ -546,8 +536,6 @@ public class DeviationServiceImpl implements DeviationService {
             o.setAmountMoreThanNMRFTOCount(set.getInt("amount_morethan_NMR_FTO_count"));
 
             o.setAmountMoreThanNMRFTOAmt(set.getBigDecimal("amount_morethan_NMR_FTO_amt"));
-            o.setNMRNotProducedForAuditCount(set.getInt("NMR_not_produced_for_audit_count"));
-            o.setNMRNotProducedForAuditAmt(set.getBigDecimal("NMR_not_produced_for_audit_amt"));
             o.setMbooksNotProducedForAuditCount(set.getInt("mbooks_not_produced_for_audit_count"));
             o.setMbooksNotProducedForAuditAmt(set.getBigDecimal("mbooks_not_produced_for_audit_amt"));
             o.setShortageMeasurementsCount(set.getInt("shortage_measurements_count"));
@@ -605,8 +593,6 @@ public class DeviationServiceImpl implements DeviationService {
             o.setWagesPaidExcessMBooksValueAmt(set.getBigDecimal("wages_paid_excess_mbooks_value_amt"));
             o.setVariationsBetweenNMRRegisterCount(set.getInt("variations_between_NMR_register_count"));
             o.setVariationsBetweenNMRRegisterAmt(set.getBigDecimal("variations_between_NMR_register_amt"));
-            o.setNMROverWritingCorrectionsCount(set.getInt("NMR_overwriting_corrections_count"));
-            o.setNMROverWritingCorrectionsAmt(set.getBigDecimal("NMR_overwriting_corrections_amt"));
             o.setInEligibleWorkersIncludeUnder18Count(set.getInt("ineligible_workers_include_under18_count"));
             o.setInEligibleWorkersIncludeUnder18Amt(set.getBigDecimal("ineligible_workers_include_under18_amt"));
             o.setDiffOnlineNMRPhysicalNMRCount(set.getInt("diff_onlineNMR_physicalNMR_count"));
@@ -614,10 +600,7 @@ public class DeviationServiceImpl implements DeviationService {
             o.setWagesPaymentFromSchemeCount(set.getInt("wages_payment_from_scheme_count"));
             o.setWagesPaymentFromSchemeAmt(set.getBigDecimal("wages_payment_from_scheme_amt"));
             o.setAmountMoreThanNMRFTOCount(set.getInt("amount_morethan_NMR_FTO_count"));
-
             o.setAmountMoreThanNMRFTOAmt(set.getBigDecimal("amount_morethan_NMR_FTO_amt"));
-            o.setNMRNotProducedForAuditCount(set.getInt("NMR_not_produced_for_audit_count"));
-            o.setNMRNotProducedForAuditAmt(set.getBigDecimal("NMR_not_produced_for_audit_amt"));
             o.setMbooksNotProducedForAuditCount(set.getInt("mbooks_not_produced_for_audit_count"));
             o.setMbooksNotProducedForAuditAmt(set.getBigDecimal("mbooks_not_produced_for_audit_amt"));
             o.setShortageMeasurementsCount(set.getInt("shortage_measurements_count"));
@@ -686,8 +669,6 @@ public class DeviationServiceImpl implements DeviationService {
             o.setWagesPaidExcessMBooksValueAmt(set.getBigDecimal("wages_paid_excess_mbooks_value_amt"));
             o.setVariationsBetweenNMRRegisterCount(set.getInt("variations_between_NMR_register_count"));
             o.setVariationsBetweenNMRRegisterAmt(set.getBigDecimal("variations_between_NMR_register_amt"));
-            o.setNMROverWritingCorrectionsCount(set.getInt("NMR_overwriting_corrections_count"));
-            o.setNMROverWritingCorrectionsAmt(set.getBigDecimal("NMR_overwriting_corrections_amt"));
             o.setInEligibleWorkersIncludeUnder18Count(set.getInt("ineligible_workers_include_under18_count"));
             o.setInEligibleWorkersIncludeUnder18Amt(set.getBigDecimal("ineligible_workers_include_under18_amt"));
             o.setDiffOnlineNMRPhysicalNMRCount(set.getInt("diff_onlineNMR_physicalNMR_count"));
@@ -695,10 +676,7 @@ public class DeviationServiceImpl implements DeviationService {
             o.setWagesPaymentFromSchemeCount(set.getInt("wages_payment_from_scheme_count"));
             o.setWagesPaymentFromSchemeAmt(set.getBigDecimal("wages_payment_from_scheme_amt"));
             o.setAmountMoreThanNMRFTOCount(set.getInt("amount_morethan_NMR_FTO_count"));
-
             o.setAmountMoreThanNMRFTOAmt(set.getBigDecimal("amount_morethan_NMR_FTO_amt"));
-            o.setNMRNotProducedForAuditCount(set.getInt("NMR_not_produced_for_audit_count"));
-            o.setNMRNotProducedForAuditAmt(set.getBigDecimal("NMR_not_produced_for_audit_amt"));
             o.setMbooksNotProducedForAuditCount(set.getInt("mbooks_not_produced_for_audit_count"));
             o.setMbooksNotProducedForAuditAmt(set.getBigDecimal("mbooks_not_produced_for_audit_amt"));
             o.setShortageMeasurementsCount(set.getInt("shortage_measurements_count"));

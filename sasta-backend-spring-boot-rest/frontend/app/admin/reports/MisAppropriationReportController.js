@@ -451,6 +451,25 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 		        				{ field: "workDoneByContractorsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wok done by contractors Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
 		        			]
 		        		},{
+							title : "NMR Overwriting",
+							columns :[
+								{ field: "nmrOverWritingCorrectionsCount",headerTemplate: "No", title : "NMR Overwriting No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+								{ field: "nmrOverWritingCorrectionsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Overwriting Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+							]
+						},
+						{
+							title : "NMR Not Produced For Audit",
+							columns :[
+								{ field: "nmrNotProducedForAuditCount",headerTemplate: "No", title : "NMR Not Produced For Audit No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+								{ field: "nmrNotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Not Produced For Audit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+							]
+						},{
+							title : "Compost Pit",
+							columns :[
+								{ field: "compstPitCount",headerTemplate: "No", title : "Compst Pit Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+								{ field: "compstPitAmount",format: '{0:n0}',headerTemplate : " Amount", title : "Compst Pit Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" }
+							]
+						},{
 							title : "Others",
 							columns :[
 								{ field: "othersCount",headerTemplate: "Others Count", title : "Others Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
@@ -509,73 +528,79 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 				schema:{
                     model: {
                         fields: {
-						      multipleJcIssuedWorkersAmt: { type: "number" },
-						      wagedToDeadCount: { type: "number" },
-						      wagedToDeadAmt: { type: "number" },
-						      wagesNonExistentCount: { type: "number" },
-						      wagesNonExistentAmt: { type: "number" },
-						      wagesMigratedCount: { type: "number" },
-						      wagesMigratedAmt:  { type: "number" },
-						      doubleWagessCount: { type: "number" },
-						      doubleWagesAmt: { type: "number" },
-						      wagesPaidToNotWorkedCount:  { type: "number" },
-						      wagesPaidToNotWorkedAmt:  { type: "number" },
-						      doubleWagesWSFCount: { type: "number" },
-						      doubleWagesWSFAmt: { type: "number" },
-						      wagesPaidSameAccCount: { type: "number" },
-						      wagesPaidSameAccAmt: { type: "number" },
-						      inclusionBogousFTOCount: { type: "number" },
-						      inclusionBogousFTOAmt: { type: "number" },
-						      missingTanksEriCount: { type: "number" },
-						      missingTanksEriAmt: { type: "number" },
-						      missingCanalCount: { type: "number" },
-						      missingCanalAmt: { type: "number" },
-						      missingRoadsCount: { type: "number" },
-						      missingRoadsAmt: { type: "number" },
-						      missingPlantationsCount:  { type: "number" },
-						      missingPlantationsAmt:  { type: "number" },
-						      missingIHHLSCount: { type: "number" },
-						      missingIHHLSAmt:  { type: "number" },
-						      missingFarmPondCount:  { type: "number" },
-						      missingFarmPondAmt:  { type: "number" },
-						      missingCattleShedCount: { type: "number" },
-						      missingCattleShedAmt: { type: "number" },
-						      missingGoatShedCount: { type: "number" },
-						      missingGoatShedAmt: { type: "number" },
-						      missingPoultryCount: { type: "number" },
-						      missingPoultryAmt: { type: "number" },
-						      amountDrawnSameWorkCount: { type: "number" },
-						      amountDrawnSameWorkAmt: { type: "number" },
-						      machineryUsedCount: { type: "number" },
-						      machineryUsedAmt: { type: "number" },
-						      workDoneByContractorsCount: { type: "number" },
-						      workDoneByContractorsAmt: { type: "number" },
-						      multipleJcIssuedWorkersCount: { type: "number" },
-						      wagesCreditedWrongAccountsCount: { type: "number" },
-						      wagesCreditedWrongAccountsAmt: { type: "number" },
-						      missingMgnregaComponentIAYCount: { type: "number" },
-						      missingMgnregaComponentIAYAmt: { type: "number" },
-						      missingMgnregaComponentGHCount: { type: "number" },
-						      missingMgnregaComponentGHAmt: { type: "number" },
-						      misappropriationByVPTPresidentCount: { type: "number" },
-						      misappropriationByVPTPresidentAmt: { type: "number" },
-						      misappropriationByVPTSecretoryCount: { type: "number" },
-						      misappropriationByVPTSecretoryAmt: { type: "number" },
-						      wagesDisbursedPrevConstructedIHHLSCount: { type: "number" },
-						      wagesDisbursedPrevConstructedIHHLSAmt: { type: "number" },
-						      bogusEntriesFTOCorretingFluidCount: { type: "number" },
-						      bogusEntriesFTOCorretingFluidAmt: { type: "number" },
-						      wagesDrawnMoreThanActualWorkingDayCount: { type: "number" },
-						      wagesDrawnMoreThanActualWorkingDayAmt: { type: "number" },
-							  othersCount: { type: "number" },
-							  othersAmount: { type: "number" },
-						      TotalNo: { type: "number" },
-						      TotalAmt: { type: "number" }
+							multipleJcIssuedWorkersAmt: { type: "number" },
+							wagedToDeadCount: { type: "number" },
+							wagedToDeadAmt: { type: "number" },
+							wagesNonExistentCount: { type: "number" },
+							wagesNonExistentAmt: { type: "number" },
+							wagesMigratedCount: { type: "number" },
+							wagesMigratedAmt:  { type: "number" },
+							doubleWagessCount: { type: "number" },
+							doubleWagesAmt: { type: "number" },
+							wagesPaidToNotWorkedCount:  { type: "number" },
+							wagesPaidToNotWorkedAmt:  { type: "number" },
+							doubleWagesWSFCount: { type: "number" },
+							doubleWagesWSFAmt: { type: "number" },
+							wagesPaidSameAccCount: { type: "number" },
+							wagesPaidSameAccAmt: { type: "number" },
+							inclusionBogousFTOCount: { type: "number" },
+							inclusionBogousFTOAmt: { type: "number" },
+							missingTanksEriCount: { type: "number" },
+							missingTanksEriAmt: { type: "number" },
+							missingCanalCount: { type: "number" },
+							missingCanalAmt: { type: "number" },
+							missingRoadsCount: { type: "number" },
+							missingRoadsAmt: { type: "number" },
+							missingPlantationsCount:  { type: "number" },
+							missingPlantationsAmt:  { type: "number" },
+							missingIHHLSCount: { type: "number" },
+							missingIHHLSAmt:  { type: "number" },
+							missingFarmPondCount:  { type: "number" },
+							missingFarmPondAmt:  { type: "number" },
+							missingCattleShedCount: { type: "number" },
+							missingCattleShedAmt: { type: "number" },
+							missingGoatShedCount: { type: "number" },
+							missingGoatShedAmt: { type: "number" },
+							missingPoultryCount: { type: "number" },
+							missingPoultryAmt: { type: "number" },
+							amountDrawnSameWorkCount: { type: "number" },
+							amountDrawnSameWorkAmt: { type: "number" },
+							machineryUsedCount: { type: "number" },
+							machineryUsedAmt: { type: "number" },
+							workDoneByContractorsCount: { type: "number" },
+							workDoneByContractorsAmt: { type: "number" },
+							multipleJcIssuedWorkersCount: { type: "number" },
+							wagesCreditedWrongAccountsCount: { type: "number" },
+							wagesCreditedWrongAccountsAmt: { type: "number" },
+							missingMgnregaComponentIAYCount: { type: "number" },
+							missingMgnregaComponentIAYAmt: { type: "number" },
+							missingMgnregaComponentGHCount: { type: "number" },
+							missingMgnregaComponentGHAmt: { type: "number" },
+							misappropriationByVPTPresidentCount: { type: "number" },
+							misappropriationByVPTPresidentAmt: { type: "number" },
+							misappropriationByVPTSecretoryCount: { type: "number" },
+							misappropriationByVPTSecretoryAmt: { type: "number" },
+							wagesDisbursedPrevConstructedIHHLSCount: { type: "number" },
+							wagesDisbursedPrevConstructedIHHLSAmt: { type: "number" },
+							bogusEntriesFTOCorretingFluidCount: { type: "number" },
+							bogusEntriesFTOCorretingFluidAmt: { type: "number" },
+							wagesDrawnMoreThanActualWorkingDayCount: { type: "number" },
+							wagesDrawnMoreThanActualWorkingDayAmt: { type: "number" },
+							nmrOverWritingCorrectionsCount : { type: "number" },
+							nmrOverWritingCorrectionsAmt : { type: "number" },
+							nmrNotProducedForAuditCount : { type: "number" },
+							nmrNotProducedForAuditAmt : { type: "number" },
+							compstPitCount : { type: "number" },
+							compstPitAmount : { type: "number" },
+							othersCount: { type: "number" },
+							othersAmount: { type: "number" },
+							TotalNo: { type: "number" },
+							TotalAmt: { type: "number" }
                         }
                     },
 				    parse : function (d) {
 				        $.each(d, function(idx, elem) {
-				            elem.TotalAmt = (elem.multipleJcIssuedWorkersAmt|| 0 )+
+							elem.TotalAmt = (elem.multipleJcIssuedWorkersAmt|| 0 )+
 							(elem.wagedToDeadAmt|| 0 )+
 							(elem.wagesNonExistentAmt|| 0 )+
 							(elem.wagesMigratedAmt|| 0 )+
@@ -604,38 +629,44 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 							(elem.wagesDisbursedPrevConstructedIHHLSAmt|| 0 )+
 							(elem.bogusEntriesFTOCorretingFluidAmt|| 0 )+
 							(elem.wagesDrawnMoreThanActualWorkingDayAmt|| 0 )+
+							(elem.nmrOverWritingCorrectionsAmt|| 0 )+
+							(elem.nmrNotProducedForAuditAmt|| 0 )+
+							(elem.compstPitAmount|| 0 )+
 							(elem.othersAmount || 0 );
 
 						elem.TotalNo =   (elem.wagedToDeadCount|| 0 )+
-							  (elem.wagesNonExistentCount|| 0 )+
-							  (elem.wagesMigratedCount|| 0 )+
-							  (elem.doubleWagessCount|| 0 )+
-							  (elem.wagesPaidToNotWorkedCount|| 0 )+
-							  (elem.doubleWagesWSFCount|| 0 )+
-							  (elem.wagesPaidSameAccCount|| 0 )+
-							  (elem.inclusionBogousFTOCount|| 0 )+
-							  (elem.missingTanksEriCount|| 0 )+
-							  (elem.missingCanalCount|| 0 )+
-							  (elem.missingRoadsCount|| 0 )+
-							  (elem.missingPlantationsCount|| 0 )+
-							  (elem.missingIHHLSCount|| 0 )+
-							  (elem.missingFarmPondCount|| 0 )+
-							  (elem.missingCattleShedCount|| 0 )+
-							  (elem.missingGoatShedCount|| 0 )+
-							  (elem.missingPoultryCount|| 0 )+
-							  (elem.amountDrawnSameWorkCount|| 0 )+
-							  (elem.machineryUsedCount|| 0 )+
-							  (elem.workDoneByContractorsCount|| 0 )+
-							  (elem.multipleJcIssuedWorkersCount|| 0 )+
-							  (elem.wagesCreditedWrongAccountsCount|| 0 )+
-							  (elem.missingMgnregaComponentIAYCount|| 0 )+
-							  (elem.missingMgnregaComponentGHCount|| 0 )+
-							  (elem.misappropriationByVPTPresidentCount|| 0 )+
-							  (elem.misappropriationByVPTSecretoryCount|| 0 )+
-							  (elem.wagesDisbursedPrevConstructedIHHLSCount|| 0 )+
-							  (elem.bogusEntriesFTOCorretingFluidCount|| 0 )+
-							  (elem.wagesDrawnMoreThanActualWorkingDayCount|| 0 )+
-							  (elem.othersCount || 0 );
+							(elem.wagesNonExistentCount|| 0 )+
+							(elem.wagesMigratedCount|| 0 )+
+							(elem.doubleWagessCount|| 0 )+
+							(elem.wagesPaidToNotWorkedCount|| 0 )+
+							(elem.doubleWagesWSFCount|| 0 )+
+							(elem.wagesPaidSameAccCount|| 0 )+
+							(elem.inclusionBogousFTOCount|| 0 )+
+							(elem.missingTanksEriCount|| 0 )+
+							(elem.missingCanalCount|| 0 )+
+							(elem.missingRoadsCount|| 0 )+
+							(elem.missingPlantationsCount|| 0 )+
+							(elem.missingIHHLSCount|| 0 )+
+							(elem.missingFarmPondCount|| 0 )+
+							(elem.missingCattleShedCount|| 0 )+
+							(elem.missingGoatShedCount|| 0 )+
+							(elem.missingPoultryCount|| 0 )+
+							(elem.amountDrawnSameWorkCount|| 0 )+
+							(elem.machineryUsedCount|| 0 )+
+							(elem.workDoneByContractorsCount|| 0 )+
+							(elem.multipleJcIssuedWorkersCount|| 0 )+
+							(elem.wagesCreditedWrongAccountsCount|| 0 )+
+							(elem.missingMgnregaComponentIAYCount|| 0 )+
+							(elem.missingMgnregaComponentGHCount|| 0 )+
+							(elem.misappropriationByVPTPresidentCount|| 0 )+
+							(elem.misappropriationByVPTSecretoryCount|| 0 )+
+							(elem.wagesDisbursedPrevConstructedIHHLSCount|| 0 )+
+							(elem.bogusEntriesFTOCorretingFluidCount|| 0 )+
+							(elem.wagesDrawnMoreThanActualWorkingDayCount|| 0 )+
+							(elem.nmrOverWritingCorrectionsCount|| 0 )+
+							(elem.nmrNotProducedForAuditCount|| 0 )+
+							(elem.compstPitCount|| 0 )+
+							(elem.othersCount || 0 );
 				        });
 				        return d;
 				    }
@@ -700,6 +731,12 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 						{ field: "bogusEntriesFTOCorretingFluidAmt", aggregate: "sum" },
 						{ field: "wagesDrawnMoreThanActualWorkingDayCount", aggregate: "sum" },
 						{ field: "wagesDrawnMoreThanActualWorkingDayAmt", aggregate: "sum" },
+						{ field: "nmrOverWritingCorrectionsCount", aggregate: "sum" },
+						{ field: "nmrOverWritingCorrectionsAmt", aggregate: "sum" },
+						{ field: "nmrNotProducedForAuditCount", aggregate: "sum" },
+						{ field: "nmrNotProducedForAuditAmt", aggregate: "sum" },
+						{ field: "compstPitCount", aggregate: "sum" },
+						{ field: "compstPitAmount", aggregate: "sum" },
 						{ field: "othersCount", aggregate: "sum" },
 						{ field: "othersAmount", aggregate: "sum" },
 						{ field: "TotalNo", aggregate: "sum" },
@@ -765,6 +802,12 @@ app.controller('MisAppropriationReportController',['$http','$window','$scope','$
 					{ field: "bogusEntriesFTOCorretingFluidAmt", aggregate: "sum" },
 					{ field: "wagesDrawnMoreThanActualWorkingDayCount", aggregate: "sum" },
 					{ field: "wagesDrawnMoreThanActualWorkingDayAmt", aggregate: "sum" },
+					{ field: "nmrOverWritingCorrectionsCount", aggregate: "sum" },
+					{ field: "nmrOverWritingCorrectionsAmt", aggregate: "sum" },
+					{ field: "nmrNotProducedForAuditCount", aggregate: "sum" },
+					{ field: "nmrNotProducedForAuditAmt", aggregate: "sum" },
+					{ field: "compstPitCount", aggregate: "sum" },
+					{ field: "compstPitAmount", aggregate: "sum" },
 					{ field: "othersCount", aggregate: "sum" },
 					{ field: "othersAmount", aggregate: "sum" },
 					{ field: "TotalNo", aggregate: "sum" },

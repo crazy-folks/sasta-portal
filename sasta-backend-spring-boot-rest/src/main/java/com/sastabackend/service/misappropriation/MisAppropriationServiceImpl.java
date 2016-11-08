@@ -188,6 +188,17 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
                         new SqlParameter("wagesdrawnmorethanactualworkingdayamt", Types.DECIMAL),
                         new SqlParameter("workdonebycontractorscount", Types.INTEGER),
                         new SqlParameter("workdonebycontractorsamt", Types.DECIMAL),
+
+                        /*
+                            New columns added based on customer requirement
+                        */
+                        new SqlParameter("NMRoverwritingcorrectionscount", Types.INTEGER),
+                        new SqlParameter("NMRoverwritingcorrectionsamt", Types.DECIMAL),
+                        new SqlParameter("NMRnotproducedforauditcount", Types.INTEGER),
+                        new SqlParameter("NMRnotproducedforauditamt", Types.DECIMAL),
+                        new SqlParameter("compstpitcount", Types.INTEGER),
+                        new SqlParameter("compstpitamt", Types.DECIMAL),
+
                         /**
                          * Newly Added Columns
                          */
@@ -260,9 +271,20 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
         inParamMap.put("workdonebycontractorscount",mis.getWorkDoneByContractorsCount() );
         inParamMap.put("workdonebycontractorsamt", mis.getWorkDoneByContractorsAmt());
 
-        /**
-         * Newly Added Columns
-         */
+        /*
+            New columns added based on customer requirement
+        */
+        inParamMap.put("NMRoverwritingcorrectionscount",mis.getNmrOverWritingCorrectionsCount() );
+        inParamMap.put("NMRoverwritingcorrectionsamt", mis.getNmrOverWritingCorrectionsAmt());
+        inParamMap.put("NMRnotproducedforauditcount",mis.getNmrNotProducedForAuditCount() );
+        inParamMap.put("NMRnotproducedforauditamt", mis.getNmrNotProducedForAuditAmt());
+        inParamMap.put("compstpitcount",mis.getCompstPitCount() );
+        inParamMap.put("compstpitamt", mis.getCompstPitAmount());
+
+
+                /**
+                 * Newly Added Columns
+                 */
         inParamMap.put("otherscount",mis.getOthersCount() );
         inParamMap.put("othersamount", mis.getOthersAmount());
 
@@ -343,6 +365,17 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
                         new SqlParameter("workdonebycontractorscount", Types.INTEGER),
                         new SqlParameter("workdonebycontractorsamt", Types.DECIMAL),
 
+
+                        /*
+                            New columns added based on customer requirement
+                        */
+                        new SqlParameter("NMRoverwritingcorrectionscount", Types.INTEGER),
+                        new SqlParameter("NMRoverwritingcorrectionsamt", Types.DECIMAL),
+                        new SqlParameter("NMRnotproducedforauditcount", Types.INTEGER),
+                        new SqlParameter("NMRnotproducedforauditamt", Types.DECIMAL),
+                        new SqlParameter("compstpitcount", Types.INTEGER),
+                        new SqlParameter("compstpitamt", Types.DECIMAL),
+
                         /**
                          * Newly Added Columns
                          */
@@ -417,6 +450,15 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
         inParamMap.put("workdonebycontractorscount",mis.getWorkDoneByContractorsCount() );
         inParamMap.put("workdonebycontractorsamt", mis.getWorkDoneByContractorsAmt());
 
+        /*
+            New columns added based on customer requirement
+        */
+        inParamMap.put("NMRoverwritingcorrectionscount",mis.getNmrOverWritingCorrectionsCount() );
+        inParamMap.put("NMRoverwritingcorrectionsamt", mis.getNmrOverWritingCorrectionsAmt());
+        inParamMap.put("NMRnotproducedforauditcount",mis.getNmrNotProducedForAuditCount() );
+        inParamMap.put("NMRnotproducedforauditamt", mis.getNmrNotProducedForAuditAmt());
+        inParamMap.put("compstpitcount",mis.getCompstPitCount() );
+        inParamMap.put("compstpitamt", mis.getCompstPitAmount());
         /**
          * Newly Added Columns
          */
@@ -551,6 +593,16 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
             o.setWorkDoneByContractorsCount(set.getInt("work_done_by_contractors_count"));
             o.setWorkDoneByContractorsAmt(set.getBigDecimal("work_done_by_contractors_amt"));
 
+            /*
+                New columns added based on customer requirement
+            */
+            o.setNmrOverWritingCorrectionsCount(set.getInt("NMR_overwriting_corrections_count"));
+            o.setNmrOverWritingCorrectionsAmt(set.getBigDecimal("NMR_overwriting_corrections_amt"));
+            o.setNmrNotProducedForAuditCount(set.getInt("NMR_not_produced_for_audit_count"));
+            o.setNmrNotProducedForAuditAmt(set.getBigDecimal("NMR_not_produced_for_audit_amt"));
+            o.setCompstPitCount(set.getInt("compst_pit_count"));
+            o.setCompstPitAmount(set.getBigDecimal("compst_pit_amt"));
+
             /**
              * Newly Added columns based on customer request
              */
@@ -658,6 +710,19 @@ public class MisAppropriationServiceImpl  implements MisAppropriationService {
             o.setWorkDoneByContractorsCount(set.getInt("work_done_by_contractors_count"));
             o.setWorkDoneByContractorsAmt(set.getBigDecimal("work_done_by_contractors_amt"));
 
+            /*
+                New columns added based on customer requirement
+            */
+            o.setNmrOverWritingCorrectionsCount(set.getInt("NMR_overwriting_corrections_count"));
+            o.setNmrOverWritingCorrectionsAmt(set.getBigDecimal("NMR_overwriting_corrections_amt"));
+            o.setNmrNotProducedForAuditCount(set.getInt("NMR_not_produced_for_audit_count"));
+            o.setNmrNotProducedForAuditAmt(set.getBigDecimal("NMR_not_produced_for_audit_amt"));
+            o.setCompstPitCount(set.getInt("compst_pit_count"));
+            o.setCompstPitAmount(set.getBigDecimal("compst_pit_amt"));
+
+            /**
+             * Newly Added columns based on customer request
+             */
             o.setOthersCount(set.getInt("others_count"));
             o.setOthersAmount(set.getBigDecimal("others_amt"));
 

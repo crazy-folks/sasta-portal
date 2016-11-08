@@ -289,85 +289,85 @@ app.controller('DeviationRecordNotProducedReportsController',['$http','$window',
                 {
                     title : "Others",
                     columns :[
-                        { field: "othersCount",headerTemplate: "Others Count", title : "Others Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "othersCount",headerTemplate: "Others No", title : "Others No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
                         { field: "othersAmount",format: '{0:n0}',headerTemplate : "Others Amount", title : "Others Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "GS EST AS TS",
                     columns :[
-                        { field: "GS_EST_AS_TS_COUNT",headerTemplate: "GS EST AS TS Count", title : "GS EST AS TS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "GS_EST_AS_TS_COUNT",headerTemplate: "GS EST AS TS No", title : "GS EST AS TS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
                         { field: "GS_EST_AS_TS_AMT",format: '{0:n0}',headerTemplate : "GS EST AS TS Amount", title : "GS EST AS TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "GS EST AS",
                     columns :[
-                        { field: "GS_EST_AS_COUNT",headerTemplate: "GS EST AS Count", title : "GS EST AS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "GS_EST_AS_COUNT",headerTemplate: "GS EST AS No", title : "GS EST AS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
                         { field: "GS_EST_AS_AMT",format: '{0:n0}',headerTemplate : "GS EST AS Amount", title : "GS EST AS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "GS EST TS",
                     columns :[
-                        { field: "GS_EST_TS_COUNT",headerTemplate: "GS EST TS Count", title : "GS EST TS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "GS_EST_TS_COUNT",headerTemplate: "GS EST TS No", title : "GS EST TS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
                         { field: "GS_EST_TS_AMT",format: '{0:n0}',headerTemplate : "GS EST TS Amount", title : "GS EST TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "GS AS TS",
                     columns :[
-                        { field: "GS_AS_TS_COUNT",headerTemplate: "GS AS TS Count", title : "GS AS TS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "GS_AS_TS_COUNT",headerTemplate: "GS AS TS No", title : "GS AS TS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
                         { field: "GS_AS_TS_AMT",format: '{0:n0}',headerTemplate : "GS AS TS Amount", title : "GS AS TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "EST AS TS",
                     columns :[
-                        { field: "EST_AS_TS_AMT",headerTemplate: "EST AS TS Count", title : "EST AS TS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-                        { field: "EST_AS_TS_COUNT",format: '{0:n0}',headerTemplate : "EST AS TS Amount", title : "EST AS TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+                        { field: "EST_AS_TS_COUNT",headerTemplate: "EST AS TS No", title : "EST AS TS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "EST_AS_TS_AMT",format: '{0:n0}',headerTemplate : "EST AS TS Amount", title : "EST AS TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "EST AS",
                     columns :[
-                        { field: "EST_AS_AMT",headerTemplate: "EST AS Count", title : "EST AS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-                        { field: "EST_AS_COUNT",format: '{0:n0}',headerTemplate : "EST AS Amount", title : "EST AS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+                        { field: "EST_AS_COUNT",headerTemplate: "EST AS No", title : "EST AS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "EST_AS_AMT",format: '{0:n0}',headerTemplate : "EST AS Amount", title : "EST AS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "EST TS",
                     columns :[
-                        { field: "EST_TS_AMT",headerTemplate: "EST TS Count", title : "EST TS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-                        { field: "EST_TS_COUNT",format: '{0:n0}',headerTemplate : "EST TS Amount", title : "EST TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+                        { field: "EST_TS_COUNT",headerTemplate: "EST TS No", title : "EST TS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "EST_TS_AMT",format: '{0:n0}',headerTemplate : "EST TS Amount", title : "EST TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "GS EST",
                     columns :[
-                        { field: "GS_EST_AMT",headerTemplate: "GS EST Count", title : "GS EST Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-                        { field: "GS_EST_COUNT",format: '{0:n0}',headerTemplate : "GS EST Amount", title : "GS EST Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+                        { field: "GS_EST_COUNT",headerTemplate: "GS EST No", title : "GS EST No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "GS_EST_AMT",format: '{0:n0}',headerTemplate : "GS EST Amount", title : "GS EST Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "GS AS",
                     columns :[
-                        { field: "GS_AS_AMT",headerTemplate: "GS AS Count", title : "GS AS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-                        { field: "GS_AS_COUNT",format: '{0:n0}',headerTemplate : "GS AS Amount", title : "GS AS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+                        { field: "GS_AS_COUNT",headerTemplate: "GS AS No", title : "GS AS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "GS_AS_AMT",format: '{0:n0}',headerTemplate : "GS AS Amount", title : "GS AS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "GS TS",
                     columns :[
-                        { field: "GS_TS_AMT",headerTemplate: "GS TS Count", title : "GS TS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "GS_TS_AMT",headerTemplate: "GS TS No", title : "GS TS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
                         { field: "GS_TS_COUNT",format: '{0:n0}',headerTemplate : "GS TS Amount", title : "GS TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 },
                 {
                     title : "AS TS",
                     columns :[
-                        { field: "AS_TS_AMT",headerTemplate: "AS TS Count", title : "AS TS Count",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
-                        { field: "AS_TS_COUNT",format: '{0:n0}',headerTemplate : "AS TS Amount", title : "AS TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
+                        { field: "AS_TS_COUNT",headerTemplate: "AS TS No", title : "AS TS No",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=sum#", groupFooterTemplate: "#=sum#" },
+                        { field: "AS_TS_AMT",format: '{0:n0}',headerTemplate : "AS TS Amount", title : "AS TS Amount",width: '130px', groupable:false, aggregates: ["sum"] ,footerTemplate: "#=kendo.toString(sum,\"n0\")#", groupFooterTemplate: "#=kendo.toString(sum,\"n0\")#" },
                     ]
                 }
             ],

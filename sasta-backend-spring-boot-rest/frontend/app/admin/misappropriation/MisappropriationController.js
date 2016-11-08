@@ -192,6 +192,12 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 				 "missingCanalCount" : null,
 				 "missingFarmPondCount" : null,
 				 "missingGoatShedCount" : null,
+				 "nmrOverWritingCorrectionsCount": null,
+				 "nmrOverWritingCorrectionsAmt":  null,
+				 "nmrNotProducedForAuditCount": null,
+				 "nmrNotProducedForAuditAmt": null,
+				 "compstPitCount": null,
+				 "compstPitAmount": null,
 				 "othersCount": null,
 				 "othersAmount": null,
 				 "createdBy" : null,
@@ -277,6 +283,12 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 				 "missingCanalCount" : null,
 				 "missingFarmPondCount" : null,
 				 "missingGoatShedCount" : null,
+				 "nmrOverWritingCorrectionsCount": null,
+				 "nmrOverWritingCorrectionsAmt":  null,
+				 "nmrNotProducedForAuditCount": null,
+				 "nmrNotProducedForAuditAmt": null,
+				 "compstPitCount": null,
+				 "compstPitAmount": null,
 				 "othersCount": null,
 				 "othersAmount": null,
 				 "createdBy" : null,
@@ -400,6 +412,12 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 					missingCanalCount: data.missingCanalCount,
 					missingFarmPondCount: data.missingFarmPondCount,
 					missingGoatShedCount: data.missingGoatShedCount,
+					nmrOverWritingCorrectionsCount: data.nmrOverWritingCorrectionsCount,
+					nmrOverWritingCorrectionsAmt:  data.nmrOverWritingCorrectionsAmt,
+					nmrNotProducedForAuditCount: data.nmrNotProducedForAuditCount,
+					nmrNotProducedForAuditAmt: data.nmrNotProducedForAuditAmt,
+					compstPitCount: data.compstPitCount,
+					compstPitAmount: data.compstPitAmount,
 					othersCount: data.othersCount,
 					othersAmount: data.othersAmount,
 					createdBy: $rootScope.sessionConfig.userId,
@@ -561,6 +579,12 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 				missingCanalCount: data.missingCanalCount,
 				missingFarmPondCount: data.missingFarmPondCount,
 				missingGoatShedCount: data.missingGoatShedCount,
+				nmrOverWritingCorrectionsCount: data.nmrOverWritingCorrectionsCount,
+				nmrOverWritingCorrectionsAmt:  data.nmrOverWritingCorrectionsAmt,
+				nmrNotProducedForAuditCount: data.nmrNotProducedForAuditCount,
+				nmrNotProducedForAuditAmt: data.nmrNotProducedForAuditAmt,
+				compstPitCount: data.compstPitCount,
+				compstPitAmount: data.compstPitAmount,
 				othersCount: data.othersCount,
 				othersAmount: data.othersAmount,
 				createdBy: $rootScope.sessionConfig.userId,
@@ -765,10 +789,35 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 						{ field: "workDoneByContractorsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wok done by contractors Amount",width: '130px', groupable:false }
 					]
 				},{
+					title : "Contractors",
+					columns :[
+						{ field: "workDoneByContractorsCount",headerTemplate: "No", title : "Wok done by contractors No",width: '130px', groupable:false},
+						{ field: "workDoneByContractorsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "Wok done by contractors Amount",width: '130px', groupable:false }
+					]
+				},{
+					title : "NMR Overwriting",
+					columns :[
+						{ field: "nmrOverWritingCorrectionsCount",headerTemplate: "No", title : "NMR Overwriting No",width: '130px', groupable:false },
+						{ field: "nmrOverWritingCorrectionsAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Overwriting Amount",width: '130px', groupable:false },
+					]
+				},
+				{
+					title : "NMR Not Produced For Audit",
+					columns :[
+						{ field: "nmrNotProducedForAuditCount",headerTemplate: "No", title : "NMR Not Produced For Audit No",width: '130px', groupable:false },
+						{ field: "nmrNotProducedForAuditAmt",format: '{0:n0}', headerTemplate : "Amount", title : "NMR Not Produced For Audit Amount",width: '130px', groupable:false },
+					]
+				},{
+					title : "Compost Pit",
+					columns :[
+						{ field: "compstPitCount",headerTemplate: "No", title : "Compst Pit Count",width: '130px', groupable:false},
+						{ field: "compstPitAmount",format: '{0:n0}',headerTemplate : " Amount", title : "Compst Pit Amount",width: '130px', groupable:false }
+					]
+				},{
 					title : "Others",
 					columns :[
-						{ field: "othersCount",headerTemplate: "Others Count", title : "Others Count",width: '130px', groupable:false},
-						{ field: "othersAmount",format: '{0:n0}',headerTemplate : "Others Amount", title : "Others Amount",width: '130px', groupable:false }
+						{ field: "othersCount",headerTemplate: "No", title : "Others Count",width: '130px', groupable:false},
+						{ field: "othersAmount",format: '{0:n0}',headerTemplate : "Amount", title : "Others Amount",width: '130px', groupable:false }
 					]
 				},
 				{
@@ -872,6 +921,12 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 						      bogusEntriesFTOCorretingFluidAmt: { type: "number" },
 						      wagesDrawnMoreThanActualWorkingDayCount: { type: "number" },
 						      wagesDrawnMoreThanActualWorkingDayAmt: { type: "number" },
+							  nmrOverWritingCorrectionsCount : { type: "number" },
+							  nmrOverWritingCorrectionsAmt : { type: "number" },
+							  nmrNotProducedForAuditCount : { type: "number" },
+							  nmrNotProducedForAuditAmt : { type: "number" },
+							  compstPitCount : { type: "number" },
+							  compstPitAmount : { type: "number" },
 							  othersCount: { type: "number" },
 							  othersAmount: { type: "number" },
 						      TotalNo: { type: "number" },
@@ -909,6 +964,9 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 							(elem.wagesDisbursedPrevConstructedIHHLSAmt|| 0 )+
 							(elem.bogusEntriesFTOCorretingFluidAmt|| 0 )+
 							(elem.wagesDrawnMoreThanActualWorkingDayAmt|| 0 )+
+							(elem.nmrOverWritingCorrectionsAmt|| 0 )+
+							(elem.nmrNotProducedForAuditAmt|| 0 )+
+							(elem.compstPitAmount|| 0 )+
 							(elem.othersAmount || 0 );
 
 						elem.TotalNo =   (elem.wagedToDeadCount|| 0 )+
@@ -940,6 +998,9 @@ app.controller('MisappropriationController',['$http','$window','$scope','$rootSc
 							  (elem.wagesDisbursedPrevConstructedIHHLSCount|| 0 )+
 							  (elem.bogusEntriesFTOCorretingFluidCount|| 0 )+
 							  (elem.wagesDrawnMoreThanActualWorkingDayCount|| 0 )+
+							  (elem.nmrOverWritingCorrectionsCount|| 0 )+
+							  (elem.nmrNotProducedForAuditCount|| 0 )+
+							  (elem.compstPitCount|| 0 )+
 							  (elem.othersCount || 0 );
 				        });
 				        return d;
