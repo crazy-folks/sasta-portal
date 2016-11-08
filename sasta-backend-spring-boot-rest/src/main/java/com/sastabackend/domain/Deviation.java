@@ -28,8 +28,7 @@ public class Deviation implements CommonProperties {
     private java.math.BigDecimal wages_paid_excess_mbooks_value_amt;
     private Integer variations_between_NMR_register_count;
     private java.math.BigDecimal variations_between_NMR_register_amt;
-    private Integer NMR_overwriting_corrections_count;
-    private java.math.BigDecimal NMR_overwriting_corrections_amt;
+
     private Integer ineligible_workers_include_under18_count;
     private java.math.BigDecimal ineligible_workers_include_under18_amt;
     private Integer diff_onlineNMR_physicalNMR_count;
@@ -38,8 +37,7 @@ public class Deviation implements CommonProperties {
     private java.math.BigDecimal wages_payment_from_scheme_amt;
     private Integer amount_morethan_NMR_FTO_count;
     private java.math.BigDecimal amount_morethan_NMR_FTO_amt;
-    private Integer NMR_not_produced_for_audit_count;
-    private java.math.BigDecimal NMR_not_produced_for_audit_amt;
+
     private Integer mbooks_not_produced_for_audit_count;
     private java.math.BigDecimal mbooks_not_produced_for_audit_amt;
     private Integer shortage_measurements_count;
@@ -181,22 +179,6 @@ public class Deviation implements CommonProperties {
         this.variations_between_NMR_register_amt = variations_between_NMR_register_amt;
     }
 
-    public Integer getNMROverWritingCorrectionsCount() {
-        return NMR_overwriting_corrections_count;
-    }
-
-    public void setNMROverWritingCorrectionsCount(Integer NMR_overwriting_corrections_count) {
-        this.NMR_overwriting_corrections_count = NMR_overwriting_corrections_count;
-    }
-
-    public BigDecimal getNMROverWritingCorrectionsAmt() {
-        return NMR_overwriting_corrections_amt;
-    }
-
-    public void setNMROverWritingCorrectionsAmt(BigDecimal NMR_overwriting_corrections_amt) {
-        this.NMR_overwriting_corrections_amt = NMR_overwriting_corrections_amt;
-    }
-
     public Integer getInEligibleWorkersIncludeUnder18Count() {
         return ineligible_workers_include_under18_count;
     }
@@ -259,22 +241,6 @@ public class Deviation implements CommonProperties {
 
     public void setAmountMoreThanNMRFTOAmt(BigDecimal amount_morethan_NMR_FTO_amt) {
         this.amount_morethan_NMR_FTO_amt = amount_morethan_NMR_FTO_amt;
-    }
-
-    public Integer getNMRNotProducedForAuditCount() {
-        return NMR_not_produced_for_audit_count;
-    }
-
-    public void setNMRNotProducedForAuditCount(Integer NMR_not_produced_for_audit_count) {
-        this.NMR_not_produced_for_audit_count = NMR_not_produced_for_audit_count;
-    }
-
-    public BigDecimal getNMRNotProducedForAuditAmt() {
-        return NMR_not_produced_for_audit_amt;
-    }
-
-    public void setNMRNotProducedForAuditAmt(BigDecimal NMR_not_produced_for_audit_amt) {
-        this.NMR_not_produced_for_audit_amt = NMR_not_produced_for_audit_amt;
     }
 
     public Integer getMbooksNotProducedForAuditCount() {
@@ -595,8 +561,6 @@ public class Deviation implements CommonProperties {
                 ", wages_paid_excess_mbooks_value_amt=" + wages_paid_excess_mbooks_value_amt +
                 ", variations_between_NMR_register_count=" + variations_between_NMR_register_count +
                 ", variations_between_NMR_register_amt=" + variations_between_NMR_register_amt +
-                ", NMR_overwriting_corrections_count=" + NMR_overwriting_corrections_count +
-                ", NMR_overwriting_corrections_amt=" + NMR_overwriting_corrections_amt +
                 ", ineligible_workers_include_under18_amt=" + ineligible_workers_include_under18_amt +
                 ", diff_onlineNMR_physicalNMR_count=" + diff_onlineNMR_physicalNMR_count +
                 ", diff_onlineNMR_physicalNMR_amt=" + diff_onlineNMR_physicalNMR_amt +
@@ -604,8 +568,6 @@ public class Deviation implements CommonProperties {
                 ", wages_payment_from_scheme_amt=" + wages_payment_from_scheme_amt +
                 ", amount_morethan_NMR_FTO_count=" + amount_morethan_NMR_FTO_count +
                 ", amount_morethan_NMR_FTO_amt=" + amount_morethan_NMR_FTO_amt +
-                ", NMR_not_produced_for_audit_count=" + NMR_not_produced_for_audit_count +
-                ", NMR_not_produced_for_audit_amt=" + NMR_not_produced_for_audit_amt +
                 ", mbooks_not_produced_for_audit_count=" + mbooks_not_produced_for_audit_count +
                 ", mbooks_not_produced_for_audit_amt=" + mbooks_not_produced_for_audit_amt +
                 ", shortage_measurements_count=" + shortage_measurements_count +

@@ -76,6 +76,23 @@ public class MisAppropriation implements  CommonProperties {
     private java.math.BigDecimal wages_drawn_more_than_actual_working_day_amt;
     private Integer work_done_by_contractors_count;
     private java.math.BigDecimal work_done_by_contractors_amt;
+
+    /**
+     * As per client requirement we have moved this column here from deviation
+     */
+    private Integer NMR_overwriting_corrections_count;
+    private java.math.BigDecimal NMR_overwriting_corrections_amt;
+
+
+    private Integer NMR_not_produced_for_audit_count;
+    private java.math.BigDecimal NMR_not_produced_for_audit_amt;
+
+    /**
+     * New column added here
+     */
+    private Integer compst_pit_count;
+    private java.math.BigDecimal compst_pit_amt;
+
     private Integer others_count;
     private java.math.BigDecimal others_amt;
     private java.sql.Timestamp created_date;
@@ -583,6 +600,54 @@ public class MisAppropriation implements  CommonProperties {
         this.work_done_by_contractors_amt = work_done_by_contractors_amt;
     }
 
+    public Integer getNmrNotProducedForAuditCount() {
+        return this.NMR_not_produced_for_audit_count;
+    }
+
+    public void setNmrNotProducedForAuditCount(Integer NMR_not_produced_for_audit_count) {
+        this.NMR_not_produced_for_audit_count = NMR_not_produced_for_audit_count;
+    }
+
+    public BigDecimal getNmrNotProducedForAuditAmt() {
+        return this.NMR_not_produced_for_audit_amt;
+    }
+
+    public void setNmrNotProducedForAuditAmt(BigDecimal NMR_not_produced_for_audit_amt) {
+        this.NMR_not_produced_for_audit_amt = NMR_not_produced_for_audit_amt;
+    }
+
+    public BigDecimal getNmrOverWritingCorrectionsAmt() {
+        return this.NMR_overwriting_corrections_amt;
+    }
+
+    public void setNmrOverWritingCorrectionsAmt(BigDecimal NMR_overwriting_corrections_amt) {
+        this.NMR_overwriting_corrections_amt = NMR_overwriting_corrections_amt;
+    }
+
+    public Integer getNmrOverWritingCorrectionsCount() {
+        return this.NMR_overwriting_corrections_count;
+    }
+
+    public void setNmrOverWritingCorrectionsCount(Integer NMR_overwriting_corrections_count) {
+        this.NMR_overwriting_corrections_count = NMR_overwriting_corrections_count;
+    }
+
+    public Integer getCompstPitCount() {
+        return this.compst_pit_count;
+    }
+
+    public void setCompstPitCount(Integer compst_pit_count) {
+        this.compst_pit_count = compst_pit_count;
+    }
+
+    public BigDecimal getCompstPitAmount() {
+        return this.compst_pit_amt;
+    }
+
+    public void setCompstPitAmount(BigDecimal compst_pit_amt) {
+        this.compst_pit_amt = compst_pit_amt;
+    }
+
     public Integer getOthersCount() {
         return this.others_count;
     }
@@ -773,6 +838,7 @@ public class MisAppropriation implements  CommonProperties {
         this.vp_name = vp_name;
     }
 
+
     @Override
     public String toString() {
         return "MisAppropriation{" +
@@ -836,6 +902,14 @@ public class MisAppropriation implements  CommonProperties {
                 ", wages_drawn_more_than_actual_working_day_amt=" + wages_drawn_more_than_actual_working_day_amt +
                 ", work_done_by_contractors_count=" + work_done_by_contractors_count +
                 ", work_done_by_contractors_amt=" + work_done_by_contractors_amt +
+                ", NMR_overwriting_corrections_count=" + NMR_overwriting_corrections_count +
+                ", NMR_overwriting_corrections_amt=" + NMR_overwriting_corrections_amt +
+                ", NMR_not_produced_for_audit_count=" + NMR_not_produced_for_audit_count +
+                ", NMR_not_produced_for_audit_amt=" + NMR_not_produced_for_audit_amt +
+                ", compst_pit_count=" + compst_pit_count +
+                ", compst_pit_amt=" + compst_pit_amt +
+                ", others_count=" + others_count +
+                ", others_amt=" + others_amt +
                 ", created_date=" + created_date +
                 ", modified_date=" + modified_date +
                 ", created_by=" + created_by +
